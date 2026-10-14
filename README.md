@@ -17,7 +17,7 @@ Homepage Sections (in exact order):
 1. Hero Section:
    - Left side:
      - Tagline: 'Discover premium content for your academics'
-     - Main headline: 'Your ultimate school resource finder!'
+     - Main headline: 'Your ultimate school resource hub!'
      - Description: Curated and organized study materials, revision notes, and exam practice papers tailored for board mastery.
      - Verification checkmarks: '[✓] Curated content' and '[✓] Real testimonials'
      - Primary action buttons: 'Explore resources' and 'View syllabus'

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { classes, pageHead } from '@/lib/lambda';
 import student from '@/assets/student-studying.jpg';
 
-export const Route = createFileRoute('/')({ head: () => pageHead('Lambda Prep — Your school resource finder', 'Discover curated ICSE and ISC study materials, revision notes and exam practice papers for Classes 9–12.'), component: Index });
+export const Route = createFileRoute('/')({ head: () => pageHead('Lambda Prep — Your school resource hub', 'Discover curated ICSE and ISC study materials, revision notes and exam practice papers for Classes 9–12.'), component: Index });
 const faqs = [
   ['Are the resources aligned with the 2026-27 syllabus?', 'Lambda Prep organizes resources by ICSE and ISC class and subject, with the 2026-27 syllabus as the reference. Always compare a resource with your school’s prescribed syllabus and the latest CISCE publications.'],
   ['Can I find school prelim and practice papers?', 'Prelim and practice papers are part of our planned resource collection. Available papers will appear under the relevant class and subject, with the source and academic year clearly identified.'],
