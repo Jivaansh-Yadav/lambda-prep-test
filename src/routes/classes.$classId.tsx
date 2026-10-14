@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { classes, getSubjects, pageHead } from '@/lib/lambda';
 
 export const Route = createFileRoute('/classes/$classId')({
-  loader: ({ params }) => { const current = classes.find(c => c.slug === params.classId); if (!current) throw notFound(); return { current }; },
+  loader: ({ params }) => { const current = classes.find(c => c.slug === params.classId); if (!current) throw notFound(); return { current: { slug: current.slug, grade: current.grade, board: current.board, label: current.label } }; },
   head: ({ loaderData }) => pageHead(loaderData ? `${loaderData.current.board} Class ${loaderData.current.grade}` : 'Class not found', 'Explore subject-wise study resources, revision notes and practice papers for your class.'), component: ClassHub,
 });
 function ClassHub() {
