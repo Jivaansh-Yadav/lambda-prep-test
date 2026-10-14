@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background radial glow -->
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0c192c"/>
+      <stop offset="100%" stop-color="#04080f"/>
+    </radialGradient>
+
+    <!-- Electric corporate blue gradient -->
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00D2FF"/>
+      <stop offset="45%" stop-color="#0066FF"/>
+      <stop offset="100%" stop-color="#003cd2"/>
+    </linearGradient>
+
+    <!-- Subtle rim lighting -->
+    <linearGradient id="rimGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0047b3" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.8"/>
+    </linearGradient>
+
+    <!-- Ambient drop shadow / glow -->
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Base Plate (Smooth dark rounded container) -->
+  <rect width="512" height="512" rx="72" fill="url(#bgGlow)"/>
+
+  <!-- Outer Guide Ring -->
+  <circle cx="256" cy="256" r="198" fill="none" stroke="#0055ff" stroke-width="2" opacity="0.25"/>
+
+  <!-- Iconic Circular Border (Half-Life ring style) -->
+  <circle cx="256" cy="256" r="182" fill="none" stroke="url(#blueGrad)" stroke-width="22" stroke-linecap="round"/>
+  <circle cx="256" cy="256" r="182" fill="none" stroke="url(#rimGrad)" stroke-width="4" opacity="0.5"/>
+
+  <!-- Inner precision tick ring -->
+  <circle cx="256" cy="256" r="162" fill="none" stroke="#00d2ff" stroke-width="1.5" opacity="0.2" stroke-dasharray="6 6"/>
+
+  <!-- Half-Life Authentic Lambda (λ) Glyph - Perfectly Centered -->
+  <!-- The main straight line goes from bottom-right to top-left, with the branch to bottom-left -->
+  <g filter="url(#softGlow)" transform="translate(256, 256) scale(1.36) translate(-88.26, -96.5)">
+    <path d="M47.243238 12.929372v25.907582h21.335657l8.762858 27.050564-65.14995 100.963372h32.003485l46.48125-68.578894 30.479512 76.960764 48.00522-15.23976-7.61987-23.62162-22.09765 6.85789L87.628587 12.929372H47.243238z" fill="url(#blueGrad)"/>
+  </g>
+</svg>
