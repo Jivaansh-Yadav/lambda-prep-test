@@ -1,24 +1,25 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { ArrowRight, ArrowUpRight, Check, BookOpen, ShieldCheck, Plus, Minus } from 'lucide-react';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { classes, pageHead } from '@/lib/lambda';
+import student from '@/assets/student-studying.jpg';
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
-export const Route = createFileRoute("/")({
-  component: Index,
-});
-
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
+export const Route = createFileRoute('/')({ head: () => pageHead('Lambda Prep — Your school resource finder', 'Discover curated ICSE and ISC study materials, revision notes and exam practice papers for Classes 9–12.'), component: Index });
+const faqs = [
+  ['Are the resources aligned with the 2025–26 syllabus?', 'Lambda Prep organizes resources by ICSE and ISC class and subject, with the 2025–26 syllabus as the reference. Always compare a resource with your school’s prescribed syllabus and the latest CISCE publications.'],
+  ['Can I find school prelim and practice papers?', 'Prelim and practice papers are part of our planned resource collection. Available papers will appear under the relevant class and subject, with the source and academic year clearly identified.'],
+  ['How does community verification work?', 'Contributed resources are intended to be reviewed for syllabus relevance, clarity and source attribution before receiving a verified label. The resource library is being prepared; no unreviewed material is presented as verified.'],
+  ['Which classes and boards does Lambda Prep cover?', 'Lambda Prep covers ICSE Classes 9 and 10, and ISC Classes 11 and 12, including Science, Commerce and Humanities streams.'],
+];
 function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
+  const [expanded, setExpanded] = useState<number | null>(0);
+  return <main>
+    <section className="hero container"><div className="hero-copy"><div className="eyebrow"><span className="status-dot" /> A LITTLE CLARITY. A LOT OF POSSIBILITY.</div><p className="hero-tagline">Discover premium content for your academics</p><h1>Your ultimate school<br className="desktop-break" /> resource <span>finder!</span></h1><p className="hero-description">Curated and organized study materials, revision notes, and exam practice papers tailored for board mastery.</p><div className="trust-points"><span><Check />Curated content</span><span><Check />Real testimonials</span></div><div className="hero-actions"><Button asChild size="lg"><Link to="/resources">Explore resources <ArrowRight /></Link></Button><Button asChild size="lg" variant="outline"><Link to="/syllabus">View syllabus <BookOpen /></Link></Button></div><div className="hero-footnote"><span /> FOCUSED ON ICSE & ISC · CLASSES IX–XII</div></div><div className="hero-art"><img src={student} alt="A student reading a book beside a plant and a stack of textbooks" width={1200} height={912} /><div className="art-caption"><span>LESS SEARCHING.</span><span>MORE UNDERSTANDING.</span></div></div></section>
+    <section className="metrics-strip"><div className="container metrics-inner"><div className="metrics-intro"><ShieldCheck /><span>A community built<br />around better learning.</span></div><div className="metric"><strong>50k<span>+</span></strong><span>students</span></div><div className="metric"><strong>10k<span>+</span></strong><span>resources</span></div><div className="metric"><strong>100<span>%</span></strong><span>results</span></div></div></section>
+    <section className="class-section container"><div className="section-heading"><div><p className="eyebrow">YOUR NEXT CHAPTER</p><h2>Choose your class<span className="text-primary">.</span></h2><p>The right resources, right where you are in your journey.</p></div><span className="section-side-note">FOUR CLASSES. EVERY POSSIBILITY.</span></div><div className="class-grid">{classes.map(c => <Link key={c.slug} to="/classes/$classId" params={{ classId: c.slug }} className={`class-card tone-${c.tone}`}><div className="class-card-top"><span className="subject-icon"><c.icon size={24} strokeWidth={1.6} /></span><span className="class-board">{c.board}</span></div><h3>Class {c.grade}</h3><span className="class-label">{c.label}</span><p>{c.description}</p><div className="card-bottom"><span>Explore resources</span><ArrowUpRight size={18} /></div></Link>)}</div></section>
+    <section className="how-section"><div className="container"><div className="section-heading"><div><p className="eyebrow">SHARED KNOWLEDGE. STRONGER FOUNDATIONS.</p><h2>Good resources. A clear path.</h2><p>How it works: community resource sharing.</p></div><span className="small-label">01 — 02 — 03</span></div><div className="steps-grid">{[{ title: 'Select Stream & Subject', text: 'Start with your class. Find your stream and choose the subject you want to understand better.' }, { title: 'Discover Quality Content', text: 'Find thoughtfully organized notes, practice papers and study materials. Less noise, more substance.' }, { title: 'Master Finals', text: 'Build confidence with verified solutions, purposeful practice and a deeper understanding.' }].map((step, i) => <div className="step" key={step.title}><span className="step-number">0{i + 1}</span><div className="step-line" /><h3>{step.title}</h3><p>{step.text}</p></div>)}</div></div></section>
+    <section className="mission-section container"><div className="mission-label"><span className="mission-symbol">λ</span><p className="eyebrow">THE LAMBDA PRINCIPLE</p></div><div><h2>Education is full of information.<br />We believe in <span>understanding.</span></h2><p>Clean, signal-dense education. Free of noise. We bring structure to scattered resources so students can focus on what matters: learning with depth, purpose and confidence.</p><span className="mission-colophon">LAMBDA EDUCATION PVT. LTD.</span></div></section>
+    <section className="faq-section"><div className="container faq-layout"><div><p className="eyebrow">A LITTLE MORE CLARITY</p><h2>Good questions.<br />Straight answers.</h2><p>Everything else you might be wondering.</p></div><div className="faq-items">{faqs.map(([question, answer], i) => <div className={`faq-item ${expanded === i ? 'expanded' : ''}`} key={question}><Button variant="ghost" className="faq-trigger" onClick={() => setExpanded(expanded === i ? null : i)} aria-expanded={expanded === i} aria-controls={`faq-${i}`}>{question}{expanded === i ? <Minus /> : <Plus />}</Button>{expanded === i && <p id={`faq-${i}`}>{answer}</p>}</div>)}</div></div></section>
+  </main>;
 }
