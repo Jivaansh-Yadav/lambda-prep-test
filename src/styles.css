@@ -126,10 +126,10 @@
 
   /* Metrics strip */
   .metrics-strip { background: var(--muted); border-block: 1px solid var(--border); }
-  .metrics-inner { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; align-items: center; min-height: 110px; }
-  .metrics-intro { display: flex; align-items: center; gap: 15px; color: var(--muted-foreground); font-size: 18px; line-height: 1.7; }
-  .metrics-intro svg { color: var(--primary); width: 30px; height: 30px; stroke-width: 1.4; }
-  .metric { display: flex; justify-content: center; align-items: baseline; gap: 11px; border-left: 1px solid var(--border); }
+  .metrics-inner { display: grid; grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr)); align-items: center; gap: 24px; min-height: 110px; padding-block: 20px; }
+  .metrics-intro { display: flex; align-items: center; gap: 15px; color: var(--muted-foreground); font-size: 16px; line-height: 1.6; max-width: 260px; }
+  .metrics-intro svg { color: var(--primary); width: 30px; height: 30px; stroke-width: 1.4; flex-shrink: 0; }
+  .metric { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; gap: 2px; border-left: 1px solid var(--border); padding-left: 24px; min-width: 0; }
   .metric strong { font-family: var(--font-display); font-size: 32px; font-weight: 750; }
   .metric strong span { color: var(--primary); }
   .metric > span { font-size: 18px; color: var(--muted-foreground); }
