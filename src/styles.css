@@ -147,15 +147,15 @@
   .tone-amber { --subject-fill: var(--amber-soft); --subject-ink: var(--amber-ink); }
   .tone-teal { --subject-fill: var(--teal-soft); --subject-ink: var(--teal-ink); }
   .tone-rose { --subject-fill: var(--rose-soft); --subject-ink: var(--rose-ink); }
-  .class-card { padding: 23px 22px 0; border: 1px solid var(--border); border-radius: 7px; transition: transform .2s, box-shadow .2s, border-color .2s; }
+  .class-card { display: flex; flex-direction: column; height: 100%; padding: 23px 22px 0; border: 1px solid var(--border); border-radius: 7px; transition: transform .2s, box-shadow .2s, border-color .2s; }
   .class-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--primary); }
   .class-card-top { display: flex; justify-content: space-between; align-items: flex-start; }
   .subject-icon { display: inline-flex; align-items: center; justify-content: center; width: 60px; height: 60px; border-radius: 15px; background: var(--subject-fill); color: var(--subject-ink); flex-shrink: 0; }
   .class-board { font-size: 13px; letter-spacing: 1px; color: var(--quiet); margin-top: 4px; }
   .class-card h3 { font-size: 28px; font-weight: 750; margin-top: 18px; }
   .class-label { font-size: 18px; font-weight: 600; margin-top: 5px; display: block; }
-  .class-card p { font-size: 16px; line-height: 1.8; color: var(--muted-foreground); margin-top: 11px; max-width: 250px; min-height: 40px; }
-  .card-bottom { border-top: 1px solid var(--border); padding-block: 15px; display: flex; justify-content: space-between; align-items: center; margin-top: 22px; font-size: 15px; font-weight: 550; }
+  .class-card p { font-size: 16px; line-height: 1.8; color: var(--muted-foreground); margin-top: 11px; max-width: 250px; margin-bottom: 22px; }
+  .card-bottom { border-top: 1px solid var(--border); padding-block: 15px; display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 15px; font-size: 15px; font-weight: 550; }
   .card-bottom svg { color: var(--primary); }
 
   /* How it works */
