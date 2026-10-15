@@ -10,6 +10,10 @@ export const Route = createFileRoute('/classes/$classId')({
 });
 function ClassHub() {
   const { current } = Route.useLoaderData();
+  return <ClassHubView key={current.slug} current={current} />;
+}
+type CurrentClass = ReturnType<typeof Route.useLoaderData>['current'];
+function ClassHubView({ current }: { current: CurrentClass }) {
   const [stream, setStream] = useState('All');
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState<string | null>(null);

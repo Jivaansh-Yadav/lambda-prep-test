@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ResourcesRouteImport } from './routes/resources'
-import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as SyllabusRouteImport } from './routes/syllabus'
 import { Route as ClassesClassIdRouteImport } from './routes/classes.$classId'
 
@@ -23,11 +22,6 @@ const IndexRoute = IndexRouteImport.update({
 const ResourcesRoute = ResourcesRouteImport.update({
   id: '/resources',
   path: '/resources',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SignInRoute = SignInRouteImport.update({
-  id: '/sign-in',
-  path: '/sign-in',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SyllabusRoute = SyllabusRouteImport.update({
@@ -44,14 +38,12 @@ const ClassesClassIdRoute = ClassesClassIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/resources': typeof ResourcesRoute
-  '/sign-in': typeof SignInRoute
   '/syllabus': typeof SyllabusRoute
   '/classes/$classId': typeof ClassesClassIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/resources': typeof ResourcesRoute
-  '/sign-in': typeof SignInRoute
   '/syllabus': typeof SyllabusRoute
   '/classes/$classId': typeof ClassesClassIdRoute
 }
@@ -59,28 +51,20 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/resources': typeof ResourcesRoute
-  '/sign-in': typeof SignInRoute
   '/syllabus': typeof SyllabusRoute
   '/classes/$classId': typeof ClassesClassIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/resources' | '/sign-in' | '/syllabus' | '/classes/$classId'
+  fullPaths: '/' | '/resources' | '/syllabus' | '/classes/$classId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/resources' | '/sign-in' | '/syllabus' | '/classes/$classId'
-  id:
-    | '__root__'
-    | '/'
-    | '/resources'
-    | '/sign-in'
-    | '/syllabus'
-    | '/classes/$classId'
+  to: '/' | '/resources' | '/syllabus' | '/classes/$classId'
+  id: '__root__' | '/' | '/resources' | '/syllabus' | '/classes/$classId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ResourcesRoute: typeof ResourcesRoute
-  SignInRoute: typeof SignInRoute
   SyllabusRoute: typeof SyllabusRoute
   ClassesClassIdRoute: typeof ClassesClassIdRoute
 }
@@ -99,13 +83,6 @@ declare module '@tanstack/react-router' {
       path: '/resources'
       fullPath: '/resources'
       preLoaderRoute: typeof ResourcesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sign-in': {
-      id: '/sign-in'
-      path: '/sign-in'
-      fullPath: '/sign-in'
-      preLoaderRoute: typeof SignInRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/syllabus': {
@@ -128,7 +105,6 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ResourcesRoute: ResourcesRoute,
-  SignInRoute: SignInRoute,
   SyllabusRoute: SyllabusRoute,
   ClassesClassIdRoute: ClassesClassIdRoute,
 }

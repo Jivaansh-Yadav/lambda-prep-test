@@ -13,5 +13,5 @@
 - Shared Lambda navigation and footer live in the root layout so every page maintains the same institutional shell.
 - Class hubs use a validated dynamic class route and centralized subject/stream definitions so grade navigation and filters stay consistent.
 - Resource availability is shown as an honest empty collection until reviewed materials are supplied; do not fabricate downloadable papers or verified content.
-- Account access remains an explicit unavailable state until real authentication is requested and connected; never simulate a successful sign-in.
+- No sign-in page or account UI exists; add one only when real authentication is requested and connected — never simulate a sign-in.
 - Keep page-specific social metadata in each content route using the shared metadata helper.
