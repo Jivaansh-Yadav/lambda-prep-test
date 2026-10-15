@@ -88,10 +88,10 @@
    Tailwind utilities can still tweak these per-element.
    ===================================================================== */
 @layer components {
-  .container { width: calc(100% - 72px); margin-inline: auto; }
+  .container { width: calc(100); margin-inline: auto; padding: 25px 25px;}
 
   /* Header */
-  .site-header { border-bottom: 1px solid var(--border); background: rgb(245, 244, 244); }
+  .site-header { border-bottom: 2px solid var(--border); background: rgb(245, 244, 244); }
   .header-inner { min-height: 90px; display: flex; align-items: center; gap: 40px; }
   .brand { display: inline-flex; align-items: center; gap: 11px; flex-shrink: 0; transition: transform ease-in-out 0.2s; }
   .brand:hover { transform: scale(1.05); }
