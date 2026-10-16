@@ -161,8 +161,8 @@
   /* How it works */
   .how-section { padding-block: 38px 61px; background: var(--muted); border-block: 1px solid var(--border); }
   .small-label { color: var(--quiet); font-size: 15px; letter-spacing: 3px; }
-  .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; margin-top: 30px; }
-  .step-number { color: var(--primary); font-size: 18px; font-weight: 800; }
+  .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 48px; margin-top: 30px; }
+  .step-number { color: var(--primary); font-size: 18px; font-weight: 800; white-space: nowrap; display: inline-block; font-variant-numeric: tabular-nums; }
   .step-line { height: 1px; background: var(--border); margin: 13px 0 20px; position: relative; }
   .step-line::before { content: ''; display: block; width: 25px; height: 1px; background: var(--primary); }
   .step h3 { font-size: 18px; font-weight: 700; }
