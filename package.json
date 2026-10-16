@@ -67,7 +67,7 @@
     "tailwindcss": "^4.2.1",
     "tw-animate-css": "^1.3.4",
     "vaul": "^1.1.2",
-    "video.js": "^10.1.0",
+    "video.js": "8",
     "vite-tsconfig-paths": "^6.0.2",
     "zod": "^3.25.76"
   },
