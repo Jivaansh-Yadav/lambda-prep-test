@@ -16,11 +16,11 @@ interface DoxxSearch {
 
 export const Route = createFileRoute('/doxxmarks')({
   validateSearch: (search: Record<string, unknown>): DoxxSearch => ({
-    board: typeof search.board === 'string' ? search.board : undefined,
-    roman: typeof search.roman === 'string' ? search.roman : undefined,
-    subject: typeof search.subject === 'string' ? search.subject : undefined,
-    chapter: typeof search.chapter === 'number' ? search.chapter : undefined,
-    topic: typeof search.topic === 'number' ? search.topic : undefined,
+    board: typeof search['board'] === 'string' ? search['board'] : undefined,
+    roman: typeof search['roman'] === 'string' ? search['roman'] : undefined,
+    subject: typeof search['subject'] === 'string' ? search['subject'] : undefined,
+    chapter: typeof search['chapter'] === 'number' ? search['chapter'] : undefined,
+    topic: typeof search['topic'] === 'number' ? search['topic'] : undefined,
   }),
   head: () => pageHead('Doxxmarks — Chapter-wise lessons', 'Browse classes, subjects, chapters and topics with interactive classes and concept videos.'),
   component: Doxxmarks,
