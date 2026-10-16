@@ -7,11 +7,11 @@ import { curriculumClasses } from '@/lib/curriculum';
 import { pageHead } from '@/lib/lambda';
 
 interface DoxxSearch {
-  board?: string;
-  roman?: string;
-  subject?: string;
-  chapter?: number;
-  topic?: number;
+  board?: string | undefined;
+  roman?: string | undefined;
+  subject?: string | undefined;
+  chapter?: number | undefined;
+  topic?: number | undefined;
 }
 
 export const Route = createFileRoute('/doxxmarks')({
