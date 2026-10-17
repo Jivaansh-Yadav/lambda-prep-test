@@ -1,10 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { ArrowLeft, ArrowUpRight, BookOpen, ChevronRight, MonitorPlay, PlayCircle, FileText, Maximize, X } from 'lucide-react';
-import { useRef, useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { ArrowLeft, ArrowUpRight, BookOpen, ChevronRight, MonitorPlay, PlayCircle, FileText } from 'lucide-react';
+import { useState } from 'react';
 import { VideoPlayer } from '@/components/lambda/video-player';
-import doxxInteractive from '@/assets/doxx-interactive.png';
-import doxxVideo from '@/assets/doxx-video.png';
 import { curriculumClasses } from '@/lib/curriculum';
 import { pageHead } from '@/lib/lambda';
 
@@ -34,8 +31,7 @@ function Doxxmarks() {
   const subject = currentClass?.subjects.find(s => s.name === subjectName);
   const chapter = subject && chapterIdx !== undefined ? subject.chapters[chapterIdx] : undefined;
   const topic = chapter && topicIdx !== undefined ? chapter.topics[topicIdx] : undefined;
-  const [playing, setPlaying] = useState<{ name: string; link: string } | null>(null);
-  const modalRef = useRef<HTMLDivElement>(null);
+  const [playing, setPlaying] = useState<{ name: string; link: string; kind: 'video' | 'interactive' } | null>(null);
 
   const backSearch = (() => {
     if (topic) return { board, roman, subject: subjectName, chapter: chapterIdx };
