@@ -89,12 +89,11 @@ function Doxxmarks() {
       {currentClass && !subject && <>
         <h1>{currentClass.board} Class {currentClass.roman}<span className="text-primary">.</span></h1>
         <p className="page-intro">Choose a subject to see its chapters.</p>
-        <div className="doxx-list">
+        <div className="doxx-cards">
           {currentClass.subjects.map(s => (
-            <Link key={s.name} to="/doxxmarks" search={{ board, roman, subject: s.name }} className="doxx-row">
-              <span className="doxx-row-title">{s.name}</span>
-              <span className="doxx-row-meta">{s.chapters.length} chapters</span>
-              <ChevronRight size={18} />
+            <Link key={s.name} to="/doxxmarks" search={{ board, roman, subject: s.name }} className="doxx-card">
+              <span className="doxx-card-title">{s.name}</span>
+              <span className="doxx-card-meta">{s.chapters.length} chapters <ChevronRight size={14} /></span>
             </Link>
           ))}
           {!currentClass.subjects.length && <EmptyState text="Subjects for this class are being prepared." />}
@@ -104,12 +103,11 @@ function Doxxmarks() {
       {subject && !chapter && <>
         <h1>{subject.name}<span className="text-primary">.</span></h1>
         <p className="page-intro">{currentClass!.board} Class {currentClass!.roman} · Choose a chapter.</p>
-        <div className="doxx-list">
+        <div className="doxx-cards">
           {subject.chapters.map((c, i) => (
-            <Link key={c.name} to="/doxxmarks" search={{ board, roman, subject: subjectName, chapter: i }} className="doxx-row">
-              <span className="doxx-row-title">{c.name}</span>
-              <span className="doxx-row-meta">{c.topics.length} topics</span>
-              <ChevronRight size={18} />
+            <Link key={c.name} to="/doxxmarks" search={{ board, roman, subject: subjectName, chapter: i }} className="doxx-card">
+              <span className="doxx-card-title">{c.name}</span>
+              <span className="doxx-card-meta">{c.topics.length} topics <ChevronRight size={14} /></span>
             </Link>
           ))}
           {!subject.chapters.length && <EmptyState text="Chapters for this subject are being prepared." />}
@@ -119,12 +117,11 @@ function Doxxmarks() {
       {chapter && !topic && <>
         <h1>{chapter.name}<span className="text-primary">.</span></h1>
         <p className="page-intro">{subject!.name} · Choose a topic.</p>
-        <div className="doxx-list">
+        <div className="doxx-cards">
           {chapter.topics.map((t, i) => (
-            <Link key={t.name} to="/doxxmarks" search={{ board, roman, subject: subjectName, chapter: chapterIdx, topic: i }} className="doxx-row">
-              <span className="doxx-row-title">{t.name}</span>
-              <span className="doxx-row-meta">{t.videoLessons.length} videos · {t.interactiveClasses.length} interactive</span>
-              <ChevronRight size={18} />
+            <Link key={t.name} to="/doxxmarks" search={{ board, roman, subject: subjectName, chapter: chapterIdx, topic: i }} className="doxx-card">
+              <span className="doxx-card-title">{t.name}</span>
+              <span className="doxx-card-meta">{t.videoLessons.length} videos · {t.interactiveClasses.length} interactive <ChevronRight size={14} /></span>
             </Link>
           ))}
           {!chapter.topics.length && <EmptyState text="Topics for this chapter are being prepared." />}
