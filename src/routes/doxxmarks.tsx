@@ -1,8 +1,10 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { ArrowLeft, ArrowUpRight, BookOpen, ChevronRight, MonitorPlay, PlayCircle, FileText } from 'lucide-react';
-import { useState } from 'react';
+import { ArrowLeft, ArrowUpRight, BookOpen, ChevronRight, MonitorPlay, PlayCircle, FileText, Maximize, X } from 'lucide-react';
+import { useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { VideoPlayer } from '@/components/lambda/video-player';
+import doxxInteractive from '@/assets/doxx-interactive.png';
+import doxxVideo from '@/assets/doxx-video.png';
 import { curriculumClasses } from '@/lib/curriculum';
 import { pageHead } from '@/lib/lambda';
 
@@ -33,6 +35,7 @@ function Doxxmarks() {
   const chapter = subject && chapterIdx !== undefined ? subject.chapters[chapterIdx] : undefined;
   const topic = chapter && topicIdx !== undefined ? chapter.topics[topicIdx] : undefined;
   const [playing, setPlaying] = useState<{ name: string; link: string } | null>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const backSearch = (() => {
     if (topic) return { board, roman, subject: subjectName, chapter: chapterIdx };
@@ -147,43 +150,54 @@ function Doxxmarks() {
         <p className="page-intro">{chapter!.name} · {subject!.name}</p>
 
         {playing && (
-          <section className="doxx-playing">
-            <div className="doxx-playing-head">
-              <h2>{playing.name}</h2>
-              <Button variant="ghost" onClick={() => setPlaying(null)}>Close player</Button>
+          <div className="modal-backdrop" onClick={() => setPlaying(null)}>
+            <div role="dialog" aria-modal="true" aria-label={playing.name} className="doxx-video-modal" ref={modalRef} onClick={e => e.stopPropagation()}>
+              <div className="doxx-video-modal-bar">
+                <h2>{playing.name}</h2>
+                <div className="doxx-video-modal-actions">
+                  <Button size="icon" variant="ghost" aria-label="Full screen" onClick={() => {
+                    if (document.fullscreenElement) void document.exitFullscreen();
+                    else void modalRef.current?.requestFullscreen();
+                  }}><Maximize size={18} /></Button>
+                  <Button size="icon" variant="ghost" aria-label="Close player" onClick={() => setPlaying(null)}><X size={18} /></Button>
+                </div>
+              </div>
+              <VideoPlayer src={playing.link} title={playing.name} />
             </div>
-            <VideoPlayer src={playing.link} title={playing.name} />
-          </section>
+          </div>
         )}
-
-        <section className="doxx-notes">
-          <h2><PlayCircle size={18} /> Concept videos</h2>
-          {topic.videoLessons.length ? (
-            <div className="doxx-list">
-              {topic.videoLessons.map(v => (
-                <button key={v.link} type="button" className="doxx-row doxx-row-button" onClick={() => setPlaying(v)}>
-                  <span className="doxx-row-title">{v.name}</span>
-                  <PlayCircle size={18} />
-                </button>
-              ))}
-            </div>
-          ) : (
-            <EmptyState text="Concept videos for this topic are being prepared." />
-          )}
-        </section>
 
         <section className="doxx-notes">
           <h2><MonitorPlay size={18} /> Interactive classes</h2>
           {topic.interactiveClasses.length ? (
-            <div className="doxx-list">
+            <div className="doxx-cards">
               {topic.interactiveClasses.map(ic => (
-                <a key={ic.link} href={ic.link} target="_blank" rel="noreferrer" className="doxx-row">
-                  <span className="doxx-row-title">{ic.name}</span><ArrowUpRight size={18} />
+                <a key={ic.link} href={ic.link} target="_blank" rel="noreferrer" className="doxx-card">
+                  <img src={doxxInteractive} alt="" loading="lazy" width={1024} height={1024} className="doxx-card-badge" />
+                  <span className="doxx-card-title">{ic.name}</span>
+                  <span className="doxx-card-meta">Interactive class <ArrowUpRight size={14} /></span>
                 </a>
               ))}
             </div>
           ) : (
             <EmptyState text="Interactive classes for this topic are being prepared." />
+          )}
+        </section>
+
+        <section className="doxx-notes">
+          <h2><PlayCircle size={18} /> Concept videos</h2>
+          {topic.videoLessons.length ? (
+            <div className="doxx-cards">
+              {topic.videoLessons.map(v => (
+                <button key={v.link} type="button" className="doxx-card" onClick={() => setPlaying(v)}>
+                  <img src={doxxVideo} alt="" loading="lazy" width={1024} height={1024} className="doxx-card-badge" />
+                  <span className="doxx-card-title">{v.name}</span>
+                  <span className="doxx-card-meta">Watch video <PlayCircle size={14} /></span>
+                </button>
+              ))}
+            </div>
+          ) : (
+            <EmptyState text="Concept videos for this topic are being prepared." />
           )}
         </section>
       </>}
