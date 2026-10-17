@@ -143,20 +143,38 @@ function Doxxmarks() {
         <p className="page-intro">{chapter!.name} · {subject!.name}</p>
 
         {playing && (
-          <div className="modal-backdrop" onClick={() => setPlaying(null)}>
-            <div role="dialog" aria-modal="true" aria-label={playing.name} className="doxx-video-modal" ref={modalRef} onClick={e => e.stopPropagation()}>
-              <div className="doxx-video-modal-bar">
-                <h2>{playing.name}</h2>
-                <div className="doxx-video-modal-actions">
-                  <Button size="icon" variant="ghost" aria-label="Full screen" onClick={() => {
-                    if (document.fullscreenElement) void document.exitFullscreen();
-                    else void modalRef.current?.requestFullscreen();
-                  }}><Maximize size={18} /></Button>
-                  <Button size="icon" variant="ghost" aria-label="Close player" onClick={() => setPlaying(null)}><X size={18} /></Button>
-                </div>
-              </div>
+          <div className="doxx-watch">
+            <div className="doxx-watch-main">
               <VideoPlayer src={playing.link} title={playing.name} />
+              <h2 className="doxx-watch-title">{playing.name}</h2>
+              <p className="doxx-watch-kind">{playing.kind === 'interactive' ? 'Interactive class' : 'Concept video'}</p>
             </div>
+            <aside className="doxx-watch-side" aria-label="More lessons in this topic">
+              {topic.interactiveClasses.length > 0 && <>
+                <h3><MonitorPlay size={15} /> Interactive classes</h3>
+                <ul>
+                  {topic.interactiveClasses.map(ic => (
+                    <li key={ic.link}>
+                      <button type="button" className={playing.link === ic.link ? 'doxx-side-item is-active' : 'doxx-side-item'} onClick={() => setPlaying({ ...ic, kind: 'interactive' })}>
+                        <MonitorPlay size={16} /><span>{ic.name}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </>}
+              {topic.videoLessons.length > 0 && <>
+                <h3><PlayCircle size={15} /> Concept videos</h3>
+                <ul>
+                  {topic.videoLessons.map(v => (
+                    <li key={v.link}>
+                      <button type="button" className={playing.link === v.link ? 'doxx-side-item is-active' : 'doxx-side-item'} onClick={() => setPlaying({ ...v, kind: 'video' })}>
+                        <PlayCircle size={16} /><span>{v.name}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </>}
+            </aside>
           </div>
         )}
 
@@ -165,11 +183,10 @@ function Doxxmarks() {
           {topic.interactiveClasses.length ? (
             <div className="doxx-cards">
               {topic.interactiveClasses.map(ic => (
-                <a key={ic.link} href={ic.link} target="_blank" rel="noreferrer" className="doxx-card">
-                  <img src={doxxInteractive} alt="" loading="lazy" width={1024} height={1024} className="doxx-card-badge" />
+                <button key={ic.link} type="button" className="doxx-card" onClick={() => { setPlaying({ ...ic, kind: 'interactive' }); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
                   <span className="doxx-card-title">{ic.name}</span>
-                  <span className="doxx-card-meta">Interactive class <ArrowUpRight size={14} /></span>
-                </a>
+                  <span className="doxx-card-meta">Play interactive class <PlayCircle size={14} /></span>
+                </button>
               ))}
             </div>
           ) : (
@@ -182,8 +199,7 @@ function Doxxmarks() {
           {topic.videoLessons.length ? (
             <div className="doxx-cards">
               {topic.videoLessons.map(v => (
-                <button key={v.link} type="button" className="doxx-card" onClick={() => setPlaying(v)}>
-                  <img src={doxxVideo} alt="" loading="lazy" width={1024} height={1024} className="doxx-card-badge" />
+                <button key={v.link} type="button" className="doxx-card" onClick={() => { setPlaying({ ...v, kind: 'video' }); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
                   <span className="doxx-card-title">{v.name}</span>
                   <span className="doxx-card-meta">Watch video <PlayCircle size={14} /></span>
                 </button>
