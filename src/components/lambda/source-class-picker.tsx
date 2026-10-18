@@ -1,9 +1,10 @@
 import { Link } from '@tanstack/react-router';
 import { ArrowLeft, ArrowUpRight, ChevronDown, ChevronUp, File, FileImage, FileSpreadsheet, FileText, Folder, MessageCircle, Search, Sparkles } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { classes, findSubjectMeta } from '@/lib/lambda';
 import { useI18n } from '@/lib/i18n';
-import { findFolderPathForFile, getFileKind, getGroupBadge, getGroupLabel, groupItems, hasResourceDataset, isFolderNode, isPremiumGroup, loadResourceDataset, type FileKind, type ResourceDataset, type ResourceFolderNode, type ResourceItem, type ResourceNode } from '@/lib/resources-data';
+import { useFuseSearch } from '@/hooks/use-fuse-search';
+import { findFolderPathForFile, flattenFolderFiles, getFileKind, getGroupBadge, getGroupLabel, groupItems, hasResourceDataset, isFolderNode, isPremiumGroup, loadResourceDataset, type FileKind, type ResourceDataset, type ResourceFolderNode, type ResourceItem, type ResourceNode, type ResourceSubject } from '@/lib/resources-data';
 import { ResourceWatch } from '@/components/lambda/resource-watch';
 
 export type SourceId = 'cisce' | 'community';
@@ -17,6 +18,12 @@ interface SourceClassPickerProps {
 }
 
 const MISC_LABEL = 'Miscellaneous';
+
+// Referentially stable key arrays for useFuseSearch — defining them inline
+// at the call site would create a fresh array on every render and defeat
+// the hook's memoization.
+const SUBJECT_SEARCH_KEYS = ['subject'];
+const FILE_SEARCH_KEYS = ['name'];
 
 const FILE_KIND_META: Record<FileKind, { icon: typeof FileText; tone: string; label: string }> = {
   pdf: { icon: FileText, tone: 'rose', label: 'PDF' },
@@ -189,6 +196,8 @@ function GroupSection({ group, items, editorFolders, onPick }: {
 export function SourceClassPicker({ source, classSlug, subject, title, desc }: SourceClassPickerProps) {
   const { t } = useI18n();
   const [query, setQuery] = useState('');
+  const [subjectQuery, setSubjectQuery] = useState('');
+  const [fileQuery, setFileQuery] = useState('');
   const [activeFile, setActiveFile] = useState<ResourceItem | null>(null);
   const [activeFolderScope, setActiveFolderScope] = useState<ResourceFolderNode | null>(null);
   const [dataset, setDataset] = useState<ResourceDataset | undefined>(undefined);
@@ -196,6 +205,12 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
   useEffect(() => {
     setActiveFile(null);
     setActiveFolderScope(null);
+  }, [classSlug, subject]);
+  useEffect(() => {
+    setSubjectQuery('');
+  }, [classSlug]);
+  useEffect(() => {
+    setFileQuery('');
   }, [classSlug, subject]);
   const sourcePath = source === 'cisce' ? '/resources/cisce' : '/resources/community';
   const currentClass = classSlug ? classes.find(c => c.slug === classSlug) : undefined;
@@ -213,6 +228,31 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
     });
     return () => { cancelled = true; };
   }, [source, classSlug, hasDataset]);
+
+  // Subject-grid search corpus: one card per subject plus a synthetic
+  // "Miscellaneous" card when there are ungrouped files, so the fuzzy
+  // search can match it by its displayed name too.
+  const subjectCards = useMemo((): ResourceSubject[] => {
+    if (!dataset) return [];
+    const cards = dataset.subjects.slice();
+    if (dataset.misc.length > 0) cards.push({ subject: MISC_LABEL, items: dataset.misc });
+    return cards;
+  }, [dataset]);
+  const filteredSubjectCards = useFuseSearch(subjectCards, SUBJECT_SEARCH_KEYS, subjectQuery);
+
+  // Per-subject file search corpus: the subject's flat items plus every file
+  // nested inside its Editor's Choice folders — a search must reach
+  // folder-nested files too, not just the loose top-level ones.
+  const subjectEntry = dataset && subject && subject !== MISC_LABEL ? dataset.subjects.find(s => s.subject === subject) : undefined;
+  const subjectItems = subject === MISC_LABEL ? dataset?.misc ?? [] : subjectEntry?.items ?? [];
+  const editorFolders = subjectEntry?.editorFolders;
+  const allSubjectFiles = useMemo(() => {
+    const folderFiles = editorFolders?.flatMap(flattenFolderFiles) ?? [];
+    return [...subjectItems, ...folderFiles];
+  }, [subjectItems, editorFolders]);
+  const filteredFiles = useFuseSearch(allSubjectFiles, FILE_SEARCH_KEYS, fileQuery);
+  const isFileSearchActive = fileQuery.trim().length > 0;
+  const groups = groupItems(subjectItems);
 
   const disclaimer = source === 'community' ? (
     <div className="doxx-disclaimer">
@@ -252,37 +292,37 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
       <h1>{title}<span className="text-primary">.</span></h1>
       <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {t('resources.chooseSubject')}</p>
       <p className="library-note resource-total-count">{dataset.subjects.reduce((sum, s) => sum + s.items.length, 0) + dataset.misc.length} {t('resources.filesLabel')} {t('resources.total')}</p>
-      <div className="doxx-cards">
-        {dataset.subjects.map(s => {
-          const isFeatured = s.subject === 'Featured';
-          const meta = findSubjectMeta(s.subject);
-          const Icon = isFeatured ? Sparkles : meta?.icon ?? FileText;
-          return (
-            <Link key={s.subject} to={sourcePath} search={{ class: classSlug, subject: s.subject }} className={`doxx-card${isFeatured ? ' tone-rose doxx-card-featured-glow' : meta ? ` tone-${meta.tone}` : ''}`}>
-              <span className="subject-icon doxx-subject-icon"><Icon size={22} strokeWidth={1.6} /></span>
-              <span className="doxx-card-title">{s.subject}</span>
-              <span className="doxx-card-meta">{s.items.length} {t('resources.filesLabel')}</span>
-            </Link>
-          );
-        })}
-        {dataset.misc.length > 0 && (
-          <Link to={sourcePath} search={{ class: classSlug, subject: MISC_LABEL }} className="doxx-card tone-rose">
-            <span className="subject-icon doxx-subject-icon"><Folder size={22} strokeWidth={1.6} /></span>
-            <span className="doxx-card-title">{t('resources.featured')}</span>
-            <span className="doxx-card-meta">{dataset.misc.length} {t('resources.filesLabel')}</span>
-          </Link>
-        )}
-      </div>
+      <label className="search-field resource-search"><Search size={18} /><input aria-label={t('resources.searchSubjects.label')} placeholder={t('resources.searchSubjects.placeholder')} value={subjectQuery} onChange={e => setSubjectQuery(e.target.value)} /></label>
+      {filteredSubjectCards.length ? (
+        <div className="doxx-cards">
+          {filteredSubjectCards.map(s => {
+            const isMisc = s.subject === MISC_LABEL;
+            const isFeatured = s.subject === 'Featured';
+            const meta = findSubjectMeta(s.subject);
+            const Icon = isMisc ? Folder : isFeatured ? Sparkles : meta?.icon ?? FileText;
+            return (
+              <Link key={s.subject} to={sourcePath} search={{ class: classSlug, subject: s.subject }} className={`doxx-card${isMisc || isFeatured ? ' tone-rose' : meta ? ` tone-${meta.tone}` : ''}${isFeatured ? ' doxx-card-featured-glow' : ''}`}>
+                <span className="subject-icon doxx-subject-icon"><Icon size={22} strokeWidth={1.6} /></span>
+                <span className="doxx-card-title">{s.subject}</span>
+                <span className="doxx-card-meta">{s.items.length} {t('resources.filesLabel')}</span>
+              </Link>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="empty-state"><h3>{t('resources.searchSubjects.empty.title')}</h3><p>{t('resources.searchSubjects.empty.text')}</p></div>
+      )}
       {source === 'community' && disclaimer}
     </main>;
   }
 
   // Subject picked -> file list first; clicking a file opens the player view.
   if (currentClass && dataset && subject) {
-    const subjectEntry = subject === MISC_LABEL ? undefined : dataset.subjects.find(s => s.subject === subject);
-    const items = subject === MISC_LABEL ? dataset.misc : subjectEntry?.items ?? [];
-    const editorFolders = subjectEntry?.editorFolders;
-    const groups = groupItems(items);
+    // `subjectItems`/`editorFolders`/`groups` are computed earlier in the
+    // component (hoisted there to respect the Rules of Hooks, since they
+    // feed useFuseSearch); `groups` is irrelevant while a file search is
+    // active, since the search view below renders `filteredFiles` as a flat
+    // list instead of the grouped sections.
     // When viewing a file opened from inside a folder-card (e.g. "Act III,
     // Scene I - Brief.pdf" inside the "Julius Caesar" > "ACT III" > "SCENE I"
     // folder), the sidebar must show only that folder's own files — not the
@@ -305,7 +345,18 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
       <Link to={sourcePath} search={{ class: classSlug }} className="back-link"><ArrowLeft size={15} /> {t('hub.backToSubjects')}</Link>
       <h1>{subject}<span className="text-primary">.</span></h1>
       <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {title}</p>
-      {items.length || editorFolders?.length ? (
+      <label className="search-field resource-search"><Search size={18} /><input aria-label={t('resources.searchFiles.label')} placeholder={t('resources.searchFiles.placeholder')} value={fileQuery} onChange={e => setFileQuery(e.target.value)} /></label>
+      {isFileSearchActive ? (
+        filteredFiles.length ? (
+          <div className="resource-file-grid resource-search-results">
+            {filteredFiles.map(item => (
+              <FileCard key={item.id} item={item} onClick={() => { setActiveFolderScope(null); setActiveFile(item); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
+            ))}
+          </div>
+        ) : (
+          <div className="empty-state"><h3>{t('resources.searchFiles.empty.title')}</h3><p>{t('resources.searchFiles.empty.text')}</p></div>
+        )
+      ) : subjectItems.length || editorFolders?.length ? (
         groups.map(section => (
           <GroupSection
             key={section.group}
