@@ -131,6 +131,17 @@
 @layer components {
   .container { width: 100%; max-width: 1320px; margin-inline: auto; padding-inline: 32px; }
 
+  /* Shared lightweight entrance animations, reused across route/content
+     transitions, dropdowns and modals site-wide. Kept to a short duration
+     and a small travel distance so navigation still feels instant — these
+     are a polish touch, not a loading indicator. prefers-reduced-motion
+     disables all of them via the global rule above. */
+  @keyframes page-enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fade-slide-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes dropdown-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes overlay-fade-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes modal-in { from { opacity: 0; transform: scale(.97) translateY(6px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
   /* Header */
   .site-header { border-bottom: 2px solid var(--border); background: var(--chrome); }
   .header-inner { min-height: 68px; display: flex; align-items: center; gap: 40px; }
@@ -210,7 +221,7 @@
   .section-heading h2 { font-size: 50px; margin-top: 11px; }
   .section-heading p:not(.eyebrow) { margin-top: 10px; color: var(--muted-foreground); font-size: 18px; line-height: 1.7; }
   .section-side-note { color: var(--quiet); font-size: 13px; letter-spacing: 1.3px; margin-bottom: 6px; }
-  .class-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .class-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; animation: fade-slide-up .3s ease-out; }
   .tone-blue { --subject-fill: var(--blue-soft); --subject-ink: var(--primary); }
   .tone-green { --subject-fill: var(--green-soft); --subject-ink: var(--green-ink); }
   .tone-purple { --subject-fill: var(--purple-soft); --subject-ink: var(--purple-ink); }
@@ -286,7 +297,7 @@
   .tiny-lambda { color: var(--primary); font-size: 20px; margin-left: 13px; }
 
   /* Hub / content pages */
-  .hub-page,.content-page { padding-block: 38px 78px; min-height: 65vh; }
+  .hub-page,.content-page { padding-block: 38px 78px; min-height: 65vh; animation: page-enter .32s ease-out; }
   .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; color: var(--muted-foreground); background: none; border: none; padding: 0; cursor: pointer; font-family: inherit; }
   .back-link:hover { color: var(--primary); }
   .hub-heading { display: flex; align-items: center; justify-content: space-between; margin-top: 20px; padding-bottom: 25px; }
@@ -299,7 +310,7 @@
   .hub-toolbar .library-note { font-size: 13px; }
   .search-field { display: flex; align-items: center; gap: 10px; border: 1px solid var(--border); border-radius: 5px; padding: 10px 13px; color: var(--muted-foreground); background: var(--background); }
   .stream-tabs { display: flex; gap: 5px; }
-  .subject-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 17px; }
+  .subject-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 17px; animation: fade-slide-up .3s ease-out; }
   .subject-link { font-size: 13px; font-weight: 300; color: var(--muted-foreground); display: flex; align-items: center; gap: 12px; }
   .subject-link svg { color: var(--primary); }
   .hub-note { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 11px; color: var(--muted-foreground); margin-top: 42px; }
@@ -308,8 +319,8 @@
   .empty-state > svg { margin: 0 auto 18px; color: var(--primary); }
   .empty-state h3 { font-size: 17px; color: var(--foreground); }
   .empty-state p { font-size: 13px; line-height: 1.85; margin-top: 13px; }
-  .modal-backdrop { position: fixed; inset: 0; z-index: 50; background: var(--overlay); display: flex; align-items: center; justify-content: center; padding: 24px; }
-  .subject-dialog { background: var(--background); padding: 38px; border-radius: 8px; max-width: 540px; width: 100%; position: relative; box-shadow: var(--shadow); }
+  .modal-backdrop { position: fixed; inset: 0; z-index: 50; background: var(--overlay); display: flex; align-items: center; justify-content: center; padding: 24px; animation: overlay-fade-in .18s ease-out; }
+  .subject-dialog { background: var(--background); padding: 38px; border-radius: 8px; max-width: 540px; width: 100%; position: relative; box-shadow: var(--shadow); animation: modal-in .22s ease-out; }
   .subject-dialog h2 { margin-top: 14px; }
   .dialog-path-group { margin-top: 26px; }
   .dialog-path-group:first-of-type { margin-top: 22px; }
@@ -374,7 +385,7 @@
     .brand > span, .footer-top .brand > span { font-size: 22px; }
     .brand img, .footer-top .brand img { width: 30px; height: 30px; }
     .quick-nav { display: none; }
-    .quick-nav.is-open { position: fixed; top: 72px; left: 0; right: 0; z-index: 20; background: var(--background); border-bottom: 1px solid var(--border); padding: 16px 18px; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; font-size: 16px; box-shadow: var(--shadow); }
+    .quick-nav.is-open { position: fixed; top: 72px; left: 0; right: 0; z-index: 20; background: var(--background); border-bottom: 1px solid var(--border); padding: 16px 18px; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; font-size: 16px; box-shadow: var(--shadow); animation: dropdown-in .2s ease-out; }
     .quick-nav.is-open .nav-link::after { display: none; }
     .quick-nav.is-open .theme-toggle { margin-top: 4px; }
     .nav-dropdown-content { position: static; }
@@ -587,7 +598,7 @@
 }
 
 /* Doxxmarks card view */
-.doxx-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-top: 24px; }
+.doxx-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; margin-top: 24px; animation: fade-slide-up .3s ease-out; }
 .doxx-card { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; padding: 18px; border: 1px solid var(--border); border-radius: 14px; background: var(--card); color: var(--foreground); font-size: 15px; text-align: left; cursor: pointer; transition: border-color .15s, box-shadow .15s, transform .15s; }
 .doxx-card:hover { border-color: var(--primary); box-shadow: 0 4px 14px color-mix(in oklch, var(--primary) 12%, transparent); transform: translateY(-2px); }
 .doxx-card-badge { width: 72px; height: 72px; object-fit: contain; }
