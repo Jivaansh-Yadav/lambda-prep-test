@@ -1,7 +1,3 @@
-import cisceIcse10 from '@/data/resources-cisce-icse-10.json';
-import communityIcse10 from '@/data/resources-community-icse-10.json';
-import communityIsc11 from '@/data/resources-community-isc-11.json';
-
 export interface ResourceItem {
   name: string;
   id: string;
@@ -25,13 +21,35 @@ type SourceId = 'cisce' | 'community';
 
 // Only ICSE Class 10 and ISC Class 11 have real indexed content today; other
 // classes fall back to the "coming soon" empty state in SourceClassPicker.
-const DATASETS: Record<SourceId, Record<string, ResourceDataset>> = {
-  cisce: { 'icse-10': cisceIcse10 as ResourceDataset },
-  community: { 'icse-10': communityIcse10 as ResourceDataset, 'isc-11': communityIsc11 as ResourceDataset },
+// Each dataset is loaded via a dynamic import so visiting /resources/* never
+// has to download every class's JSON (one of them is several MB) up front —
+// only the active class's dataset is fetched, on demand.
+const DATASET_LOADERS: Record<SourceId, Record<string, () => Promise<{ default: unknown }>>> = {
+  cisce: {
+    'icse-10': () => import('@/data/resources-cisce-icse-10.json'),
+  },
+  community: {
+    'icse-10': () => import('@/data/resources-community-icse-10.json'),
+    'isc-11': () => import('@/data/resources-community-isc-11.json'),
+  },
 };
 
-export function getResourceDataset(source: SourceId, classSlug: string): ResourceDataset | undefined {
-  return DATASETS[source][classSlug];
+const datasetCache = new Map<string, ResourceDataset>();
+
+export function hasResourceDataset(source: SourceId, classSlug: string): boolean {
+  return classSlug in DATASET_LOADERS[source];
+}
+
+export async function loadResourceDataset(source: SourceId, classSlug: string): Promise<ResourceDataset | undefined> {
+  const key = `${source}/${classSlug}`;
+  const cached = datasetCache.get(key);
+  if (cached) return cached;
+  const loader = DATASET_LOADERS[source][classSlug];
+  if (!loader) return undefined;
+  const mod = await loader();
+  const dataset = mod.default as ResourceDataset;
+  datasetCache.set(key, dataset);
+  return dataset;
 }
 
 export function isFolderNode(node: ResourceNode): node is ResourceFolderNode {

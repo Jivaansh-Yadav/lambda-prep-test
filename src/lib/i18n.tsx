@@ -179,9 +179,15 @@ interface I18nContextValue {
 
 const I18nContext = createContext<I18nContextValue | null>(null);
 
+// `t` never depends on props or state, so the context value can be a single
+// stable object created once at module scope. Previously a fresh `{ t }`
+// object (wrapping a fresh `t` closure) was created on every I18nProvider
+// render, which meant every consumer re-rendered whenever anything above it
+// in the tree re-rendered — even though the translations never change.
+const i18nValue: I18nContextValue = { t: (key: string) => en[key] ?? key };
+
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const t = (key: string) => en[key] ?? key;
-  return <I18nContext.Provider value={{ t }}>{children}</I18nContext.Provider>;
+  return <I18nContext.Provider value={i18nValue}>{children}</I18nContext.Provider>;
 }
 
 export function useI18n() {

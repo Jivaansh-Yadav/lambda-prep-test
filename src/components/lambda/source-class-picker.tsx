@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowUpRight, ChevronDown, ChevronUp, File, FileImage, FileS
 import { useEffect, useRef, useState } from 'react';
 import { classes, findSubjectMeta } from '@/lib/lambda';
 import { useI18n } from '@/lib/i18n';
-import { findFolderPathForFile, getFileKind, getGroupBadge, getGroupLabel, getResourceDataset, groupItems, isFolderNode, isPremiumGroup, type FileKind, type ResourceFolderNode, type ResourceItem, type ResourceNode } from '@/lib/resources-data';
+import { findFolderPathForFile, getFileKind, getGroupBadge, getGroupLabel, groupItems, hasResourceDataset, isFolderNode, isPremiumGroup, loadResourceDataset, type FileKind, type ResourceDataset, type ResourceFolderNode, type ResourceItem, type ResourceNode } from '@/lib/resources-data';
 import { ResourceWatch } from '@/components/lambda/resource-watch';
 
 export type SourceId = 'cisce' | 'community';
@@ -191,13 +191,28 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
   const [query, setQuery] = useState('');
   const [activeFile, setActiveFile] = useState<ResourceItem | null>(null);
   const [activeFolderScope, setActiveFolderScope] = useState<ResourceFolderNode | null>(null);
+  const [dataset, setDataset] = useState<ResourceDataset | undefined>(undefined);
+  const [datasetLoading, setDatasetLoading] = useState(false);
   useEffect(() => {
     setActiveFile(null);
     setActiveFolderScope(null);
   }, [classSlug, subject]);
   const sourcePath = source === 'cisce' ? '/resources/cisce' : '/resources/community';
   const currentClass = classSlug ? classes.find(c => c.slug === classSlug) : undefined;
-  const dataset = classSlug ? getResourceDataset(source, classSlug) : undefined;
+  const hasDataset = classSlug ? hasResourceDataset(source, classSlug) : false;
+
+  // Datasets are code-split per class/source (one of them is multiple MB), so
+  // only fetch the one the visitor actually picked, instead of bundling every
+  // class's resources into every /resources/* page load.
+  useEffect(() => {
+    if (!classSlug || !hasDataset) { setDataset(undefined); return; }
+    let cancelled = false;
+    setDatasetLoading(true);
+    loadResourceDataset(source, classSlug).then(data => {
+      if (!cancelled) { setDataset(data); setDatasetLoading(false); }
+    });
+    return () => { cancelled = true; };
+  }, [source, classSlug, hasDataset]);
 
   const disclaimer = source === 'community' ? (
     <div className="doxx-disclaimer">
@@ -207,7 +222,7 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
   ) : <p className="library-note">{t('resources.note')}</p>;
 
   // Class picked but no indexed dataset for it yet -> "coming soon" state.
-  if (currentClass && !dataset) {
+  if (currentClass && !hasDataset) {
     return <main className="container content-page">
       <Link to={sourcePath} search={{}} className="back-link"><ArrowLeft size={15} /> {t('resources.backToClasses')}</Link>
       <h1>{title}<span className="text-primary">.</span></h1>
@@ -215,6 +230,18 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
       <p className="library-note">{currentClass.board} · Class {currentClass.grade}{subject ? ` · ${subject}` : ''}</p>
       <div className="empty-state"><h3>{t('resources.classNote.title')}</h3><p>{t('resources.classNote.text')}</p></div>
       {source === 'community' && disclaimer}
+    </main>;
+  }
+
+  // Dataset is being fetched (code-split per class) -> lightweight loading state.
+  if (currentClass && hasDataset && !dataset) {
+    return <main className="container content-page">
+      <Link to={sourcePath} search={{}} className="back-link"><ArrowLeft size={15} /> {t('resources.backToClasses')}</Link>
+      <h1>{title}<span className="text-primary">.</span></h1>
+      <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {t('resources.chooseSubject')}</p>
+      <div className="doxx-cards" aria-busy={datasetLoading}>
+        {Array.from({ length: 6 }).map((_, i) => <div key={i} className="doxx-card doxx-card-skeleton" aria-hidden="true" />)}
+      </div>
     </main>;
   }
 

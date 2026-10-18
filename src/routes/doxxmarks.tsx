@@ -1,10 +1,15 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { ArrowLeft, ArrowUpRight, BookOpen, ChevronRight, MonitorPlay, PlayCircle, FileText } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { DoxxWatch, type DoxxLesson } from '@/components/lambda/doxx-watch';
+import { lazy, Suspense, useEffect, useState } from 'react';
+import type { DoxxLesson } from '@/components/lambda/doxx-watch';
 import { curriculumClasses } from '@/lib/curriculum';
 import { classes, findSubjectMeta, pageHead } from '@/lib/lambda';
 import { useI18n } from '@/lib/i18n';
+
+// DoxxWatch pulls in the full Video.js + hls.js player stack (over 1MB), so
+// it's only fetched once a lesson is actually opened — not on every visit to
+// the chapter/topic browsing grid.
+const DoxxWatch = lazy(() => import('@/components/lambda/doxx-watch').then(m => ({ default: m.DoxxWatch })));
 
 interface DoxxSearch {
   class?: string | undefined;
@@ -161,15 +166,17 @@ function Doxxmarks() {
         </>}
 
         {playing && (
-          <DoxxWatch
-            lessons={[
-              ...topic.interactiveClasses.map(ic => ({ ...ic, kind: 'interactive' as const })),
-              ...topic.videoLessons.map(v => ({ ...v, kind: 'video' as const })),
-            ]}
-            active={playing}
-            topicName={topic.name}
-            onSelect={setPlaying}
-          />
+          <Suspense fallback={<div className="doxx-watch-loading" aria-busy="true" />}>
+            <DoxxWatch
+              lessons={[
+                ...topic.interactiveClasses.map(ic => ({ ...ic, kind: 'interactive' as const })),
+                ...topic.videoLessons.map(v => ({ ...v, kind: 'video' as const })),
+              ]}
+              active={playing}
+              topicName={topic.name}
+              onSelect={setPlaying}
+            />
+          </Suspense>
         )}
 
         {!playing && <>

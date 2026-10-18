@@ -1,17 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, ChevronUp, Download, ExternalLink, FileText, Maximize, Minimize } from 'lucide-react';
+import { useFullscreen } from '@/hooks/use-fullscreen';
 import { useI18n } from '@/lib/i18n';
-import { getGroupLabel } from '@/lib/resources-data';
-
-export interface ResourceItem {
-  name: string;
-  id: string;
-  group: string;
-  mimeType?: string | null;
-  createdTime?: string | null;
-  modifiedTime?: string | null;
-  size?: string | number | null;
-}
+import { getGroupLabel, type ResourceItem } from '@/lib/resources-data';
 
 interface ResourceWatchProps {
   /** Items grouped by their original folder/section name, in display order. */
@@ -78,14 +69,8 @@ function SidebarSection({ group, items, active, onSelect }: { group: string; ite
 export function ResourceWatch({ groups, active, onSelect }: ResourceWatchProps) {
   const { t } = useI18n();
   const wrapRef = useRef<HTMLDivElement>(null);
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const { isFullscreen, toggleFullscreen } = useFullscreen(wrapRef);
   const [sideHeight, setSideHeight] = useState<number | undefined>(undefined);
-
-  useEffect(() => {
-    const onChange = () => setIsFullscreen(document.fullscreenElement === wrapRef.current);
-    document.addEventListener('fullscreenchange', onChange);
-    return () => document.removeEventListener('fullscreenchange', onChange);
-  }, []);
 
   useEffect(() => {
     const el = wrapRef.current;
@@ -107,16 +92,6 @@ export function ResourceWatch({ groups, active, onSelect }: ResourceWatchProps) 
     window.addEventListener('resize', update);
     return () => { observer.disconnect(); window.removeEventListener('resize', update); };
   }, []);
-
-  const toggleFullscreen = () => {
-    const el = wrapRef.current;
-    if (!el) return;
-    if (document.fullscreenElement === el) {
-      document.exitFullscreen();
-    } else {
-      el.requestFullscreen?.();
-    }
-  };
 
   const previewSrc = `https://drive.google.com/file/d/${active.id}/preview`;
   const openSrc = `https://drive.google.com/file/d/${active.id}/view`;
