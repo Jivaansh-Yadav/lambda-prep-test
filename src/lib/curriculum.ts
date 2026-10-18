@@ -38,3 +38,10 @@ export const curriculumClasses: CurriculumClass[] = Object.entries(data.boards).
 export function getCurriculumClass(board: string, roman: string) {
   return curriculumClasses.find(c => c.board === board && c.roman === roman);
 }
+
+export function findSubjectInClass(curriculumClass: CurriculumClass | undefined, name: string) {
+  if (!curriculumClass) return undefined;
+  const normalized = name.toLowerCase();
+  return curriculumClass.subjects.find(s => s.name.toLowerCase() === normalized)
+    ?? curriculumClass.subjects.find(s => normalized.startsWith(s.name.toLowerCase()) || s.name.toLowerCase().startsWith(normalized));
+}

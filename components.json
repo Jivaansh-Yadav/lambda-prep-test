@@ -18,5 +18,7 @@
     "lib": "@/lib",
     "hooks": "@/hooks"
   },
-  "registries": {}
+  "registries": {
+    "@videojs": "https://shadcn.videojs.org/r/react/css/neutral/{name}.json"
+  }
 }
