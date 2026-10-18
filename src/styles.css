@@ -524,6 +524,7 @@
 
 /* Doxxmarks watch layout — sidebar on desktop, scroll playlist on mobile */
 .doxx-watch { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 24px; align-items: start; margin-top: 8px; min-width: 0; }
+.doxx-watch-loading { aspect-ratio: 16 / 9; width: 100%; margin-top: 8px; border-radius: 14px; background: linear-gradient(100deg, var(--card) 30%, color-mix(in oklch, var(--card) 60%, var(--muted)) 50%, var(--card) 70%); background-size: 200% 100%; animation: skeleton-shimmer 1.3s ease-in-out infinite; }
 .doxx-watch-main { min-width: 0; }
 .doxx-watch-title { margin-top: 16px; font-size: 20px; font-weight: 700; }
 .doxx-watch-kind { margin-top: 4px; font-size: 14px; color: var(--muted-foreground); }
@@ -594,6 +595,8 @@
 .doxx-card-title { font-weight: 600; min-width: 0; }
 .doxx-card-meta { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; color: var(--muted-foreground); }
 .doxx-card-meta svg { flex-shrink: 0; }
+.doxx-card-skeleton { height: 108px; cursor: default; background: linear-gradient(100deg, var(--card) 30%, color-mix(in oklch, var(--card) 60%, var(--muted)) 50%, var(--card) 70%); background-size: 200% 100%; animation: skeleton-shimmer 1.3s ease-in-out infinite; }
+@keyframes skeleton-shimmer { 0% { background-position: 150% 0; } 100% { background-position: -50% 0; } }
 
 /* Resource file cards (PDF/DOCX/XLSX/PPTX/image icons) */
 .resource-file-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-top: 16px; }
