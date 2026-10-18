@@ -1,15 +1,21 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { ArrowLeft, ArrowUpRight, BookOpen, ChevronRight, MonitorPlay, PlayCircle, FileText } from 'lucide-react';
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { ArrowLeft, ArrowUpRight, BookOpen, ChevronRight, MonitorPlay, PlayCircle, FileText, Search } from 'lucide-react';
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import type { DoxxLesson } from '@/components/lambda/doxx-watch';
 import { curriculumClasses } from '@/lib/curriculum';
 import { classes, findSubjectMeta, pageHead } from '@/lib/lambda';
 import { useI18n } from '@/lib/i18n';
+import { useFuseSearch } from '@/hooks/use-fuse-search';
 
 // DoxxWatch pulls in the full Video.js + hls.js player stack (over 1MB), so
 // it's only fetched once a lesson is actually opened — not on every visit to
 // the chapter/topic browsing grid.
 const DoxxWatch = lazy(() => import('@/components/lambda/doxx-watch').then(m => ({ default: m.DoxxWatch })));
+
+// Referentially stable key arrays for useFuseSearch — a fresh array literal
+// at the call site would rebuild the Fuse index on every render.
+const SUBJECT_SEARCH_KEYS = ['name'];
+const CHAPTER_ENTRY_SEARCH_KEYS = ['chapter.name'];
 
 interface DoxxSearch {
   class?: string | undefined;
@@ -38,10 +44,29 @@ function Doxxmarks() {
   const chapter = subject && chapterIdx !== undefined ? subject.chapters[chapterIdx] : undefined;
   const topic = chapter && topicIdx !== undefined ? chapter.topics[topicIdx] : undefined;
   const [playing, setPlaying] = useState<DoxxLesson | null>(null);
+  const [subjectQuery, setSubjectQuery] = useState('');
+  const [chapterQuery, setChapterQuery] = useState('');
 
   useEffect(() => {
     setPlaying(null);
   }, [subjectName, chapterIdx, topicIdx]);
+  useEffect(() => {
+    setSubjectQuery('');
+  }, [classSlug]);
+  useEffect(() => {
+    setChapterQuery('');
+  }, [classSlug, subjectName]);
+
+  // Chapters only carry their position as a navigation key (`chapter: i` in
+  // the route search params), so the search corpus pairs each chapter with
+  // its original index and Fuse searches/returns that pair — not just the
+  // bare chapter, which would lose the index needed to link to it.
+  const chapterEntries = useMemo(
+    () => (subject?.chapters ?? []).map((ch, index) => ({ chapter: ch, index })),
+    [subject]
+  );
+  const filteredSubjects = useFuseSearch(currentClass?.subjects ?? [], SUBJECT_SEARCH_KEYS, subjectQuery);
+  const filteredChapterEntries = useFuseSearch(chapterEntries, CHAPTER_ENTRY_SEARCH_KEYS, chapterQuery);
 
   const backSearch = (() => {
     if (topic) return { class: classSlug, subject: subjectName, chapter: chapterIdx };
@@ -101,34 +126,48 @@ function Doxxmarks() {
       {currentClass && !subject && <>
         <h1>{currentClass.board} Class {currentClass.roman}<span className="text-primary">.</span></h1>
         <p className="page-intro">{t('doxx.chooseSubject')}</p>
-        <div className="doxx-cards">
-          {currentClass.subjects.map(s => {
-            const meta = findSubjectMeta(s.name);
-            const Icon = meta?.icon ?? BookOpen;
-            return (
-              <Link key={s.name} to="/doxxmarks" search={{ class: classSlug, subject: s.name }} className={`doxx-card${meta ? ` tone-${meta.tone}` : ''}`}>
-                <span className="subject-icon doxx-subject-icon"><Icon size={22} strokeWidth={1.6} /></span>
-                <span className="doxx-card-title">{s.name}</span>
-                <span className="doxx-card-meta">{s.chapters.length} {t('doxx.chapterCount')} <ChevronRight size={14} /></span>
-              </Link>
-            );
-          })}
-          {!currentClass.subjects.length && <EmptyState text={t('doxx.empty.subjects')} />}
-        </div>
+        {!!currentClass.subjects.length && (
+          <label className="search-field resource-search"><Search size={18} /><input aria-label={t('doxx.searchSubjects.label')} placeholder={t('doxx.searchSubjects.placeholder')} value={subjectQuery} onChange={e => setSubjectQuery(e.target.value)} /></label>
+        )}
+        {currentClass.subjects.length && !filteredSubjects.length ? (
+          <div className="empty-state"><BookOpen /><h3>{t('doxx.searchSubjects.empty.title')}</h3><p>{t('doxx.searchSubjects.empty.text')}</p></div>
+        ) : (
+          <div className="doxx-cards">
+            {filteredSubjects.map(s => {
+              const meta = findSubjectMeta(s.name);
+              const Icon = meta?.icon ?? BookOpen;
+              return (
+                <Link key={s.name} to="/doxxmarks" search={{ class: classSlug, subject: s.name }} className={`doxx-card${meta ? ` tone-${meta.tone}` : ''}`}>
+                  <span className="subject-icon doxx-subject-icon"><Icon size={22} strokeWidth={1.6} /></span>
+                  <span className="doxx-card-title">{s.name}</span>
+                  <span className="doxx-card-meta">{s.chapters.length} {t('doxx.chapterCount')} <ChevronRight size={14} /></span>
+                </Link>
+              );
+            })}
+            {!currentClass.subjects.length && <EmptyState text={t('doxx.empty.subjects')} />}
+          </div>
+        )}
       </>}
 
       {subject && !chapter && <>
         <h1>{subject.name}<span className="text-primary">.</span></h1>
         <p className="page-intro">{currentClass!.board} Class {currentClass!.roman} · {t('doxx.chooseChapter')}</p>
-        <div className="doxx-cards">
-          {subject.chapters.map((c, i) => (
-            <Link key={c.name} to="/doxxmarks" search={{ class: classSlug, subject: subjectName, chapter: i }} className="doxx-card">
-              <span className="doxx-card-title">{c.name}</span>
-              <span className="doxx-card-meta">{c.topics.length} {t('doxx.topicCount')} <ChevronRight size={14} /></span>
-            </Link>
-          ))}
-          {!subject.chapters.length && <EmptyState text={t('doxx.empty.chapters')} />}
-        </div>
+        {!!subject.chapters.length && (
+          <label className="search-field resource-search"><Search size={18} /><input aria-label={t('doxx.searchChapters.label')} placeholder={t('doxx.searchChapters.placeholder')} value={chapterQuery} onChange={e => setChapterQuery(e.target.value)} /></label>
+        )}
+        {subject.chapters.length && !filteredChapterEntries.length ? (
+          <div className="empty-state"><BookOpen /><h3>{t('doxx.searchChapters.empty.title')}</h3><p>{t('doxx.searchChapters.empty.text')}</p></div>
+        ) : (
+          <div className="doxx-cards">
+            {filteredChapterEntries.map(({ chapter: c, index: i }) => (
+              <Link key={c.name} to="/doxxmarks" search={{ class: classSlug, subject: subjectName, chapter: i }} className="doxx-card">
+                <span className="doxx-card-title">{c.name}</span>
+                <span className="doxx-card-meta">{c.topics.length} {t('doxx.topicCount')} <ChevronRight size={14} /></span>
+              </Link>
+            ))}
+            {!subject.chapters.length && <EmptyState text={t('doxx.empty.chapters')} />}
+          </div>
+        )}
       </>}
 
       {chapter && !topic && <>

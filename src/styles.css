@@ -349,6 +349,7 @@
   .content-page { padding-top: 65px; }
   .content-page .class-grid { margin-top: 35px; }
   .resource-search { max-width: 420px; margin-top: 35px; }
+  .resource-search-results { margin-top: 24px; }
   .library-note { color: var(--muted-foreground); font-size: 16px; line-height: 1.8; margin-top: 30px; }
 
   /* Syllabus */
