@@ -3,6 +3,7 @@ import { Maximize, Minimize, MonitorPlay, PlayCircle } from 'lucide-react';
 import { HlsJsVideo } from '@videojs/react/media/hlsjs-video';
 import { VideoPlayer } from '@videojs/react/video';
 import { VideoSkin } from '@/components/videojs/video/skin';
+import { useFullscreen } from '@/hooks/use-fullscreen';
 import { useI18n } from '@/lib/i18n';
 
 export interface DoxxLesson {
@@ -89,23 +90,7 @@ function PlaylistSection({ icon, title, lessons, active, onSelect }: { icon: Rea
 
 function SandboxedFrame({ src, title }: { src: string; title: string }) {
   const wrapRef = useRef<HTMLDivElement>(null);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-
-  useEffect(() => {
-    const onChange = () => setIsFullscreen(document.fullscreenElement === wrapRef.current);
-    document.addEventListener('fullscreenchange', onChange);
-    return () => document.removeEventListener('fullscreenchange', onChange);
-  }, []);
-
-  const toggleFullscreen = () => {
-    const el = wrapRef.current;
-    if (!el) return;
-    if (document.fullscreenElement === el) {
-      document.exitFullscreen();
-    } else {
-      el.requestFullscreen?.();
-    }
-  };
+  const { isFullscreen, toggleFullscreen } = useFullscreen(wrapRef);
 
   return (
     <div className="doxx-sandbox-frame" ref={wrapRef}>

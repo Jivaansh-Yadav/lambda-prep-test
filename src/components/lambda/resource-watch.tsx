@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, ChevronUp, Download, ExternalLink, FileText, Maximize, Minimize } from 'lucide-react';
+import { useFullscreen } from '@/hooks/use-fullscreen';
 import { useI18n } from '@/lib/i18n';
 import { getGroupLabel, type ResourceItem } from '@/lib/resources-data';
 
@@ -68,14 +69,8 @@ function SidebarSection({ group, items, active, onSelect }: { group: string; ite
 export function ResourceWatch({ groups, active, onSelect }: ResourceWatchProps) {
   const { t } = useI18n();
   const wrapRef = useRef<HTMLDivElement>(null);
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const { isFullscreen, toggleFullscreen } = useFullscreen(wrapRef);
   const [sideHeight, setSideHeight] = useState<number | undefined>(undefined);
-
-  useEffect(() => {
-    const onChange = () => setIsFullscreen(document.fullscreenElement === wrapRef.current);
-    document.addEventListener('fullscreenchange', onChange);
-    return () => document.removeEventListener('fullscreenchange', onChange);
-  }, []);
 
   useEffect(() => {
     const el = wrapRef.current;
@@ -97,16 +92,6 @@ export function ResourceWatch({ groups, active, onSelect }: ResourceWatchProps) 
     window.addEventListener('resize', update);
     return () => { observer.disconnect(); window.removeEventListener('resize', update); };
   }, []);
-
-  const toggleFullscreen = () => {
-    const el = wrapRef.current;
-    if (!el) return;
-    if (document.fullscreenElement === el) {
-      document.exitFullscreen();
-    } else {
-      el.requestFullscreen?.();
-    }
-  };
 
   const previewSrc = `https://drive.google.com/file/d/${active.id}/preview`;
   const openSrc = `https://drive.google.com/file/d/${active.id}/view`;
