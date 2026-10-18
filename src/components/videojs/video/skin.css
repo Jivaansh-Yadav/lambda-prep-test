@@ -1,0 +1,295 @@
+@layer components {
+  @scope (.media-skin[data-theme="neutral"][data-preset="video"]) {
+    .video-status-indicators {
+      pointer-events: none;
+      z-index: 20;
+      color: var(--media-controls-foreground);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      place-items: center;
+      display: grid;
+      position: absolute;
+      inset: 0;
+    }
+  }
+
+  @scope (.media-skin[data-theme="neutral"][data-preset="video"]) {
+    .video-controls-backdrop {
+      pointer-events: none;
+      z-index: 10;
+      border-radius: inherit;
+      background-image: var(--media-controls-gradient);
+      transition-property: opacity;
+      transition-duration: 0.15s;
+      transition-duration: var(--media-duration-controls);
+      transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+      position: absolute;
+      inset: 0;
+    }
+
+    .video-controls-backdrop:not([data-visible]) {
+      opacity: 0;
+    }
+
+    @container media-root (width < 20rem) {
+      .video-controls-captions-button {
+        display: none;
+      }
+    }
+
+    .video-controls-content {
+      inset-inline: calc(var(--media-spacing) * 0.5);
+      bottom: calc(var(--media-spacing) * 0.5);
+      z-index: 30;
+      align-items: center;
+      column-gap: calc(var(--media-spacing) * 2);
+      border-radius: var(--media-controls-radius);
+      padding: var(--media-spacing);
+      color: var(--media-controls-foreground);
+      transition-property: filter, opacity, translate;
+      transition-duration: 0.15s;
+      transition-duration: calc(var(--media-duration-controls) / 2);
+      text-shadow: 0 1px 0 var(--media-shadow-current-color);
+      background-color: #0000;
+      transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+      display: flex;
+      position: absolute;
+    }
+
+    .video-controls-content:not([data-visible]) {
+      pointer-events: none;
+      translate: 0 var(--media-hidden-offset);
+      opacity: 0;
+      transition-duration: var(--media-duration-controls);
+    }
+
+    .video-controls-content:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *) {
+      flex-direction: row-reverse;
+    }
+
+    @media (pointer: fine) {
+      .video-controls-content:not([data-visible]) {
+        filter: blur(var(--media-hidden-blur));
+      }
+    }
+
+    @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+      .video-controls-content {
+        background-color: var(--media-background);
+      }
+    }
+
+    @container media-root (width >= 42rem) {
+      .video-controls-content {
+        inset-inline: calc(var(--media-spacing) * 2);
+        bottom: calc(var(--media-spacing) * 2);
+        --media-popover-side-offset: calc(var(--media-spacing) * 3);
+        --media-tooltip-side-offset: var(--media-popover-side-offset);
+      }
+    }
+
+    .video-controls-end {
+      flex: 1;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 1px;
+      display: flex;
+    }
+
+    .video-controls-end:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *) {
+      flex-direction: row-reverse;
+    }
+
+    @container media-root (width >= 42rem) {
+      .video-controls-end {
+        flex: none;
+      }
+    }
+
+    @container media-root (width < 42rem) {
+      .video-controls-end {
+        transition: mask-position var(--media-duration-instant) ease-out;
+        mask-position: 100% 0;
+        mask-size: 400% 100%;
+        mask-repeat: no-repeat;
+      }
+
+      @scope (.video-controls-content) {
+        &:has([data-volume-level][aria-expanded="true"]) .video-controls-end {
+          mask-image: linear-gradient(to right, #0000 10%, #000 25% 100%);
+          mask-position: 0 0;
+        }
+      }
+    }
+
+    .video-controls-start {
+      flex: 1;
+      align-items: center;
+      gap: 1px;
+      display: flex;
+    }
+
+    .video-controls-start:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *) {
+      flex-direction: row-reverse;
+    }
+
+    @container media-root (width >= 42rem) {
+      .video-controls-start {
+        flex: none;
+      }
+    }
+
+    .video-controls-trailing {
+      align-items: center;
+      gap: 1px;
+      display: flex;
+    }
+
+    .video-controls-trailing:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *) {
+      flex-direction: row-reverse;
+    }
+
+    .video-controls-wrap {
+      flex-wrap: wrap;
+    }
+
+    @container media-root (width >= 42rem) {
+      .video-controls-wrap {
+        flex-wrap: nowrap;
+      }
+    }
+
+    .video-time-slider-group {
+      align-items: center;
+      gap: calc(var(--media-spacing) * 3);
+      padding-inline: calc(var(--media-spacing) * 1.5);
+      --media-slider-height: calc(var(--media-spacing) * 5);
+      flex-direction: row-reverse;
+      flex: 0 0 100%;
+      order: -1;
+      display: flex;
+      container: video-time-controls / inline-size;
+    }
+
+    .video-time-slider-group:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *) {
+      flex-direction: row;
+    }
+
+    @container media-root (width >= 42rem) {
+      .video-time-slider-group {
+        min-width: 0;
+        transition: mask-position var(--media-duration-instant) ease-out;
+        --media-slider-height: calc(var(--media-spacing) * 8);
+        flex-direction: row;
+        flex: 1;
+        order: 0;
+        mask-position: 100% 0;
+        mask-size: 200% 100%;
+        mask-repeat: no-repeat;
+      }
+
+      @scope (.video-controls-content) {
+        &:has([data-volume-level][aria-expanded="true"]) .video-time-slider-group {
+          mask-image: linear-gradient(to right, #0000 10%, #000 25% 100%);
+          mask-position: 0 0;
+        }
+      }
+
+      .video-time-slider-group:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *) {
+        flex-direction: row-reverse;
+      }
+    }
+  }
+
+  @scope (.media-skin[data-theme="neutral"][data-preset="video"]) {
+    .media-time-duration-value {
+      font-variant-numeric: tabular-nums;
+      transition-property: opacity;
+      transition-duration: 0.15s;
+      transition-duration: var(--media-duration-slow);
+      transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+      display: none;
+    }
+
+    .media-time-duration-value[data-unavailable] {
+      opacity: 0.5;
+    }
+
+    @container media-root (width >= 42rem) {
+      .media-time-duration-value {
+        color: var(--media-controls-foreground);
+        display: inline;
+      }
+
+      @supports (color: color-mix(in lab, red, red)) {
+        .media-time-duration-value {
+          color: color-mix(in oklab, var(--media-controls-foreground) 60%, transparent);
+        }
+      }
+    }
+
+    .media-time-group {
+      align-items: center;
+      gap: var(--media-spacing);
+      display: flex;
+    }
+
+    .media-time-group:where(:dir(rtl), [dir="rtl"], [dir="rtl"] *) {
+      flex-direction: row-reverse;
+    }
+
+    .media-time-separator {
+      display: none;
+    }
+
+    @container media-root (width >= 42rem) {
+      .media-time-separator {
+        color: var(--media-controls-foreground);
+        display: inline;
+      }
+
+      @supports (color: color-mix(in lab, red, red)) {
+        .media-time-separator {
+          color: color-mix(in oklab, var(--media-controls-foreground) 60%, transparent);
+        }
+      }
+    }
+
+    .media-time-toggle {
+      cursor: pointer;
+      font-variant-numeric: tabular-nums;
+      outline-offset: -2px;
+      transition-property: outline-color, outline-offset;
+      transition-duration: 0.15s;
+      transition-duration: var(--media-duration-fast);
+      border-radius: 0.25rem;
+      outline: 2px solid #0000;
+      transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+
+    .media-time-toggle:focus-visible {
+      outline-offset: 2px;
+      outline-color: var(--media-ring);
+    }
+
+    .media-time-toggle[aria-disabled="true"] {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    @supports (corner-shape: squircle) {
+      .media-time-toggle {
+        corner-shape: squircle;
+        border-radius: 1rem;
+      }
+    }
+  }
+
+  @scope (.media-skin[data-theme="neutral"][data-preset="video"]) {
+    @media (pointer: fine) {
+      .video-skin:not([data-controls-visible]),
+      :scope.video-skin:not([data-controls-visible]) {
+        cursor: none;
+      }
+    }
+  }
+}

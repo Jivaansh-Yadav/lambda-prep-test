@@ -1,13 +1,13 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { ArrowLeft, ArrowUpRight, BookOpen, ChevronRight, MonitorPlay, PlayCircle, FileText } from 'lucide-react';
-import { useState } from 'react';
-import { VideoPlayer } from '@/components/lambda/video-player';
+import { useEffect, useState } from 'react';
+import { DoxxWatch, type DoxxLesson } from '@/components/lambda/doxx-watch';
 import { curriculumClasses } from '@/lib/curriculum';
-import { pageHead } from '@/lib/lambda';
+import { classes, findSubjectMeta, pageHead } from '@/lib/lambda';
+import { useI18n } from '@/lib/i18n';
 
 interface DoxxSearch {
-  board?: string | undefined;
-  roman?: string | undefined;
+  class?: string | undefined;
   subject?: string | undefined;
   chapter?: number | undefined;
   topic?: number | undefined;
@@ -15,8 +15,7 @@ interface DoxxSearch {
 
 export const Route = createFileRoute('/doxxmarks')({
   validateSearch: (search: Record<string, unknown>): DoxxSearch => ({
-    board: typeof search['board'] === 'string' ? search['board'] : undefined,
-    roman: typeof search['roman'] === 'string' ? search['roman'] : undefined,
+    class: typeof search['class'] === 'string' ? search['class'] : undefined,
     subject: typeof search['subject'] === 'string' ? search['subject'] : undefined,
     chapter: typeof search['chapter'] === 'number' ? search['chapter'] : undefined,
     topic: typeof search['topic'] === 'number' ? search['topic'] : undefined,
@@ -26,56 +25,68 @@ export const Route = createFileRoute('/doxxmarks')({
 });
 
 function Doxxmarks() {
-  const { board, roman, subject: subjectName, chapter: chapterIdx, topic: topicIdx } = Route.useSearch();
-  const currentClass = board && roman ? curriculumClasses.find(c => c.board === board && c.roman === roman) : undefined;
+  const { t } = useI18n();
+  const { class: classSlug, subject: subjectName, chapter: chapterIdx, topic: topicIdx } = Route.useSearch();
+  const classMeta = classSlug ? classes.find(c => c.slug === classSlug) : undefined;
+  const currentClass = classMeta ? curriculumClasses.find(c => c.board === classMeta.board && c.roman === classMeta.roman) : undefined;
   const subject = currentClass?.subjects.find(s => s.name === subjectName);
   const chapter = subject && chapterIdx !== undefined ? subject.chapters[chapterIdx] : undefined;
   const topic = chapter && topicIdx !== undefined ? chapter.topics[topicIdx] : undefined;
-  const [playing, setPlaying] = useState<{ name: string; link: string; kind: 'video' | 'interactive' } | null>(null);
+  const [playing, setPlaying] = useState<DoxxLesson | null>(null);
+
+  useEffect(() => {
+    setPlaying(null);
+  }, [subjectName, chapterIdx, topicIdx]);
 
   const backSearch = (() => {
-    if (topic) return { board, roman, subject: subjectName, chapter: chapterIdx };
-    if (chapter) return { board, roman, subject: subjectName };
-    if (subject) return { board, roman };
+    if (topic) return { class: classSlug, subject: subjectName, chapter: chapterIdx };
+    if (chapter) return { class: classSlug, subject: subjectName };
+    if (subject) return { class: classSlug };
     return {};
   })();
 
   return (
     <main className="container content-page">
       <nav className="doxx-breadcrumb" aria-label="Breadcrumb">
-        <Link to="/doxxmarks" search={{}} className={!currentClass ? 'crumb-current' : ''}>Doxxmarks</Link>
+        <Link to="/doxxmarks" search={{}} className={!currentClass ? 'crumb-current' : ''}>{t('doxx.breadcrumbHome')}</Link>
         {currentClass && <>
           <ChevronRight size={14} />
-          <Link to="/doxxmarks" search={{ board, roman }} className={!subject ? 'crumb-current' : ''}>{currentClass.board} · Class {currentClass.roman}</Link>
+          <Link to="/doxxmarks" search={{ class: classSlug }} className={!subject ? 'crumb-current' : ''}>{currentClass.board} · Class {currentClass.roman}</Link>
         </>}
         {subject && <>
           <ChevronRight size={14} />
-          <Link to="/doxxmarks" search={{ board, roman, subject: subjectName }} className={!chapter ? 'crumb-current' : ''}>{subject.name}</Link>
+          <Link to="/doxxmarks" search={{ class: classSlug, subject: subjectName }} className={!chapter ? 'crumb-current' : ''}>{subject.name}</Link>
         </>}
         {chapter && <>
           <ChevronRight size={14} />
-          <Link to="/doxxmarks" search={{ board, roman, subject: subjectName, chapter: chapterIdx }} className={!topic ? 'crumb-current' : ''}>{chapter.name}</Link>
+          <Link to="/doxxmarks" search={{ class: classSlug, subject: subjectName, chapter: chapterIdx }} className={!topic ? 'crumb-current' : ''}>{chapter.name}</Link>
         </>}
         {topic && <><ChevronRight size={14} /><span className="crumb-current">{topic.name}</span></>}
       </nav>
 
       {(subject || chapter || topic) && (
-        <Link to="/doxxmarks" search={backSearch} className="back-link"><ArrowLeft size={15} /> Back</Link>
+        playing ? (
+          <button type="button" className="back-link" onClick={() => setPlaying(null)}><ArrowLeft size={15} /> {t('doxx.back')}</button>
+        ) : (
+          <Link to="/doxxmarks" search={backSearch} className="back-link"><ArrowLeft size={15} /> {t('doxx.back')}</Link>
+        )
       )}
 
       {!currentClass && <>
-        <h1>Doxxmarks<span className="text-primary">.</span></h1>
-        <p className="page-intro">Pick your class to explore subjects, chapters and topics — with interactive classes and concept videos.</p>
+        <h1>{t('doxx.title')}<span className="text-primary">.</span></h1>
+        <p className="page-intro">{t('doxx.intro')}</p>
         <div className="class-grid">
           {curriculumClasses.map(c => {
             const subjectCount = c.subjects.length;
             const chapterCount = c.subjects.reduce((n, s) => n + s.chapters.length, 0);
+            const meta = classes.find(cl => cl.board === c.board && cl.roman === c.roman);
+            const Icon = meta?.icon ?? BookOpen;
             return (
-              <Link key={`${c.board}-${c.roman}`} to="/doxxmarks" search={{ board: c.board, roman: c.roman }} className="class-card">
-                <div className="class-card-top"><span className="subject-icon"><BookOpen size={24} strokeWidth={1.6} /></span><span className="class-board">{c.board}</span></div>
+              <Link key={`${c.board}-${c.roman}`} to="/doxxmarks" search={{ class: meta?.slug }} className={`class-card${meta ? ` tone-${meta.tone}` : ''}`}>
+                <div className="class-card-top"><span className="subject-icon"><Icon size={24} strokeWidth={1.6} /></span><span className="class-board">{c.board}</span></div>
                 <h3>Class {c.roman}</h3>
-                <p>{subjectCount} subjects · {chapterCount} chapters</p>
-                <div className="card-bottom"><span>Browse chapters</span><ArrowUpRight size={18} /></div>
+                <p>{subjectCount} {t('doxx.subjectsLabel')} · {chapterCount} {t('doxx.chaptersLabel')}</p>
+                <div className="card-bottom"><span>{t('doxx.browseChapters')}</span><ArrowUpRight size={18} /></div>
               </Link>
             );
           })}
@@ -84,46 +95,51 @@ function Doxxmarks() {
 
       {currentClass && !subject && <>
         <h1>{currentClass.board} Class {currentClass.roman}<span className="text-primary">.</span></h1>
-        <p className="page-intro">Choose a subject to see its chapters.</p>
+        <p className="page-intro">{t('doxx.chooseSubject')}</p>
         <div className="doxx-cards">
-          {currentClass.subjects.map(s => (
-            <Link key={s.name} to="/doxxmarks" search={{ board, roman, subject: s.name }} className="doxx-card">
-              <span className="doxx-card-title">{s.name}</span>
-              <span className="doxx-card-meta">{s.chapters.length} chapters <ChevronRight size={14} /></span>
-            </Link>
-          ))}
-          {!currentClass.subjects.length && <EmptyState text="Subjects for this class are being prepared." />}
+          {currentClass.subjects.map(s => {
+            const meta = findSubjectMeta(s.name);
+            const Icon = meta?.icon ?? BookOpen;
+            return (
+              <Link key={s.name} to="/doxxmarks" search={{ class: classSlug, subject: s.name }} className={`doxx-card${meta ? ` tone-${meta.tone}` : ''}`}>
+                <span className="subject-icon doxx-subject-icon"><Icon size={22} strokeWidth={1.6} /></span>
+                <span className="doxx-card-title">{s.name}</span>
+                <span className="doxx-card-meta">{s.chapters.length} {t('doxx.chapterCount')} <ChevronRight size={14} /></span>
+              </Link>
+            );
+          })}
+          {!currentClass.subjects.length && <EmptyState text={t('doxx.empty.subjects')} />}
         </div>
       </>}
 
       {subject && !chapter && <>
         <h1>{subject.name}<span className="text-primary">.</span></h1>
-        <p className="page-intro">{currentClass!.board} Class {currentClass!.roman} · Choose a chapter.</p>
+        <p className="page-intro">{currentClass!.board} Class {currentClass!.roman} · {t('doxx.chooseChapter')}</p>
         <div className="doxx-cards">
           {subject.chapters.map((c, i) => (
-            <Link key={c.name} to="/doxxmarks" search={{ board, roman, subject: subjectName, chapter: i }} className="doxx-card">
+            <Link key={c.name} to="/doxxmarks" search={{ class: classSlug, subject: subjectName, chapter: i }} className="doxx-card">
               <span className="doxx-card-title">{c.name}</span>
-              <span className="doxx-card-meta">{c.topics.length} topics <ChevronRight size={14} /></span>
+              <span className="doxx-card-meta">{c.topics.length} {t('doxx.topicCount')} <ChevronRight size={14} /></span>
             </Link>
           ))}
-          {!subject.chapters.length && <EmptyState text="Chapters for this subject are being prepared." />}
+          {!subject.chapters.length && <EmptyState text={t('doxx.empty.chapters')} />}
         </div>
       </>}
 
       {chapter && !topic && <>
         <h1>{chapter.name}<span className="text-primary">.</span></h1>
-        <p className="page-intro">{subject!.name} · Choose a topic.</p>
+        <p className="page-intro">{subject!.name} · {t('doxx.chooseTopic')}</p>
         <div className="doxx-cards">
-          {chapter.topics.map((t, i) => (
-            <Link key={t.name} to="/doxxmarks" search={{ board, roman, subject: subjectName, chapter: chapterIdx, topic: i }} className="doxx-card">
-              <span className="doxx-card-title">{t.name}</span>
-              <span className="doxx-card-meta">{t.videoLessons.length} videos · {t.interactiveClasses.length} interactive <ChevronRight size={14} /></span>
+          {chapter.topics.map((top, i) => (
+            <Link key={top.name} to="/doxxmarks" search={{ class: classSlug, subject: subjectName, chapter: chapterIdx, topic: i }} className="doxx-card">
+              <span className="doxx-card-title">{top.name}</span>
+              <span className="doxx-card-meta">{top.videoLessons.length} {t('doxx.videosCount')} · {top.interactiveClasses.length} {t('doxx.interactiveCount')} <ChevronRight size={14} /></span>
             </Link>
           ))}
-          {!chapter.topics.length && <EmptyState text="Topics for this chapter are being prepared." />}
+          {!chapter.topics.length && <EmptyState text={t('doxx.empty.topics')} />}
         </div>
         <section className="doxx-notes">
-          <h2><FileText size={18} /> Chapter revision notes</h2>
+          <h2><FileText size={18} /> {t('doxx.revisionNotes')}</h2>
           {chapter.revisionNotes?.length ? (
             <div className="doxx-list">
               {chapter.revisionNotes.map(n => (
@@ -133,83 +149,68 @@ function Doxxmarks() {
               ))}
             </div>
           ) : (
-            <EmptyState text="Revision notes for this chapter are being reviewed and will appear here once published." />
+            <EmptyState text={t('doxx.empty.notes')} />
           )}
         </section>
       </>}
 
       {topic && <>
-        <h1>{topic.name}<span className="text-primary">.</span></h1>
-        <p className="page-intro">{chapter!.name} · {subject!.name}</p>
+        {!playing && <>
+          <h1>{topic.name}<span className="text-primary">.</span></h1>
+          <p className="page-intro">{chapter!.name} · {subject!.name}</p>
+        </>}
 
         {playing && (
-          <div className="doxx-watch">
-            <div className="doxx-watch-main">
-              <VideoPlayer src={playing.link} title={playing.name} />
-              <h2 className="doxx-watch-title">{playing.name}</h2>
-              <p className="doxx-watch-kind">{playing.kind === 'interactive' ? 'Interactive class' : 'Concept video'}</p>
-            </div>
-            <aside className="doxx-watch-side" aria-label="More lessons in this topic">
-              {topic.interactiveClasses.length > 0 && <>
-                <h3><MonitorPlay size={15} /> Interactive classes</h3>
-                <ul>
-                  {topic.interactiveClasses.map(ic => (
-                    <li key={ic.link}>
-                      <button type="button" className={playing.link === ic.link ? 'doxx-side-item is-active' : 'doxx-side-item'} onClick={() => setPlaying({ ...ic, kind: 'interactive' })}>
-                        <MonitorPlay size={16} /><span>{ic.name}</span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </>}
-              {topic.videoLessons.length > 0 && <>
-                <h3><PlayCircle size={15} /> Concept videos</h3>
-                <ul>
-                  {topic.videoLessons.map(v => (
-                    <li key={v.link}>
-                      <button type="button" className={playing.link === v.link ? 'doxx-side-item is-active' : 'doxx-side-item'} onClick={() => setPlaying({ ...v, kind: 'video' })}>
-                        <PlayCircle size={16} /><span>{v.name}</span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </>}
-            </aside>
-          </div>
+          <DoxxWatch
+            lessons={[
+              ...topic.interactiveClasses.map(ic => ({ ...ic, kind: 'interactive' as const })),
+              ...topic.videoLessons.map(v => ({ ...v, kind: 'video' as const })),
+            ]}
+            active={playing}
+            topicName={topic.name}
+            onSelect={setPlaying}
+          />
         )}
 
+        {!playing && <>
         <section className="doxx-notes">
-          <h2><MonitorPlay size={18} /> Interactive classes</h2>
+          <h2><MonitorPlay size={18} /> {t('doxx.interactiveClasses')}</h2>
           {topic.interactiveClasses.length ? (
             <div className="doxx-cards">
               {topic.interactiveClasses.map(ic => (
                 <button key={ic.link} type="button" className="doxx-card" onClick={() => { setPlaying({ ...ic, kind: 'interactive' }); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
                   <span className="doxx-card-title">{ic.name}</span>
-                  <span className="doxx-card-meta">Play interactive class <PlayCircle size={14} /></span>
+                  <span className="doxx-card-meta">{t('doxx.playInteractive')} <PlayCircle size={14} /></span>
                 </button>
               ))}
             </div>
           ) : (
-            <EmptyState text="Interactive classes for this topic are being prepared." />
+            <EmptyState text={t('doxx.empty.interactive')} />
           )}
         </section>
 
         <section className="doxx-notes">
-          <h2><PlayCircle size={18} /> Concept videos</h2>
+          <h2><PlayCircle size={18} /> {t('doxx.conceptVideos')}</h2>
           {topic.videoLessons.length ? (
             <div className="doxx-cards">
               {topic.videoLessons.map(v => (
                 <button key={v.link} type="button" className="doxx-card" onClick={() => { setPlaying({ ...v, kind: 'video' }); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
                   <span className="doxx-card-title">{v.name}</span>
-                  <span className="doxx-card-meta">Watch video <PlayCircle size={14} /></span>
+                  <span className="doxx-card-meta">{t('doxx.watchVideo')} <PlayCircle size={14} /></span>
                 </button>
               ))}
             </div>
           ) : (
-            <EmptyState text="Concept videos for this topic are being prepared." />
+            <EmptyState text={t('doxx.empty.videos')} />
           )}
         </section>
+        </>}
       </>}
+
+      <footer className="doxx-disclaimer">
+        <p className="doxx-disclaimer-title">{t('doxx.disclaimer.title')}</p>
+        <p>{t('doxx.disclaimer.body')}</p>
+      </footer>
     </main>
   );
 }

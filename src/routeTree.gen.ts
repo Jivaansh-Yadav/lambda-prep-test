@@ -14,6 +14,9 @@ import { Route as DoxxmarksRouteImport } from './routes/doxxmarks'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as SyllabusRouteImport } from './routes/syllabus'
 import { Route as ClassesClassIdRouteImport } from './routes/classes.$classId'
+import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
+import { Route as ResourcesCisceRouteImport } from './routes/resources.cisce'
+import { Route as ResourcesCommunityRouteImport } from './routes/resources.community'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,35 +43,72 @@ const ClassesClassIdRoute = ClassesClassIdRouteImport.update({
   path: '/classes/$classId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResourcesIndexRoute = ResourcesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ResourcesRoute,
+} as any)
+const ResourcesCisceRoute = ResourcesCisceRouteImport.update({
+  id: '/cisce',
+  path: '/cisce',
+  getParentRoute: () => ResourcesRoute,
+} as any)
+const ResourcesCommunityRoute = ResourcesCommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
+  getParentRoute: () => ResourcesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/doxxmarks': typeof DoxxmarksRoute
-  '/resources': typeof ResourcesRoute
+  '/resources': typeof ResourcesRouteWithChildren
   '/syllabus': typeof SyllabusRoute
   '/classes/$classId': typeof ClassesClassIdRoute
+  '/resources/cisce': typeof ResourcesCisceRoute
+  '/resources/community': typeof ResourcesCommunityRoute
+  '/resources/': typeof ResourcesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/doxxmarks': typeof DoxxmarksRoute
-  '/resources': typeof ResourcesRoute
   '/syllabus': typeof SyllabusRoute
   '/classes/$classId': typeof ClassesClassIdRoute
+  '/resources/cisce': typeof ResourcesCisceRoute
+  '/resources/community': typeof ResourcesCommunityRoute
+  '/resources': typeof ResourcesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/doxxmarks': typeof DoxxmarksRoute
-  '/resources': typeof ResourcesRoute
+  '/resources': typeof ResourcesRouteWithChildren
   '/syllabus': typeof SyllabusRoute
   '/classes/$classId': typeof ClassesClassIdRoute
+  '/resources/cisce': typeof ResourcesCisceRoute
+  '/resources/community': typeof ResourcesCommunityRoute
+  '/resources/': typeof ResourcesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/doxxmarks' | '/resources' | '/syllabus' | '/classes/$classId'
+    | '/'
+    | '/doxxmarks'
+    | '/resources'
+    | '/syllabus'
+    | '/classes/$classId'
+    | '/resources/cisce'
+    | '/resources/community'
+    | '/resources/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/doxxmarks' | '/resources' | '/syllabus' | '/classes/$classId'
+  to:
+    | '/'
+    | '/doxxmarks'
+    | '/syllabus'
+    | '/classes/$classId'
+    | '/resources/cisce'
+    | '/resources/community'
+    | '/resources'
   id:
     | '__root__'
     | '/'
@@ -76,12 +116,15 @@ export interface FileRouteTypes {
     | '/resources'
     | '/syllabus'
     | '/classes/$classId'
+    | '/resources/cisce'
+    | '/resources/community'
+    | '/resources/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DoxxmarksRoute: typeof DoxxmarksRoute
-  ResourcesRoute: typeof ResourcesRoute
+  ResourcesRoute: typeof ResourcesRouteWithChildren
   SyllabusRoute: typeof SyllabusRoute
   ClassesClassIdRoute: typeof ClassesClassIdRoute
 }
@@ -123,13 +166,50 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClassesClassIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/resources/': {
+      id: '/resources/'
+      path: '/'
+      fullPath: '/resources/'
+      preLoaderRoute: typeof ResourcesIndexRouteImport
+      parentRoute: typeof ResourcesRoute
+    }
+    '/resources/cisce': {
+      id: '/resources/cisce'
+      path: '/cisce'
+      fullPath: '/resources/cisce'
+      preLoaderRoute: typeof ResourcesCisceRouteImport
+      parentRoute: typeof ResourcesRoute
+    }
+    '/resources/community': {
+      id: '/resources/community'
+      path: '/community'
+      fullPath: '/resources/community'
+      preLoaderRoute: typeof ResourcesCommunityRouteImport
+      parentRoute: typeof ResourcesRoute
+    }
   }
 }
+
+interface ResourcesRouteChildren {
+  ResourcesCisceRoute: typeof ResourcesCisceRoute
+  ResourcesCommunityRoute: typeof ResourcesCommunityRoute
+  ResourcesIndexRoute: typeof ResourcesIndexRoute
+}
+
+const ResourcesRouteChildren: ResourcesRouteChildren = {
+  ResourcesCisceRoute: ResourcesCisceRoute,
+  ResourcesCommunityRoute: ResourcesCommunityRoute,
+  ResourcesIndexRoute: ResourcesIndexRoute,
+}
+
+const ResourcesRouteWithChildren = ResourcesRoute._addFileChildren(
+  ResourcesRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DoxxmarksRoute: DoxxmarksRoute,
-  ResourcesRoute: ResourcesRoute,
+  ResourcesRoute: ResourcesRouteWithChildren,
   SyllabusRoute: SyllabusRoute,
   ClassesClassIdRoute: ClassesClassIdRoute,
 }

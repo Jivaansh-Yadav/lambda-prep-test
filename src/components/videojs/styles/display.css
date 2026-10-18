@@ -1,0 +1,44 @@
+@layer components {
+  @scope (.media-skin[data-theme="neutral"]) {
+    .media-title {
+      pointer-events: none;
+      isolation: isolate;
+      z-index: 20;
+      transform-origin: top;
+      padding-inline: calc(var(--media-spacing) * 4);
+      padding-top: calc(var(--media-spacing) * 3.5);
+      font-size: calc(var(--media-spacing) * 4);
+      letter-spacing: -0.0125em;
+      overflow-wrap: anywhere;
+      color: var(--media-controls-foreground);
+      transition-property: filter, opacity, translate;
+      transition-duration: 0.15s;
+      transition-duration: calc(var(--media-duration-controls) / 2);
+      text-shadow: 0 1px 0 var(--media-shadow-current-color);
+      inset-inline: 0;
+      font-weight: 400;
+      transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+      position: absolute;
+      top: 0;
+    }
+
+    .media-title:not([data-visible]) {
+      translate: 0 calc(min(var(--media-hidden-offset), var(--media-control-size)) * -1);
+      opacity: 0;
+      transition-duration: var(--media-duration-controls);
+    }
+
+    @media (pointer: fine) {
+      .media-title:not([data-visible]) {
+        filter: blur(var(--media-hidden-blur));
+      }
+    }
+
+    @container media-root (width >= 28rem) {
+      .media-title {
+        padding-inline: calc(var(--media-spacing) * 6);
+        padding-top: calc(var(--media-spacing) * 5);
+      }
+    }
+  }
+}
