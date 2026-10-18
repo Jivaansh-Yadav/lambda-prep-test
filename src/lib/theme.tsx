@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
 export type Theme = 'light' | 'dark';
 
@@ -87,16 +87,21 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     }
   }, [theme]);
 
-  const setTheme = (next: Theme) => {
+  const setTheme = useCallback((next: Theme) => {
     hasExplicitChoice.current = true;
     setThemeState(next);
-  };
-  const toggleTheme = () => {
+  }, []);
+  const toggleTheme = useCallback(() => {
     hasExplicitChoice.current = true;
     setThemeState((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
+  }, []);
 
-  return <ThemeContext.Provider value={{ theme, toggleTheme, setTheme }}>{children}</ThemeContext.Provider>;
+  // Memoized so consumers (just the header's theme toggle today, but this is
+  // the top-level provider wrapping the whole tree) only re-render when the
+  // theme itself actually changes, not on every render of ThemeProvider.
+  const value = useMemo<ThemeContextValue>(() => ({ theme, toggleTheme, setTheme }), [theme, toggleTheme, setTheme]);
+
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
 
 export function useTheme() {

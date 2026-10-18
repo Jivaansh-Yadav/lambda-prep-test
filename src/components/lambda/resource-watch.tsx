@@ -1,17 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, ChevronUp, Download, ExternalLink, FileText, Maximize, Minimize } from 'lucide-react';
 import { useI18n } from '@/lib/i18n';
-import { getGroupLabel } from '@/lib/resources-data';
-
-export interface ResourceItem {
-  name: string;
-  id: string;
-  group: string;
-  mimeType?: string | null;
-  createdTime?: string | null;
-  modifiedTime?: string | null;
-  size?: string | number | null;
-}
+import { getGroupLabel, type ResourceItem } from '@/lib/resources-data';
 
 interface ResourceWatchProps {
   /** Items grouped by their original folder/section name, in display order. */
