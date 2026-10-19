@@ -10,10 +10,11 @@ site's 10 canonical ICSE Class 10 subjects) is bucketed under that subject.
 Everything else (loose files, non-subject folders like Commercial Studies /
 Economics / Economic Applications, unmatched Prelims papers) goes to `misc`.
 """
-import json, re
+import json, os, re
 
-CISCE_SRC = '/workspace/plans/drive-crawl/output/cisce-resources.json'
-STUDY_SRC = '/workspace/plans/drive-crawl/output/study-materials.json'
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CISCE_SRC = os.path.join(ROOT, 'scripts', 'drive-crawl', 'output', 'cisce-resources.json')
+STUDY_SRC = os.path.join(ROOT, 'scripts', 'drive-crawl', 'output', 'study-materials.json')
 
 # Canonical subject names used across the Lambda Prep site for ICSE Class 10
 # (matches curriculum.json / lambda.ts subjects filtered for ICSE, non-iscOnly).
@@ -367,9 +368,9 @@ if __name__ == '__main__':
     cisce = build_cisce()
     community = build_community()
 
-    with open('/workspace/project/src/data/resources-cisce-icse-10.json', 'w') as f:
+    with open(os.path.join(ROOT, 'src', 'data', 'resources-cisce-icse-10.json'), 'w') as f:
         json.dump(cisce, f, ensure_ascii=False)
-    with open('/workspace/project/src/data/resources-community-icse-10.json', 'w') as f:
+    with open(os.path.join(ROOT, 'src', 'data', 'resources-community-icse-10.json'), 'w') as f:
         json.dump(community, f, ensure_ascii=False)
 
     print('CISCE subjects:', [(s['subject'], len(s['items'])) for s in cisce['subjects']])

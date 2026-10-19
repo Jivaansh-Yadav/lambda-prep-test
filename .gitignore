@@ -30,3 +30,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Drive crawl: credentials and intermediate crawl output are regenerated on
+# every CI run and must never be committed (credentials are secret; crawl
+# output is a build artifact, not the final transformed datasets).
+scripts/drive-crawl/service-account.json
+scripts/drive-crawl/output/
+scripts/drive-crawl/node_modules/
+

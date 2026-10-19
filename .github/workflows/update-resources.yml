@@ -1,0 +1,62 @@
+name: Update resource datasets
+
+# Re-crawls the Google Drive CISCE/Study-Materials folders, re-runs the full
+# transform/split/sort/count pipeline, and commits the regenerated JSON
+# datasets back to the repo. Run on a schedule, or manually via
+# workflow_dispatch for an on-demand refresh.
+on:
+  schedule:
+    # 03:00 UTC daily — adjust as needed.
+    - cron: "0 3 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update-resources:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Write Google Drive service-account credentials
+        run: |
+          mkdir -p scripts/drive-crawl
+          cat <<'EOF' > scripts/drive-crawl/service-account.json
+          ${{ secrets.DRIVE_SERVICE_ACCOUNT_JSON }}
+          EOF
+
+      - name: Install Drive crawl dependencies
+        working-directory: scripts/drive-crawl
+        run: npm install
+
+      - name: Run full resource pipeline (crawl + transform + split + sort + count)
+        run: node scripts/generate-all-resources.js
+
+      - name: Remove service-account credentials before diffing/committing
+        run: rm -f scripts/drive-crawl/service-account.json
+
+      - name: Commit regenerated datasets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/data
+          if git diff --cached --quiet; then
+            echo "No dataset changes — nothing to commit."
+          else
+            git commit -m "chore: regenerate resource datasets [skip ci]"
+            git push
+          fi
