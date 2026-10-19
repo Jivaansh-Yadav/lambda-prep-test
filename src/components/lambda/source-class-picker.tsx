@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router';
-import { ArrowLeft, ArrowUpRight, ChevronDown, ChevronUp, File, FileImage, FileSpreadsheet, FileText, Folder, MessageCircle, Search, Sparkles } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, ChevronDown, ChevronUp, File, FileImage, FileSpreadsheet, FileText, Folder, MessageCircle, RefreshCw, Search, Sparkles } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { classes, findSubjectMeta } from '@/lib/lambda';
 import { useI18n } from '@/lib/i18n';
@@ -7,6 +7,7 @@ import { useFuseSearch } from '@/hooks/use-fuse-search';
 import { flattenFolderFiles, getFileKind, getGroupBadge, getGroupLabel, groupItems, hasResourceDataset, isFolderNode, isPremiumGroup, loadResourceManifest, loadResourceMisc, loadResourceSubject, type FileKind, type ResourceFolderNode, type ResourceItem, type ResourceManifest, type ResourceNode, type ResourceSubject } from '@/lib/resources-data';
 import { ResourceWatch } from '@/components/lambda/resource-watch';
 import { VirtualFileGrid } from '@/components/lambda/virtual-file-grid';
+import { Button } from '@/components/ui/button';
 
 export type SourceId = 'cisce' | 'community';
 
@@ -217,6 +218,12 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
   // 6,000-file dataset only ever downloads Mathematics's own JSON shard.
   const [manifest, setManifest] = useState<ResourceManifest | undefined>(undefined);
   const [manifestLoading, setManifestLoading] = useState(false);
+  // A rejected loader (most often a stale content-hashed chunk after a
+  // redeploy) used to leave the skeleton spinning forever, because
+  // `*Loading` was only cleared in `.then()`. These flags let us render a
+  // real error state with a way out instead.
+  const [manifestError, setManifestError] = useState(false);
+  const [subjectError, setSubjectError] = useState(false);
   const [subjectEntry, setSubjectEntry] = useState<ResourceSubject | undefined>(undefined);
   const [miscItems, setMiscItems] = useState<ResourceItem[] | undefined>(undefined);
   const [subjectLoading, setSubjectLoading] = useState(false);
@@ -240,8 +247,14 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
     if (!classSlug || !hasDataset) { setManifest(undefined); return; }
     let cancelled = false;
     setManifestLoading(true);
+    setManifestError(false);
     loadResourceManifest(source, classSlug).then(data => {
       if (!cancelled) { setManifest(data); setManifestLoading(false); }
+    }).catch(error => {
+      if (cancelled) return;
+      console.error('[resources] failed to load manifest', source, classSlug, error);
+      setManifestLoading(false);
+      setManifestError(true);
     });
     return () => { cancelled = true; };
   }, [source, classSlug, hasDataset]);
@@ -252,14 +265,21 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
     if (!classSlug || !subject) { setSubjectEntry(undefined); setMiscItems(undefined); return; }
     let cancelled = false;
     setSubjectLoading(true);
+    setSubjectError(false);
+    const fail = (error: unknown) => {
+      if (cancelled) return;
+      console.error('[resources] failed to load subject data', source, classSlug, subject, error);
+      setSubjectLoading(false);
+      setSubjectError(true);
+    };
     if (subject === MISC_LABEL) {
       loadResourceMisc(source, classSlug).then(items => {
         if (!cancelled) { setMiscItems(items); setSubjectEntry(undefined); setSubjectLoading(false); }
-      });
+      }).catch(fail);
     } else {
       loadResourceSubject(source, classSlug, subject).then(entry => {
         if (!cancelled) { setSubjectEntry(entry); setMiscItems(undefined); setSubjectLoading(false); }
-      });
+      }).catch(fail);
     }
     return () => { cancelled = true; };
   }, [source, classSlug, subject]);
@@ -309,6 +329,22 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
     </main>;
   }
 
+  // Dataset fetch failed (e.g. a stale chunk after a redeploy) -> say so and
+  // offer a way out instead of leaving the skeletons spinning forever.
+  if (currentClass && hasDataset && manifestError) {
+    return <main className="container content-page">
+      <Link to={sourcePath} search={{}} className="back-link"><ArrowLeft size={15} /> {t('resources.backToClasses')}</Link>
+      <h1>{title}<span className="text-primary">.</span></h1>
+      <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {t('resources.chooseSubject')}</p>
+      <div className="empty-state">
+        <RefreshCw size={28} />
+        <h3>{t('resources.loadError.title')}</h3>
+        <p>{t('resources.loadError.text')}</p>
+        <Button variant="outline" onClick={() => window.location.reload()}>{t('resources.loadError.refresh')}</Button>
+      </div>
+    </main>;
+  }
+
   // Dataset is being fetched (code-split per class) -> lightweight loading state.
   if (currentClass && hasDataset && !manifest) {
     return <main className="container content-page">
@@ -354,6 +390,21 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
 
   // Subject picked -> file list first; clicking a file opens the player view.
   if (currentClass && manifest && subject) {
+    // Subject shard failed to load -> same treatment as the manifest error.
+    if (subjectError) {
+      return <main className="container content-page">
+        <Link to={sourcePath} search={{ class: classSlug }} className="back-link"><ArrowLeft size={15} /> {t('hub.backToSubjects')}</Link>
+        <h1>{subject}<span className="text-primary">.</span></h1>
+        <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {title}</p>
+        <div className="empty-state">
+          <RefreshCw size={28} />
+          <h3>{t('resources.loadError.title')}</h3>
+          <p>{t('resources.loadError.text')}</p>
+          <Button variant="outline" onClick={() => window.location.reload()}>{t('resources.loadError.refresh')}</Button>
+        </div>
+      </main>;
+    }
+
     // Still fetching the subject's own JSON shard -> lightweight loading state.
     if (!subjectDataReady) {
       return <main className="container content-page">
