@@ -16,7 +16,12 @@ export function VirtualFileGrid<T>({
   items,
   renderItem,
   minColumnWidth = 180,
-  rowHeight = 112,
+  // Must cover the tallest .resource-file-card: 44px icon + 16px icon-name
+  // gap + up to 3 wrapped lines of a 14px/1.35 name + 16px name-type gap +
+  // ~16.5px type label + 2*16px padding + 2px border ≈ 171px. Rows are
+  // absolutely positioned at a fixed height (no dynamic remeasurement), so
+  // undersizing this causes adjacent rows to overlap and clip card text.
+  rowHeight = 172,
   gap = 12,
   maxHeight = 600,
   className,
