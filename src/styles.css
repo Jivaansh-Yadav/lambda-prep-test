@@ -573,6 +573,8 @@
 .doxx-playlist-section h3 { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: var(--foreground); margin-bottom: 10px; }
 .doxx-playlist-icon { display: inline-flex; color: var(--primary); }
 .doxx-playlist-list { display: flex; flex-direction: column; gap: 6px; list-style: none; margin: 0; padding: 0; }
+.doxx-playlist-list-virtual { margin: 0; }
+.doxx-playlist-list-virtual .doxx-side-item { margin-bottom: 6px; }
 .doxx-side-item { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px; border: 1px solid transparent; border-radius: 10px; background: none; color: var(--foreground); font-size: 14px; text-align: left; cursor: pointer; transition: background .15s, border-color .15s; }
 .doxx-side-item:hover { background: var(--muted); }
 .doxx-side-item.is-active { background: var(--blue-soft); border-color: var(--primary); color: var(--primary); font-weight: 600; }
@@ -846,6 +848,14 @@
 }
 .resource-file-grid-wrap { position: relative; }
 .resource-file-grid-wrap:not(.is-expanded) { max-height: 278px; overflow: hidden; }
+
+/* Virtualized grid for large groups/search results: scrolls within a fixed
+ * viewport instead of growing the page; inner rows are absolutely
+ * positioned by the virtualizer so this wrapper just needs overflow+height. */
+.resource-file-grid-virtual { margin-top: 16px; border-radius: 12px; }
+.resource-file-grid-virtual::-webkit-scrollbar { width: 8px; }
+.resource-file-grid-virtual::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
+
 .resource-group-fade { position: absolute; left: 0; right: 0; bottom: 0; height: 96px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 14px; background: linear-gradient(to bottom, transparent, var(--background) 78%); pointer-events: none; }
 .resource-group-fade .resource-group-viewall { pointer-events: auto; }
 .resource-group-viewall, .resource-group-collapse { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border: 1px solid var(--border); border-radius: 999px; background: var(--card); color: var(--foreground); font-size: 13px; font-weight: 600; cursor: pointer; transition: border-color .15s, box-shadow .15s; }

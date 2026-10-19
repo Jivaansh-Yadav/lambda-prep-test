@@ -16,35 +16,155 @@ export interface ResourceFolderNode {
 export type ResourceNode = ResourceItem | ResourceFolderNode;
 export interface ResourceSubject { subject: string; items: ResourceItem[]; editorFolders?: ResourceFolderNode[]; }
 export interface ResourceDataset { subjects: ResourceSubject[]; misc: ResourceItem[]; }
+/** Lightweight manifest: subject names + counts only, no file lists — cheap
+ * enough to load up front so the subject-card grid can render instantly,
+ * before any subject's actual files are fetched. */
+export interface ResourceManifest { subjects: Array<{ subject: string; slug: string; count: number }>; miscCount: number }
 
 type SourceId = 'cisce' | 'community';
 
 // Only ICSE Class 10 and ISC Class 11 have real indexed content today; other
 // classes fall back to the "coming soon" empty state in SourceClassPicker.
-// Each dataset is loaded via a dynamic import so visiting /resources/* never
-// has to download every class's JSON (one of them is several MB) up front —
-// only the active class's dataset is fetched, on demand.
-const DATASET_LOADERS: Record<SourceId, Record<string, () => Promise<{ default: unknown }>>> = {
+//
+// Two loading strategies coexist here:
+//  - "monolithic" datasets are loaded as one dynamic import (fine when the
+//    whole dataset is small, e.g. CISCE ICSE-10 at ~65KB).
+//  - "split" datasets are pre-sharded per subject at build time (see
+//    scripts/transform-resources.py) into src/data/<dataset>/<slug>.json +
+//    manifest.json + misc.json, so visiting one subject only ever fetches
+//    that subject's JSON instead of the whole multi-MB blob.
+const MONOLITHIC_LOADERS: Record<SourceId, Record<string, () => Promise<{ default: unknown }>>> = {
   cisce: {
     'icse-10': () => import('@/data/resources-cisce-icse-10.json'),
   },
   community: {
-    'icse-10': () => import('@/data/resources-community-icse-10.json'),
     'isc-11': () => import('@/data/resources-community-isc-11.json'),
   },
 };
 
-const datasetCache = new Map<string, ResourceDataset>();
+// Split datasets: manifest + per-subject + misc loaders, keyed the same way.
+const SPLIT_MANIFEST_LOADERS: Record<SourceId, Record<string, () => Promise<{ default: unknown }>>> = {
+  cisce: {},
+  community: {
+    'icse-10': () => import('@/data/resources-community-icse-10/manifest.json'),
+  },
+};
+const SPLIT_SUBJECT_LOADERS: Record<SourceId, Record<string, Record<string, () => Promise<{ default: unknown }>>>> = {
+  cisce: {},
+  community: {
+    'icse-10': {
+      featured: () => import('@/data/resources-community-icse-10/featured.json'),
+      biology: () => import('@/data/resources-community-icse-10/biology.json'),
+      chemistry: () => import('@/data/resources-community-icse-10/chemistry.json'),
+      'commercial-applications': () => import('@/data/resources-community-icse-10/commercial-applications.json'),
+      'commercial-studies': () => import('@/data/resources-community-icse-10/commercial-studies.json'),
+      'computer-applications': () => import('@/data/resources-community-icse-10/computer-applications.json'),
+      'economic-applications': () => import('@/data/resources-community-icse-10/economic-applications.json'),
+      economics: () => import('@/data/resources-community-icse-10/economics.json'),
+      'english-language': () => import('@/data/resources-community-icse-10/english-language.json'),
+      'english-literature': () => import('@/data/resources-community-icse-10/english-literature.json'),
+      geography: () => import('@/data/resources-community-icse-10/geography.json'),
+      hindi: () => import('@/data/resources-community-icse-10/hindi.json'),
+      'history-civics': () => import('@/data/resources-community-icse-10/history-civics.json'),
+      mathematics: () => import('@/data/resources-community-icse-10/mathematics.json'),
+      physics: () => import('@/data/resources-community-icse-10/physics.json'),
+    },
+  },
+};
+const SPLIT_MISC_LOADERS: Record<SourceId, Record<string, () => Promise<{ default: unknown }>>> = {
+  cisce: {},
+  community: {
+    'icse-10': () => import('@/data/resources-community-icse-10/misc.json'),
+  },
+};
+
+function slugify(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
+function isSplit(source: SourceId, classSlug: string): boolean {
+  return classSlug in SPLIT_MANIFEST_LOADERS[source];
+}
 
 export function hasResourceDataset(source: SourceId, classSlug: string): boolean {
-  return classSlug in DATASET_LOADERS[source];
+  return classSlug in MONOLITHIC_LOADERS[source] || isSplit(source, classSlug);
+}
+
+const manifestCache = new Map<string, ResourceManifest>();
+const datasetCache = new Map<string, ResourceDataset>();
+const subjectCache = new Map<string, ResourceSubject>();
+const miscCache = new Map<string, ResourceItem[]>();
+
+/** For split datasets: fetch only the manifest (subject names + counts),
+ * enough to render the subject-card grid without downloading any file
+ * lists yet. For monolithic datasets, this just loads (and caches) the
+ * whole thing and derives an equivalent manifest from it. */
+export async function loadResourceManifest(source: SourceId, classSlug: string): Promise<ResourceManifest | undefined> {
+  const key = `${source}/${classSlug}`;
+  if (isSplit(source, classSlug)) {
+    const cached = manifestCache.get(key);
+    if (cached) return cached;
+    const loader = SPLIT_MANIFEST_LOADERS[source][classSlug];
+    if (!loader) return undefined;
+    const mod = await loader();
+    const manifest = mod.default as ResourceManifest;
+    manifestCache.set(key, manifest);
+    return manifest;
+  }
+  const dataset = await loadResourceDataset(source, classSlug);
+  if (!dataset) return undefined;
+  return {
+    subjects: dataset.subjects.map(s => ({ subject: s.subject, slug: slugify(s.subject), count: s.items.length })),
+    miscCount: dataset.misc.length,
+  };
+}
+
+/** Fetch a single subject's file list (split datasets only fetch that
+ * subject's JSON shard; monolithic datasets load the whole thing once,
+ * cached, then slice out the requested subject). */
+export async function loadResourceSubject(source: SourceId, classSlug: string, subject: string): Promise<ResourceSubject | undefined> {
+  const slug = slugify(subject);
+  const key = `${source}/${classSlug}/${slug}`;
+  if (isSplit(source, classSlug)) {
+    const cached = subjectCache.get(key);
+    if (cached) return cached;
+    const loader = SPLIT_SUBJECT_LOADERS[source][classSlug]?.[slug];
+    if (!loader) return undefined;
+    const mod = await loader();
+    const payload = mod.default as { items: ResourceItem[]; editorFolders?: ResourceFolderNode[] };
+    const result: ResourceSubject = payload.editorFolders
+      ? { subject, items: payload.items, editorFolders: payload.editorFolders }
+      : { subject, items: payload.items };
+    subjectCache.set(key, result);
+    return result;
+  }
+  const dataset = await loadResourceDataset(source, classSlug);
+  return dataset?.subjects.find(s => s.subject === subject);
+}
+
+/** Fetch the Miscellaneous bucket on its own (split datasets fetch just
+ * misc.json; monolithic datasets reuse the already-loaded dataset). */
+export async function loadResourceMisc(source: SourceId, classSlug: string): Promise<ResourceItem[]> {
+  const key = `${source}/${classSlug}`;
+  if (isSplit(source, classSlug)) {
+    const cached = miscCache.get(key);
+    if (cached) return cached;
+    const loader = SPLIT_MISC_LOADERS[source][classSlug];
+    if (!loader) return [];
+    const mod = await loader();
+    const misc = mod.default as ResourceItem[];
+    miscCache.set(key, misc);
+    return misc;
+  }
+  const dataset = await loadResourceDataset(source, classSlug);
+  return dataset?.misc ?? [];
 }
 
 export async function loadResourceDataset(source: SourceId, classSlug: string): Promise<ResourceDataset | undefined> {
   const key = `${source}/${classSlug}`;
   const cached = datasetCache.get(key);
   if (cached) return cached;
-  const loader = DATASET_LOADERS[source][classSlug];
+  const loader = MONOLITHIC_LOADERS[source][classSlug];
   if (!loader) return undefined;
   const mod = await loader();
   const dataset = mod.default as ResourceDataset;

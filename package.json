@@ -48,6 +48,7 @@
     "@tanstack/react-query": "^5.101.1",
     "@tanstack/react-router": "1.170.44",
     "@tanstack/react-start": "1.169.2",
+    "@tanstack/react-virtual": "^3.14.21",
     "@tanstack/router-plugin": "1.168.46",
     "@videojs/core": "10.1.0",
     "@videojs/hlsjs-video": "10.1.0",

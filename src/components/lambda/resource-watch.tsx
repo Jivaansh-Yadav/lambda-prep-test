@@ -3,6 +3,7 @@ import { ChevronDown, ChevronUp, Download, ExternalLink, FileText, Maximize, Min
 import { useFullscreen } from '@/hooks/use-fullscreen';
 import { useI18n } from '@/lib/i18n';
 import { getGroupLabel, type ResourceItem } from '@/lib/resources-data';
+import { VirtualFileGrid } from '@/components/lambda/virtual-file-grid';
 
 interface ResourceWatchProps {
   /** Items grouped by their original folder/section name, in display order. */
@@ -29,16 +30,24 @@ function SidebarSection({ group, items, active, onSelect }: { group: string; ite
   }, []);
   const showCollapse = !isGeneral && !isMobile && items.length > SIDEBAR_CAP;
   const visibleItems = showCollapse && !expanded ? items.slice(0, SIDEBAR_CAP) : items;
+  const shouldVirtualize = expanded && visibleItems.length > 80;
 
   return (
     <div className={`doxx-playlist-section${isGeneral ? ' resource-sidebar-editors-choice' : ''}`}>
       <h3><span className="doxx-playlist-icon"><FileText size={15} /></span>{getGroupLabel(group)} <span className="resource-count-badge">({items.length})</span></h3>
-      <ul className="doxx-playlist-list">
-        {visibleItems.map(item => {
-          const isActive = active.id === item.id;
-          return (
-            <li key={item.id}>
+      {shouldVirtualize ? (
+        <VirtualFileGrid
+          className="doxx-playlist-list-virtual"
+          items={visibleItems}
+          minColumnWidth={9999}
+          rowHeight={44}
+          gap={4}
+          maxHeight={360}
+          renderItem={item => {
+            const isActive = active.id === item.id;
+            return (
               <button
+                key={item.id}
                 type="button"
                 className={isActive ? 'doxx-side-item is-active' : 'doxx-side-item'}
                 aria-current={isActive ? 'true' : undefined}
@@ -47,10 +56,29 @@ function SidebarSection({ group, items, active, onSelect }: { group: string; ite
                 <span className="doxx-side-thumb"><FileText size={16} /></span>
                 <span className="doxx-side-name">{item.name}</span>
               </button>
-            </li>
-          );
-        })}
-      </ul>
+            );
+          }}
+        />
+      ) : (
+        <ul className="doxx-playlist-list">
+          {visibleItems.map(item => {
+            const isActive = active.id === item.id;
+            return (
+              <li key={item.id}>
+                <button
+                  type="button"
+                  className={isActive ? 'doxx-side-item is-active' : 'doxx-side-item'}
+                  aria-current={isActive ? 'true' : undefined}
+                  onClick={() => onSelect(item)}
+                >
+                  <span className="doxx-side-thumb"><FileText size={16} /></span>
+                  <span className="doxx-side-name">{item.name}</span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      )}
       {showCollapse && (
         expanded ? (
           <button type="button" className="resource-sidebar-collapse" onClick={() => setExpanded(false)}>

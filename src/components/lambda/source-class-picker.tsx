@@ -4,8 +4,9 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { classes, findSubjectMeta } from '@/lib/lambda';
 import { useI18n } from '@/lib/i18n';
 import { useFuseSearch } from '@/hooks/use-fuse-search';
-import { findFolderPathForFile, flattenFolderFiles, getFileKind, getGroupBadge, getGroupLabel, groupItems, hasResourceDataset, isFolderNode, isPremiumGroup, loadResourceDataset, type FileKind, type ResourceDataset, type ResourceFolderNode, type ResourceItem, type ResourceNode, type ResourceSubject } from '@/lib/resources-data';
+import { findFolderPathForFile, flattenFolderFiles, getFileKind, getGroupBadge, getGroupLabel, groupItems, hasResourceDataset, isFolderNode, isPremiumGroup, loadResourceManifest, loadResourceMisc, loadResourceSubject, type FileKind, type ResourceFolderNode, type ResourceItem, type ResourceManifest, type ResourceNode, type ResourceSubject } from '@/lib/resources-data';
 import { ResourceWatch } from '@/components/lambda/resource-watch';
+import { VirtualFileGrid } from '@/components/lambda/virtual-file-grid';
 
 export type SourceId = 'cisce' | 'community';
 
@@ -147,6 +148,10 @@ function GroupSection({ group, items, editorFolders, onPick }: {
   }, [isGeneral, items.length]);
 
   const showCollapseUi = !isGeneral && overflows;
+  // Large groups (hundreds of files) get virtualized once expanded, so the
+  // DOM node count stays flat instead of mounting every FileCard at once.
+  const VIRTUALIZE_THRESHOLD = 60;
+  const shouldVirtualize = !hasEditorFolders && items.length > VIRTUALIZE_THRESHOLD && (expanded || !showCollapseUi);
 
   return (
     <section className={`doxx-notes resource-group${isGeneral ? ' resource-group-editors-choice' : isFeaturedGroup ? ' resource-group-featured-glow' : ''}`}>
@@ -168,6 +173,12 @@ function GroupSection({ group, items, editorFolders, onPick }: {
       </div>
       {hasEditorFolders ? (
         <EditorChoiceNav folders={editorFolders!} items={items} onPick={onPick} />
+      ) : shouldVirtualize ? (
+        <VirtualFileGrid
+          className="resource-file-grid-virtual"
+          items={items}
+          renderItem={item => <FileCard key={item.id} item={item} onClick={() => onPick(item)} />}
+        />
       ) : (
         <div className={`resource-file-grid-wrap${expanded || !showCollapseUi ? ' is-expanded' : ''}`}>
           <div className="resource-file-grid" ref={gridRef}>
@@ -184,7 +195,7 @@ function GroupSection({ group, items, editorFolders, onPick }: {
           )}
         </div>
       )}
-      {showCollapseUi && expanded && (
+      {showCollapseUi && expanded && !shouldVirtualize && (
         <button type="button" className="resource-group-collapse" onClick={() => setExpanded(false)}>
           {t('resources.showLess')} <ChevronUp size={16} />
         </button>
@@ -200,8 +211,15 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
   const [fileQuery, setFileQuery] = useState('');
   const [activeFile, setActiveFile] = useState<ResourceItem | null>(null);
   const [activeFolderScope, setActiveFolderScope] = useState<ResourceFolderNode | null>(null);
-  const [dataset, setDataset] = useState<ResourceDataset | undefined>(undefined);
-  const [datasetLoading, setDatasetLoading] = useState(false);
+  // Manifest = subject names + counts only (cheap, loads up front for the
+  // card grid). The selected subject's actual file list (or misc) is a
+  // separate, much smaller fetch — so picking "Mathematics" out of a
+  // 6,000-file dataset only ever downloads Mathematics's own JSON shard.
+  const [manifest, setManifest] = useState<ResourceManifest | undefined>(undefined);
+  const [manifestLoading, setManifestLoading] = useState(false);
+  const [subjectEntry, setSubjectEntry] = useState<ResourceSubject | undefined>(undefined);
+  const [miscItems, setMiscItems] = useState<ResourceItem[] | undefined>(undefined);
+  const [subjectLoading, setSubjectLoading] = useState(false);
   useEffect(() => {
     setActiveFile(null);
     setActiveFolderScope(null);
@@ -216,35 +234,52 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
   const currentClass = classSlug ? classes.find(c => c.slug === classSlug) : undefined;
   const hasDataset = classSlug ? hasResourceDataset(source, classSlug) : false;
 
-  // Datasets are code-split per class/source (one of them is multiple MB), so
-  // only fetch the one the visitor actually picked, instead of bundling every
-  // class's resources into every /resources/* page load.
+  // Manifest fetch: happens once per class, independent of which subject
+  // (if any) is selected, so the subject-card grid can render immediately.
   useEffect(() => {
-    if (!classSlug || !hasDataset) { setDataset(undefined); return; }
+    if (!classSlug || !hasDataset) { setManifest(undefined); return; }
     let cancelled = false;
-    setDatasetLoading(true);
-    loadResourceDataset(source, classSlug).then(data => {
-      if (!cancelled) { setDataset(data); setDatasetLoading(false); }
+    setManifestLoading(true);
+    loadResourceManifest(source, classSlug).then(data => {
+      if (!cancelled) { setManifest(data); setManifestLoading(false); }
     });
     return () => { cancelled = true; };
   }, [source, classSlug, hasDataset]);
 
+  // Subject fetch: only the active subject's (or misc's) own JSON shard —
+  // split datasets never touch any other subject's files.
+  useEffect(() => {
+    if (!classSlug || !subject) { setSubjectEntry(undefined); setMiscItems(undefined); return; }
+    let cancelled = false;
+    setSubjectLoading(true);
+    if (subject === MISC_LABEL) {
+      loadResourceMisc(source, classSlug).then(items => {
+        if (!cancelled) { setMiscItems(items); setSubjectEntry(undefined); setSubjectLoading(false); }
+      });
+    } else {
+      loadResourceSubject(source, classSlug, subject).then(entry => {
+        if (!cancelled) { setSubjectEntry(entry); setMiscItems(undefined); setSubjectLoading(false); }
+      });
+    }
+    return () => { cancelled = true; };
+  }, [source, classSlug, subject]);
+
   // Subject-grid search corpus: one card per subject plus a synthetic
   // "Miscellaneous" card when there are ungrouped files, so the fuzzy
-  // search can match it by its displayed name too.
-  const subjectCards = useMemo((): ResourceSubject[] => {
-    if (!dataset) return [];
-    const cards = dataset.subjects.slice();
-    if (dataset.misc.length > 0) cards.push({ subject: MISC_LABEL, items: dataset.misc });
+  // search can match it by its displayed name too. Built from the
+  // manifest's counts, not full file lists.
+  const subjectCards = useMemo((): Array<{ subject: string; count: number }> => {
+    if (!manifest) return [];
+    const cards = manifest.subjects.map(s => ({ subject: s.subject, count: s.count }));
+    if (manifest.miscCount > 0) cards.push({ subject: MISC_LABEL, count: manifest.miscCount });
     return cards;
-  }, [dataset]);
+  }, [manifest]);
   const filteredSubjectCards = useFuseSearch(subjectCards, SUBJECT_SEARCH_KEYS, subjectQuery);
 
   // Per-subject file search corpus: the subject's flat items plus every file
   // nested inside its Editor's Choice folders — a search must reach
   // folder-nested files too, not just the loose top-level ones.
-  const subjectEntry = dataset && subject && subject !== MISC_LABEL ? dataset.subjects.find(s => s.subject === subject) : undefined;
-  const subjectItems = subject === MISC_LABEL ? dataset?.misc ?? [] : subjectEntry?.items ?? [];
+  const subjectItems = subject === MISC_LABEL ? miscItems ?? [] : subjectEntry?.items ?? [];
   const editorFolders = subjectEntry?.editorFolders;
   const allSubjectFiles = useMemo(() => {
     const folderFiles = editorFolders?.flatMap(flattenFolderFiles) ?? [];
@@ -253,6 +288,8 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
   const filteredFiles = useFuseSearch(allSubjectFiles, FILE_SEARCH_KEYS, fileQuery);
   const isFileSearchActive = fileQuery.trim().length > 0;
   const groups = groupItems(subjectItems);
+  const subjectDataReady = subject === MISC_LABEL ? miscItems !== undefined : subjectEntry !== undefined || (!subjectLoading && subject !== undefined);
+
 
   const disclaimer = source === 'community' ? (
     <div className="doxx-disclaimer">
@@ -274,24 +311,24 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
   }
 
   // Dataset is being fetched (code-split per class) -> lightweight loading state.
-  if (currentClass && hasDataset && !dataset) {
+  if (currentClass && hasDataset && !manifest) {
     return <main className="container content-page">
       <Link to={sourcePath} search={{}} className="back-link"><ArrowLeft size={15} /> {t('resources.backToClasses')}</Link>
       <h1>{title}<span className="text-primary">.</span></h1>
       <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {t('resources.chooseSubject')}</p>
-      <div className="doxx-cards" aria-busy={datasetLoading}>
+      <div className="doxx-cards" aria-busy={manifestLoading}>
         {Array.from({ length: 6 }).map((_, i) => <div key={i} className="doxx-card doxx-card-skeleton" aria-hidden="true" />)}
       </div>
     </main>;
   }
 
-  // Class + dataset present, but no subject picked yet -> subject card grid.
-  if (currentClass && dataset && !subject) {
+  // Class + manifest present, but no subject picked yet -> subject card grid.
+  if (currentClass && manifest && !subject) {
     return <main className="container content-page">
       <Link to={sourcePath} search={{}} className="back-link"><ArrowLeft size={15} /> {t('resources.backToClasses')}</Link>
       <h1>{title}<span className="text-primary">.</span></h1>
       <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {t('resources.chooseSubject')}</p>
-      <p className="library-note resource-total-count">{dataset.subjects.reduce((sum, s) => sum + s.items.length, 0) + dataset.misc.length} {t('resources.filesLabel')} {t('resources.total')}</p>
+      <p className="library-note resource-total-count">{manifest.subjects.reduce((sum, s) => sum + s.count, 0) + manifest.miscCount} {t('resources.filesLabel')} {t('resources.total')}</p>
       <label className="search-field resource-search"><Search size={18} /><input aria-label={t('resources.searchSubjects.label')} placeholder={t('resources.searchSubjects.placeholder')} value={subjectQuery} onChange={e => setSubjectQuery(e.target.value)} /></label>
       {filteredSubjectCards.length ? (
         <div className="doxx-cards">
@@ -304,7 +341,7 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
               <Link key={s.subject} to={sourcePath} search={{ class: classSlug, subject: s.subject }} className={`doxx-card${isMisc || isFeatured ? ' tone-rose' : meta ? ` tone-${meta.tone}` : ''}${isFeatured ? ' doxx-card-featured-glow' : ''}`}>
                 <span className="subject-icon doxx-subject-icon"><Icon size={22} strokeWidth={1.6} /></span>
                 <span className="doxx-card-title">{s.subject}</span>
-                <span className="doxx-card-meta">{s.items.length} {t('resources.filesLabel')}</span>
+                <span className="doxx-card-meta">{s.count} {t('resources.filesLabel')}</span>
               </Link>
             );
           })}
@@ -317,7 +354,19 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
   }
 
   // Subject picked -> file list first; clicking a file opens the player view.
-  if (currentClass && dataset && subject) {
+  if (currentClass && manifest && subject) {
+    // Still fetching the subject's own JSON shard -> lightweight loading state.
+    if (!subjectDataReady) {
+      return <main className="container content-page">
+        <Link to={sourcePath} search={{ class: classSlug }} className="back-link"><ArrowLeft size={15} /> {t('hub.backToSubjects')}</Link>
+        <h1>{subject}<span className="text-primary">.</span></h1>
+        <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {title}</p>
+        <div className="resource-file-grid" aria-busy={subjectLoading}>
+          {Array.from({ length: 6 }).map((_, i) => <div key={i} className="doxx-card doxx-card-skeleton" aria-hidden="true" />)}
+        </div>
+      </main>;
+    }
+
     // `subjectItems`/`editorFolders`/`groups` are computed earlier in the
     // component (hoisted there to respect the Rules of Hooks, since they
     // feed useFuseSearch); `groups` is irrelevant while a file search is
@@ -348,11 +397,19 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
       <label className="search-field resource-search"><Search size={18} /><input aria-label={t('resources.searchFiles.label')} placeholder={t('resources.searchFiles.placeholder')} value={fileQuery} onChange={e => setFileQuery(e.target.value)} /></label>
       {isFileSearchActive ? (
         filteredFiles.length ? (
-          <div className="resource-file-grid resource-search-results">
-            {filteredFiles.map(item => (
-              <FileCard key={item.id} item={item} onClick={() => { setActiveFolderScope(null); setActiveFile(item); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
-            ))}
-          </div>
+          filteredFiles.length > 60 ? (
+            <VirtualFileGrid
+              className="resource-file-grid-virtual resource-search-results"
+              items={filteredFiles}
+              renderItem={item => <FileCard key={item.id} item={item} onClick={() => { setActiveFolderScope(null); setActiveFile(item); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />}
+            />
+          ) : (
+            <div className="resource-file-grid resource-search-results">
+              {filteredFiles.map(item => (
+                <FileCard key={item.id} item={item} onClick={() => { setActiveFolderScope(null); setActiveFile(item); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
+              ))}
+            </div>
+          )
         ) : (
           <div className="empty-state"><h3>{t('resources.searchFiles.empty.title')}</h3><p>{t('resources.searchFiles.empty.text')}</p></div>
         )
