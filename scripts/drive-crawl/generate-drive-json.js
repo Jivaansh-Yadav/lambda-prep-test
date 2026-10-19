@@ -184,6 +184,7 @@ function flattenTree(node, result = []) {
 (async () => {
   try {
     const ROOT_FOLDER_ID = "1CkUuGnUR3idrhEBxgiV5U9fFf5RjbZQK";
+    const ISC11_FOLDER_ID = "1ms1X7bkoF1igt8xFa_dCqTri_9IX8RbR";
 
     const rootMeta = await withRetry(
       () =>
@@ -229,6 +230,37 @@ function flattenTree(node, result = []) {
       console.log("✅ study-materials.json created");
     } else {
       console.log("⚠️ Study Materials folder not found");
+    }
+
+    // 📚 ISC - XI community resources (separate Drive root): crawl its
+    // subject subfolders (Chemistry, English, Maths, Physics, ...) and
+    // write each as its own tree file, matching what
+    // transform-isc11-resources.py expects (one file per subject folder,
+    // rooted at the subject folder itself).
+    const isc11Meta = await withRetry(
+      () =>
+        drive.files.get({
+          fileId: ISC11_FOLDER_ID,
+          fields: "name",
+        }),
+      `files.get(${ISC11_FOLDER_ID})`
+    );
+    const isc11Children = await getFolder(ISC11_FOLDER_ID, isc11Meta.data.name);
+
+    const isc11OutDir = path.join(outDir, "isc-11");
+    fs.mkdirSync(isc11OutDir, { recursive: true });
+
+    const isc11SubjectFolders = isc11Children.filter(f => f.type === "folder");
+    for (const subjectFolder of isc11SubjectFolders) {
+      const slug = subjectFolder.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+      fs.writeFileSync(
+        path.join(isc11OutDir, `${slug}.json`),
+        JSON.stringify(subjectFolder, null, 2)
+      );
+      console.log(`✅ isc-11/${slug}.json created (${subjectFolder.name})`);
+    }
+    if (isc11SubjectFolders.length === 0) {
+      console.log("⚠️ ISC - XI folder had no subject subfolders");
     }
 
     // 🔥 CREATE FLATTENED SEARCH INDEX (added)

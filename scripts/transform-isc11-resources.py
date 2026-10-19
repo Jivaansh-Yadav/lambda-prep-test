@@ -17,19 +17,56 @@ recursive `editorFolders` folder-nodes so the UI can render them as
 folder-navigable "Editor's Choice" cards instead of flat files; they are
 excluded from the flat `items` list to avoid duplication.
 """
-import json, os
+import json, os, glob
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SRC_DIR = os.environ.get('ISC11_SRC_DIR', '/tmp/clacky-uploads')
+# Primary source: the Drive crawl's own ISC-11 output (scripts/drive-crawl/
+# generate-drive-json.js writes one {slug}.json per subject folder here).
+# ISC11_SRC_DIR can still override this (e.g. for local one-off uploads to
+# /tmp/clacky-uploads) when the crawl hasn't been run.
+DRIVE_CRAWL_OUT = os.path.join(ROOT, 'scripts', 'drive-crawl', 'output', 'isc-11')
+SRC_DIR = os.environ.get('ISC11_SRC_DIR', DRIVE_CRAWL_OUT)
 OUT_PATH = os.path.join(ROOT, 'src', 'data', 'resources-community-isc-11.json')
 
-# input filename -> canonical subject name (matches src/lib/lambda.ts `subjects`)
-SOURCES = {
+# filename slug -> canonical subject name (matches src/lib/lambda.ts `subjects`).
+# Covers both the Drive crawl's slugified subject-folder names (chemistry.json,
+# english.json, maths.json, physics.json) and the legacy manually-uploaded
+# filenames from before the crawl covered ISC-11.
+SOURCES_BY_SLUG = {
+    'chemistry': 'Chemistry',
+    'english': 'English',
+    'maths': 'Mathematics',
+    'mathematics': 'Mathematics',
+    'physics': 'Physics',
+}
+LEGACY_UPLOAD_SOURCES = {
     '20bc943212a30034_chemistry.json': 'Chemistry',
     '9a8dfba8ba64f4c2_english.json': 'English',
     '0ac513c2cc0b0021_maths.json': 'Mathematics',
     'a3576d60003ef70d_physics.json': 'Physics',
 }
+
+
+def discover_sources(src_dir):
+    """Build {filename: subject_name} for whatever is actually present in
+    src_dir — the crawl's slugified names if present, else fall back to the
+    legacy hardcoded upload filenames (for local sandbox use)."""
+    sources = {}
+    if os.path.isdir(src_dir):
+        for path in sorted(glob.glob(os.path.join(src_dir, '*.json'))):
+            slug = os.path.splitext(os.path.basename(path))[0]
+            subject = SOURCES_BY_SLUG.get(slug)
+            if subject:
+                sources[os.path.basename(path)] = subject
+    if sources:
+        return sources
+    # Nothing matched by slug — fall back to the legacy upload filenames if
+    # they exist in src_dir (keeps old sandbox workflow working unchanged).
+    legacy = {f: s for f, s in LEGACY_UPLOAD_SOURCES.items() if os.path.isfile(os.path.join(src_dir, f))}
+    return legacy
+
+
+SOURCES = discover_sources(SRC_DIR)
 
 LIT_EDITOR_FOLDERS = {'Macbeth', 'Prism', 'Rhapsody'}
 
@@ -54,6 +91,9 @@ def build_folder_node(node, group_label):
 
 
 def main():
+    if not SOURCES:
+        print(f'No ISC-11 source files found in {SRC_DIR} — nothing to do.')
+        return
     subjects = []
     for filename, subject_name in SOURCES.items():
         with open(f'{SRC_DIR}/{filename}') as f:

@@ -8,13 +8,14 @@
  *
  * Steps:
  *   1. scripts/drive-crawl/generate-drive-json.js -> scripts/drive-crawl/output/*.json
- *      (crawls Google Drive; has its own 50ms exponential-backoff retries)
+ *      (crawls Google Drive, both the CISCE/Study-Materials root and the
+ *      separate ISC-XI root; has its own 50ms exponential-backoff retries)
  *   2. scripts/transform-resources.py        -> src/data/resources-cisce-icse-10.json
  *                                               src/data/resources-community-icse-10.json
  *   3. scripts/transform-isc11-resources.py  -> src/data/resources-community-isc-11.json
- *      (only if its expected ISC11_SRC_DIR source files are present — this
- *      step is skipped otherwise, since ISC-11 source dumps are a manual
- *      one-off upload, not part of the regular Drive crawl)
+ *      (prefers scripts/drive-crawl/output/isc-11/*.json from the crawl;
+ *      falls back to a manual ISC11_SRC_DIR upload dir for local use; skips
+ *      entirely if neither has anything usable)
  *   4. scripts/split-resources-dataset.py    -> shards resources-community-icse-10.json
  *                                               into resources-community-icse-10/*.json
  *   5. scripts/sort-manifest-subjects.py     -> reorders every manifest.json's
@@ -101,24 +102,36 @@ async function main() {
     run: () => run("python3", ["scripts/transform-resources.py"], PROJECT_ROOT),
   });
 
-  // Step 3: ISC-11 transform (optional — depends on a manual upload).
-  const isc11SrcDir = process.env.ISC11_SRC_DIR || "/tmp/clacky-uploads";
-  const isc11Sources = [
+  // Step 3: ISC-11 transform. Primary source is the Drive crawl's own
+  // scripts/drive-crawl/output/isc-11/*.json (written by step 1); falls back
+  // to a manual one-off upload dir (ISC11_SRC_DIR, default
+  // /tmp/clacky-uploads) for local sandbox use when the crawl hasn't been
+  // run. Skipped entirely if neither source has anything usable.
+  const isc11CrawlDir = path.join(DRIVE_CRAWL_DIR, "output", "isc-11");
+  const hasIsc11Crawl = fs.existsSync(isc11CrawlDir) && fs.readdirSync(isc11CrawlDir).some((f) => f.endsWith(".json"));
+
+  const isc11UploadDir = process.env.ISC11_SRC_DIR || "/tmp/clacky-uploads";
+  const legacyIsc11Sources = [
     "20bc943212a30034_chemistry.json",
     "9a8dfba8ba64f4c2_english.json",
     "0ac513c2cc0b0021_maths.json",
     "a3576d60003ef70d_physics.json",
-  ].map((f) => path.join(isc11SrcDir, f));
-  const hasIsc11Sources = isc11Sources.every((p) => fs.existsSync(p));
+  ].map((f) => path.join(isc11UploadDir, f));
+  const hasIsc11Upload = legacyIsc11Sources.every((p) => fs.existsSync(p));
 
-  if (hasIsc11Sources) {
+  if (hasIsc11Crawl) {
     steps.push({
-      label: "Transform ISC-11 community resources",
-      run: () => run("python3", ["scripts/transform-isc11-resources.py"], PROJECT_ROOT, { env: { ISC11_SRC_DIR: isc11SrcDir } }),
+      label: "Transform ISC-11 community resources (from Drive crawl)",
+      run: () => run("python3", ["scripts/transform-isc11-resources.py"], PROJECT_ROOT, { env: { ISC11_SRC_DIR: isc11CrawlDir } }),
+    });
+  } else if (hasIsc11Upload) {
+    steps.push({
+      label: "Transform ISC-11 community resources (from manual upload)",
+      run: () => run("python3", ["scripts/transform-isc11-resources.py"], PROJECT_ROOT, { env: { ISC11_SRC_DIR: isc11UploadDir } }),
     });
   } else {
     console.warn(
-      `⚠️ Skipping ISC-11 transform — source dumps not found in ${isc11SrcDir}. ` +
+      `⚠️ Skipping ISC-11 transform — no source found in ${isc11CrawlDir} or ${isc11UploadDir}. ` +
         "Keeping the existing src/data/resources-community-isc-11.json as-is."
     );
   }
