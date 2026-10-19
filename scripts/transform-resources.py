@@ -153,20 +153,23 @@ STUDY_TOP_TO_SUBJECT = {
 # bare 'phy' token at all, only 'physics', so PE is naturally safe).
 PRELIM_FOLDER_PATTERNS = [
     (re.compile(r'physical[\s_-]*education|\bPE\b', re.I), None),  # explicit exclude
-    (re.compile(r'\bbio(logy)?\b', re.I), 'Biology'),
-    (re.compile(r'\bchem(istry)?\b', re.I), 'Chemistry'),
-    (re.compile(r'commercial[\s_-]*application|\bCA\b|\bCAS\b', re.I), 'Commercial Applications'),
-    (re.compile(r'computer|\bCS\b|\bCTA\b', re.I), 'Computer Applications'),
-    (re.compile(r'english[\s_-]*lang|english-?1\b|\bELAN\b', re.I), 'English Language'),
-    (re.compile(r'english[\s_-]*lit|english-?2\b|\bELIT\b', re.I), 'English Literature'),
-    (re.compile(r'\benglish\b', re.I), 'English Language'),
-    (re.compile(r'geog(raphy)?\b', re.I), 'Geography'),
-    (re.compile(r'\bhindi\b', re.I), 'Hindi'),
+    (re.compile(r'biology', re.I), 'Biology'),
+    (re.compile(r'chemistry', re.I), 'Chemistry'),
+    (re.compile(r'commercial[\s_-]*application|\bCA\d|\bCAS\b', re.I), 'Commercial Applications'),
+    (re.compile(r'commercial[\s_-]*stud|\bCS\d|comstudies', re.I), 'Commercial Studies'),
+    (re.compile(r'computer|\bCTA\b', re.I), 'Computer Applications'),
+    (re.compile(r'econom|\bEC\d', re.I), 'Economics'),
+    (re.compile(r'english[\s_-]*lang|english-?1\b|\bELAN\b|\bENG1\b', re.I), 'English Language'),
+    (re.compile(r'english[\s_-]*lit|english-?2\b|\bELIT\b|\bENG2\b', re.I), 'English Literature'),
+    (re.compile(r'english', re.I), 'English Language'),
+    (re.compile(r'geography', re.I), 'Geography'),
+    (re.compile(r'hindi', re.I), 'Hindi'),
     (re.compile(r'hist(ory)?.*civics|civics.*hist(ory)?|\bHCG\b', re.I), 'History & Civics'),
-    (re.compile(r'\bhistory\b', re.I), 'History & Civics'),
-    (re.compile(r'math(s|ematics)?\b', re.I), 'Mathematics'),
-    (re.compile(r'physics\b|\bPHY\b', re.I), 'Physics'),
+    (re.compile(r'history', re.I), 'History & Civics'),
+    (re.compile(r'math(s|ematics)?', re.I), 'Mathematics'),
+    (re.compile(r'physics|\bPHY\b', re.I), 'Physics'),
 ]
+
 
 def match_prelim_folder(name: str):
     for pat, subject in PRELIM_FOLDER_PATTERNS:
@@ -177,20 +180,37 @@ def match_prelim_folder(name: str):
 
 def walk_prelims(node, active_subject, top_label, misc_pyq, buckets):
     """Depth-first walk assigning files to the nearest resolved subject
-    ancestor folder; unresolved files fall into misc_pyq."""
+    ancestor folder; unresolved files fall into misc_pyq.
+
+    active_subject is one of: a subject name (resolved ancestor folder),
+    'EXCLUDED' (an ancestor folder matched an explicit exclude, e.g.
+    Physical Education — never fall back to filename matching under it),
+    or None (no subject-named ancestor folder was seen yet — a loose file
+    here may still be matched by its own filename, e.g. "17-18 X Biology
+    Euro School" sitting directly under a plain "YEAR 2017-18" folder)."""
     for c in node.get('children', []):
         if c.get('type') == 'file':
             fid = c.get('id')
             if not fid:
                 continue
             meta = meta_of(c)
-            if active_subject and active_subject in buckets:
-                buckets[active_subject].append({'name': c['name'], 'id': fid, 'group': f'PYQ Prelims · {top_label}', **meta})
+            subject = active_subject if active_subject in buckets else None
+            if subject is None and active_subject is None:
+                fallback = match_prelim_folder(c['name'])
+                if fallback not in ('UNRESOLVED', None) and fallback in buckets:
+                    subject = fallback
+            if subject:
+                buckets[subject].append({'name': c['name'], 'id': fid, 'group': f'PYQ Prelims · {top_label}', **meta})
             else:
                 misc_pyq.append({'name': c['name'], 'id': fid, 'group': f'PYQ Prelims · {top_label}', **meta})
         else:
             resolved = match_prelim_folder(c['name'])
-            next_subject = resolved if resolved not in ('UNRESOLVED', None) else (None if resolved is None else active_subject)
+            if resolved == 'UNRESOLVED':
+                next_subject = active_subject
+            elif resolved is None:
+                next_subject = 'EXCLUDED'
+            else:
+                next_subject = resolved
             walk_prelims(c, next_subject, top_label, misc_pyq, buckets)
 
 
@@ -199,26 +219,43 @@ def build_community():
     buckets = {s: [] for s in SUBJECTS}
     misc = []
     pyq_misc = []
+    # Loose top-level files and non-canonical top-level folders (Commercial
+    # Studies, Economics, Economic Applications, ...) become their own
+    # subject buckets, not misc — the live site surfaces them as extra
+    # subject cards ("Featured" for loose files, folder name otherwise).
+    extra_buckets: dict[str, list] = {
+        'Commercial Studies': [], 'Economics': [], 'Economic Applications': [],
+    }
+    # walk_prelims resolves subject names via PRELIM_FOLDER_PATTERNS, which
+    # now also covers Commercial Studies / Economics; it needs a single dict
+    # of all buckets (canonical + extra) to append into directly.
+    all_buckets = {**buckets, **extra_buckets}
 
     for top in data.get('children', []):
         name = top.get('name', '').strip()
         if top.get('type') == 'file':
-            misc.append({'name': top['name'], 'id': top.get('id'), 'group': 'Featured', **meta_of(top)})
+            extra_buckets.setdefault('Featured', []).append(
+                {'name': top['name'], 'id': top.get('id'), 'group': 'Featured', **meta_of(top)})
             continue
         if name == 'PYQ Prelims':
             for source in top.get('children', []):
                 if source.get('type') == 'file':
                     pyq_misc.append({'name': source['name'], 'id': source.get('id'), 'group': 'PYQ Prelims', **meta_of(source)})
                     continue
-                walk_prelims(source, None, source['name'].strip(), pyq_misc, buckets)
+                walk_prelims(source, None, source['name'].strip(), pyq_misc, all_buckets)
             continue
         subject = STUDY_TOP_TO_SUBJECT.get(name)
         if subject is None:
-            # Non-canonical subject folder (Commercial Studies, Economics, ...) -> misc
+            # Non-canonical top-level folder (Commercial Studies, Economics,
+            # Economic Applications, ...) -> its own subject bucket, named
+            # after the folder, with files grouped by their immediate parent
+            # folder name (matching the canonical-subject grouping below).
+            bucket = extra_buckets.setdefault(name, [])
             for fname, fid, fpath, meta in walk_files(top, ()):
                 if not fid:
                     continue
-                misc.append({'name': fname, 'id': fid, 'group': name, **meta})
+                group = fpath[-1] if fpath else 'General'
+                bucket.append({'name': fname, 'id': fid, 'group': group, **meta})
             continue
         # Folders promoted to recursive "Editor's Choice" folder-cards (handled
         # separately below via build_folder_node) must be excluded from the
@@ -261,6 +298,7 @@ def build_community():
             buckets[subject].append({'name': fname, 'id': fid, 'group': group, **meta})
 
     subjects_out = [{'subject': s, 'items': items} for s, items in buckets.items() if items]
+    subjects_out.extend({'subject': s, 'items': items} for s, items in extra_buckets.items() if items)
 
     # Attach recursive "Editor's Choice" folder cards for English Literature
     # (Julius Caesar, Treasure Chest) and English Language (Study With Sudhir)
