@@ -61,10 +61,6 @@
   --rose-ink: oklch(0.53 0.13 10);
   --overlay: oklch(0.18 0.035 260 / 45%);
   --shadow: 0 12px 30px oklch(0.22 0.04 260 / 6%);
-  --safe-top: max(env(safe-area-inset-top, 0px), var(--eazo-safe-area-top, 0px));
-  --safe-right: max(env(safe-area-inset-right, 0px), var(--eazo-safe-area-right, 0px));
-  --safe-bottom: max(env(safe-area-inset-bottom, 0px), var(--eazo-safe-area-bottom, 0px));
-  --safe-left: max(env(safe-area-inset-left, 0px), var(--eazo-safe-area-left, 0px));
 }
 
 /* =====================================================================

@@ -54,8 +54,6 @@ function isH3SwallowedErrorBody(body: string): boolean {
 //   - mscontent-gcp.extramarks.com -> Doxxmarks interactive lessons (iframe)
 //                              and lesson videos (HLS: manifest + segments via
 //                              hls.js, which fetches them with XHR)
-//   - cdn.eazo.ai / eazo.ai / assets.eazo.ai -> Eazo branding banner script,
-//                              its API calls and its logo
 //   - fonts.googleapis.com / fonts.gstatic.com -> DM Sans + Manrope
 // 'unsafe-inline' is required for scripts (the theme-before-first-paint
 // bootstrap, JSON-LD and TanStack Start's hydration payload are inline) and
@@ -68,12 +66,12 @@ const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
   "base-uri 'self'",
   "object-src 'none'",
-  "script-src 'self' 'unsafe-inline' https://cdn.eazo.ai",
+  "script-src 'self' 'unsafe-inline'",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' data: https://fonts.gstatic.com",
-  "img-src 'self' data: blob: https://cdn.eazo.ai https://assets.eazo.ai https://drive.google.com",
+  "img-src 'self' data: blob: https://drive.google.com",
   "media-src 'self' blob: https://mscontent-gcp.extramarks.com",
-  "connect-src 'self' https://mscontent-gcp.extramarks.com https://eazo.ai https://cdn.eazo.ai",
+  "connect-src 'self' https://mscontent-gcp.extramarks.com",
   "frame-src 'self' https://drive.google.com https://docs.google.com https://mscontent-gcp.extramarks.com",
   "worker-src 'self' blob:",
   "frame-ancestors 'self'",

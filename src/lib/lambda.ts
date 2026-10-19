@@ -36,7 +36,7 @@ export function findSubjectMeta(name: string) {
   return subjects.find(s => s.name.toLowerCase() === normalized)
     ?? subjects.find(s => normalized.startsWith(s.name.toLowerCase()) || s.name.toLowerCase().startsWith(normalized));
 }
-export const SITE_URL = 'https://project-3354c0eb.eazo.dev';
+export const SITE_URL = 'https://lambda-prep-test.pages.dev';
 export const OG_IMAGE = `${SITE_URL}/og/lambda-prep-og.png`;
 
 export function pageHead(title: string, description: string, path = '/') {

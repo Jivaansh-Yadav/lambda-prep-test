@@ -143,11 +143,6 @@ function RootShell({ children }: { children: ReactNode }) {
         />
         {/* Applies the stored/system theme class before first paint to prevent a light->dark flash. */}
         <script dangerouslySetInnerHTML={{ __html: themeBootstrapScript }} />
-        <script
-          defer
-          src="https://cdn.eazo.ai/branding/eazo-brand-banner.js"
-          data-eazo-app-id="i09GkkEAEpnvvjcT"
-        ></script>
       </head>
       <body>
         {children}

@@ -3,7 +3,7 @@
 # Netlify). Keep the two in sync — the CSP here must stay identical to
 # CONTENT_SECURITY_POLICY in src/server.ts.
 /*
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://cdn.eazo.ai; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://cdn.eazo.ai https://assets.eazo.ai https://drive.google.com; media-src 'self' blob: https://mscontent-gcp.extramarks.com; connect-src 'self' https://mscontent-gcp.extramarks.com https://eazo.ai https://cdn.eazo.ai; frame-src 'self' https://drive.google.com https://docs.google.com https://mscontent-gcp.extramarks.com; worker-src 'self' blob:; frame-ancestors 'self'; form-action 'self'
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://drive.google.com; media-src 'self' blob: https://mscontent-gcp.extramarks.com; connect-src 'self' https://mscontent-gcp.extramarks.com; frame-src 'self' https://drive.google.com https://docs.google.com https://mscontent-gcp.extramarks.com; worker-src 'self' blob:; frame-ancestors 'self'; form-action 'self'
   X-Frame-Options: SAMEORIGIN
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
