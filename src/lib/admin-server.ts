@@ -3,6 +3,7 @@ import { getRequestIP } from "@tanstack/react-start/server";
 import { sql } from "./db";
 import {
   getDriveIntegrationConfig,
+  isDriveId,
   listDriveFolderFiles,
   type DriveFileEntry,
 } from "./drive-integration-server";
@@ -388,6 +389,12 @@ export const getManageResources = createServerFn({ method: "POST" })
     const d = data as { passcode?: unknown; folderId?: unknown };
     if (typeof d?.passcode !== "string") throw new Error("Missing passcode");
     if (d.folderId !== undefined && typeof d.folderId !== "string") throw new Error("Invalid folderId");
+    // Drive IDs are letters/digits/'-'/'_' only. Rejecting anything else
+    // here keeps a crafted value from ever reaching the Drive query
+    // builder, where it would be interpolated into a `q` expression.
+    if (typeof d.folderId === "string" && !isDriveId(d.folderId)) {
+      throw new Error("Invalid folderId: expected a Drive folder ID");
+    }
     return { passcode: d.passcode, folderId: d.folderId as string | undefined };
   })
   .handler(async ({ data }): Promise<ManageResourcesResult> => {

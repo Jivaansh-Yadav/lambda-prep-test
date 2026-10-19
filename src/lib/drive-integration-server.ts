@@ -149,6 +149,25 @@ async function resolveShortcut(token: string, raw: RawDriveFile): Promise<DriveF
 }
 
 /**
+ * Drive file/folder IDs are opaque, but they only ever use a URL-safe
+ * alphabet: letters, digits, `-` and `_` (e.g.
+ * `1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms`). Bounded length because
+ * real IDs are well under 100 chars.
+ *
+ * This is a validation allowlist rather than an escaping routine on
+ * purpose: folder IDs are interpolated into a Drive `q` search expression
+ * below, which is its own little query language with quoted literals,
+ * `and`/`or` and `in parents`. Rejecting anything that isn't a bare ID is
+ * far easier to reason about than trying to escape every metacharacter.
+ */
+const DRIVE_ID_PATTERN = /^[A-Za-z0-9_-]{1,200}$/;
+
+/** True when `value` looks like a well-formed Drive file/folder ID. */
+export function isDriveId(value: string): boolean {
+  return DRIVE_ID_PATTERN.test(value);
+}
+
+/**
  * Lists the (non-trashed) items directly inside a Drive folder, newest-
  * modified first. Defaults to the configured root folder, but accepts any
  * folder ID so the admin panel can drill down into subfolders returned by
@@ -161,6 +180,14 @@ export async function listDriveFolderFiles(
   config: DriveIntegrationConfig,
   folderId: string = config.folderId
 ): Promise<DriveFileEntry[]> {
+  // Validate here as well as at the server-function boundary: this is the
+  // one place that builds the Drive query, so no caller can route an
+  // unvalidated ID into it. The value is deliberately not echoed back —
+  // it may be attacker-controlled and ends up in a UI error message.
+  if (!isDriveId(folderId)) {
+    throw new Error("Invalid Drive folder ID: expected letters, digits, '-' and '_' only.");
+  }
+
   const token = await getDriveAccessToken(config.serviceAccount);
 
   const rawFiles: RawDriveFile[] = [];
