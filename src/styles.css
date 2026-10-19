@@ -601,6 +601,39 @@
 /* Resources PDF viewer — reuses .doxx-watch grid; adds multi-button toolbar */
 .resource-pdf-frame { aspect-ratio: 3 / 4; background: var(--muted); }
 .resource-pdf-frame iframe { background: #fff; }
+
+/* ---------- Pseudo-fullscreen fallback ----------
+   Used by useFullscreen when the element-level Fullscreen API isn't
+   available (iPhone Safari only supports fullscreen on <video>). Pins the
+   player wrapper over the viewport so the fullscreen button still does
+   something visible instead of silently doing nothing. */
+.pseudo-fullscreen {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  /* dvh tracks the browser chrome collapsing on mobile; vh is the fallback
+     for browsers that don't support it. */
+  height: 100vh !important;
+  height: 100dvh !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  aspect-ratio: auto !important;
+  z-index: 9999;
+  background: oklch(0.12 0.015 260);
+}
+.pseudo-fullscreen .doxx-video-skin,
+.pseudo-fullscreen iframe {
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: auto !important;
+}
+/* Keep the in-frame controls reachable above the fixed wrapper. */
+.pseudo-fullscreen .doxx-sandbox-fullscreen { z-index: 10; }
+/* Applied to <body> only to stop the page behind the overlay scrolling. */
+body.pseudo-fullscreen-open { overflow: hidden; }
 .resource-pdf-toolbar { position: absolute; top: 10px; right: 10px; z-index: 5; display: flex; gap: 8px; }
 .resource-pdf-toolbar .doxx-sandbox-fullscreen { position: static; }
 .resource-pdf-toolbar a.doxx-sandbox-fullscreen { text-decoration: none; }
