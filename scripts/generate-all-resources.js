@@ -16,7 +16,9 @@
  *      manual one-off upload, not part of the regular Drive crawl)
  *   4. scripts/split-resources-dataset.py    -> shards resources-community-icse-10.json
  *                                               into resources-community-icse-10/*.json
- *   5. scripts/count-resources.py            -> src/data/resource-counts.json
+ *   5. scripts/sort-manifest-subjects.py     -> reorders every manifest.json's
+ *                                               subjects: Featured first, then A-Z
+ *   6. scripts/count-resources.py            -> src/data/resource-counts.json
  *
  * Any step failing aborts the run (fail-fast) so a half-updated dataset
  * never silently ships.
@@ -123,7 +125,15 @@ async function main() {
     run: () => run("python3", ["scripts/split-resources-dataset.py"], PROJECT_ROOT),
   });
 
-  // Step 5: recompute resource counts across every dataset.
+  // Step 5: sort each dataset's manifest subject order — "Featured" first,
+  // then alphabetical (Miscellaneous is appended last by the UI itself via
+  // miscCount, so it needs no entry here).
+  steps.push({
+    label: "Sort manifest subject order (Featured first, then A-Z)",
+    run: () => run("python3", ["scripts/sort-manifest-subjects.py"], PROJECT_ROOT),
+  });
+
+  // Step 6: recompute resource counts across every dataset.
   steps.push({
     label: "Count resources across all datasets",
     run: () => run("python3", ["scripts/count-resources.py"], PROJECT_ROOT),
