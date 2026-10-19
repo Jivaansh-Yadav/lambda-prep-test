@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-19T02:55:22.610019+00:00",
+  "generatedAt": "2026-10-19T03:34:16.795695+00:00",
   "grandTotal": 6444,
   "bySource": {
     "cisce": {
@@ -24,23 +24,23 @@
     "community": {
       "icse-10": {
         "subjects": {
-          "Biology": 555,
-          "Chemistry": 542,
-          "Commercial Applications": 24,
-          "Computer Applications": 220,
-          "English Language": 534,
-          "English Literature": 365,
-          "Geography": 487,
+          "Biology": 619,
+          "Chemistry": 625,
+          "Commercial Applications": 36,
+          "Computer Applications": 224,
+          "English Language": 648,
+          "English Literature": 535,
+          "Geography": 548,
           "Hindi": 324,
-          "History & Civics": 527,
+          "History & Civics": 541,
           "Mathematics": 874,
           "Physics": 611,
-          "Commercial Studies": 40,
-          "Economics": 92,
+          "Commercial Studies": 68,
+          "Economics": 95,
           "Economic Applications": 1,
           "Featured": 6
         },
-        "misc": 957,
+        "misc": 404,
         "total": 6159
       },
       "isc-11": {

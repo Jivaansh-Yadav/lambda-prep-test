@@ -178,6 +178,34 @@ def match_prelim_folder(name: str):
     return 'UNRESOLVED'
 
 
+# Last-resort filename-abbreviation matcher applied to whatever is still in
+# `misc` after the normal folder-based walk. Catches files whose subject is
+# only hinted at by a short abbreviation in the filename itself (no subject
+# folder ancestor at all), e.g. "...Lang...", "...Eng Gram...", "ECO...",
+# "CHEM...", "...CA...", "...CS...". Uses (?<![A-Za-z])...(?![A-Za-z]) so the
+# token isn't glued to other letters (digits on either side are fine, as in
+# CODE_RE above). Order matters: more specific/longer tokens first.
+MISC_FILENAME_PATTERNS = [
+    (re.compile(r'eng(lish)?[\s_-]*lit(erature)?\b|(?<![A-Za-z])elit(?![A-Za-z])|literature|(?<![A-Za-z])lit(?![A-Za-z])|eng[\s_.-]*2\b|\bENG-2\b', re.I), 'English Literature'),
+    (re.compile(r'eng(lish)?[\s_-]*gram|(?<![A-Za-z])gram(?![A-Za-z])|(?<![A-Za-z])lang(?![A-Za-z])|language|elang|eng[\s_.-]*1\b|\biang\b|\bENG\b', re.I), 'English Language'),
+    (re.compile(r'(?<![A-Za-z])chem(?![A-Za-z])', re.I), 'Chemistry'),
+    (re.compile(r'(?<![A-Za-z])bio(?![A-Za-z])', re.I), 'Biology'),
+    (re.compile(r'(?<![A-Za-z])geog(?![A-Za-z])|\bgeo[\s_.]*term\b', re.I), 'Geography'),
+    (re.compile(r'hist[\s_-]*/?[\s_-]*civic|(?<![A-Za-z])hist(?![A-Za-z])', re.I), 'History & Civics'),
+    (re.compile(r'(?<![A-Za-z])comp[\s_-]*app(?![A-Za-z])', re.I), 'Computer Applications'),
+    (re.compile(r'(?<![A-Za-z])eco(?![A-Za-z])', re.I), 'Economics'),
+    (re.compile(r'commercial[\s_-]*app|comm[\s_.-]*app(?![A-Za-z])|(?<![A-Za-z])ca(?![A-Za-z])', re.I), 'Commercial Applications'),
+    (re.compile(r'commercial[\s_-]*stud|comm[\s_.-]*stud|commstudy|(?<![A-Za-z])cs(?![A-Za-z])', re.I), 'Commercial Studies'),
+]
+
+
+def match_misc_filename(name: str):
+    for pat, subject in MISC_FILENAME_PATTERNS:
+        if pat.search(name):
+            return subject
+    return None
+
+
 def walk_prelims(node, active_subject, top_label, misc_pyq, buckets):
     """Depth-first walk assigning files to the nearest resolved subject
     ancestor folder; unresolved files fall into misc_pyq.
@@ -297,6 +325,17 @@ def build_community():
             group = fpath[-1] if fpath else 'General'
             buckets[subject].append({'name': fname, 'id': fid, 'group': group, **meta})
 
+    # Last-resort pass: anything still in misc gets one more chance to be
+    # matched via filename abbreviations (lang/gram, eco, chem, ca, cs).
+    bucket_lookup = {**buckets, **extra_buckets}
+    remaining_misc = []
+    for item in misc + pyq_misc:
+        subject = match_misc_filename(item['name'])
+        if subject and subject in bucket_lookup:
+            bucket_lookup[subject].append(item)
+        else:
+            remaining_misc.append(item)
+
     subjects_out = [{'subject': s, 'items': items} for s, items in buckets.items() if items]
     subjects_out.extend({'subject': s, 'items': items} for s, items in extra_buckets.items() if items)
 
@@ -321,7 +360,7 @@ def build_community():
         if folders:
             s['editorFolders'] = folders
 
-    return {'subjects': subjects_out, 'misc': misc + pyq_misc}
+    return {'subjects': subjects_out, 'misc': remaining_misc}
 
 
 if __name__ == '__main__':
