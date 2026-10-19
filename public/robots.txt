@@ -12,3 +12,5 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://project-3354c0eb.eazo.dev/sitemap.xml

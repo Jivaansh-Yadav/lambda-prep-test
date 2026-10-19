@@ -31,7 +31,7 @@ export const Route = createFileRoute('/doxxmarks')({
     chapter: typeof search['chapter'] === 'number' ? search['chapter'] : undefined,
     topic: typeof search['topic'] === 'number' ? search['topic'] : undefined,
   }),
-  head: () => pageHead('Doxxmarks — Chapter-wise lessons', 'Browse classes, subjects, chapters and topics with interactive classes and concept videos.'),
+  head: () => pageHead('Doxxmarks — Chapter-wise lessons', 'Browse classes, subjects, chapters and topics with interactive classes and concept videos.', '/doxxmarks'),
   component: Doxxmarks,
 });
 

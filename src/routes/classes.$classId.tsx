@@ -8,7 +8,7 @@ import { useI18n } from '@/lib/i18n';
 
 export const Route = createFileRoute('/classes/$classId')({
   loader: ({ params }) => { const current = classes.find(c => c.slug === params.classId); if (!current) throw notFound(); return { current: { slug: current.slug, grade: current.grade, roman: current.roman, board: current.board, label: current.label } }; },
-  head: ({ loaderData }) => pageHead(loaderData ? `${loaderData.current.board} Class ${loaderData.current.grade}` : 'Class not found', 'Explore subject-wise study resources, revision notes and practice papers for your class.'), component: ClassHub,
+  head: ({ loaderData, params }) => pageHead(loaderData ? `${loaderData.current.board} Class ${loaderData.current.grade}` : 'Class not found', 'Explore subject-wise study resources, revision notes and practice papers for your class.', `/classes/${params.classId}`), component: ClassHub,
 });
 function ClassHub() {
   const { current } = Route.useLoaderData();

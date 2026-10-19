@@ -10,7 +10,7 @@ export const Route = createFileRoute('/resources/cisce')({
     class: typeof search['class'] === 'string' ? search['class'] : undefined,
     subject: typeof search['subject'] === 'string' ? search['subject'] : undefined,
   }),
-  head: () => pageHead('Official CISCE Resources', 'Reference material sourced from CISCE\u2019s official syllabus, circulars and publications, organized by class and subject.'),
+  head: () => pageHead('Official CISCE Resources', 'Reference material sourced from CISCE\u2019s official syllabus, circulars and publications, organized by class and subject.', '/resources/cisce'),
   component: CisceResources,
 });
 

@@ -11,6 +11,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import { Header, Footer } from "@/components/lambda/shell";
+import { SITE_URL, OG_IMAGE } from "@/lib/lambda";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { I18nProvider, useI18n } from "../lib/i18n";
@@ -89,7 +90,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "Lambda Prep" },
       { property: "og:description", content: "Curated ICSE and ISC resources for clearer understanding." },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: SITE_URL },
+      { property: "og:image", content: OG_IMAGE },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Lambda Prep" },
+      { name: "twitter:description", content: "Curated ICSE and ISC resources for clearer understanding." },
+      { name: "twitter:image", content: OG_IMAGE },
     ],
     links: [
       {
@@ -97,6 +105,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+      { rel: "sitemap", type: "application/xml", href: "/sitemap.xml" },
       // Preconnect to the font host before the stylesheet request below so the
       // DNS/TLS handshake overlaps with other critical-path work instead of
       // adding latency once the browser reaches this link.
@@ -111,11 +120,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   errorComponent: ErrorComponent,
 });
 
+const WEBSITE_JSON_LD = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Lambda Prep",
+  url: SITE_URL,
+  description: "Curated ICSE and ISC resources for clearer understanding.",
+  publisher: {
+    "@type": "Organization",
+    name: "Lambda Education Pvt. Ltd.",
+  },
+});
+
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: WEBSITE_JSON_LD }}
+        />
         {/* Applies the stored/system theme class before first paint to prevent a light->dark flash. */}
         <script dangerouslySetInnerHTML={{ __html: themeBootstrapScript }} />
         <script
