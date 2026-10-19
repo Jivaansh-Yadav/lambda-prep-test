@@ -149,10 +149,15 @@ function GroupSection({ group, items, editorFolders, onPick }: {
   }, [isGeneral, items.length]);
 
   const showCollapseUi = !isGeneral && overflows;
-  // Large groups (hundreds of files) get virtualized once expanded, so the
-  // DOM node count stays flat instead of mounting every FileCard at once.
+  // Large groups (hundreds of files) get virtualized only once the creator
+  // actually expands them, so the collapsed state still goes through the
+  // same capped grid as every other group — with its gap and "View all"
+  // button — instead of jumping straight into an unbounded scroller with
+  // no spacing or expand/collapse affordance. Gating on `expanded` also
+  // keeps `gridRef` mounted while collapsed, which is what measures
+  // `overflows` via ResizeObserver in the first place.
   const VIRTUALIZE_THRESHOLD = 60;
-  const shouldVirtualize = !hasEditorFolders && items.length > VIRTUALIZE_THRESHOLD && (expanded || !showCollapseUi);
+  const shouldVirtualize = !hasEditorFolders && items.length > VIRTUALIZE_THRESHOLD && expanded;
 
   return (
     <section className={`doxx-notes resource-group${isGeneral ? ' resource-group-editors-choice' : isFeaturedGroup ? ' resource-group-featured-glow' : ''}`}>
