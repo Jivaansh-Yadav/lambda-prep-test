@@ -4,6 +4,7 @@ import { useFullscreen } from '@/hooks/use-fullscreen';
 import { useI18n } from '@/lib/i18n';
 import { getGroupLabel, type ResourceItem } from '@/lib/resources-data';
 import { VirtualFileGrid } from '@/components/lambda/virtual-file-grid';
+import { ResourceRatingControl } from '@/components/lambda/resource-rating';
 
 interface ResourceWatchProps {
   /** Items grouped by their original folder/section name, in display order. */
@@ -190,6 +191,7 @@ export function ResourceWatch({ groups, active, onSelect }: ResourceWatchProps) 
             )}
           </div>
         )}
+        <ResourceRatingControl key={active.id} fileId={active.id} />
       </div>
 
       <aside className="doxx-watch-side" aria-label={t('resources.watch.fileList')} style={sideHeight ? { height: sideHeight, maxHeight: sideHeight } : undefined}>

@@ -1,0 +1,48 @@
+name: Analytics history sync
+
+# Runs the standalone scripts/analytics-cron script once daily to fetch
+# yesterday's Cloudflare zone-wide totals (pageviews, uniques) and upsert
+# them into the analytics_history table on Neon. GitHub Actions' own
+# scheduler plays the role of the "external scheduler" the script was
+# designed for — see scripts/analytics-cron/README.md — so this workflow
+# always runs it with --once rather than the long-lived node-cron mode.
+on:
+  schedule:
+    # 00:15 UTC daily — a little after midnight so "yesterday" (UTC) is
+    # fully closed out on Cloudflare's side before we query it.
+    - cron: "15 0 * * *"
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Optional YYYY-MM-DD to backfill instead of yesterday"
+        required: false
+        default: ""
+
+jobs:
+  sync-analytics-history:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install analytics-cron dependencies
+        working-directory: scripts/analytics-cron
+        run: npm install
+
+      - name: Run analytics history sync
+        working-directory: scripts/analytics-cron
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            node index.mjs --once --date="${{ github.event.inputs.date }}"
+          else
+            node index.mjs --once
+          fi

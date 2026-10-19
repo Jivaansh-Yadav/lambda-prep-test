@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as DoxxmarksRouteImport } from './routes/doxxmarks'
 import { Route as ResourcesRouteImport } from './routes/resources'
 import { Route as SyllabusRouteImport } from './routes/syllabus'
@@ -21,6 +22,11 @@ import { Route as ResourcesCommunityRouteImport } from './routes/resources.commu
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DoxxmarksRoute = DoxxmarksRouteImport.update({
@@ -61,6 +67,7 @@ const ResourcesCommunityRoute = ResourcesCommunityRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/doxxmarks': typeof DoxxmarksRoute
   '/resources': typeof ResourcesRouteWithChildren
   '/syllabus': typeof SyllabusRoute
@@ -71,6 +78,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/doxxmarks': typeof DoxxmarksRoute
   '/syllabus': typeof SyllabusRoute
   '/classes/$classId': typeof ClassesClassIdRoute
@@ -81,6 +89,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/doxxmarks': typeof DoxxmarksRoute
   '/resources': typeof ResourcesRouteWithChildren
   '/syllabus': typeof SyllabusRoute
@@ -93,6 +102,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/doxxmarks'
     | '/resources'
     | '/syllabus'
@@ -103,6 +113,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
     | '/doxxmarks'
     | '/syllabus'
     | '/classes/$classId'
@@ -112,6 +123,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/doxxmarks'
     | '/resources'
     | '/syllabus'
@@ -123,6 +135,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   DoxxmarksRoute: typeof DoxxmarksRoute
   ResourcesRoute: typeof ResourcesRouteWithChildren
   SyllabusRoute: typeof SyllabusRoute
@@ -136,6 +149,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/doxxmarks': {
@@ -208,6 +228,7 @@ const ResourcesRouteWithChildren = ResourcesRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   DoxxmarksRoute: DoxxmarksRoute,
   ResourcesRoute: ResourcesRouteWithChildren,
   SyllabusRoute: SyllabusRoute,

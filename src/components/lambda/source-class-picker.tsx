@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { classes, findSubjectMeta } from '@/lib/lambda';
 import { useI18n } from '@/lib/i18n';
 import { useFuseSearch } from '@/hooks/use-fuse-search';
-import { findFolderPathForFile, flattenFolderFiles, getFileKind, getGroupBadge, getGroupLabel, groupItems, hasResourceDataset, isFolderNode, isPremiumGroup, loadResourceManifest, loadResourceMisc, loadResourceSubject, type FileKind, type ResourceFolderNode, type ResourceItem, type ResourceManifest, type ResourceNode, type ResourceSubject } from '@/lib/resources-data';
+import { flattenFolderFiles, getFileKind, getGroupBadge, getGroupLabel, groupItems, hasResourceDataset, isFolderNode, isPremiumGroup, loadResourceManifest, loadResourceMisc, loadResourceSubject, type FileKind, type ResourceFolderNode, type ResourceItem, type ResourceManifest, type ResourceNode, type ResourceSubject } from '@/lib/resources-data';
 import { ResourceWatch } from '@/components/lambda/resource-watch';
 import { VirtualFileGrid } from '@/components/lambda/virtual-file-grid';
 
@@ -289,7 +289,6 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
   const isFileSearchActive = fileQuery.trim().length > 0;
   const groups = groupItems(subjectItems);
   const subjectDataReady = subject === MISC_LABEL ? miscItems !== undefined : subjectEntry !== undefined || (!subjectLoading && subject !== undefined);
-
 
   const disclaimer = source === 'community' ? (
     <div className="doxx-disclaimer">

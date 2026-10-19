@@ -38,3 +38,5 @@ scripts/drive-crawl/service-account.json
 scripts/drive-crawl/output/
 scripts/drive-crawl/node_modules/
 
+# Neon CLI local config (project/branch IDs, not secret but local-only)
+.neon

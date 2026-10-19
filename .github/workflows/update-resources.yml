@@ -6,8 +6,8 @@ name: Update resource datasets
 # workflow_dispatch for an on-demand refresh.
 on:
   schedule:
-    # 03:00 UTC daily — adjust as needed.
-    - cron: "0 3 * * *"
+    # 03:00 UTC every Monday — adjust as needed.
+    - cron: "0 3 * * 1"
   workflow_dispatch: {}
 
 permissions:

@@ -528,6 +528,25 @@
 .doxx-row svg { color: var(--muted-foreground); flex-shrink: 0; }
 .doxx-notes { margin-top: 36px; }
 .doxx-notes h2 { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 700; }
+
+/* Manage Resources panel: Drive folder drill-down list, reusing the
+   doxx-row/doxx-list/doxx-breadcrumb primitives with its own column
+   layout (icon + name, size, modified, chevron/external-link). */
+.manage-resources-breadcrumb { margin-top: 10px; margin-bottom: 0; }
+.manage-resources-breadcrumb button { background: none; border: none; padding: 0; font: inherit; color: var(--muted-foreground); cursor: pointer; }
+.manage-resources-breadcrumb button:hover { color: var(--primary); }
+.manage-resources-breadcrumb button.crumb-current { color: var(--foreground); font-weight: 600; cursor: default; }
+.manage-resources-list { margin-top: 16px; }
+.manage-resources-row { grid-template-columns: minmax(0, 1fr) 90px 110px auto; font-size: 14px; padding: 12px 14px; }
+.manage-resources-row-main { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.manage-resources-row-icon { color: var(--muted-foreground); flex-shrink: 0; }
+.manage-resources-row-meta { text-align: right; }
+.manage-resources-list.slide-in { animation: resource-folder-slide-in .22s ease-out; }
+.manage-resources-list.slide-out { animation: resource-folder-slide-out .22s ease-out; }
+@media (max-width: 560px) {
+  .manage-resources-row { grid-template-columns: minmax(0, 1fr) auto; gap: 8px; padding: 10px 12px; }
+  .manage-resources-row-meta { display: none; }
+}
 .doxx-disclaimer { margin-top: 56px; padding: 18px 20px; border: 1px solid var(--border); border-radius: 12px; background: var(--muted); }
 .doxx-disclaimer-title { font-weight: 700; font-size: 14px; margin-bottom: 6px; color: var(--foreground); }
 .doxx-disclaimer p { font-size: 13px; line-height: 1.6; color: var(--muted-foreground); margin: 0; }
@@ -543,6 +562,28 @@
 .resource-watch-meta { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 14px; font-size: 13px; color: var(--muted-foreground); }
 .resource-watch-meta-item { display: inline-flex; gap: 4px; }
 .resource-watch-meta-label { font-weight: 600; color: var(--foreground); }
+
+/* Resource file star ratings — single partially-filled star icon per
+ * rating slot (clip-path style fill via a width-clamped overlay), used
+ * both as a compact read-only badge and as the interactive 1-5 control
+ * in the Resource Watch detail pane. */
+.resource-star { position: relative; display: inline-flex; flex: none; color: color-mix(in oklch, var(--muted-foreground) 55%, transparent); }
+.resource-star-outline { position: absolute; inset: 0; }
+.resource-star-fill-clip { position: absolute; inset: 0; overflow: hidden; display: block; }
+.resource-star-fill { position: absolute; top: 0; left: 0; color: oklch(0.78 0.17 85); fill: oklch(0.78 0.17 85); }
+
+.resource-rating-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--muted-foreground); }
+.resource-rating-value { font-weight: 600; color: var(--foreground); }
+.resource-rating-count { color: var(--muted-foreground); }
+
+.resource-rating-control { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
+.resource-rating-summary { display: flex; align-items: center; gap: 6px; font-size: 14px; }
+.resource-rating-empty { font-size: 13px; color: var(--muted-foreground); }
+.resource-rating-stars { display: flex; align-items: center; gap: 2px; flex-wrap: wrap; }
+.resource-rating-star-btn { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: none; background: none; cursor: pointer; padding: 0; border-radius: 6px; transition: background .15s; }
+.resource-rating-star-btn:hover:not(:disabled) { background: color-mix(in oklch, var(--muted) 70%, transparent); }
+.resource-rating-star-btn:disabled { cursor: default; opacity: 0.7; }
+.resource-rating-your-rating { margin-left: 8px; font-size: 12px; color: var(--muted-foreground); }
 
 .doxx-video-wrap { border-radius: 12px; overflow: hidden; background: oklch(0.12 0.015 260); aspect-ratio: 16 / 9; }
 .doxx-video-skin { width: 100%; height: 100%; aspect-ratio: 16 / 9; }
