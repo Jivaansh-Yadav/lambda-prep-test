@@ -36,6 +36,28 @@ export function findSubjectMeta(name: string) {
   return subjects.find(s => s.name.toLowerCase() === normalized)
     ?? subjects.find(s => normalized.startsWith(s.name.toLowerCase()) || s.name.toLowerCase().startsWith(normalized));
 }
-export function pageHead(title: string, description: string) {
-  return { meta: [{ title: `${title} | Lambda Prep` }, { name: 'description', content: description }, { property: 'og:title', content: `${title} | Lambda Prep` }, { property: 'og:description', content: description }, { property: 'og:type', content: 'website' }, { name: 'twitter:card', content: 'summary_large_image' }] };
+export const SITE_URL = 'https://project-3354c0eb.eazo.dev';
+export const OG_IMAGE = `${SITE_URL}/og/lambda-prep-og.png`;
+
+export function pageHead(title: string, description: string, path = '/') {
+  const fullTitle = `${title} | Lambda Prep`;
+  const url = `${SITE_URL}${path}`;
+  return {
+    meta: [
+      { title: fullTitle },
+      { name: 'description', content: description },
+      { property: 'og:title', content: fullTitle },
+      { property: 'og:description', content: description },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:url', content: url },
+      { property: 'og:image', content: OG_IMAGE },
+      { property: 'og:image:width', content: '1200' },
+      { property: 'og:image:height', content: '630' },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:title', content: fullTitle },
+      { name: 'twitter:description', content: description },
+      { name: 'twitter:image', content: OG_IMAGE },
+    ],
+    links: [{ rel: 'canonical', href: url }],
+  };
 }

@@ -3,7 +3,7 @@ import { ArrowUpRight, ShieldCheck, UsersRound } from 'lucide-react';
 import { pageHead } from '@/lib/lambda';
 import { useI18n } from '@/lib/i18n';
 
-export const Route = createFileRoute('/resources/')({ head: () => pageHead('Resource library', 'Find your ICSE and ISC class and explore subject-wise learning resources.'), component: Resources });
+export const Route = createFileRoute('/resources/')({ head: () => pageHead('Resource library', 'Find your ICSE and ISC class and explore subject-wise learning resources.', '/resources'), component: Resources });
 
 function Resources() {
   const { t } = useI18n();

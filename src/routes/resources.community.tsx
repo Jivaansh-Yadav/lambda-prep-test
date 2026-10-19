@@ -10,7 +10,7 @@ export const Route = createFileRoute('/resources/community')({
     class: typeof search['class'] === 'string' ? search['class'] : undefined,
     subject: typeof search['subject'] === 'string' ? search['subject'] : undefined,
   }),
-  head: () => pageHead('Community Resources', 'Notes, papers and resources shared by the student community, organized by class and subject.'),
+  head: () => pageHead('Community Resources', 'Notes, papers and resources shared by the student community, organized by class and subject.', '/resources/community'),
   component: CommunityResources,
 });
 
