@@ -25,6 +25,10 @@
 /lambda-logo.svg
   Cache-Control: public, max-age=604800, must-revalidate
 
+# Hero photograph, also served straight out of public/ (see src/lib/brand.ts).
+/student-studying.jpg
+  Cache-Control: public, max-age=604800, must-revalidate
+
 # robots.txt / sitemap.xml are crawled frequently and can change (new
 # routes), so keep them revalidating on every request rather than cached.
 /robots.txt

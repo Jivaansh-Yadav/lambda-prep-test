@@ -2,7 +2,7 @@ import { Link, useRouterState } from '@tanstack/react-router';
 import { Menu, X, Home, BookOpen, ChevronDown, FileStack, MonitorPlay, Sun, Moon } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import logo from '@/assets/lambda-logo.svg.asset.json';
+import { BRAND_MARK } from '@/lib/brand';
 import { classes } from '@/lib/lambda';
 import { useI18n } from '@/lib/i18n';
 import { useTheme } from '@/lib/theme';
@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 export function Brand() {
-  return <Link to="/" className="brand" aria-label="Lambda Prep home"><img src={logo.url} alt="" width={50} height={50} /><span>lambda<span className="brand-period">.</span></span></Link>;
+  return <Link to="/" className="brand" aria-label="Lambda Prep home"><img src={BRAND_MARK} alt="" width={50} height={50} /><span>lambda<span className="brand-period">.</span></span></Link>;
 }
 function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
