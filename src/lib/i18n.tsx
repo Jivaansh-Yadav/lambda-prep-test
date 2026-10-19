@@ -103,6 +103,7 @@ const en: Dict = {
   'resources.rating.rateThis': 'Rate this file',
   'resources.rating.starLabel': 'Rate {n} star',
   'resources.rating.yourRating': 'Your rating: {n}/5',
+  'resources.rating.saveFailed': 'Couldn\u2019t save your rating \u2014 try again',
   'resources.cisce.title': 'Official CISCE Resources',
   'resources.cisce.descPrefix': 'Reference material sourced from CISCE\u2019s official syllabus, circulars and publications at',
   'resources.cisce.descSuffix': '\u2014 organized by class and subject for quick reference.',

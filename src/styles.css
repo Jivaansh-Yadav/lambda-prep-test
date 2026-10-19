@@ -584,6 +584,10 @@
 .resource-rating-star-btn:hover:not(:disabled) { background: color-mix(in oklch, var(--muted) 70%, transparent); }
 .resource-rating-star-btn:disabled { cursor: default; opacity: 0.7; }
 .resource-rating-your-rating { margin-left: 8px; font-size: 12px; color: var(--muted-foreground); }
+/* Reserves no space when empty (no layout shift on clear), but the message is
+   readable and consistent with the other inline hints when shown. */
+.resource-rating-error { display: block; margin-top: 4px; font-size: 12px; color: var(--destructive, oklch(0.58 0.22 27)); }
+.resource-rating-error:empty { display: none; }
 
 .doxx-video-wrap { border-radius: 12px; overflow: hidden; background: oklch(0.12 0.015 260); aspect-ratio: 16 / 9; }
 .doxx-video-skin { width: 100%; height: 100%; aspect-ratio: 16 / 9; }

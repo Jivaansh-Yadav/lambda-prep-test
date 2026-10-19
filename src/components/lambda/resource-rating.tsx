@@ -1,5 +1,5 @@
 import { Star } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useI18n } from '@/lib/i18n';
 import { getResourceRating, submitResourceRating, type ResourceRatingSummary } from '@/lib/ratings-server';
 import { getVoterId } from '@/lib/voter-id';
@@ -45,6 +45,24 @@ export function ResourceRatingControl({ fileId }: ResourceRatingProps) {
   const [summary, setSummary] = useState<ResourceRatingSummary | null>(null);
   const [hovered, setHovered] = useState<number | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  // Transient "couldn't save" message shown under the stars after a failed
+  // submit; auto-clears after a few seconds so a later retry isn't blamed on
+  // a stale error.
+  const [saveError, setSaveError] = useState(false);
+  const errorTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const showSaveError = () => {
+    setSaveError(true);
+    if (errorTimerRef.current) clearTimeout(errorTimerRef.current);
+    errorTimerRef.current = setTimeout(() => {
+      setSaveError(false);
+      errorTimerRef.current = null;
+    }, 5000);
+  };
+
+  useEffect(() => () => {
+    if (errorTimerRef.current) clearTimeout(errorTimerRef.current);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -59,10 +77,17 @@ export function ResourceRatingControl({ fileId }: ResourceRatingProps) {
   const handleRate = async (rating: number) => {
     if (submitting) return;
     setSubmitting(true);
+    setSaveError(false);
     try {
       const voterId = getVoterId();
       const result = await submitResourceRating({ data: { fileId, voterId, rating } });
       setSummary(result);
+    } catch (error) {
+      // Leave `summary` untouched so the stars fall back to their previous
+      // state, and tell the viewer the click didn't stick instead of failing
+      // silently.
+      console.error('[resource-rating] failed to submit rating', error);
+      showSaveError();
     } finally {
       setSubmitting(false);
     }
@@ -115,6 +140,9 @@ export function ResourceRatingControl({ fileId }: ResourceRatingProps) {
           <span className="resource-rating-your-rating">{t('resources.rating.yourRating').replace('{n}', String(myRating))}</span>
         )}
       </div>
+      <span className="resource-rating-error" role="status" aria-live="polite">
+        {saveError ? t('resources.rating.saveFailed') : ''}
+      </span>
     </div>
   );
 }
