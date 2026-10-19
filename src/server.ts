@@ -44,18 +44,82 @@ function isH3SwallowedErrorBody(body: string): boolean {
   }
 }
 
+// ---------------------------------------------------------------------
+// Security response headers. Applied in the server entry (rather than only
+// in `public/_headers`, which is a Cloudflare Pages convention the current
+// host ignores) so they ride along with every document this app serves.
+//
+// The CSP is scoped to what the app actually loads:
+//   - drive.google.com        -> resource PDF previews (resource-watch)
+//   - mscontent-gcp.extramarks.com -> Doxxmarks interactive lessons (iframe)
+//                              and lesson videos (HLS: manifest + segments via
+//                              hls.js, which fetches them with XHR)
+//   - cdn.eazo.ai / eazo.ai / assets.eazo.ai -> Eazo branding banner script,
+//                              its API calls and its logo
+//   - fonts.googleapis.com / fonts.gstatic.com -> DM Sans + Manrope
+// 'unsafe-inline' is required for scripts (the theme-before-first-paint
+// bootstrap, JSON-LD and TanStack Start's hydration payload are inline) and
+// for styles (React inline style attributes). It is a known compromise, not
+// an oversight — the remaining directives (frame-ancestors, object-src,
+// base-uri, connect-src/frame-src allowlists) are what actually contain an
+// XSS or clickjacking attempt here.
+// ---------------------------------------------------------------------
+const CONTENT_SECURITY_POLICY = [
+  "default-src 'self'",
+  "base-uri 'self'",
+  "object-src 'none'",
+  "script-src 'self' 'unsafe-inline' https://cdn.eazo.ai",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "font-src 'self' data: https://fonts.gstatic.com",
+  "img-src 'self' data: blob: https://cdn.eazo.ai https://assets.eazo.ai https://drive.google.com",
+  "media-src 'self' blob: https://mscontent-gcp.extramarks.com",
+  "connect-src 'self' https://mscontent-gcp.extramarks.com https://eazo.ai https://cdn.eazo.ai",
+  "frame-src 'self' https://drive.google.com https://docs.google.com https://mscontent-gcp.extramarks.com",
+  "worker-src 'self' blob:",
+  "frame-ancestors 'self'",
+  "form-action 'self'",
+].join("; ");
+
+const SECURITY_HEADERS: ReadonlyArray<readonly [string, string]> = [
+  ["Content-Security-Policy", CONTENT_SECURITY_POLICY],
+  // frame-ancestors above already covers modern browsers; X-Frame-Options is
+  // the belt-and-braces version for anything that ignores CSP.
+  ["X-Frame-Options", "SAMEORIGIN"],
+  ["X-Content-Type-Options", "nosniff"],
+  ["Referrer-Policy", "strict-origin-when-cross-origin"],
+  // `fullscreen=(self)` is deliberate: the resource viewer requests fullscreen
+  // on its own document, and leaving `fullscreen=()` in place would block that.
+  ["Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(self)"],
+  ["Cross-Origin-Opener-Policy", "same-origin"],
+];
+
+function withSecurityHeaders(response: Response): Response {
+  const headers = new Headers(response.headers);
+  // Never clobber a header a route set deliberately.
+  for (const [name, value] of SECURITY_HEADERS) {
+    if (!headers.has(name)) headers.set(name, value);
+  }
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
+}
+
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
-      return await normalizeCatastrophicSsrResponse(response);
+      return withSecurityHeaders(await normalizeCatastrophicSsrResponse(response));
     } catch (error) {
       console.error(error);
-      return new Response(renderErrorPage(), {
-        status: 500,
-        headers: { "content-type": "text/html; charset=utf-8" },
-      });
+      return withSecurityHeaders(
+        new Response(renderErrorPage(), {
+          status: 500,
+          headers: { "content-type": "text/html; charset=utf-8" },
+        }),
+      );
     }
   },
 };
