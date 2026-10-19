@@ -1,0 +1,59 @@
+{
+  "generatedAt": "2026-10-19T02:19:59.058828+00:00",
+  "grandTotal": 6444,
+  "bySource": {
+    "cisce": {
+      "icse-10": {
+        "subjects": {
+          "Biology": 27,
+          "Chemistry": 27,
+          "Commercial Applications": 14,
+          "Computer Applications": 22,
+          "English Language": 26,
+          "English Literature": 17,
+          "Geography": 26,
+          "Hindi": 15,
+          "History & Civics": 25,
+          "Mathematics": 24,
+          "Physics": 27
+        },
+        "misc": 3,
+        "total": 253
+      }
+    },
+    "community": {
+      "icse-10": {
+        "subjects": {
+          "Featured": 6,
+          "Biology": 620,
+          "Chemistry": 625,
+          "Commercial Applications": 31,
+          "Commercial Studies": 23,
+          "Computer Applications": 268,
+          "Economic Applications": 3,
+          "Economics": 84,
+          "English Language": 631,
+          "English Literature": 525,
+          "Geography": 549,
+          "Hindi": 324,
+          "History & Civics": 541,
+          "Mathematics": 874,
+          "Physics": 611
+        },
+        "misc": 444,
+        "total": 6159
+      },
+      "isc-11": {
+        "subjects": {
+          "Chemistry": 7,
+          "English Language": 3,
+          "English Literature": 2,
+          "Mathematics": 5,
+          "Physics": 15
+        },
+        "misc": 0,
+        "total": 32
+      }
+    }
+  }
+}
