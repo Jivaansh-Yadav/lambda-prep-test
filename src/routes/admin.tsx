@@ -12,18 +12,21 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { ChevronRight, ExternalLink, File, FileImage, FileSpreadsheet, FileText, Folder } from 'lucide-react';
+import { ChevronRight, ExternalLink, File, FileImage, FileSpreadsheet, FileText, Folder, Star } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import {
   checkAdminPasscode,
   getAdminTraffic,
   getManageResources,
   triggerDatasetUpdate,
   getDatasetUpdateStatus,
+  getAdminResourceFeedback,
   type AdminTrafficResult,
   type ManageResourcesResult,
+  type AdminFeedbackResult,
 } from '@/lib/admin-server';
 import type { WorkflowRunStatus } from '@/lib/github-integration-server';
 import type { DriveFileEntry } from '@/lib/drive-integration-server';
@@ -178,6 +181,8 @@ function AdminPage() {
       )}
 
       <ManageResourcesCard />
+
+      <ResourceFeedbackCard />
 
       {result?.configured && totals && (
         <>
@@ -551,6 +556,146 @@ function ManageResourcesCard() {
               </div>
             )}
           </>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+function formatDateTime(value: string): string {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return '—';
+  return date.toLocaleString([], { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+function truncateFileId(fileId: string): string {
+  return fileId.length > 18 ? `${fileId.slice(0, 8)}…${fileId.slice(-6)}` : fileId;
+}
+
+/** "Ratings & Feedback" panel: read-only tables over resource_ratings and
+ * resource_feedback, each row showing the Drive file id plus a direct
+ * link to open that file in Google Drive, so an admin can jump straight
+ * to the file being rated/discussed. */
+function ResourceFeedbackCard() {
+  const [state, setState] = useState<AdminFeedbackResult | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  function getPasscode() {
+    return adminSessionPasscode ?? '';
+  }
+
+  async function load() {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await getAdminResourceFeedback({ data: { passcode: getPasscode() } });
+      setState(data);
+    } catch {
+      setError('Could not load ratings and feedback.');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    void load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <Card className="mt-6">
+      <CardHeader className="flex flex-row items-center justify-between gap-4">
+        <CardTitle>Ratings &amp; feedback</CardTitle>
+        <Button variant="outline" size="sm" onClick={() => void load()} disabled={loading}>
+          {loading ? 'Refreshing…' : 'Refresh'}
+        </Button>
+      </CardHeader>
+      <CardContent>
+        {error && <p className="mb-4 text-sm text-destructive">{error}</p>}
+
+        {state && !state.configured && (
+          <div className="rounded-lg border bg-muted/30 p-4">
+            <p className="text-sm font-medium text-foreground">{state.reason}</p>
+          </div>
+        )}
+
+        {state?.configured && (
+          <div className="space-y-8">
+            <div>
+              <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
+                <Star size={15} /> Ratings ({state.ratings.length})
+              </h3>
+              {state.ratings.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No ratings submitted yet.</p>
+              ) : (
+                <div className="overflow-x-auto rounded-lg border">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>File ID</TableHead>
+                        <TableHead>Drive link</TableHead>
+                        <TableHead>Average</TableHead>
+                        <TableHead>Ratings</TableHead>
+                        <TableHead>Last rated</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {state.ratings.map((r) => (
+                        <TableRow key={r.fileId}>
+                          <TableCell className="font-mono text-xs" title={r.fileId}>{truncateFileId(r.fileId)}</TableCell>
+                          <TableCell>
+                            <a href={r.driveUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-primary hover:underline">
+                              Open <ExternalLink size={13} />
+                            </a>
+                          </TableCell>
+                          <TableCell>{r.average.toFixed(1)} / 5</TableCell>
+                          <TableCell>{r.count}</TableCell>
+                          <TableCell className="whitespace-nowrap text-xs text-muted-foreground">{formatDateTime(r.lastRatedAt)}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              )}
+            </div>
+
+            <div>
+              <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-foreground">
+                <FileText size={15} /> Feedback ({state.feedback.length})
+              </h3>
+              {state.feedback.length === 0 ? (
+                <p className="text-sm text-muted-foreground">No feedback submitted yet.</p>
+              ) : (
+                <div className="overflow-x-auto rounded-lg border">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>File ID</TableHead>
+                        <TableHead>Drive link</TableHead>
+                        <TableHead>Feedback</TableHead>
+                        <TableHead>Submitted</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {state.feedback.map((f) => (
+                        <TableRow key={f.id}>
+                          <TableCell className="font-mono text-xs" title={f.fileId}>{truncateFileId(f.fileId)}</TableCell>
+                          <TableCell>
+                            <a href={f.driveUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-primary hover:underline">
+                              Open <ExternalLink size={13} />
+                            </a>
+                          </TableCell>
+                          <TableCell className="max-w-sm whitespace-pre-wrap break-words">{f.feedback}</TableCell>
+                          <TableCell className="whitespace-nowrap text-xs text-muted-foreground">{formatDateTime(f.createdAt)}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              )}
+            </div>
+          </div>
         )}
       </CardContent>
     </Card>

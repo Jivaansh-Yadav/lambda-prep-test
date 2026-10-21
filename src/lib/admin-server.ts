@@ -484,6 +484,102 @@ export const triggerDatasetUpdate = createServerFn({ method: "POST" })
     }
   });
 
+// ---------------------------------------------------------------------
+// Ratings & Feedback tables: read-only admin views over resource_ratings
+// and resource_feedback (see ratings-server.ts / feedback-server.ts for
+// the viewer-facing write side). Each row surfaces the Drive file id plus
+// a direct Drive link so an admin can jump straight to the file being
+// rated/discussed without cross-referencing the resource datasets.
+// ---------------------------------------------------------------------
+
+export type AdminRatingRow = {
+  fileId: string;
+  driveUrl: string;
+  average: number;
+  count: number;
+  lastRatedAt: string;
+};
+
+export type AdminFeedbackRow = {
+  id: number;
+  fileId: string;
+  driveUrl: string;
+  feedback: string;
+  createdAt: string;
+};
+
+export type AdminFeedbackResult =
+  | { configured: true; ratings: AdminRatingRow[]; feedback: AdminFeedbackRow[] }
+  | { configured: false; reason: string };
+
+const FEEDBACK_ROW_LIMIT = 200;
+
+function driveFileUrl(fileId: string): string {
+  return `https://drive.google.com/file/d/${encodeURIComponent(fileId)}/view`;
+}
+
+/**
+ * Returns every file's aggregate rating plus the most recent feedback
+ * entries, for the admin "Ratings & Feedback" panel. Read-only: neither
+ * table is ever mutated here.
+ */
+export const getAdminResourceFeedback = createServerFn({ method: "POST" })
+  .validator((data: unknown) => {
+    const d = data as { passcode?: unknown };
+    if (typeof d?.passcode !== "string") throw new Error("Missing passcode");
+    return { passcode: d.passcode };
+  })
+  .handler(async ({ data }): Promise<AdminFeedbackResult> => {
+    requirePasscode(data.passcode);
+
+    if (!sql) {
+      return { configured: false, reason: "Database isn't configured (missing DATABASE_URL)." };
+    }
+
+    try {
+      const ratingRows = await sql.query(
+        `SELECT file_id, AVG(rating)::float AS average, COUNT(*)::int AS count, MAX(updated_at) AS last_rated_at
+         FROM resource_ratings
+         GROUP BY file_id
+         ORDER BY last_rated_at DESC`
+      );
+      const feedbackRows = await sql.query(
+        `SELECT id, file_id, feedback, created_at
+         FROM resource_feedback
+         ORDER BY created_at DESC
+         LIMIT $1`,
+        [FEEDBACK_ROW_LIMIT]
+      );
+
+      const ratings: AdminRatingRow[] = (
+        ratingRows as Array<{ file_id: string; average: number; count: number; last_rated_at: string }>
+      ).map((r) => ({
+        fileId: r.file_id,
+        driveUrl: driveFileUrl(r.file_id),
+        average: r.average,
+        count: r.count,
+        lastRatedAt: r.last_rated_at,
+      }));
+
+      const feedback: AdminFeedbackRow[] = (
+        feedbackRows as Array<{ id: number; file_id: string; feedback: string; created_at: string }>
+      ).map((r) => ({
+        id: r.id,
+        fileId: r.file_id,
+        driveUrl: driveFileUrl(r.file_id),
+        feedback: r.feedback,
+        createdAt: r.created_at,
+      }));
+
+      return { configured: true, ratings, feedback };
+    } catch (error) {
+      return {
+        configured: false,
+        reason: `Could not load ratings/feedback: ${error instanceof Error ? error.message : String(error)}`,
+      };
+    }
+  });
+
 export type DatasetUpdateStatusResult =
   | { ok: true; status: WorkflowRunStatus }
   | { ok: false; reason: string };

@@ -61,6 +61,10 @@
   --rose-ink: oklch(0.53 0.13 10);
   --overlay: oklch(0.18 0.035 260 / 45%);
   --shadow: 0 12px 30px oklch(0.22 0.04 260 / 6%);
+  --safe-top: max(env(safe-area-inset-top, 0px), var(--eazo-safe-area-top, 0px));
+  --safe-right: max(env(safe-area-inset-right, 0px), var(--eazo-safe-area-right, 0px));
+  --safe-bottom: max(env(safe-area-inset-bottom, 0px), var(--eazo-safe-area-bottom, 0px));
+  --safe-left: max(env(safe-area-inset-left, 0px), var(--eazo-safe-area-left, 0px));
 }
 
 /* =====================================================================
@@ -346,12 +350,6 @@
   .content-page .class-grid { margin-top: 35px; }
   .resource-search { max-width: 420px; margin-top: 35px; }
   .resource-search-results { margin-top: 24px; }
-  /* The file search field can sit directly above the first resource group.
-     Plain groups carry no top margin, so the group's rounded top border used
-     to land flush on the field's bottom border and read as a clipped edge.
-     Give only that first group a top gap; the glowing variants already have
-     one, and later groups keep their 24px rhythm. */
-  .resource-search + .resource-group:not(.resource-group-editors-choice):not(.resource-group-featured-glow) { margin-top: 24px; }
   .library-note { color: var(--muted-foreground); font-size: 16px; line-height: 1.8; margin-top: 30px; }
 
   /* Syllabus */
@@ -591,6 +589,23 @@
 .resource-rating-error { display: block; margin-top: 4px; font-size: 12px; color: var(--destructive, oklch(0.58 0.22 27)); }
 .resource-rating-error:empty { display: none; }
 
+/* Resource file feedback — free-text box shown just below the star rating
+ * in the Resource Watch detail pane. Deliberately reuses the same
+ * top-border/spacing rhythm as .resource-rating-control so the two read
+ * as one connected "tell us what you think" block. */
+.resource-feedback-control { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px; }
+.resource-feedback-label { font-size: 14px; font-weight: 600; color: var(--foreground); }
+.resource-feedback-textarea { width: 100%; resize: vertical; min-height: 64px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--card); color: var(--foreground); font: inherit; font-size: 14px; line-height: 1.5; transition: border-color .15s; }
+.resource-feedback-textarea:focus { outline: none; border-color: var(--primary); }
+.resource-feedback-textarea:disabled { opacity: 0.7; cursor: default; }
+.resource-feedback-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.resource-feedback-count { font-size: 12px; color: var(--muted-foreground); }
+.resource-feedback-submit { display: inline-flex; align-items: center; justify-content: center; height: 34px; padding-inline: 16px; border: none; border-radius: 8px; background: var(--primary); color: var(--primary-foreground); font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity .15s; }
+.resource-feedback-submit:hover:not(:disabled) { opacity: 0.9; }
+.resource-feedback-submit:disabled { opacity: 0.5; cursor: default; }
+.resource-feedback-status { display: block; font-size: 12px; color: var(--muted-foreground); }
+.resource-feedback-status:empty { display: none; }
+
 .doxx-video-wrap { border-radius: 12px; overflow: hidden; background: oklch(0.12 0.015 260); aspect-ratio: 16 / 9; }
 .doxx-video-skin { width: 100%; height: 100%; aspect-ratio: 16 / 9; }
 
@@ -702,6 +717,16 @@ body.pseudo-fullscreen-open { overflow: hidden; }
 
 /* Collapsible resource groups: capped-height grid + fade + view all / show less */
 .resource-group { position: relative; }
+
+/* The file search field can sit directly above the first resource group. Plain
+   groups have no top margin, so the group's rounded top border used to land
+   flush on the field's bottom border and read as a clipped edge. Give that
+   first group a gap; the glowing variants already carry one, and later groups
+   keep their 24px rhythm. Stays unlayered on purpose: the group margins below
+   are unlayered too, so a rule inside @layer components would lose. */
+.resource-search + .resource-group:not(.resource-group-editors-choice):not(.resource-group-featured-glow) {
+  margin-top: 24px;
+}
 
 .resource-group:not(.resource-group-editors-choice):not(.resource-group-featured-glow) {
   border: 1px solid var(--border);
