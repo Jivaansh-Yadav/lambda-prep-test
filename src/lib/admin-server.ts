@@ -14,35 +14,14 @@ import {
   type WorkflowRunStatus,
 } from "./github-integration-server";
 
-// The admin passcode lives in Neon (table: admin_config) rather than an
-// env var, so it can be rotated without a redeploy and stays alongside
-// the other admin-only secrets (drive_integration, github_integration).
-// No fallback default: a missing/unconfigured row must disable admin
-// access entirely rather than silently accepting a hardcoded, publicly-
-// visible value. See GH issue #7.
-let cachedPasscode: string | null = null;
-let cachedPasscodeAt = 0;
-const PASSCODE_CACHE_TTL_MS = 60 * 1000; // re-read Neon at most once/minute
-
-async function getAdminPasscode(): Promise<string | null> {
-  if (!sql) return null;
-  const now = Date.now();
-  if (cachedPasscode !== null && now - cachedPasscodeAt < PASSCODE_CACHE_TTL_MS) {
-    return cachedPasscode;
-  }
-  const rows = await sql.query("SELECT passcode FROM admin_config WHERE id = true LIMIT 1");
-  const row = rows[0] as { passcode: string } | undefined;
-  if (!row) {
-    console.warn(
-      "[admin] No row in admin_config — the admin panel will reject every passcode until one is configured."
-    );
-    cachedPasscode = null;
-    cachedPasscodeAt = now;
-    return null;
-  }
-  cachedPasscode = row.passcode;
-  cachedPasscodeAt = now;
-  return cachedPasscode;
+// No fallback default: an unset ADMIN_PASSCODE must disable admin access
+// entirely rather than silently accepting a hardcoded, publicly-visible
+// value. See GH issue #7.
+const ADMIN_PASSCODE = process.env["ADMIN_PASSCODE"];
+if (!ADMIN_PASSCODE) {
+  console.warn(
+    "[admin] ADMIN_PASSCODE is not set — the admin panel will reject every passcode until it's configured."
+  );
 }
 const CACHE_TTL_MS = 5 * 60 * 1000;
 
@@ -105,20 +84,19 @@ function recordSuccess(ip: string): void {
  * Single choke point for every admin passcode check (login screen and
  * every other admin server function alike), so brute-forcing can't
  * bypass the rate limiter by hitting a different endpoint than the login
- * one. Fails closed (never grants access) when admin_config isn't
- * configured in Neon, instead of falling back to a known default.
+ * one. Fails closed (never grants access) when ADMIN_PASSCODE isn't
+ * configured, instead of falling back to a known default.
  */
-async function verifyPasscode(passcode: string): Promise<{ ok: boolean; lockedOutMs?: number }> {
+function verifyPasscode(passcode: string): { ok: boolean; lockedOutMs?: number } {
   const ip = getClientIp();
   const lock = isLockedOut(ip);
   if (lock.locked) {
     return { ok: false, lockedOutMs: lock.retryAfterMs };
   }
-  const configuredPasscode = await getAdminPasscode();
-  if (!configuredPasscode) {
+  if (!ADMIN_PASSCODE) {
     return { ok: false };
   }
-  if (passcode === configuredPasscode) {
+  if (passcode === ADMIN_PASSCODE) {
     recordSuccess(ip);
     return { ok: true };
   }
@@ -126,8 +104,8 @@ async function verifyPasscode(passcode: string): Promise<{ ok: boolean; lockedOu
   return { ok: false };
 }
 
-async function requirePasscode(passcode: string) {
-  const { ok, lockedOutMs } = await verifyPasscode(passcode);
+function requirePasscode(passcode: string) {
+  const { ok, lockedOutMs } = verifyPasscode(passcode);
   if (!ok) {
     if (lockedOutMs) {
       throw new Error(`Too many attempts. Try again in ${Math.ceil(lockedOutMs / 1000)}s.`);
@@ -227,7 +205,7 @@ export const checkAdminPasscode = createServerFn({ method: "POST" })
     return { passcode: d.passcode };
   })
   .handler(async ({ data }) => {
-    const result = await verifyPasscode(data.passcode);
+    const result = verifyPasscode(data.passcode);
     if (result.lockedOutMs) {
       return { ok: false, lockedOutSeconds: Math.ceil(result.lockedOutMs / 1000) };
     }
@@ -363,7 +341,7 @@ export const getAdminTraffic = createServerFn({ method: "POST" })
     return { passcode: d.passcode };
   })
   .handler(async ({ data }): Promise<AdminTrafficResult> => {
-    await requirePasscode(data.passcode);
+    requirePasscode(data.passcode);
 
     try {
       const cached = await readCache();
@@ -420,7 +398,7 @@ export const getManageResources = createServerFn({ method: "POST" })
     return { passcode: d.passcode, folderId: d.folderId as string | undefined };
   })
   .handler(async ({ data }): Promise<ManageResourcesResult> => {
-    await requirePasscode(data.passcode);
+    requirePasscode(data.passcode);
 
     const config = await getDriveIntegrationConfig();
     if (!config) {
@@ -456,7 +434,7 @@ export const uploadResource = createServerFn({ method: "POST" })
     return { passcode, file };
   })
   .handler(async ({ data }): Promise<UploadResourceResult> => {
-    await requirePasscode(data.passcode);
+    requirePasscode(data.passcode);
 
     // Disabled: this folder is "shared with Editor access" rather than a
     // Shared Drive. Google rejects file *creation* from service accounts
@@ -491,7 +469,7 @@ export const triggerDatasetUpdate = createServerFn({ method: "POST" })
     return { passcode: d.passcode };
   })
   .handler(async ({ data }): Promise<TriggerDatasetUpdateResult> => {
-    await requirePasscode(data.passcode);
+    requirePasscode(data.passcode);
 
     const config = await getGithubIntegrationConfig();
     if (!config) {
@@ -552,7 +530,7 @@ export const getAdminResourceFeedback = createServerFn({ method: "POST" })
     return { passcode: d.passcode };
   })
   .handler(async ({ data }): Promise<AdminFeedbackResult> => {
-    await requirePasscode(data.passcode);
+    requirePasscode(data.passcode);
 
     if (!sql) {
       return { configured: false, reason: "Database isn't configured (missing DATABASE_URL)." };
@@ -614,7 +592,7 @@ export const getDatasetUpdateStatus = createServerFn({ method: "POST" })
     return { passcode: d.passcode, runId: d.runId };
   })
   .handler(async ({ data }): Promise<DatasetUpdateStatusResult> => {
-    await requirePasscode(data.passcode);
+    requirePasscode(data.passcode);
 
     const config = await getGithubIntegrationConfig();
     if (!config) {
