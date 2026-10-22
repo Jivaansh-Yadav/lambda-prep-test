@@ -571,12 +571,28 @@
 .admin-category-card-emerald .admin-category-icon { background: oklch(0.9 0.06 155); color: oklch(0.45 0.15 155); }
 .admin-category-card-amber { background: linear-gradient(160deg, oklch(0.95 0.04 85), var(--card)); border-color: oklch(0.8 0.1 85); }
 .admin-category-card-amber .admin-category-icon { background: oklch(0.9 0.08 85); color: oklch(0.48 0.14 70); }
+.admin-category-card-sky { background: linear-gradient(160deg, oklch(0.95 0.03 230), var(--card)); border-color: oklch(0.8 0.07 230); }
+.admin-category-card-sky .admin-category-icon { background: oklch(0.9 0.055 230); color: oklch(0.45 0.13 230); }
 @media (max-width: 480px) {
   .admin-category-card { padding: 14px 16px; gap: 10px; }
   .admin-category-icon { width: 38px; height: 38px; }
   .admin-category-icon svg { width: 18px; height: 18px; }
   .admin-category-title { font-size: 14.5px; }
   .admin-category-description { font-size: 12.5px; }
+}
+
+/* KPI / commit cards in the top summary row reuse the same gradient-tile
+   shape and icon chip as the category cards below them, but aren't
+   buttons — no pointer cursor and a lighter hover (no translate, since
+   nothing happens on click). The value/metric sits where the
+   description normally goes, in a bigger weight. */
+.admin-kpi-card { cursor: default; }
+.admin-kpi-card:hover { transform: none; box-shadow: 0 6px 16px oklch(0.2 0.03 260 / 8%); }
+.admin-kpi-card:hover .admin-category-icon { transform: none; }
+.admin-kpi-label { font-size: 13px; color: var(--muted-foreground); font-weight: 500; }
+.admin-kpi-value { font-size: 26px; font-weight: 700; letter-spacing: -0.01em; color: var(--foreground); line-height: 1.2; }
+@media (max-width: 480px) {
+  .admin-kpi-value { font-size: 22px; }
 }
 
 /* Manage Resources panel: Drive folder drill-down list, reusing the

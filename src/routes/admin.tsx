@@ -31,6 +31,8 @@ import {
   Share2,
   Star,
   Trash2,
+  TrendingUp,
+  Users,
   X,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -216,9 +218,19 @@ function AdminPage() {
           Only two real metrics come out of the RUM dataset (page loads and
           visits — no raw request count or unique-visitor count), so there
           are two KPI cards here instead of the old zone-analytics four. */}
-      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <KpiCard label="Page loads (30d)" value={totals ? totals.pageLoads.toLocaleString() : '—'} accent="indigo" />
-        <KpiCard label="Visits (30d)" value={totals ? totals.visits.toLocaleString() : '—'} accent="emerald" />
+      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <KpiCard
+          label="Page loads (30d)"
+          value={totals ? totals.pageLoads.toLocaleString() : '—'}
+          accent="indigo"
+          icon={<TrendingUp size={20} />}
+        />
+        <KpiCard
+          label="Visits (30d)"
+          value={totals ? totals.visits.toLocaleString() : '—'}
+          accent="emerald"
+          icon={<Users size={20} />}
+        />
         <LatestCommitCard />
       </div>
 
@@ -364,28 +376,30 @@ function AdminPage() {
 
 const SECTION_COLORS = ['#6366f1', '#22c55e'];
 
-/** Tailwind utility classes per accent color, used by both KpiCard and
- * CategoryCard so every card in a given category shares one color
- * identity (icon chip + left border) without hand-picking hexes per call
- * site. */
-const ACCENT_CLASSES = {
-  indigo: { chip: 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400', border: 'border-l-indigo-500' },
-  emerald: { chip: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400', border: 'border-l-emerald-500' },
-  amber: { chip: 'bg-amber-500/10 text-amber-600 dark:text-amber-400', border: 'border-l-amber-500' },
-  rose: { chip: 'bg-rose-500/10 text-rose-600 dark:text-rose-400', border: 'border-l-rose-500' },
-  sky: { chip: 'bg-sky-500/10 text-sky-600 dark:text-sky-400', border: 'border-l-sky-500' },
-} as const;
+/** Accent color identity shared by every top-level tile (KpiCard,
+ * LatestCommitCard, CategoryCard) via the admin-category-card-{accent}
+ * CSS variants in styles.css. */
+type Accent = 'indigo' | 'emerald' | 'amber' | 'sky';
 
-type Accent = keyof typeof ACCENT_CLASSES;
-
-function KpiCard({ label, value, accent }: { label: string; value: string; accent: Accent }) {
+function KpiCard({
+  label,
+  value,
+  accent,
+  icon,
+}: {
+  label: string;
+  value: string;
+  accent: Accent;
+  icon: React.ReactNode;
+}) {
   return (
-    <Card className={`border-l-4 ${ACCENT_CLASSES[accent].border}`}>
-      <CardContent className="pt-6">
-        <p className="text-sm text-muted-foreground">{label}</p>
-        <p className="mt-1 text-3xl font-semibold text-foreground">{value}</p>
-      </CardContent>
-    </Card>
+    <div className={`admin-category-card admin-kpi-card admin-category-card-${accent}`}>
+      <span className="admin-category-icon">{icon}</span>
+      <span className="admin-category-text">
+        <span className="admin-kpi-label">{label}</span>
+        <span className="admin-kpi-value">{value}</span>
+      </span>
+    </div>
   );
 }
 
@@ -628,24 +642,27 @@ function LatestCommitCard() {
   }, []);
 
   return (
-    <Card className="border-l-4 border-l-sky-500">
-      <CardContent className="pt-6">
-        <p className="flex items-center gap-1.5 text-sm text-muted-foreground"><GitCommit size={14} /> Latest commit</p>
-        {!state && <p className="mt-1 text-sm text-muted-foreground">Loading…</p>}
-        {state && !state.ok && <p className="mt-1 text-xs text-muted-foreground">{state.reason}</p>}
+    <div className="admin-category-card admin-kpi-card admin-category-card-sky">
+      <span className="admin-category-icon">
+        <GitCommit size={20} />
+      </span>
+      <span className="admin-category-text">
+        <span className="admin-kpi-label">Latest commit</span>
+        {!state && <span className="text-sm text-muted-foreground">Loading…</span>}
+        {state && !state.ok && <span className="text-xs text-muted-foreground">{state.reason}</span>}
         {state?.ok && (
           <>
             <a
               href={state.commit.htmlUrl}
               target="_blank"
               rel="noreferrer"
-              className="mt-1 flex items-center gap-1.5 truncate text-sm font-medium text-foreground hover:underline"
+              className="flex items-center gap-1.5 truncate text-sm font-semibold text-foreground hover:underline"
               title={state.commit.message}
             >
               <span className="truncate">{state.commit.message}</span>
               <ExternalLink size={13} className="shrink-0 text-muted-foreground" />
             </a>
-            <p className="mt-1 text-xs text-muted-foreground">
+            <span className="text-xs text-muted-foreground">
               <a
                 href={state.commit.htmlUrl}
                 target="_blank"
@@ -655,11 +672,11 @@ function LatestCommitCard() {
                 {state.commit.shortSha}
               </a>{' '}
               · {state.commit.authorName} · {formatRelativeTime(state.commit.authoredAt)}
-            </p>
+            </span>
           </>
         )}
-      </CardContent>
-    </Card>
+      </span>
+    </div>
   );
 }
 
