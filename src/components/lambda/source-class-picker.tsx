@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { classes, findSubjectMeta, getSiteOrigin, subjectMatchesStream } from '@/lib/lambda';
 import { useI18n } from '@/lib/i18n';
 import { useFuseSearch } from '@/hooks/use-fuse-search';
-import { flattenFolderFiles, findItemInSubject, getFileKind, getGroupBadge, getGroupLabel, groupItems, hasResourceDataset, isFolderNode, isPremiumGroup, loadResourceManifest, loadResourceMisc, loadResourceSubject, type FileKind, type ResourceFolderNode, type ResourceItem, type ResourceManifest, type ResourceNode, type ResourceSubject } from '@/lib/resources-data';
+import { flattenFolderFiles, findItemInSubject, getFileKind, getGroupBadge, getGroupLabel, groupItems, hasResourceDataset, isFolderNode, isPremiumGroup, loadAllClassFiles, loadAllSourceFiles, loadResourceManifest, loadResourceMisc, loadResourceSubject, type FileKind, type ResourceFolderNode, type ResourceItem, type ResourceManifest, type ResourceNode, type ResourceSearchHit, type ResourceSubject } from '@/lib/resources-data';
 import { ResourceWatch } from '@/components/lambda/resource-watch';
 import { VirtualFileGrid } from '@/components/lambda/virtual-file-grid';
 import { StreamTabs } from '@/components/lambda/stream-tabs';
@@ -43,6 +43,9 @@ const MISC_LABEL = 'Miscellaneous';
 // the hook's memoization.
 const SUBJECT_SEARCH_KEYS = ['subject'];
 const FILE_SEARCH_KEYS = ['name'];
+// Broad (cross-subject / cross-class) file search corpus key — ResourceSearchHit
+// wraps the file under `item`, so Fuse needs the nested dot-path.
+const SOURCE_HIT_SEARCH_KEYS = ['item.name'];
 
 const FILE_KIND_META: Record<FileKind, { icon: typeof FileText; tone: string; label: string }> = {
   pdf: { icon: FileText, tone: 'rose', label: 'PDF' },
@@ -63,6 +66,31 @@ function FileCard({ item, onClick }: { item: ResourceItem; onClick: () => void }
       <span className="resource-file-name">{item.name}</span>
       <span className="resource-file-type">{meta.label}</span>
     </button>
+  );
+}
+
+/** Same card as FileCard but for a broad (cross-subject/cross-class) search
+ * hit — shows which subject (and, for a cross-class search, which class)
+ * the file lives in, since that context is no longer implied by the page
+ * the user is on. Navigates straight into that subject's file viewer with
+ * the file pre-opened via the `file` search param. */
+function HitFileCard({ hit, sourcePath, classLabel, stream }: { hit: ResourceSearchHit; sourcePath: string; classLabel?: string | undefined; stream?: string | undefined }) {
+  const kind = getFileKind(hit.item.name);
+  const meta = FILE_KIND_META[kind];
+  const Icon = meta.icon;
+  return (
+    <Link
+      to={sourcePath}
+      search={{ class: hit.classSlug, subject: hit.subject, file: hit.item.id, stream }}
+      className={`resource-file-card tone-${meta.tone}`}
+    >
+      <span className="resource-file-icon"><Icon size={26} strokeWidth={1.6} /></span>
+      <span className="resource-file-name">{hit.item.name}</span>
+      <span className="resource-file-hit-meta">
+        <span className="resource-file-type">{meta.label}</span>
+        <span className="resource-file-hit-subject">{classLabel ? `${classLabel} · ${hit.subject}` : hit.subject}</span>
+      </span>
+    </Link>
   );
 }
 
@@ -234,6 +262,16 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
   const [fileQuery, setFileQuery] = useState('');
   const [activeFile, setActiveFile] = useState<ResourceItem | null>(null);
   const [activeFolderScope, setActiveFolderScope] = useState<ResourceFolderNode | null>(null);
+  // Broad, cross-scope file search state. At the top level (no class picked
+  // yet) a query searches every file indexed for this source (CISCE or
+  // Community, across every class); once a class is picked but no subject
+  // yet, it's confined to that one class's files only. Both corpora are
+  // fetched lazily (only once the viewer actually types something) and
+  // cached by resources-data.ts, so landing on the page never pays for them.
+  const [sourceHits, setSourceHits] = useState<ResourceSearchHit[] | undefined>(undefined);
+  const [sourceHitsLoading, setSourceHitsLoading] = useState(false);
+  const [classHits, setClassHits] = useState<ResourceSearchHit[] | undefined>(undefined);
+  const [classHitsLoading, setClassHitsLoading] = useState(false);
   // Manifest = subject names + counts only (cheap, loads up front for the
   // card grid). The selected subject's actual file list (or misc) is a
   // separate, much smaller fetch — so picking "Mathematics" out of a
@@ -306,6 +344,51 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
     return () => { cancelled = true; };
   }, [source, classSlug, subject]);
 
+  // Broad cross-class search (top-level "choose a class" page): fetched
+  // lazily — only once the viewer actually types a query — since it means
+  // loading every subject's file list across every indexed class for this
+  // source. Cached in resources-data.ts, so retyping a cleared query or
+  // revisiting this page doesn't refetch.
+  const trimmedQuery = query.trim();
+  useEffect(() => {
+    if (classSlug || !trimmedQuery) return;
+    let cancelled = false;
+    setSourceHitsLoading(true);
+    loadAllSourceFiles(source, classes.map(c => c.slug)).then(hits => {
+      if (!cancelled) { setSourceHits(hits); setSourceHitsLoading(false); }
+    }).catch(error => {
+      if (cancelled) return;
+      console.error('[resources] failed to load source-wide file search index', source, error);
+      setSourceHitsLoading(false);
+    });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- classSlug is a presence check only
+  }, [source, !!classSlug, !!trimmedQuery]);
+
+  // Broad cross-subject search (class's own subject grid): same lazy-load,
+  // cheaper since it's confined to one class's files.
+  const trimmedSubjectQuery = subjectQuery.trim();
+  useEffect(() => {
+    if (!classSlug || subject || !hasDataset || !trimmedSubjectQuery) return;
+    let cancelled = false;
+    setClassHitsLoading(true);
+    loadAllClassFiles(source, classSlug).then(hits => {
+      if (!cancelled) { setClassHits(hits); setClassHitsLoading(false); }
+    }).catch(error => {
+      if (cancelled) return;
+      console.error('[resources] failed to load class-wide file search index', source, classSlug, error);
+      setClassHitsLoading(false);
+    });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- subject/hasDataset are presence checks only
+  }, [source, classSlug, !!subject, hasDataset, !!trimmedSubjectQuery]);
+  // Reset the cached hit lists when the class changes, so switching class
+  // doesn't show the previous class's broad search results while the new
+  // ones are still loading.
+  useEffect(() => {
+    setClassHits(undefined);
+  }, [classSlug]);
+
   // Subject-grid search corpus: one card per subject plus a synthetic
   // "Miscellaneous" card when there are ungrouped files, so the fuzzy
   // search can match it by its displayed name too. Built from the
@@ -324,6 +407,16 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
   }, [manifest, activeStream]);
   const filteredSubjectCards = useFuseSearch(subjectCards, SUBJECT_SEARCH_KEYS, subjectQuery);
 
+  // Broad search results: the cross-class ("choose a class" page) and
+  // cross-subject (subject-grid page) hit lists, fuzzy-filtered the same
+  // way as every other search box here but against a corpus that only
+  // exists once the viewer has actually typed something (see the lazy
+  // loader effects above).
+  const filteredSourceHits = useFuseSearch(sourceHits ?? [], SOURCE_HIT_SEARCH_KEYS, trimmedQuery ? query : '', 130);
+  const isSourceSearchActive = trimmedQuery.length > 0;
+  const filteredClassHits = useFuseSearch(classHits ?? [], SOURCE_HIT_SEARCH_KEYS, trimmedSubjectQuery ? subjectQuery : '', 130);
+  const isClassSearchActive = trimmedSubjectQuery.length > 0;
+
   // Per-subject file search corpus: the subject's flat items plus every file
   // nested inside its Editor's Choice folders — a search must reach
   // folder-nested files too, not just the loose top-level ones.
@@ -333,7 +426,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
     const folderFiles = editorFolders?.flatMap(flattenFolderFiles) ?? [];
     return [...subjectItems, ...folderFiles];
   }, [subjectItems, editorFolders]);
-  const filteredFiles = useFuseSearch(allSubjectFiles, FILE_SEARCH_KEYS, fileQuery);
+  const filteredFiles = useFuseSearch(allSubjectFiles, FILE_SEARCH_KEYS, fileQuery, 50);
   const isFileSearchActive = fileQuery.trim().length > 0;
   const groups = groupItems(subjectItems);
   const subjectDataReady = subject === MISC_LABEL ? miscItems !== undefined : subjectEntry !== undefined || (!subjectLoading && subject !== undefined);
@@ -426,7 +519,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
         <div className="content-header-row">
           <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {t('resources.chooseSubject')}</p>
           {!!subjectCards.length && (
-            <label className="search-field resource-search"><Search size={18} /><input aria-label={t('resources.searchSubjects.label')} placeholder={t('resources.searchSubjects.placeholder')} value={subjectQuery} onChange={e => setSubjectQuery(e.target.value)} /></label>
+            <label className="search-field resource-search"><Search size={18} /><input aria-label={t('resources.searchClass.label')} placeholder={t('resources.searchClass.placeholder')} value={subjectQuery} onChange={e => setSubjectQuery(e.target.value)} /></label>
           )}
         </div>
       </div>
@@ -434,7 +527,30 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
         <div className="resource-stream-tabs"><StreamTabs stream={activeStream} onChange={next => onStreamChange?.(next)} /></div>
       )}
       {!!subjectCards.length && <p className="library-note resource-total-count">{subjectCards.reduce((sum, s) => sum + s.count, 0)} {t('resources.filesLabel')} {t('resources.total')}</p>}
-      {manifestIsEmpty ? (
+      {isClassSearchActive ? (
+        <>
+          <p className="library-note resource-search-count">{t('resources.search.resultsFor').replace('{query}', trimmedSubjectQuery).replace('{n}', classHitsLoading && !classHits ? '…' : String(filteredClassHits.length))}</p>
+          {classHitsLoading && !classHits ? (
+            <div className="resource-file-grid" aria-busy="true">
+              {Array.from({ length: 6 }).map((_, i) => <div key={i} className="doxx-card doxx-card-skeleton" aria-hidden="true" />)}
+            </div>
+          ) : filteredClassHits.length ? (
+            filteredClassHits.length > 60 ? (
+              <VirtualFileGrid
+                className="resource-file-grid-virtual resource-search-results"
+                items={filteredClassHits}
+                renderItem={hit => <HitFileCard key={hit.item.id} hit={hit} sourcePath={sourcePath} stream={stream} />}
+              />
+            ) : (
+              <div className="resource-file-grid resource-search-results">
+                {filteredClassHits.map(hit => <HitFileCard key={hit.item.id} hit={hit} sourcePath={sourcePath} stream={stream} />)}
+              </div>
+            )
+          ) : (
+            <div className="empty-state"><Search /><h3>{t('resources.searchClass.empty.title')}</h3><p>{t('resources.searchClass.empty.text')}</p></div>
+          )}
+        </>
+      ) : manifestIsEmpty ? (
         // Dataset exists for this class but its manifest lists zero
         // subjects (e.g. freshly added class awaiting content) — same
         // "being prepared" message as a class with no dataset at all,
@@ -535,23 +651,26 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
         </div>
       </div>
       {isFileSearchActive ? (
-        filteredFiles.length ? (
-          filteredFiles.length > 60 ? (
-            <VirtualFileGrid
-              className="resource-file-grid-virtual resource-search-results"
-              items={filteredFiles}
-              renderItem={item => <FileCard key={item.id} item={item} onClick={() => { openFile(item); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />}
-            />
+        <>
+          <p className="library-note resource-search-count">{t('resources.search.resultsFor').replace('{query}', fileQuery.trim()).replace('{n}', String(filteredFiles.length))}</p>
+          {filteredFiles.length ? (
+            filteredFiles.length > 60 ? (
+              <VirtualFileGrid
+                className="resource-file-grid-virtual resource-search-results"
+                items={filteredFiles}
+                renderItem={item => <FileCard key={item.id} item={item} onClick={() => { openFile(item); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />}
+              />
+            ) : (
+              <div className="resource-file-grid resource-search-results">
+                {filteredFiles.map(item => (
+                  <FileCard key={item.id} item={item} onClick={() => { openFile(item); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
+                ))}
+              </div>
+            )
           ) : (
-            <div className="resource-file-grid resource-search-results">
-              {filteredFiles.map(item => (
-                <FileCard key={item.id} item={item} onClick={() => { openFile(item); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
-              ))}
-            </div>
-          )
-        ) : (
-          <div className="empty-state"><Search /><h3>{t('resources.searchFiles.empty.title')}</h3><p>{t('resources.searchFiles.empty.text')}</p></div>
-        )
+            <div className="empty-state"><Search /><h3>{t('resources.searchFiles.empty.title')}</h3><p>{t('resources.searchFiles.empty.text')}</p></div>
+          )}
+        </>
       ) : subjectItems.length || editorFolders?.length ? (
         groups.map(section => (
           <GroupSection
@@ -580,21 +699,52 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
       <h1>{title}<span className="text-primary">.</span></h1>
       <div className="content-header-row">
         <p className="page-intro">{desc}</p>
-        <label className="search-field resource-search"><Search size={18} /><input aria-label={t('resources.searchLabel')} placeholder={t('resources.searchPlaceholder')} value={query} onChange={e => setQuery(e.target.value)} /></label>
+        <label className="search-field resource-search"><Search size={18} /><input aria-label={t('resources.searchSource.label')} placeholder={t('resources.searchSource.placeholder')} value={query} onChange={e => setQuery(e.target.value)} /></label>
       </div>
     </div>
-    <div className="class-grid">
-      {filtered.map(c => (
-        <Link key={c.slug} to={sourcePath} search={{ class: c.slug, subject }} className={`class-card tone-${c.tone}`}>
-          <span className="subject-icon"><c.icon /></span>
-          <h3>Class {c.grade}</h3>
-          <span className="class-label">{c.label}</span>
-          <p>{c.description}</p>
-          <div className="card-bottom">{t('class.browseSubjects')} <ArrowUpRight size={18} /></div>
-        </Link>
-      ))}
-    </div>
-    {!filtered.length && <div className="empty-state"><Search /><h3>{t('resources.empty.title')}</h3><p>{t('resources.empty.text')}</p></div>}
+    {isSourceSearchActive ? (
+      <>
+        <p className="library-note resource-search-count">{t('resources.search.resultsFor').replace('{query}', trimmedQuery).replace('{n}', sourceHitsLoading && !sourceHits ? '…' : String(filteredSourceHits.length))}</p>
+        {sourceHitsLoading && !sourceHits ? (
+          <div className="resource-file-grid" aria-busy="true">
+            {Array.from({ length: 6 }).map((_, i) => <div key={i} className="doxx-card doxx-card-skeleton" aria-hidden="true" />)}
+          </div>
+        ) : filteredSourceHits.length ? (
+          filteredSourceHits.length > 60 ? (
+            <VirtualFileGrid
+              className="resource-file-grid-virtual resource-search-results"
+              items={filteredSourceHits}
+              renderItem={hit => {
+                const cls = classes.find(c => c.slug === hit.classSlug);
+                return <HitFileCard key={hit.item.id} hit={hit} sourcePath={sourcePath} classLabel={cls ? `Class ${cls.grade}` : undefined} />;
+              }}
+            />
+          ) : (
+            <div className="resource-file-grid resource-search-results">
+              {filteredSourceHits.map(hit => {
+                const cls = classes.find(c => c.slug === hit.classSlug);
+                return <HitFileCard key={hit.item.id} hit={hit} sourcePath={sourcePath} classLabel={cls ? `Class ${cls.grade}` : undefined} />;
+              })}
+            </div>
+          )
+        ) : (
+          <div className="empty-state"><Search /><h3>{t('resources.searchSource.empty.title')}</h3><p>{t('resources.searchSource.empty.text')}</p></div>
+        )}
+      </>
+    ) : (
+      <div className="class-grid">
+        {filtered.map(c => (
+          <Link key={c.slug} to={sourcePath} search={{ class: c.slug, subject }} className={`class-card tone-${c.tone}`}>
+            <span className="subject-icon"><c.icon /></span>
+            <h3>Class {c.grade}</h3>
+            <span className="class-label">{c.label}</span>
+            <p>{c.description}</p>
+            <div className="card-bottom">{t('class.browseSubjects')} <ArrowUpRight size={18} /></div>
+          </Link>
+        ))}
+      </div>
+    )}
+    {!isSourceSearchActive && !filtered.length && <div className="empty-state"><Search /><h3>{t('resources.empty.title')}</h3><p>{t('resources.empty.text')}</p></div>}
     {disclaimer}
   </main>;
 }

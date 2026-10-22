@@ -851,6 +851,9 @@ body.pseudo-fullscreen-open { overflow: hidden; }
 .resource-file-icon { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 10px; background: var(--subject-fill, var(--muted)); color: var(--subject-ink, var(--muted-foreground)); flex-shrink: 0; }
 .resource-file-name { min-width: 0; font-weight: 600; line-height: 1.35; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
 .resource-file-type { font-size: 11px; font-weight: 700; letter-spacing: .4px; color: var(--muted-foreground); }
+.resource-file-hit-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; width: 100%; }
+.resource-file-hit-subject { font-size: 11px; font-weight: 600; color: var(--muted-foreground); background: var(--muted); padding: 2px 8px; border-radius: 999px; }
+.resource-search-count { margin-top: 20px; margin-bottom: 4px; font-size: 14px; }
 
 /* Collapsible resource groups: capped-height grid + fade + view all / show less */
 .resource-group { position: relative; }

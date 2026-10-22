@@ -165,6 +165,58 @@ export async function loadResourceMisc(source: SourceId, classSlug: string): Pro
   return dataset?.misc ?? [];
 }
 
+/** A single file match from a broad (cross-subject or cross-class) search,
+ * carrying enough context (which class + subject it lives in) to render a
+ * subtitle and to link straight back into that subject's file viewer. */
+export interface ResourceSearchHit { item: ResourceItem; classSlug: string; subject: string }
+
+const classFilesCache = new Map<string, ResourceSearchHit[]>();
+const sourceFilesCache = new Map<SourceId, ResourceSearchHit[]>();
+
+/** Every file in one class (across all its subjects, misc bucket and any
+ * Editor's Choice folder nesting), confined to the given source. Used by the
+ * class-level "search this class" broad search — loaded once per class on
+ * first use (not on every keystroke) and cached, so refining the query
+ * after that is pure in-memory filtering. */
+export async function loadAllClassFiles(source: SourceId, classSlug: string): Promise<ResourceSearchHit[]> {
+  const key = `${source}/${classSlug}`;
+  const cached = classFilesCache.get(key);
+  if (cached) return cached;
+  if (!hasResourceDataset(source, classSlug)) return [];
+  const manifest = await loadResourceManifest(source, classSlug);
+  if (!manifest) return [];
+  const hits: ResourceSearchHit[] = [];
+  for (const { subject } of manifest.subjects) {
+    const entry = await loadResourceSubject(source, classSlug, subject);
+    if (!entry) continue;
+    for (const item of entry.items) hits.push({ item, classSlug, subject });
+    for (const folder of entry.editorFolders ?? []) {
+      for (const item of flattenFolderFiles(folder)) hits.push({ item, classSlug, subject });
+    }
+  }
+  if (manifest.miscCount > 0) {
+    const misc = await loadResourceMisc(source, classSlug);
+    for (const item of misc) hits.push({ item, classSlug, subject: 'Miscellaneous' });
+  }
+  classFilesCache.set(key, hits);
+  return hits;
+}
+
+/** Every file across every indexed class for a source. Used by the
+ * top-level "search this source" broad search (e.g. every CISCE file,
+ * across ICSE 9/10 and ISC 11/12 at once). `classSlugs` is the full list of
+ * class slugs to consider — classes with no dataset yet are skipped. */
+export async function loadAllSourceFiles(source: SourceId, classSlugs: readonly string[]): Promise<ResourceSearchHit[]> {
+  const cached = sourceFilesCache.get(source);
+  if (cached) return cached;
+  const perClass = await Promise.all(
+    classSlugs.filter(slug => hasResourceDataset(source, slug)).map(slug => loadAllClassFiles(source, slug))
+  );
+  const hits = perClass.flat();
+  sourceFilesCache.set(source, hits);
+  return hits;
+}
+
 export async function loadResourceDataset(source: SourceId, classSlug: string): Promise<ResourceDataset | undefined> {
   const key = `${source}/${classSlug}`;
   const cached = datasetCache.get(key);

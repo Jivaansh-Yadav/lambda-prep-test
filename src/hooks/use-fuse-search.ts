@@ -8,11 +8,13 @@ const DEFAULT_OPTIONS: IFuseOptions<unknown> = {
 
 // Fast typing shouldn't run a full fuzzy search per keystroke: a subject's
 // file list can hold 800+ items, and `fuse.search` + the resulting re-render
-// are both synchronous main-thread work. 100ms is short enough that results
+// are both synchronous main-thread work. 120ms is short enough that results
 // still feel immediate once you pause, but collapses a burst of keystrokes
 // into one search. Only the *search* is delayed — the input is bound to its
-// own state, so typing stays at full speed.
-const DEFAULT_DEBOUNCE_MS = 100;
+// own state, so typing stays at full speed. The per-subject file search
+// (the smallest, fastest corpus) opts into a shorter 50ms debounce at its
+// call site instead of this default — see FILE_SEARCH_DEBOUNCE_MS.
+const DEFAULT_DEBOUNCE_MS = 120;
 
 /** Returns `value` only after it has stopped changing for `delay` ms. */
 function useDebouncedValue<T>(value: T, delay: number): T {
