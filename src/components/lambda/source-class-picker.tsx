@@ -421,15 +421,19 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
     const manifestIsEmpty = !manifest.subjects.length && !manifest.miscCount;
     return <main className="container content-page">
       <Link to={sourcePath} search={{}} className="back-link"><ArrowLeft size={15} /> {t('resources.backToClasses')}</Link>
-      <h1>{title}<span className="text-primary">.</span></h1>
-      <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {t('resources.chooseSubject')}</p>
+      <div className="content-header">
+        <div className="content-header-text">
+          <h1>{title}<span className="text-primary">.</span></h1>
+          <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {t('resources.chooseSubject')}</p>
+        </div>
+        {!!subjectCards.length && (
+          <label className="search-field resource-search"><Search size={18} /><input aria-label={t('resources.searchSubjects.label')} placeholder={t('resources.searchSubjects.placeholder')} value={subjectQuery} onChange={e => setSubjectQuery(e.target.value)} /></label>
+        )}
+      </div>
       {!manifestIsEmpty && currentClass.board === 'ISC' && (
         <div className="resource-stream-tabs"><StreamTabs stream={activeStream} onChange={next => onStreamChange?.(next)} /></div>
       )}
       {!!subjectCards.length && <p className="library-note resource-total-count">{subjectCards.reduce((sum, s) => sum + s.count, 0)} {t('resources.filesLabel')} {t('resources.total')}</p>}
-      {!!subjectCards.length && (
-        <label className="search-field resource-search"><Search size={18} /><input aria-label={t('resources.searchSubjects.label')} placeholder={t('resources.searchSubjects.placeholder')} value={subjectQuery} onChange={e => setSubjectQuery(e.target.value)} /></label>
-      )}
       {manifestIsEmpty ? (
         // Dataset exists for this class but its manifest lists zero
         // subjects (e.g. freshly added class awaiting content) — same
@@ -523,9 +527,13 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
 
     return <main className="container content-page">
       <Link to={sourcePath} search={{ class: classSlug, stream }} className="back-link"><ArrowLeft size={15} /> {t('hub.backToSubjects')}</Link>
-      <h1>{subject}<span className="text-primary">.</span></h1>
-      <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {title}</p>
-      <label className="search-field resource-search"><Search size={18} /><input aria-label={t('resources.searchFiles.label')} placeholder={t('resources.searchFiles.placeholder')} value={fileQuery} onChange={e => setFileQuery(e.target.value)} /></label>
+      <div className="content-header">
+        <div className="content-header-text">
+          <h1>{subject}<span className="text-primary">.</span></h1>
+          <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {title}</p>
+        </div>
+        <label className="search-field resource-search"><Search size={18} /><input aria-label={t('resources.searchFiles.label')} placeholder={t('resources.searchFiles.placeholder')} value={fileQuery} onChange={e => setFileQuery(e.target.value)} /></label>
+      </div>
       {isFileSearchActive ? (
         filteredFiles.length ? (
           filteredFiles.length > 60 ? (
@@ -568,9 +576,13 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
 
   return <main className="container content-page">
     <Link to="/resources" className="back-link"><ArrowLeft size={15} /> {t('resources.backToSources')}</Link>
-    <h1>{title}<span className="text-primary">.</span></h1>
-    <p className="page-intro">{desc}</p>
-    <label className="search-field resource-search"><Search size={18} /><input aria-label={t('resources.searchLabel')} placeholder={t('resources.searchPlaceholder')} value={query} onChange={e => setQuery(e.target.value)} /></label>
+    <div className="content-header">
+      <div className="content-header-text">
+        <h1>{title}<span className="text-primary">.</span></h1>
+        <p className="page-intro">{desc}</p>
+      </div>
+      <label className="search-field resource-search"><Search size={18} /><input aria-label={t('resources.searchLabel')} placeholder={t('resources.searchPlaceholder')} value={query} onChange={e => setQuery(e.target.value)} /></label>
+    </div>
     <div className="class-grid">
       {filtered.map(c => (
         <Link key={c.slug} to={sourcePath} search={{ class: c.slug, subject }} className={`class-card tone-${c.tone}`}>

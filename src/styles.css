@@ -349,9 +349,19 @@
   .content-page { padding-top: 65px; }
   .content-page .class-grid { margin-top: 35px; }
   .resource-search { max-width: 420px; margin-top: 35px; margin-left: auto; }
-  .resource-stream-tabs { border-top: 1px solid var(--border); margin-top: 22px; padding-top: 24px; }
   .resource-search-results { margin-top: 24px; }
   .library-note { color: var(--muted-foreground); font-size: 16px; line-height: 1.8; margin-top: 30px; }
+  .resource-stream-tabs { border-top: 1px solid var(--border); margin-top: 22px; padding-top: 24px; }
+
+  /* Pairs a page's title/description with its search field on one row so
+     the search box sits inline, right of the copy, on wide screens. The
+     text column gets a max-width so a long description can't collide with
+     or push the search field out of view. */
+  .content-header { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; margin-top: 6px; }
+  .content-header-text { flex: 1 1 420px; min-width: 0; max-width: 640px; }
+  .content-header-text h1 { margin-top: 0; }
+  .content-header-text .page-intro { margin-top: 15px; }
+  .content-header .resource-search { flex: 0 0 auto; margin: 0; }
 
   /* Syllabus */
   .syllabus-notice { margin-block: 32px; display: flex; gap: 18px; align-items: center; background: var(--muted); border-block: 1px solid var(--border); padding: 23px; }
@@ -421,6 +431,9 @@
     .hub-heading h1, .content-page h1 { font-size: 34px; }
     .hub-toolbar { flex-wrap: wrap; }
     .search-field, .hub-toolbar .search-field { width: 100%; flex: 1 1 100%; }
+    .content-header { flex-direction: column; align-items: stretch; gap: 12px; }
+    .content-header-text { max-width: none; }
+    .content-header .resource-search { width: 100%; max-width: none; margin-top: 0; }
     .syllabus-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
     .syllabus-notice { flex-wrap: wrap; padding: 18px 0; }
     .syllabus-notice p { flex: 1; }
