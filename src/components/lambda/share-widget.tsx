@@ -106,42 +106,54 @@ export function ShareWidget({ url, title, compact = false }: ShareWidgetProps) {
     }
   };
 
-  const targets = [
+  // WhatsApp and Discord are the two targets the Lambda Prep community
+  // actually lives on, so they get their own full-width, brand-gradient
+  // tiles (with the app name) above the regular grid of smaller targets.
+  const heroTargets = [
     {
       key: 'whatsapp',
       label: t('share.whatsapp'),
-      icon: <WhatsAppIcon width={20} height={20} />,
+      icon: <WhatsAppIcon width={30} height={30} />,
       onClick: () => openShareLink(`https://wa.me/?text=${encodeURIComponent(message)}`),
-    },
-    {
-      key: 'email',
-      label: t('share.email'),
-      icon: <Mail size={20} />,
-      onClick: () => openShareLink(`mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(message)}`),
-    },
-    {
-      key: 'message',
-      label: t('share.message'),
-      icon: <MessageSquareText size={20} />,
-      onClick: () => openShareLink(`sms:?body=${encodeURIComponent(message)}`),
+      className: 'share-hero-btn share-hero-whatsapp',
     },
     {
       key: 'discord',
       label: t('share.discord'),
-      icon: <DiscordIcon width={20} height={20} />,
+      icon: <DiscordIcon width={30} height={30} />,
       onClick: handleDiscord,
+      className: 'share-hero-btn share-hero-discord',
     },
+  ];
+
+  const targets = [
     {
       key: 'telegram',
       label: t('share.telegram'),
-      icon: <TelegramIcon width={20} height={20} />,
+      icon: <TelegramIcon width={26} height={26} />,
       onClick: () => openShareLink(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`),
+      className: 'share-target-btn share-target-telegram',
     },
     {
       key: 'reddit',
       label: t('share.reddit'),
-      icon: <RedditIcon width={20} height={20} />,
+      icon: <RedditIcon width={26} height={26} />,
       onClick: () => openShareLink(`https://www.reddit.com/submit?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`),
+      className: 'share-target-btn share-target-reddit',
+    },
+    {
+      key: 'email',
+      label: t('share.email'),
+      icon: <Mail size={24} strokeWidth={2} />,
+      onClick: () => openShareLink(`mailto:?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(message)}`),
+      className: 'share-target-btn share-target-email',
+    },
+    {
+      key: 'message',
+      label: t('share.message'),
+      icon: <MessageSquareText size={24} strokeWidth={2} />,
+      onClick: () => openShareLink(`sms:?body=${encodeURIComponent(message)}`),
+      className: 'share-target-btn share-target-message',
     },
   ];
 
@@ -176,6 +188,7 @@ export function ShareWidget({ url, title, compact = false }: ShareWidgetProps) {
           >
             <button type="button" className="share-dialog-close" aria-label="Close" onClick={() => setOpen(false)}><X size={18} /></button>
             <h2 id="share-dialog-title">{t('share.title')}</h2>
+            <p className="share-dialog-description">{t('share.description')}</p>
 
             <div className="share-link-row">
               <input className="share-link-input" type="text" readOnly value={url} onFocus={e => e.currentTarget.select()} />
@@ -184,16 +197,28 @@ export function ShareWidget({ url, title, compact = false }: ShareWidgetProps) {
               </button>
             </div>
 
+            <div className="share-hero-row">
+              {heroTargets.map(target => (
+                <button key={target.key} type="button" className={target.className} onClick={target.onClick}>
+                  <span className="share-hero-icon">{target.icon}</span>
+                  <span className="share-hero-label">
+                    <span className="share-hero-label-app">Lambda Prep</span>
+                    <span className="share-hero-label-target">{target.label}</span>
+                  </span>
+                </button>
+              ))}
+            </div>
+
             <div className="share-targets-grid">
               {targets.map(target => (
-                <button key={target.key} type="button" className="share-target-btn" onClick={target.onClick}>
+                <button key={target.key} type="button" className={target.className} onClick={target.onClick}>
                   <span className="share-target-icon">{target.icon}</span>
                   <span className="share-target-label">{target.label}</span>
                 </button>
               ))}
               {canNativeShare && (
-                <button type="button" className="share-target-btn" onClick={handleNativeShare}>
-                  <span className="share-target-icon"><Share2 size={20} /></span>
+                <button type="button" className="share-target-btn share-target-more" onClick={handleNativeShare}>
+                  <span className="share-target-icon"><Share2 size={24} strokeWidth={2} /></span>
                   <span className="share-target-label">{t('share.more')}</span>
                 </button>
               )}

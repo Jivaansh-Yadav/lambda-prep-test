@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowUpRight, BookOpen, ChevronRight, MonitorPlay, PlayCircl
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import type { DoxxLesson } from '@/components/lambda/doxx-watch';
 import { curriculumClasses } from '@/lib/curriculum';
-import { classes, findSubjectMeta, pageHead, SITE_URL } from '@/lib/lambda';
+import { classes, findSubjectMeta, pageHead, getSiteOrigin } from '@/lib/lambda';
 import { useI18n } from '@/lib/i18n';
 import { useFuseSearch } from '@/hooks/use-fuse-search';
 
@@ -232,7 +232,7 @@ function Doxxmarks() {
               active={playing}
               topicName={topic.name}
               onSelect={playLesson}
-              shareUrl={`${SITE_URL}/doxxmarks?class=${encodeURIComponent(classSlug ?? '')}&subject=${encodeURIComponent(subjectName ?? '')}&chapter=${chapterIdx}&topic=${topicIdx}&lesson=${combinedLessons.findIndex(l => l.link === playing.link && l.kind === playing.kind)}`}
+              shareUrl={`${getSiteOrigin()}/doxxmarks?class=${encodeURIComponent(classSlug ?? '')}&subject=${encodeURIComponent(subjectName ?? '')}&chapter=${chapterIdx}&topic=${topicIdx}&lesson=${combinedLessons.findIndex(l => l.link === playing.link && l.kind === playing.kind)}`}
             />
           </Suspense>
         )}

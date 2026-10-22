@@ -615,24 +615,90 @@
 .share-trigger-btn { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding-inline: 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--foreground); font-size: 13px; font-weight: 600; cursor: pointer; transition: background .15s, border-color .15s; }
 .share-trigger-btn:hover { background: var(--muted); border-color: var(--primary); }
 .share-modal-backdrop { position: fixed; inset: 0; z-index: 60; background: var(--overlay); display: flex; align-items: center; justify-content: center; padding: 20px; animation: overlay-fade-in .18s ease-out; }
-.share-dialog { position: relative; background: var(--background); padding: 28px; border-radius: 14px; max-width: 420px; width: 100%; box-shadow: var(--shadow); animation: modal-in .22s ease-out; }
+.share-dialog { position: relative; background: var(--background); padding: 28px; border-radius: 16px; max-width: 440px; width: 100%; box-shadow: var(--shadow); animation: modal-in .22s ease-out; }
 .share-dialog h2 { font-size: 18px; font-weight: 700; margin-right: 24px; }
-.share-dialog-close { position: absolute; right: 16px; top: 16px; display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border: none; border-radius: 8px; background: none; color: var(--muted-foreground); cursor: pointer; transition: background .15s; }
-.share-dialog-close:hover { background: var(--muted); color: var(--foreground); }
+.share-dialog-description { margin-top: 6px; font-size: 13px; line-height: 1.5; color: var(--muted-foreground); }
+.share-dialog-close { position: absolute; right: 16px; top: 16px; display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border: none; border-radius: 8px; background: none; color: var(--muted-foreground); cursor: pointer; transition: background .15s, transform .15s; }
+.share-dialog-close:hover { background: var(--muted); color: var(--foreground); transform: rotate(90deg); }
 .share-link-row { display: flex; gap: 8px; margin-top: 18px; }
 .share-link-input { flex: 1; min-width: 0; height: 38px; padding-inline: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--muted); color: var(--muted-foreground); font-size: 13px; }
 .share-link-input:focus { outline: none; border-color: var(--primary); color: var(--foreground); }
-.share-copy-btn { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; height: 38px; padding-inline: 14px; border: none; border-radius: 8px; background: var(--primary); color: var(--primary-foreground); font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity .15s; }
-.share-copy-btn:hover { opacity: 0.9; }
-.share-targets-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; }
-.share-target-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 6px; border: 1px solid var(--border); border-radius: 10px; background: var(--card); color: var(--foreground); cursor: pointer; transition: background .15s, border-color .15s, transform .15s; }
-.share-target-btn:hover { background: var(--muted); border-color: var(--primary); transform: translateY(-1px); }
-.share-target-icon { display: inline-flex; align-items: center; justify-content: center; color: var(--primary); }
+.share-copy-btn { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; height: 38px; padding-inline: 14px; border: none; border-radius: 8px; background: var(--primary); color: var(--primary-foreground); font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity .15s, transform .15s; }
+.share-copy-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+.share-copy-btn:active { transform: translateY(0); }
+
+/* Hero row — WhatsApp and Discord get full-width, high-contrast gradient
+ * tiles since those are where the Lambda Prep community actually lives;
+ * each shows the app name alongside the target name. */
+.share-hero-row { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
+.share-hero-btn {
+  display: flex; align-items: center; gap: 14px; width: 100%;
+  padding: 14px 18px; border: none; border-radius: 12px; cursor: pointer;
+  color: #fff; text-align: left;
+  animation: share-tile-in .35s ease-out backwards;
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+}
+.share-hero-btn:nth-of-type(1) { animation-delay: .02s; }
+.share-hero-btn:nth-of-type(2) { animation-delay: .08s; }
+.share-hero-btn:hover { transform: translateY(-2px) scale(1.012); filter: brightness(1.05); }
+.share-hero-btn:active { transform: translateY(0) scale(0.995); }
+.share-hero-whatsapp {
+  background: linear-gradient(135deg, oklch(0.72 0.19 150), oklch(0.5 0.15 160));
+  box-shadow: 0 8px 20px oklch(0.6 0.18 155 / 28%);
+}
+.share-hero-discord {
+  background: linear-gradient(135deg, oklch(0.68 0.16 285), oklch(0.5 0.17 290));
+  box-shadow: 0 8px 20px oklch(0.55 0.17 288 / 28%);
+}
+.share-hero-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0; width: 48px; height: 48px; border-radius: 50%;
+  background: oklch(1 0 0 / 18%); color: #fff;
+  transition: transform .25s ease;
+}
+.share-hero-btn:hover .share-hero-icon { transform: scale(1.1) rotate(-6deg); }
+.share-hero-label { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.share-hero-label-app { font-size: 15px; font-weight: 800; letter-spacing: -0.01em; }
+.share-hero-label-target { font-size: 12px; font-weight: 600; opacity: 0.85; }
+
+/* Secondary grid — Telegram, Reddit, Email, Message(+More): smaller
+ * tiles with light brand-tinted gradients instead of the hero treatment. */
+.share-targets-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 14px; }
+.share-target-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 14px 6px; border: 1px solid var(--border); border-radius: 12px;
+  background: var(--card); color: var(--foreground); cursor: pointer;
+  animation: share-tile-in .35s ease-out backwards;
+  transition: background .18s, border-color .18s, transform .18s, box-shadow .18s;
+}
+.share-target-btn:nth-child(1) { animation-delay: .12s; }
+.share-target-btn:nth-child(2) { animation-delay: .16s; }
+.share-target-btn:nth-child(3) { animation-delay: .20s; }
+.share-target-btn:nth-child(4) { animation-delay: .24s; }
+.share-target-btn:nth-child(5) { animation-delay: .28s; }
+.share-target-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px oklch(0.2 0.03 260 / 10%); }
+.share-target-icon { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 50%; transition: transform .25s ease; }
+.share-target-btn:hover .share-target-icon { transform: scale(1.12) rotate(-6deg); }
 .share-target-label { font-size: 11.5px; font-weight: 600; color: var(--muted-foreground); }
+.share-target-telegram { background: linear-gradient(160deg, oklch(0.95 0.035 235), var(--card)); border-color: oklch(0.8 0.08 235); }
+.share-target-telegram .share-target-icon { background: oklch(0.9 0.07 235); color: oklch(0.45 0.16 230); }
+.share-target-reddit { background: linear-gradient(160deg, oklch(0.95 0.04 45), var(--card)); border-color: oklch(0.8 0.1 45); }
+.share-target-reddit .share-target-icon { background: oklch(0.9 0.08 45); color: oklch(0.5 0.17 40); }
+.share-target-email { background: linear-gradient(160deg, oklch(0.95 0.03 260), var(--card)); border-color: oklch(0.82 0.06 260); }
+.share-target-email .share-target-icon { background: oklch(0.9 0.05 260); color: var(--primary); }
+.share-target-message { background: linear-gradient(160deg, oklch(0.95 0.035 155), var(--card)); border-color: oklch(0.8 0.08 155); }
+.share-target-message .share-target-icon { background: oklch(0.9 0.06 155); color: var(--green-ink); }
+.share-target-more { background: linear-gradient(160deg, oklch(0.95 0.025 300), var(--card)); border-color: oklch(0.82 0.06 300); }
+.share-target-more .share-target-icon { background: oklch(0.9 0.05 300); color: var(--purple-ink); }
 .share-hint { display: flex; align-items: center; gap: 4px; justify-content: center; margin-top: 16px; font-size: 12.5px; color: var(--green-ink); min-height: 16px; }
 .share-hint:empty { margin-top: 0; }
+@keyframes share-tile-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
 @media (max-width: 480px) {
-  .share-targets-grid { grid-template-columns: repeat(3, 1fr); }
+  .share-targets-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .share-hero-label-app { font-size: 14px; }
 }
 
 .doxx-video-wrap { border-radius: 12px; overflow: hidden; background: oklch(0.12 0.015 260); aspect-ratio: 16 / 9; }

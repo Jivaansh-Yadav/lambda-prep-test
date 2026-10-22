@@ -116,6 +116,7 @@ const en: Dict = {
 
   'share.button': 'Share',
   'share.title': 'Share this resource',
+  'share.description': 'Lambda Prep is a free, curated resource hub for ICSE & ISC students \u2014 notes, past papers and revision materials, all in one place. Help a classmate find it too.',
   'share.copyLink': 'Copy link',
   'share.copied': 'Copied!',
   'share.copyFailed': 'Couldn\u2019t copy \u2014 select and copy manually',

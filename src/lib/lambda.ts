@@ -43,6 +43,19 @@ export function findSubjectMeta(name: string) {
 export const SITE_URL = 'https://project-3354c0eb.eazo.dev';
 export const OG_IMAGE = `${SITE_URL}/og/lambda-prep-og.png`;
 
+/** Resolves to whatever domain the app is actually being served from (the
+ * Eazo preview/production domain, a Cloudflare custom domain, a Remix's own
+ * domain, etc.) instead of the hardcoded SITE_URL above, which only matters
+ * for SSR-only metadata (canonical/og tags) where there's no browser origin
+ * to read. Share links must always point at the viewer's current host, not
+ * wherever this code happened to be built for. */
+export function getSiteOrigin() {
+  if (typeof window !== 'undefined' && window.location?.origin) {
+    return window.location.origin;
+  }
+  return SITE_URL;
+}
+
 export function pageHead(title: string, description: string, path = '/') {
   const fullTitle = `${title} | Lambda Prep`;
   const url = `${SITE_URL}${path}`;
