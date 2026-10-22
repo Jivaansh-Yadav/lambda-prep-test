@@ -1,4 +1,4 @@
-import { Leaf, FlaskConical, Calculator, Monitor, PenLine, Globe2, Languages, Landmark, Ruler, Lightbulb, BookOpen, ChartNoAxesCombined, BriefcaseBusiness, Brain } from 'lucide-react';
+import { Leaf, FlaskConical, Calculator, Monitor, PenLine, Globe2, Languages, Landmark, Ruler, Lightbulb, BookOpen, ChartNoAxesCombined, BriefcaseBusiness, Brain, HeartPulse, Users } from 'lucide-react';
 
 export const classes = [
   { slug: 'icse-9', grade: '9', roman: 'IX', board: 'ICSE', label: 'ICSE Foundation', description: 'Build strong foundations. Get a head start.', icon: BookOpen, tone: 'blue' },
@@ -13,20 +13,24 @@ export const subjects = [
   { name: 'Commercial Studies', icon: BriefcaseBusiness, tone: 'teal', streams: ['Commerce'], icseOnly: true },
   { name: 'Economic Applications', icon: ChartNoAxesCombined, tone: 'rose', streams: ['Commerce'], icseOnly: true },
   { name: 'Computer Applications', icon: Monitor, tone: 'blue', streams: ['Science'], icseOnly: true },
-  { name: 'English', icon: PenLine, tone: 'purple', streams: ['Science', 'Commerce', 'Humanities'] },
-  { name: 'English Literature', icon: BookOpen, tone: 'rose', streams: ['Science', 'Commerce', 'Humanities'] },
+  { name: 'English Language', icon: PenLine, tone: 'purple', streams: ['Science', 'Commerce', 'Humanities'] },
+  { name: 'Literature in English', icon: BookOpen, tone: 'rose', streams: ['Science', 'Commerce', 'Humanities'] },
   { name: 'Geography', icon: Globe2, tone: 'teal', streams: ['Humanities'] },
   { name: 'Hindi', icon: Languages, tone: 'rose', streams: ['Science', 'Commerce', 'Humanities'] },
   { name: 'History & Civics', icon: Landmark, tone: 'amber', streams: ['Humanities'], icseOnly: true },
   { name: 'Mathematics', icon: Ruler, tone: 'blue', streams: ['Science', 'Commerce'] },
   { name: 'Physics', icon: Lightbulb, tone: 'amber', streams: ['Science'] },
   { name: 'Computer Science', icon: Monitor, tone: 'blue', streams: ['Science'], iscOnly: true },
-  { name: 'Accounts', icon: Calculator, tone: 'green', streams: ['Commerce'], iscOnly: true },
+  { name: 'Accountancy', icon: Calculator, tone: 'green', streams: ['Commerce'], iscOnly: true },
+  { name: 'Business Studies', icon: BriefcaseBusiness, tone: 'green', streams: ['Commerce'], iscOnly: true },
   { name: 'Commerce', icon: BriefcaseBusiness, tone: 'teal', streams: ['Commerce'], iscOnly: true },
   { name: 'Economics', icon: ChartNoAxesCombined, tone: 'rose', streams: ['Commerce', 'Humanities'], iscOnly: true },
+  { name: 'Environmental Science', icon: Leaf, tone: 'teal', streams: ['Science', 'Commerce', 'Humanities'], iscOnly: true },
   { name: 'History', icon: Landmark, tone: 'amber', streams: ['Humanities'], iscOnly: true },
+  { name: 'Home Science', icon: HeartPulse, tone: 'rose', streams: ['Humanities'], iscOnly: true },
   { name: 'Political Science', icon: BookOpen, tone: 'purple', streams: ['Humanities'], iscOnly: true },
   { name: 'Psychology', icon: Brain, tone: 'rose', streams: ['Humanities'], iscOnly: true },
+  { name: 'Sociology', icon: Users, tone: 'amber', streams: ['Humanities'], iscOnly: true },
 ];
 export function getSubjects(board: string, stream = 'All') {
   return subjects.filter(subject => (board === 'ISC' ? !subject.icseOnly : !subject.iscOnly) && (stream === 'All' || subject.streams.includes(stream)));
@@ -36,7 +40,7 @@ export function findSubjectMeta(name: string) {
   return subjects.find(s => s.name.toLowerCase() === normalized)
     ?? subjects.find(s => normalized.startsWith(s.name.toLowerCase()) || s.name.toLowerCase().startsWith(normalized));
 }
-export const SITE_URL = 'https://lambda-prep-test.pages.dev';
+export const SITE_URL = 'https://project-3354c0eb.eazo.dev';
 export const OG_IMAGE = `${SITE_URL}/og/lambda-prep-og.png`;
 
 export function pageHead(title: string, description: string, path = '/') {

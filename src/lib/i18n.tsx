@@ -142,7 +142,7 @@ const en: Dict = {
 
   'syllabus.title': 'Your syllabus, in focus',
   'syllabus.subtitle': 'ICSE and ISC \u00b7 2026-27 reference curriculum',
-  'syllabus.notice': 'This is a subject overview, not an official syllabus document. Confirm prescribed topics, subject combinations and examination years with your school and the latest CISCE publications.',
+  'syllabus.notice': 'Lambda Prep covers the core ICSE and ISC subjects that need the most rigorous, structured practice \u2014 the ones where consistent revision and past-paper drilling make the biggest difference to your board score. This is a subject overview, not an official syllabus document. Confirm prescribed topics, subject combinations and examination years with your school and the latest CISCE publications.',
   'syllabus.visitCisce': 'Visit CISCE',
 
   'hub.allClasses': 'All classes',

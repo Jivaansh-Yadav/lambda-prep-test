@@ -157,126 +157,101 @@ async function getFolder(folderId, currentPath = "") {
   return children;
 }
 
-// 🔥 FLATTEN FUNCTION (added)
-function flattenTree(node, result = []) {
-  if (node.type === "file") {
-    result.push({
-      name: node.name,
-      id: node.id,
-      path: node.path,
-      mimeType: node.mimeType,
-      createdTime: node.createdTime,
-      modifiedTime: node.modifiedTime,
-      size: node.size,
-    });
-  }
+// 🏁 Main: crawl the unified Lambda Prep Drive root. Its direct children are
+// one folder per class ("ICSE - IX", "ICSE - X", "ISC - XI", "ISC - XII")
+// plus a "Doxxmarks" folder (InstaRevision chapter notes, nested the same
+// way: Doxxmarks / <class folder name> / <subject> / <chapter> -
+// InstaRevision.pdf). Each class folder contains "CISCE Resources" (board
+// publications: APF/CFQ/PYQP/SQP/Syllabus type-folders) and
+// "Community Resources" (subject-named folders directly).
+const NEW_ROOT_FOLDER_ID = "1Dref01UoCLaP6DrQHRxqY1Nrj-f5illc";
 
-  if (node.type === "folder" && node.children) {
-    for (const child of node.children) {
-      flattenTree(child, result);
-    }
-  }
+const CLASS_FOLDER_TO_SLUG = {
+  "icse - ix": "icse-9",
+  "icse - x": "icse-10",
+  "isc - xi": "isc-11",
+  "isc - xii": "isc-12",
+};
 
-  return result;
-}
-
-// 🏁 Main
 (async () => {
   try {
-    const ROOT_FOLDER_ID = "1CkUuGnUR3idrhEBxgiV5U9fFf5RjbZQK";
-    const ISC11_FOLDER_ID = "1ms1X7bkoF1igt8xFa_dCqTri_9IX8RbR";
-
-    const rootMeta = await withRetry(
-      () =>
-        drive.files.get({
-          fileId: ROOT_FOLDER_ID,
-          fields: "name",
-        }),
-      `files.get(${ROOT_FOLDER_ID})`
-    );
-
-    const rootName = rootMeta.data.name;
-
-    const rootChildren = await getFolder(ROOT_FOLDER_ID, rootName);
-
-    // 🔥 Find specific folders
-    const cisce = rootChildren.find(f =>
-      f.name.toLowerCase().includes("cisce")
-    );
-
-    const study = rootChildren.find(f =>
-      f.name.toLowerCase().includes("study")
-    );
+    const rootChildren = await getFolder(NEW_ROOT_FOLDER_ID, "Lambda Prep");
 
     const outDir = "./output";
     fs.mkdirSync(outDir, { recursive: true });
 
-    // 📝 Write tree files
-    if (cisce) {
-      fs.writeFileSync(
-        path.join(outDir, "cisce-resources.json"),
-        JSON.stringify(cisce, null, 2)
-      );
-      console.log("✅ cisce-resources.json created");
+    let doxxmarksNode = null;
+
+    for (const child of rootChildren) {
+      if (child.type !== "folder") continue;
+      const key = child.name.trim().toLowerCase();
+
+      if (key === "doxxmarks") {
+        doxxmarksNode = child;
+        continue;
+      }
+
+      const slug = CLASS_FOLDER_TO_SLUG[key];
+      if (!slug) {
+        console.log(`⚠️ Unrecognized top-level folder, skipping: "${child.name}"`);
+        continue;
+      }
+
+      const classOutDir = path.join(outDir, slug);
+      fs.mkdirSync(classOutDir, { recursive: true });
+
+      const cisce = child.children.find(f => f.type === "folder" && f.name.toLowerCase().includes("cisce"));
+      const community = child.children.find(f => f.type === "folder" && f.name.toLowerCase().includes("community"));
+
+      if (cisce) {
+        fs.writeFileSync(path.join(classOutDir, "cisce.json"), JSON.stringify(cisce, null, 2));
+        console.log(`✅ ${slug}/cisce.json created`);
+      } else {
+        console.log(`⚠️ "${child.name}": CISCE Resources folder not found`);
+      }
+
+      if (community) {
+        fs.writeFileSync(path.join(classOutDir, "community.json"), JSON.stringify(community, null, 2));
+        console.log(`✅ ${slug}/community.json created`);
+      } else {
+        console.log(`⚠️ "${child.name}": Community Resources folder not found`);
+      }
+    }
+
+    if (doxxmarksNode) {
+      fs.writeFileSync(path.join(outDir, "doxxmarks.json"), JSON.stringify(doxxmarksNode, null, 2));
+      console.log("✅ doxxmarks.json created");
     } else {
-      console.log("⚠️ CISCE folder not found");
+      console.log("⚠️ Doxxmarks folder not found");
     }
 
-    if (study) {
-      fs.writeFileSync(
-        path.join(outDir, "study-materials.json"),
-        JSON.stringify(study, null, 2)
-      );
-      console.log("✅ study-materials.json created");
-    } else {
-      console.log("⚠️ Study Materials folder not found");
+    // 🔥 CREATE FLATTENED SEARCH INDEX (kept from the previous crawler, now
+    // covering the whole new root in one flat list)
+    function flattenTree(node, result = []) {
+      if (node.type === "file") {
+        result.push({
+          name: node.name,
+          id: node.id,
+          path: node.path,
+          mimeType: node.mimeType,
+          createdTime: node.createdTime,
+          modifiedTime: node.modifiedTime,
+          size: node.size,
+        });
+      }
+      if (node.type === "folder" && node.children) {
+        for (const child of node.children) {
+          flattenTree(child, result);
+        }
+      }
+      return result;
     }
 
-    // 📚 ISC - XI community resources (separate Drive root): crawl its
-    // subject subfolders (Chemistry, English, Maths, Physics, ...) and
-    // write each as its own tree file, matching what
-    // transform-isc11-resources.py expects (one file per subject folder,
-    // rooted at the subject folder itself).
-    const isc11Meta = await withRetry(
-      () =>
-        drive.files.get({
-          fileId: ISC11_FOLDER_ID,
-          fields: "name",
-        }),
-      `files.get(${ISC11_FOLDER_ID})`
-    );
-    const isc11Children = await getFolder(ISC11_FOLDER_ID, isc11Meta.data.name);
-
-    const isc11OutDir = path.join(outDir, "isc-11");
-    fs.mkdirSync(isc11OutDir, { recursive: true });
-
-    const isc11SubjectFolders = isc11Children.filter(f => f.type === "folder");
-    for (const subjectFolder of isc11SubjectFolders) {
-      const slug = subjectFolder.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-      fs.writeFileSync(
-        path.join(isc11OutDir, `${slug}.json`),
-        JSON.stringify(subjectFolder, null, 2)
-      );
-      console.log(`✅ isc-11/${slug}.json created (${subjectFolder.name})`);
-    }
-    if (isc11SubjectFolders.length === 0) {
-      console.log("⚠️ ISC - XI folder had no subject subfolders");
-    }
-
-    // 🔥 CREATE FLATTENED SEARCH INDEX (added)
-    const flat = flattenTree({
-      type: "folder",
-      children: rootChildren,
-    });
-
-    fs.writeFileSync(
-      path.join(outDir, "search-index.json"),
-      JSON.stringify(flat, null, 2)
-    );
-
+    const flat = flattenTree({ type: "folder", children: rootChildren });
+    fs.writeFileSync(path.join(outDir, "search-index.json"), JSON.stringify(flat, null, 2));
     console.log("✅ search-index.json created");
-
   } catch (err) {
     console.error("❌ Error:", err.message);
+    process.exitCode = 1;
   }
 })();

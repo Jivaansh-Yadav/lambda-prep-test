@@ -1,26 +1,31 @@
 #!/usr/bin/env node
 /**
- * One-shot pipeline: re-crawl Google Drive, rebuild every resource dataset,
- * re-shard the large community dataset per subject, normalize subject card
- * order, and regenerate the resource-count summary — all in a single
- * `node generate-all-resources.js` run instead of manually chaining the
- * individual scripts in order.
+ * One-shot pipeline: re-crawl Google Drive, rebuild every resource dataset
+ * for all four classes (icse-9, icse-10, isc-11, isc-12) across both
+ * sources (CISCE + Community), re-shard any dataset that's grown too large
+ * to load monolithically, normalize subject card order, and regenerate the
+ * resource-count summary — all in a single `node generate-all-resources.js`
+ * run instead of manually chaining the individual scripts in order.
  *
  * Steps:
- *   1. scripts/drive-crawl/generate-drive-json.js -> scripts/drive-crawl/output/*.json
- *      (crawls Google Drive, both the CISCE/Study-Materials root and the
- *      separate ISC-XI root; has its own 50ms exponential-backoff retries)
- *   2. scripts/transform-resources.py        -> src/data/resources-cisce-icse-10.json
- *                                               src/data/resources-community-icse-10.json
- *   3. scripts/transform-isc11-resources.py  -> src/data/resources-community-isc-11.json
- *      (prefers scripts/drive-crawl/output/isc-11/*.json from the crawl;
- *      falls back to a manual ISC11_SRC_DIR upload dir for local use; skips
- *      entirely if neither has anything usable)
- *   4. scripts/split-resources-dataset.py    -> shards resources-community-icse-10.json
- *                                               into resources-community-icse-10/*.json
- *   5. scripts/sort-manifest-subjects.py     -> reorders every manifest.json's
+ *   1. scripts/drive-crawl/generate-drive-json.js -> scripts/drive-crawl/output/
+ *      <class>/{cisce,community}.json for each of icse-9, icse-10, isc-11,
+ *      isc-12, plus output/doxxmarks.json (crawls the single unified Lambda
+ *      Prep Drive root; has its own exponential-backoff retries)
+ *   2. scripts/transform-resources.py        -> src/data/resources-{cisce,
+ *                                               community}-<class>.json for
+ *                                               every class with crawl
+ *                                               output present, and rewrites
+ *                                               src/data/curriculum.json's
+ *                                               chapter revisionNotes from
+ *                                               Doxxmarks InstaRevision PDFs
+ *   3. scripts/split-resources-dataset.py    -> shards any resources-*.json
+ *                                               dataset that's grown past
+ *                                               the size threshold into
+ *                                               resources-<source>-<class>/*.json
+ *   4. scripts/sort-manifest-subjects.py     -> reorders every manifest.json's
  *                                               subjects: Featured first, then A-Z
- *   6. scripts/count-resources.py            -> src/data/resource-counts.json
+ *   5. scripts/count-resources.py            -> src/data/resource-counts.json
  *
  * Any step failing aborts the run (fail-fast) so a half-updated dataset
  * never silently ships.
@@ -96,53 +101,20 @@ async function main() {
     );
   }
 
-  // Step 2: CISCE + Community (ICSE-10) transform.
+  // Step 2: transform every class's CISCE + Community datasets, and update
+  // curriculum.json's chapter revisionNotes from Doxxmarks.
   steps.push({
-    label: "Transform CISCE + Community ICSE-10 resources",
+    label: "Transform CISCE + Community resources for all classes",
     run: () => run("python3", ["scripts/transform-resources.py"], PROJECT_ROOT),
   });
 
-  // Step 3: ISC-11 transform. Primary source is the Drive crawl's own
-  // scripts/drive-crawl/output/isc-11/*.json (written by step 1); falls back
-  // to a manual one-off upload dir (ISC11_SRC_DIR, default
-  // /tmp/clacky-uploads) for local sandbox use when the crawl hasn't been
-  // run. Skipped entirely if neither source has anything usable.
-  const isc11CrawlDir = path.join(DRIVE_CRAWL_DIR, "output", "isc-11");
-  const hasIsc11Crawl = fs.existsSync(isc11CrawlDir) && fs.readdirSync(isc11CrawlDir).some((f) => f.endsWith(".json"));
-
-  const isc11UploadDir = process.env.ISC11_SRC_DIR || "/tmp/clacky-uploads";
-  const legacyIsc11Sources = [
-    "20bc943212a30034_chemistry.json",
-    "9a8dfba8ba64f4c2_english.json",
-    "0ac513c2cc0b0021_maths.json",
-    "a3576d60003ef70d_physics.json",
-  ].map((f) => path.join(isc11UploadDir, f));
-  const hasIsc11Upload = legacyIsc11Sources.every((p) => fs.existsSync(p));
-
-  if (hasIsc11Crawl) {
-    steps.push({
-      label: "Transform ISC-11 community resources (from Drive crawl)",
-      run: () => run("python3", ["scripts/transform-isc11-resources.py"], PROJECT_ROOT, { env: { ISC11_SRC_DIR: isc11CrawlDir } }),
-    });
-  } else if (hasIsc11Upload) {
-    steps.push({
-      label: "Transform ISC-11 community resources (from manual upload)",
-      run: () => run("python3", ["scripts/transform-isc11-resources.py"], PROJECT_ROOT, { env: { ISC11_SRC_DIR: isc11UploadDir } }),
-    });
-  } else {
-    console.warn(
-      `⚠️ Skipping ISC-11 transform — no source found in ${isc11CrawlDir} or ${isc11UploadDir}. ` +
-        "Keeping the existing src/data/resources-community-isc-11.json as-is."
-    );
-  }
-
-  // Step 4: shard the large Community ICSE-10 dataset per subject.
+  // Step 3: shard any dataset that's grown past the split threshold.
   steps.push({
-    label: "Split Community ICSE-10 dataset per subject",
+    label: "Split oversized datasets per subject",
     run: () => run("python3", ["scripts/split-resources-dataset.py"], PROJECT_ROOT),
   });
 
-  // Step 5: sort each dataset's manifest subject order — "Featured" first,
+  // Step 4: sort each dataset's manifest subject order — "Featured" first,
   // then alphabetical (Miscellaneous is appended last by the UI itself via
   // miscCount, so it needs no entry here).
   steps.push({
@@ -150,7 +122,7 @@ async function main() {
     run: () => run("python3", ["scripts/sort-manifest-subjects.py"], PROJECT_ROOT),
   });
 
-  // Step 6: recompute resource counts across every dataset.
+  // Step 5: recompute resource counts across every dataset.
   steps.push({
     label: "Count resources across all datasets",
     run: () => run("python3", ["scripts/count-resources.py"], PROJECT_ROOT),

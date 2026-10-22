@@ -35,10 +35,15 @@ type SourceId = 'cisce' | 'community';
 //    that subject's JSON instead of the whole multi-MB blob.
 const MONOLITHIC_LOADERS: Record<SourceId, Record<string, () => Promise<{ default: unknown }>>> = {
   cisce: {
+    'icse-9': () => import('@/data/resources-cisce-icse-9.json'),
     'icse-10': () => import('@/data/resources-cisce-icse-10.json'),
+    'isc-11': () => import('@/data/resources-cisce-isc-11.json'),
+    'isc-12': () => import('@/data/resources-cisce-isc-12.json'),
   },
   community: {
+    'icse-9': () => import('@/data/resources-community-icse-9.json'),
     'isc-11': () => import('@/data/resources-community-isc-11.json'),
+    'isc-12': () => import('@/data/resources-community-isc-12.json'),
   },
 };
 
@@ -62,7 +67,7 @@ const SPLIT_SUBJECT_LOADERS: Record<SourceId, Record<string, Record<string, () =
       'economic-applications': () => import('@/data/resources-community-icse-10/economic-applications.json'),
       economics: () => import('@/data/resources-community-icse-10/economics.json'),
       'english-language': () => import('@/data/resources-community-icse-10/english-language.json'),
-      'english-literature': () => import('@/data/resources-community-icse-10/english-literature.json'),
+      'literature-in-english': () => import('@/data/resources-community-icse-10/literature-in-english.json'),
       geography: () => import('@/data/resources-community-icse-10/geography.json'),
       hindi: () => import('@/data/resources-community-icse-10/hindi.json'),
       'history-civics': () => import('@/data/resources-community-icse-10/history-civics.json'),

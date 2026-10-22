@@ -21,11 +21,15 @@ DATA_DIR = os.path.join(ROOT, 'src', 'data')
 OUT_PATH = os.path.join(DATA_DIR, 'resource-counts.json')
 
 # (source, classSlug) -> path (monolithic .json file) or dir (split dataset)
-DATASETS = {
-    ('cisce', 'icse-10'): os.path.join(DATA_DIR, 'resources-cisce-icse-10.json'),
-    ('community', 'icse-10'): os.path.join(DATA_DIR, 'resources-community-icse-10'),
-    ('community', 'isc-11'): os.path.join(DATA_DIR, 'resources-community-isc-11.json'),
-}
+SOURCES = ['cisce', 'community']
+CLASS_SLUGS = ['icse-9', 'icse-10', 'isc-11', 'isc-12']
+
+
+def dataset_path(source, class_slug):
+    split_dir = os.path.join(DATA_DIR, f'resources-{source}-{class_slug}')
+    if os.path.isdir(split_dir):
+        return split_dir
+    return os.path.join(DATA_DIR, f'resources-{source}-{class_slug}.json')
 
 
 def count_monolithic(path):
@@ -50,18 +54,20 @@ def count_split(dir_path):
 def main():
     result = {}
     grand_total = 0
-    for (source, class_slug), path in DATASETS.items():
-        if os.path.isdir(path):
-            counts = count_split(path)
-        elif os.path.isfile(path):
-            counts = count_monolithic(path)
-        else:
-            print(f'skip {source}/{class_slug}: {path} not found')
-            continue
-        result.setdefault(source, {})[class_slug] = counts
-        grand_total += counts['total']
-        print(f'{source}/{class_slug}: {counts["total"]} files '
-              f'({len(counts["subjects"])} subjects, {counts["misc"]} misc)')
+    for source in SOURCES:
+        for class_slug in CLASS_SLUGS:
+            path = dataset_path(source, class_slug)
+            if os.path.isdir(path):
+                counts = count_split(path)
+            elif os.path.isfile(path):
+                counts = count_monolithic(path)
+            else:
+                print(f'skip {source}/{class_slug}: {path} not found')
+                continue
+            result.setdefault(source, {})[class_slug] = counts
+            grand_total += counts['total']
+            print(f'{source}/{class_slug}: {counts["total"]} files '
+                  f'({len(counts["subjects"])} subjects, {counts["misc"]} misc)')
 
     output = {'generatedAt': None, 'grandTotal': grand_total, 'bySource': result}
     # Stamp a UTC timestamp without relying on an extra import at module load.
