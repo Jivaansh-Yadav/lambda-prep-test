@@ -615,7 +615,7 @@
 .share-trigger-btn { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding-inline: 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--foreground); font-size: 13px; font-weight: 600; cursor: pointer; transition: background .15s, border-color .15s; }
 .share-trigger-btn:hover { background: var(--muted); border-color: var(--primary); }
 .share-modal-backdrop { position: fixed; inset: 0; z-index: 60; background: var(--overlay); display: flex; align-items: center; justify-content: center; padding: 20px; animation: overlay-fade-in .18s ease-out; }
-.share-dialog { position: relative; background: var(--background); padding: 28px; border-radius: 16px; max-width: 440px; width: 100%; box-shadow: var(--shadow); animation: modal-in .22s ease-out; }
+.share-dialog { position: relative; background: var(--background); padding: 28px; border-radius: 16px; max-width: 440px; width: 100%; max-height: calc(100vh - 40px); overflow-y: auto; box-shadow: var(--shadow); animation: modal-in .22s ease-out; }
 .share-dialog h2 { font-size: 18px; font-weight: 700; margin-right: 24px; }
 .share-dialog-description { margin-top: 6px; font-size: 13px; line-height: 1.5; color: var(--muted-foreground); }
 .share-dialog-close { position: absolute; right: 16px; top: 16px; display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border: none; border-radius: 8px; background: none; color: var(--muted-foreground); cursor: pointer; transition: background .15s, transform .15s; }
@@ -694,8 +694,25 @@
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 @media (max-width: 480px) {
-  .share-targets-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; }
-  .share-hero-label-app { font-size: 14px; }
+  .share-dialog { padding: 22px 18px; max-height: calc(100vh - 24px); border-radius: 14px; }
+  .share-dialog h2 { font-size: 16px; }
+  .share-dialog-description { font-size: 12.5px; margin-top: 4px; }
+  .share-link-row { margin-top: 14px; }
+  .share-hero-row { margin-top: 14px; gap: 8px; }
+  .share-hero-btn { padding: 11px 14px; gap: 10px; }
+  .share-hero-icon { width: 38px; height: 38px; }
+  .share-hero-icon svg { width: 24px; height: 24px; }
+  .share-hero-label-target { font-size: 14px; }
+  .share-targets-grid { grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 10px; }
+  .share-target-btn { padding: 10px 4px; gap: 6px; }
+  .share-target-icon { width: 36px; height: 36px; }
+  .share-target-icon svg { width: 20px; height: 20px; }
+  .share-target-label { font-size: 10.5px; }
+  .share-hint { margin-top: 10px; }
+}
+
+@media (max-width: 360px) {
+  .share-targets-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 .doxx-video-wrap { border-radius: 12px; overflow: hidden; background: oklch(0.12 0.015 260); aspect-ratio: 16 / 9; }
