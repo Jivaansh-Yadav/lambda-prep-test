@@ -776,6 +776,14 @@ body.pseudo-fullscreen-open { overflow: hidden; }
 /* Resources viewer: sidebar should match the preview pane's height exactly, with its own scrollbar */
 .resource-watch { align-items: stretch; }
 .resource-watch .doxx-watch-side { max-height: none; overflow-y: auto; }
+
+/* Keep the sidebar's scrollbar always on screen instead of the browser's
+ * default hover/scroll-triggered fade — styling ::-webkit-scrollbar opts
+ * WebKit/Blink out of the auto-hiding overlay scrollbar entirely. */
+.doxx-watch-side { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.doxx-watch-side::-webkit-scrollbar { width: 8px; }
+.doxx-watch-side::-webkit-scrollbar-track { background: transparent; }
+.doxx-watch-side::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
 .doxx-playlist-section { min-width: 0; }
 .doxx-playlist-section h3 { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: var(--foreground); margin-bottom: 10px; }
 .doxx-playlist-icon { display: inline-flex; color: var(--primary); }
@@ -792,8 +800,13 @@ body.pseudo-fullscreen-open { overflow: hidden; }
 @media (max-width: 860px) {
   .doxx-watch { grid-template-columns: 1fr; gap: 16px; }
   .doxx-watch-side { max-height: none; overflow: visible; width: 100%; max-width: 100%; }
-  .doxx-playlist-list { flex-direction: row; overflow-x: auto; gap: 10px; padding-bottom: 4px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; max-width: 100%; }
+  .doxx-playlist-list { flex-direction: row; overflow-x: auto; gap: 10px; padding-bottom: 10px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; max-width: 100%; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
   .doxx-playlist-list li { flex: 0 0 auto; scroll-snap-align: start; }
+  /* Keep this horizontal strip's scrollbar always visible instead of the
+   * browser's default hover/scroll-triggered fade. */
+  .doxx-playlist-list::-webkit-scrollbar { height: 6px; }
+  .doxx-playlist-list::-webkit-scrollbar-track { background: transparent; }
+  .doxx-playlist-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
   .doxx-side-item { flex-direction: column; align-items: flex-start; width: 160px; gap: 8px; }
   .doxx-side-name { -webkit-line-clamp: 2; font-size: 13px; }
   .resource-sidebar-collapse { display: none; }
