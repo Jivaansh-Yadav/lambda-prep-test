@@ -543,6 +543,42 @@
 .doxx-notes { margin-top: 36px; }
 .doxx-notes h2 { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 700; }
 
+/* Admin dashboard category cards — same hover-lift, tinted-gradient tile
+   treatment as the share widget's target buttons (share-target-btn),
+   so the three top-level entry points read as real cards instead of
+   plain bordered boxes. */
+.admin-category-card {
+  display: flex; align-items: flex-start; gap: 14px; width: 100%;
+  padding: 18px 20px; border: 1px solid var(--border); border-radius: 14px;
+  background: var(--card); color: var(--foreground); text-align: left;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+}
+.admin-category-card:hover { transform: translateY(-3px) scale(1.012); box-shadow: 0 10px 24px oklch(0.2 0.03 260 / 12%); }
+.admin-category-card:active { transform: translateY(-1px) scale(1.005); }
+.admin-category-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%;
+  transition: transform .25s ease;
+}
+.admin-category-card:hover .admin-category-icon { transform: scale(1.1) rotate(-6deg); }
+.admin-category-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.admin-category-title { font-size: 16px; font-weight: 700; letter-spacing: -0.01em; color: var(--foreground); }
+.admin-category-description { font-size: 13px; line-height: 1.5; color: var(--muted-foreground); }
+.admin-category-card-indigo { background: linear-gradient(160deg, oklch(0.95 0.03 265), var(--card)); border-color: oklch(0.82 0.06 265); }
+.admin-category-card-indigo .admin-category-icon { background: oklch(0.9 0.05 265); color: oklch(0.45 0.16 265); }
+.admin-category-card-emerald { background: linear-gradient(160deg, oklch(0.95 0.035 155), var(--card)); border-color: oklch(0.8 0.08 155); }
+.admin-category-card-emerald .admin-category-icon { background: oklch(0.9 0.06 155); color: oklch(0.45 0.15 155); }
+.admin-category-card-amber { background: linear-gradient(160deg, oklch(0.95 0.04 85), var(--card)); border-color: oklch(0.8 0.1 85); }
+.admin-category-card-amber .admin-category-icon { background: oklch(0.9 0.08 85); color: oklch(0.48 0.14 70); }
+@media (max-width: 480px) {
+  .admin-category-card { padding: 14px 16px; gap: 10px; }
+  .admin-category-icon { width: 38px; height: 38px; }
+  .admin-category-icon svg { width: 18px; height: 18px; }
+  .admin-category-title { font-size: 14.5px; }
+  .admin-category-description { font-size: 12.5px; }
+}
+
 /* Manage Resources panel: Drive folder drill-down list, reusing the
    doxx-row/doxx-list/doxx-breadcrumb primitives with its own column
    layout (icon + name, size, modified, chevron/external-link). */

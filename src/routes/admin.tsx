@@ -506,18 +506,17 @@ function CategoryCard({
   description: string;
   onClick: () => void;
 }) {
-  const classes = ACCENT_CLASSES[accent];
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`flex items-start gap-3 rounded-xl border border-l-4 ${classes.border} bg-card/40 p-4 text-left transition-colors hover:bg-card/70 sm:p-6`}
+      className={`admin-category-card admin-category-card-${accent}`}
     >
-      <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${classes.chip}`}>{icon}</span>
-      <div className="min-w-0">
-        <h2 className="text-lg font-semibold text-foreground">{title}</h2>
-        <p className="text-sm text-muted-foreground">{description}</p>
-      </div>
+      <span className="admin-category-icon">{icon}</span>
+      <span className="admin-category-text">
+        <span className="admin-category-title">{title}</span>
+        <span className="admin-category-description">{description}</span>
+      </span>
     </button>
   );
 }
