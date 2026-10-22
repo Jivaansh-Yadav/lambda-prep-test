@@ -44,7 +44,6 @@ function ClassHubView({ current }: { current: CurrentClass }) {
       </Button>)}
     </div>
     {!available.length && <div className="empty-state"><Search /><h3>{t('hub.empty.title')}</h3><p>{t('hub.empty.text')}</p><Button variant="outline" onClick={() => { setSearch(''); setStream('All'); }}>{t('hub.clearFilters')}</Button></div>}
-    <div className="hub-note"></div>
     {selected && (
       <div className="modal-backdrop" onClick={() => setSelected(null)}>
         <section role="dialog" aria-modal="true" aria-labelledby="subject-title" className="subject-dialog" onClick={e => e.stopPropagation()}>
