@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router';
-import { ArrowLeft, ArrowUpRight, ChevronDown, ChevronUp, File, FileImage, FileSpreadsheet, FileText, Folder, MessageCircle, RefreshCw, Search, Sparkles } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, BookOpen, ChevronDown, ChevronUp, File, FileImage, FileSpreadsheet, FileText, Folder, MessageCircle, RefreshCw, Search, Sparkles } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { classes, findSubjectMeta, getSiteOrigin } from '@/lib/lambda';
 import { useI18n } from '@/lib/i18n';
@@ -363,7 +363,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, onFileChan
       <h1>{title}<span className="text-primary">.</span></h1>
       <p className="page-intro">{desc}</p>
       <p className="library-note">{currentClass.board} · Class {currentClass.grade}{subject ? ` · ${subject}` : ''}</p>
-      <div className="empty-state"><h3>{t('resources.classNote.title')}</h3><p>{t('resources.classNote.text')}</p></div>
+      <div className="empty-state"><BookOpen /><h3>{t('resources.classNote.title')}</h3><p>{t('resources.classNote.text')}</p></div>
       {source === 'community' && disclaimer}
     </main>;
   }
@@ -411,7 +411,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, onFileChan
         // subjects (e.g. freshly added class awaiting content) — same
         // "being prepared" message as a class with no dataset at all,
         // not the "no search results" copy below.
-        <div className="empty-state"><h3>{t('resources.classNote.title')}</h3><p>{t('resources.classNote.text')}</p></div>
+        <div className="empty-state"><BookOpen /><h3>{t('resources.classNote.title')}</h3><p>{t('resources.classNote.text')}</p></div>
       ) : filteredSubjectCards.length ? (
         <div className="doxx-cards">
           {filteredSubjectCards.map(s => {
@@ -429,7 +429,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, onFileChan
           })}
         </div>
       ) : (
-        <div className="empty-state"><h3>{t('resources.searchSubjects.empty.title')}</h3><p>{t('resources.searchSubjects.empty.text')}</p></div>
+        <div className="empty-state"><Search /><h3>{t('resources.searchSubjects.empty.title')}</h3><p>{t('resources.searchSubjects.empty.text')}</p></div>
       )}
       {source === 'community' && disclaimer}
     </main>;
@@ -513,7 +513,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, onFileChan
             </div>
           )
         ) : (
-          <div className="empty-state"><h3>{t('resources.searchFiles.empty.title')}</h3><p>{t('resources.searchFiles.empty.text')}</p></div>
+          <div className="empty-state"><Search /><h3>{t('resources.searchFiles.empty.title')}</h3><p>{t('resources.searchFiles.empty.text')}</p></div>
         )
       ) : subjectItems.length || editorFolders?.length ? (
         groups.map(section => (
@@ -529,7 +529,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, onFileChan
           />
         ))
       ) : (
-        <div className="empty-state"><h3>{t('resources.classNote.title')}</h3><p>{t('resources.classNote.text')}</p></div>
+        <div className="empty-state"><BookOpen /><h3>{t('resources.classNote.title')}</h3><p>{t('resources.classNote.text')}</p></div>
       )}
       {source === 'community' && disclaimer}
     </main>;
@@ -553,7 +553,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, onFileChan
         </Link>
       ))}
     </div>
-    {!filtered.length && <div className="empty-state"><h3>{t('resources.empty.title')}</h3><p>{t('resources.empty.text')}</p></div>}
+    {!filtered.length && <div className="empty-state"><Search /><h3>{t('resources.empty.title')}</h3><p>{t('resources.empty.text')}</p></div>}
     {disclaimer}
   </main>;
 }

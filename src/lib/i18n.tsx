@@ -64,7 +64,7 @@ const en: Dict = {
 
   'resources.title': 'Your resource library',
   'resources.intro': 'Choose where you want your resources from, then pick your class.',
-  'resources.searchPlaceholder': 'Find your class or board...',
+  'resources.searchPlaceholder': 'Search classes or boards...',
   'resources.searchLabel': 'Search classes',
   'resources.empty.title': 'No matching classes',
   'resources.empty.text': 'Try ICSE, ISC, or a class from 9 to 12.',
@@ -149,7 +149,7 @@ const en: Dict = {
   'hub.allClasses': 'All classes',
   'hub.curriculum': 'curriculum',
   'hub.yourSubjects': 'Your subjects',
-  'hub.searchPlaceholder': 'Find a subject...',
+  'hub.searchPlaceholder': 'Search subjects...',
   'hub.searchLabel': 'Search subjects',
   'hub.exploreSubject': 'Explore subject',
   'hub.empty.title': 'No matching subjects',
