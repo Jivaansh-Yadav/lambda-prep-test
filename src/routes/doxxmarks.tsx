@@ -189,7 +189,7 @@ function Doxxmarks() {
           <label className="search-field resource-search"><Search size={18} /><input aria-label={t('doxx.searchSubjects.label')} placeholder={t('doxx.searchSubjects.placeholder')} value={subjectQuery} onChange={e => setSubjectQuery(e.target.value)} /></label>
         )}
         {currentClass.subjects.length && !filteredSubjects.length ? (
-          <div className="empty-state"><BookOpen /><h3>{t('doxx.searchSubjects.empty.title')}</h3><p>{t('doxx.searchSubjects.empty.text')}</p></div>
+          <div className="empty-state"><Search /><h3>{t('doxx.searchSubjects.empty.title')}</h3><p>{t('doxx.searchSubjects.empty.text')}</p></div>
         ) : (
           <div className="doxx-cards">
             {filteredSubjects.map(s => {
@@ -215,7 +215,7 @@ function Doxxmarks() {
           <label className="search-field resource-search"><Search size={18} /><input aria-label={t('doxx.searchChapters.label')} placeholder={t('doxx.searchChapters.placeholder')} value={chapterQuery} onChange={e => setChapterQuery(e.target.value)} /></label>
         )}
         {subject.chapters.length && !filteredChapterEntries.length ? (
-          <div className="empty-state"><BookOpen /><h3>{t('doxx.searchChapters.empty.title')}</h3><p>{t('doxx.searchChapters.empty.text')}</p></div>
+          <div className="empty-state"><Search /><h3>{t('doxx.searchChapters.empty.title')}</h3><p>{t('doxx.searchChapters.empty.text')}</p></div>
         ) : (
           <div className="doxx-cards">
             {filteredChapterEntries.map(({ chapter: c, index: i }) => (
