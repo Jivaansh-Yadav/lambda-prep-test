@@ -173,13 +173,18 @@ function GroupSection({ group, items, editorFolders, onPick }: {
   const isGeneral = group.toLowerCase() === 'general';
   const isFeaturedGroup = group.toLowerCase() === 'featured';
   const premium = isPremiumGroup(group);
-  const [expanded, setExpanded] = useState(isGeneral);
+  const hasEditorFolders = !!editorFolders?.length;
+  const [expanded, setExpanded] = useState(isGeneral || hasEditorFolders);
   const [overflows, setOverflows] = useState(false);
   const gridRef = useRef<HTMLDivElement>(null);
-  const hasEditorFolders = isGeneral && !!editorFolders?.length;
+  // A folder-nav group (CISCE's official APF/CFQs/PYQs/SQP/Syllabus tree, or
+  // Community's curated Julius Caesar-style folders under "General") has no
+  // loose `items` of its own — the file count that matters is every file
+  // nested inside the folder tree instead.
+  const displayCount = hasEditorFolders ? editorFolders!.reduce((n, f) => n + flattenFolderFiles(f).length, 0) : items.length;
 
   useEffect(() => {
-    if (isGeneral) return;
+    if (isGeneral || hasEditorFolders) return;
     const el = gridRef.current;
     if (!el) return;
     const update = () => {
@@ -191,9 +196,9 @@ function GroupSection({ group, items, editorFolders, onPick }: {
     observer.observe(el);
     window.addEventListener('resize', update);
     return () => { observer.disconnect(); window.removeEventListener('resize', update); };
-  }, [isGeneral, items.length]);
+  }, [isGeneral, hasEditorFolders, items.length]);
 
-  const showCollapseUi = !isGeneral && overflows;
+  const showCollapseUi = !isGeneral && !hasEditorFolders && overflows;
   // Large groups (hundreds of files) get virtualized only once the creator
   // actually expands them, so the collapsed state still goes through the
   // same capped grid as every other group — with its gap and "View all"
@@ -205,11 +210,11 @@ function GroupSection({ group, items, editorFolders, onPick }: {
   const shouldVirtualize = !hasEditorFolders && items.length > VIRTUALIZE_THRESHOLD && expanded;
 
   return (
-    <section className={`doxx-notes resource-group${isGeneral ? ' resource-group-editors-choice' : isFeaturedGroup ? ' resource-group-featured-glow' : ''}`}>
+    <section className={`doxx-notes resource-group${isGeneral || hasEditorFolders ? ' resource-group-editors-choice' : isFeaturedGroup ? ' resource-group-featured-glow' : ''}`}>
       <div className="resource-group-head">
         <h2>
           <FileText size={18} /> {label}
-          <span className="resource-count-badge">({items.length})</span>
+          <span className="resource-count-badge">({displayCount})</span>
           {badge && (
             <span className={`resource-group-badge${premium ? ' is-premium' : ''}`} tabIndex={0}>
               <span className="resource-group-badge-fill">{badge}</span>
@@ -429,6 +434,18 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
   const filteredFiles = useFuseSearch(allSubjectFiles, FILE_SEARCH_KEYS, fileQuery, 50);
   const isFileSearchActive = fileQuery.trim().length > 0;
   const groups = groupItems(subjectItems);
+  // CISCE's official-resources folder tree (APF/CFQs/PYQs/SQP/Syllabus ->
+  // year -> files) and Community's curated Editor's Choice folders
+  // (Julius Caesar, Treasure Chest, ...) both live in `editorFolders`, but
+  // attach to different named groups. CISCE subjects have no loose items
+  // at all — only the folder tree — so there's no existing group entry to
+  // merge into; create a synthetic empty-items one for it.
+  const editorFoldersGroup = subjectEntry?.editorFoldersGroup ?? 'General';
+  const displayGroups = useMemo(() => {
+    if (!editorFolders?.length) return groups;
+    const hasMatch = groups.some(g => g.group.toLowerCase() === editorFoldersGroup.toLowerCase());
+    return hasMatch ? groups : [...groups, { group: editorFoldersGroup, items: [] }];
+  }, [groups, editorFolders, editorFoldersGroup]);
   const subjectDataReady = subject === MISC_LABEL ? miscItems !== undefined : subjectEntry !== undefined || (!subjectLoading && subject !== undefined);
 
   // Deep-link support: once the subject's files are loaded, resolve the
@@ -672,12 +689,12 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
           )}
         </>
       ) : subjectItems.length || editorFolders?.length ? (
-        groups.map(section => (
+        displayGroups.map(section => (
           <GroupSection
             key={section.group}
             group={section.group}
             items={section.items}
-            editorFolders={section.group.toLowerCase() === 'general' ? editorFolders : undefined}
+            editorFolders={section.group.toLowerCase() === editorFoldersGroup.toLowerCase() ? editorFolders : undefined}
             onPick={(item, folderScope) => {
               openFile(item, folderScope ?? null);
               window.scrollTo({ top: 0, behavior: 'smooth' });

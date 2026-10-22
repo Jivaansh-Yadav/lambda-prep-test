@@ -14,7 +14,16 @@ export interface ResourceFolderNode {
   children: ResourceNode[];
 }
 export type ResourceNode = ResourceItem | ResourceFolderNode;
-export interface ResourceSubject { subject: string; items: ResourceItem[]; editorFolders?: ResourceFolderNode[]; }
+export interface ResourceSubject {
+  subject: string;
+  items: ResourceItem[];
+  editorFolders?: ResourceFolderNode[];
+  /** Which rendered group these `editorFolders` attach to — e.g. "General"
+   * for Community's curated Julius Caesar-style folders, or "CISCE
+   * Resources" for CISCE's APF/CFQ/PYQ/SQP/Syllabus year-folder nav.
+   * Defaults to "General" when a dataset predates this field. */
+  editorFoldersGroup?: string | undefined;
+}
 export interface ResourceDataset { subjects: ResourceSubject[]; misc: ResourceItem[]; }
 /** Lightweight manifest: subject names + counts only, no file lists — cheap
  * enough to load up front so the subject-card grid can render instantly,
@@ -119,7 +128,11 @@ export async function loadResourceManifest(source: SourceId, classSlug: string):
   const dataset = await loadResourceDataset(source, classSlug);
   if (!dataset) return undefined;
   return {
-    subjects: dataset.subjects.map(s => ({ subject: s.subject, slug: slugify(s.subject), count: s.items.length })),
+    subjects: dataset.subjects.map(s => ({
+      subject: s.subject,
+      slug: slugify(s.subject),
+      count: s.items.length + (s.editorFolders?.reduce((n, f) => n + flattenFolderFiles(f).length, 0) ?? 0),
+    })),
     miscCount: dataset.misc.length,
   };
 }
@@ -136,9 +149,9 @@ export async function loadResourceSubject(source: SourceId, classSlug: string, s
     const loader = SPLIT_SUBJECT_LOADERS[source][classSlug]?.[slug];
     if (!loader) return undefined;
     const mod = await loader();
-    const payload = mod.default as { items: ResourceItem[]; editorFolders?: ResourceFolderNode[] };
+    const payload = mod.default as { items: ResourceItem[]; editorFolders?: ResourceFolderNode[]; editorFoldersGroup?: string };
     const result: ResourceSubject = payload.editorFolders
-      ? { subject, items: payload.items, editorFolders: payload.editorFolders }
+      ? { subject, items: payload.items, editorFolders: payload.editorFolders, editorFoldersGroup: payload.editorFoldersGroup }
       : { subject, items: payload.items };
     subjectCache.set(key, result);
     return result;

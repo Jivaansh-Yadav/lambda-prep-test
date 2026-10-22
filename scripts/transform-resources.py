@@ -204,26 +204,69 @@ def type_label_for(folder_name: str) -> str:
     return folder_name
 
 
+def insert_into_tree(tree: dict, path: tuple, item: dict):
+    """Insert a file `item` into a nested dict tree keyed by `path` segments
+    (e.g. ('PYQs', '2018')), creating intermediate folder levels as needed.
+    Leaf files at a level are collected under the '__files__' key."""
+    node = tree
+    for segment in path:
+        node = node.setdefault(segment, {})
+    node.setdefault('__files__', []).append(item)
+
+
+def tree_to_folder_nodes(tree: dict) -> list:
+    """Convert a nested dict tree (as built by insert_into_tree) into the
+    {type:'folder', name, children} shape the UI's folder navigator
+    consumes. Subfolders come first (in insertion order), then this
+    level's own loose files."""
+    nodes = []
+    for key, sub in tree.items():
+        if key == '__files__':
+            continue
+        children = tree_to_folder_nodes(sub) + sub.get('__files__', [])
+        nodes.append({'type': 'folder', 'name': key, 'children': children})
+    return nodes
+
+
 def build_cisce(class_slug: str, canonical: set):
+    """Build each subject's official CISCE resources as a navigable folder
+    tree (type folder, e.g. "PYQs" -> year folder -> files) instead of
+    flat year-exploded groups, so the UI can offer the same folder-card
+    drill-down navigation used for Community's curated folders (e.g.
+    Literature in English's Julius Caesar) rather than listing every
+    type/year combination as its own section."""
     path = os.path.join(CRAWL_DIR, class_slug, 'cisce.json')
     if not os.path.isfile(path):
         return None
     data = load(path)
-    buckets: dict[str, list] = {s: [] for s in canonical}
+    trees: dict[str, dict] = {s: {} for s in canonical}
     misc = []
     for node, file_path in walk_files(data):
         if not node.get('id'):
             continue
+        if not file_path:
+            # Loose top-level file (e.g. "Regulations - 2027.pdf") -- a
+            # board-wide circular, not subject-specific paper content.
+            misc.append(make_item(node, 'Other'))
+            continue
         subs = classify_subject(node['name'], canonical)
-        type_label = type_label_for(file_path[0]) if file_path else 'Other'
-        year = file_path[-1] if len(file_path) > 1 else None
-        group = f'{type_label} \u00b7 {year}' if year else type_label
+        top_label = type_label_for(file_path[0])
+        rel_path = (top_label,) + file_path[1:]
         if subs:
             for s in subs:
-                buckets[s].append(make_item(node, group))
+                insert_into_tree(trees[s], rel_path, make_item(node, rel_path[-1]))
         else:
-            misc.append(make_item(node, type_label))
-    subjects_out = [{'subject': s, 'items': items} for s, items in buckets.items() if items]
+            misc.append(make_item(node, top_label))
+    subjects_out = []
+    for s in canonical:
+        folders = tree_to_folder_nodes(trees[s])
+        if folders:
+            subjects_out.append({
+                'subject': s,
+                'items': [],
+                'editorFolders': folders,
+                'editorFoldersGroup': 'CISCE Resources',
+            })
     return {'subjects': subjects_out, 'misc': misc}
 
 

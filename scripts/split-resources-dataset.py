@@ -49,6 +49,8 @@ def split_one(src_path, out_dir):
         payload = {'items': s['items']}
         if s.get('editorFolders'):
             payload['editorFolders'] = s['editorFolders']
+            if s.get('editorFoldersGroup'):
+                payload['editorFoldersGroup'] = s['editorFoldersGroup']
         with open(os.path.join(out_dir, f'{slug}.json'), 'w') as f:
             json.dump(payload, f, ensure_ascii=False)
 
