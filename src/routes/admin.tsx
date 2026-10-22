@@ -40,6 +40,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import {
   checkAdminPasscode,
   getAdminTraffic,
+  getAdminRum,
   getManageResources,
   triggerDatasetUpdate,
   getDatasetUpdateStatus,
@@ -50,6 +51,8 @@ import {
   deleteResource,
   getDriveWriteCapability,
   type AdminTrafficResult,
+  type AdminRumResult,
+  type RumBreakdownItem,
   type ManageResourcesResult,
   type AdminResourceStatsResult,
   type AdminLatestCommitResult,
@@ -83,6 +86,8 @@ function AdminPage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AdminTrafficResult | null>(null);
   const [openSection, setOpenSection] = useState<'analytics' | 'manage' | 'stats' | null>(null);
+  const [rumResult, setRumResult] = useState<AdminRumResult | null>(null);
+  const [rumLoading, setRumLoading] = useState(false);
 
   async function handleUnlock(e: React.FormEvent) {
     e.preventDefault();
@@ -127,6 +132,28 @@ function AdminPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authed]);
+
+  async function loadRum(code: string) {
+    setRumLoading(true);
+    try {
+      const data = await getAdminRum({ data: { passcode: code } });
+      setRumResult(data);
+    } catch {
+      setRumResult({ configured: false, reason: 'Could not load Web Analytics (RUM) data. Try again.' });
+    } finally {
+      setRumLoading(false);
+    }
+  }
+
+  // Lazily fetches RUM detail the first time the Deep analytics modal is
+  // opened, rather than on every page load — it's a second Cloudflare
+  // credential/dataset the admin may not have configured yet.
+  useEffect(() => {
+    if (openSection === 'analytics' && !rumResult && !rumLoading) {
+      void loadRum(adminSessionPasscode ?? '');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openSection]);
 
 
   if (!authed) {
@@ -313,6 +340,8 @@ function AdminPage() {
               {result ? 'Cloudflare analytics is not configured — see the notice above.' : 'Loading…'}
             </p>
           )}
+
+          <RumAnalyticsSection result={rumResult} loading={rumLoading} />
         </SectionModal>
       )}
 
@@ -355,6 +384,107 @@ function KpiCard({ label, value, accent }: { label: string; value: string; accen
         <p className="mt-1 text-3xl font-semibold text-foreground">{value}</p>
       </CardContent>
     </Card>
+  );
+}
+
+/** Renders the Web Analytics (RUM) detail panel inside the Deep
+ * analytics modal: top pages, countries, device types, browsers and
+ * referrers for the last 30 days. Separate from the zone-level traffic
+ * chart above it since it's sourced from a different Cloudflare
+ * credential/dataset (account-scoped RUM vs zone-scoped httpRequests) —
+ * see getAdminRum in admin-server.ts. */
+function RumAnalyticsSection({ result, loading }: { result: AdminRumResult | null; loading: boolean }) {
+  if (loading && !result) {
+    return <p className="mt-6 text-sm text-muted-foreground">Loading Web Analytics (RUM) detail…</p>;
+  }
+
+  if (!result) return null;
+
+  if (!result.configured) {
+    return (
+      <Card className="mt-6">
+        <CardContent className="pt-6">
+          <p className="text-sm font-medium text-foreground">Web Analytics (RUM) not configured</p>
+          <p className="mt-2 text-sm text-muted-foreground">{result.reason}</p>
+          <ol className="mt-4 list-decimal space-y-1 pl-5 text-sm text-muted-foreground">
+            <li>
+              Find the account ID in the Cloudflare dashboard sidebar, and the site token in{' '}
+              <span className="font-mono">Web Analytics → Manage site → Beacon</span>.
+            </li>
+            <li>
+              Create an API token under <span className="font-mono">My Profile → API Tokens</span> with{' '}
+              <span className="font-mono">Account → Analytics → Read</span> permission.
+            </li>
+            <li>
+              Set <span className="font-mono">CLOUDFLARE_ACCOUNT_ID</span>,{' '}
+              <span className="font-mono">CLOUDFLARE_RUM_API_TOKEN</span> and{' '}
+              <span className="font-mono">CLOUDFLARE_RUM_SITE_TAG</span> in the server environment, then refresh.
+            </li>
+          </ol>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (result.totalVisits === 0) {
+    return (
+      <Card className="mt-6">
+        <CardContent className="pt-6">
+          <p className="text-sm text-muted-foreground">
+            No Web Analytics (RUM) visits recorded yet for the last 30 days. The beacon script is live on every
+            page — data should start appearing shortly after real visitors load the site.
+          </p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const panels: Array<{ title: string; items: RumBreakdownItem[] }> = [
+    { title: 'Top pages', items: result.topPaths },
+    { title: 'Top countries', items: result.topCountries },
+    { title: 'Device types', items: result.topDeviceTypes },
+    { title: 'Browsers', items: result.topBrowsers },
+    { title: 'Top referrers', items: result.topReferrers },
+  ];
+
+  return (
+    <Card className="mt-6">
+      <CardHeader>
+        <CardTitle>Web Analytics (RUM) — last 30 days</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p className="mb-4 text-sm text-muted-foreground">
+          {result.totalVisits.toLocaleString()} real-user page-load visits recorded by the beacon script.
+        </p>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {panels.map((panel) => (
+            <RumBreakdownList key={panel.title} title={panel.title} items={panel.items} />
+          ))}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function RumBreakdownList({ title, items }: { title: string; items: RumBreakdownItem[] }) {
+  return (
+    <div>
+      <p className="mb-2 text-sm font-medium text-foreground">{title}</p>
+      {items.length === 0 ? (
+        <p className="text-xs text-muted-foreground">No data yet.</p>
+      ) : (
+        <ul className="space-y-1.5">
+          {items.map((item) => (
+            <li key={item.label} className="flex items-center justify-between gap-3 text-xs">
+              <span className="truncate text-muted-foreground" title={item.label}>
+                {item.label}
+              </span>
+              <span className="shrink-0 font-mono text-foreground">{item.visits.toLocaleString()}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }
 

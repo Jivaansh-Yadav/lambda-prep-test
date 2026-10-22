@@ -143,6 +143,20 @@ function RootShell({ children }: { children: ReactNode }) {
         />
         {/* Applies the stored/system theme class before first paint to prevent a light->dark flash. */}
         <script dangerouslySetInnerHTML={{ __html: themeBootstrapScript }} />
+        {/* Cloudflare Web Analytics (RUM) beacon — client-side only, collects
+            real visitor page-load/performance data keyed by the site token
+            below. Server-side GraphQL queries against this same token power
+            the admin "Deep analytics" panel; see admin-server.ts. */}
+        <script
+          type="module"
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "a9d4d976f92b48ed89669f9959c889de"}'
+        ></script>
+        <script
+          defer
+          src="https://cdn.eazo.ai/branding/eazo-brand-banner.js"
+          data-eazo-app-id="i09GkkEAEpnvvjcT"
+        ></script>
       </head>
       <body>
         {children}

@@ -382,6 +382,253 @@ export const getAdminTraffic = createServerFn({ method: "POST" })
   });
 
 // ---------------------------------------------------------------------
+// Deep analytics: Cloudflare Web Analytics (RUM) detail — top pages,
+// countries, devices, browsers and referrers, sourced from the beacon
+// script embedded in __root.tsx. This is a *separate* credential/dataset
+// from fetchFromCloudflare() above: RUM is queried account-wide (filtered
+// by the beacon's siteTag) rather than zone-wide, and needs an API token
+// scoped to Account -> Analytics -> Read rather than Zone -> Analytics ->
+// Read, hence the distinct CLOUDFLARE_RUM_* env vars below.
+// ---------------------------------------------------------------------
+
+export type RumBreakdownItem = { label: string; visits: number };
+
+export type AdminRumResult =
+  | {
+      configured: true;
+      totalVisits: number;
+      topPaths: RumBreakdownItem[];
+      topCountries: RumBreakdownItem[];
+      topDeviceTypes: RumBreakdownItem[];
+      topBrowsers: RumBreakdownItem[];
+      topReferrers: RumBreakdownItem[];
+      cache: { hit: boolean; fetchedAt: string };
+    }
+  | { configured: false; reason: string };
+
+const RUM_QUERY = `
+  query GetRumData($accountTag: String!, $siteTag: String!, $since: Time!, $until: Time!) {
+    viewer {
+      accounts(filter: { accountTag: $accountTag }) {
+        total: rumPageloadEventsAdaptiveGroups(
+          limit: 1,
+          filter: { siteTag: $siteTag, datetime_geq: $since, datetime_lt: $until }
+        ) {
+          sum { visits }
+        }
+        topPaths: rumPageloadEventsAdaptiveGroups(
+          limit: 10,
+          filter: { siteTag: $siteTag, datetime_geq: $since, datetime_lt: $until },
+          orderBy: [sum_visits_DESC]
+        ) {
+          sum { visits }
+          dimensions { metric: requestPath }
+        }
+        topCountries: rumPageloadEventsAdaptiveGroups(
+          limit: 10,
+          filter: { siteTag: $siteTag, datetime_geq: $since, datetime_lt: $until },
+          orderBy: [sum_visits_DESC]
+        ) {
+          sum { visits }
+          dimensions { metric: countryName }
+        }
+        topDeviceTypes: rumPageloadEventsAdaptiveGroups(
+          limit: 10,
+          filter: { siteTag: $siteTag, datetime_geq: $since, datetime_lt: $until },
+          orderBy: [sum_visits_DESC]
+        ) {
+          sum { visits }
+          dimensions { metric: deviceType }
+        }
+        topBrowsers: rumPageloadEventsAdaptiveGroups(
+          limit: 10,
+          filter: { siteTag: $siteTag, datetime_geq: $since, datetime_lt: $until },
+          orderBy: [sum_visits_DESC]
+        ) {
+          sum { visits }
+          dimensions { metric: userAgentBrowser }
+        }
+        topReferrers: rumPageloadEventsAdaptiveGroups(
+          limit: 10,
+          filter: { siteTag: $siteTag, datetime_geq: $since, datetime_lt: $until },
+          orderBy: [sum_visits_DESC]
+        ) {
+          sum { visits }
+          dimensions { metric: refererHost }
+        }
+      }
+    }
+  }
+`;
+
+type RumGroup = { sum: { visits: number }; dimensions: { metric: string } };
+
+type RumGraphQLResponse = {
+  data?: {
+    viewer?: {
+      accounts?: Array<{
+        total?: Array<{ sum: { visits: number } }>;
+        topPaths?: RumGroup[];
+        topCountries?: RumGroup[];
+        topDeviceTypes?: RumGroup[];
+        topBrowsers?: RumGroup[];
+        topReferrers?: RumGroup[];
+      }>;
+    };
+  };
+  errors?: Array<{ message: string }>;
+};
+
+type CachedRumPayload = Omit<Extract<AdminRumResult, { configured: true }>, "cache" | "configured">;
+
+/** Reads the single-row RUM analytics cache from Neon, mirroring
+ * readCache() above for the zone-level traffic cache. */
+async function readRumCache(): Promise<{ payload: CachedRumPayload; fetchedAt: Date } | null> {
+  if (!sql) return null;
+  const rows = await sql.query(
+    `SELECT payload, fetched_at FROM cloudflare_rum_cache WHERE id = true LIMIT 1`
+  );
+  const row = rows[0] as { payload: CachedRumPayload; fetched_at: string } | undefined;
+  if (!row) return null;
+  return { payload: row.payload, fetchedAt: new Date(row.fetched_at) };
+}
+
+/** Upserts the single-row RUM analytics cache on Neon, mirroring
+ * writeCache() above. No-ops silently without DATABASE_URL. */
+async function writeRumCache(payload: CachedRumPayload): Promise<void> {
+  if (!sql) return;
+  await sql.query(
+    `INSERT INTO cloudflare_rum_cache (id, payload, fetched_at)
+     VALUES (true, $1, now())
+     ON CONFLICT (id) DO UPDATE SET payload = EXCLUDED.payload, fetched_at = EXCLUDED.fetched_at`,
+    [JSON.stringify(payload)]
+  );
+}
+
+function sortedBreakdown(groups: RumGroup[] | undefined): RumBreakdownItem[] {
+  return (groups ?? [])
+    .map((g) => ({ label: g.dimensions.metric || "(unknown)", visits: g.sum.visits }))
+    .sort((a, b) => b.visits - a.visits);
+}
+
+/**
+ * Calls Cloudflare's GraphQL Analytics API for the last 30 days of
+ * Web Analytics (RUM) detail — top pages, countries, device types,
+ * browsers and referrers — scoped by the beacon's site tag. Returns
+ * `configured: false` (never throws) when credentials are missing or the
+ * request/response fails.
+ */
+async function fetchRumFromCloudflare(): Promise<AdminRumResult> {
+  const accountId = process.env["CLOUDFLARE_ACCOUNT_ID"];
+  const apiToken = process.env["CLOUDFLARE_RUM_API_TOKEN"];
+  const siteTag = process.env["CLOUDFLARE_RUM_SITE_TAG"];
+
+  if (!accountId || !apiToken || !siteTag) {
+    return {
+      configured: false,
+      reason:
+        "Web Analytics (RUM) isn't configured yet. Set CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_RUM_API_TOKEN (Account → Analytics → Read) and CLOUDFLARE_RUM_SITE_TAG in the environment.",
+    };
+  }
+
+  const until = new Date();
+  const since = new Date(until.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+  let response: Response;
+  try {
+    response = await fetch(CLOUDFLARE_GRAPHQL_ENDPOINT, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: RUM_QUERY,
+        variables: {
+          accountTag: accountId,
+          siteTag,
+          since: since.toISOString(),
+          until: until.toISOString(),
+        },
+      }),
+    });
+  } catch (error) {
+    return {
+      configured: false,
+      reason: `Could not reach Cloudflare's API: ${error instanceof Error ? error.message : String(error)}`,
+    };
+  }
+
+  const json = (await response.json()) as RumGraphQLResponse;
+
+  if (json.errors?.length) {
+    return { configured: false, reason: json.errors[0]?.message ?? "Cloudflare API returned an error." };
+  }
+
+  const account = json.data?.viewer?.accounts?.[0];
+  if (!account) {
+    return {
+      configured: false,
+      reason: "Cloudflare API returned no account data — check CLOUDFLARE_ACCOUNT_ID and the token's permissions.",
+    };
+  }
+
+  const totalVisits = account.total?.[0]?.sum.visits ?? 0;
+
+  return {
+    configured: true,
+    totalVisits,
+    topPaths: sortedBreakdown(account.topPaths),
+    topCountries: sortedBreakdown(account.topCountries),
+    topDeviceTypes: sortedBreakdown(account.topDeviceTypes),
+    topBrowsers: sortedBreakdown(account.topBrowsers),
+    topReferrers: sortedBreakdown(account.topReferrers),
+    cache: { hit: false, fetchedAt: new Date().toISOString() },
+  };
+}
+
+/**
+ * Returns the last 30 days of Web Analytics (RUM) detail, backed by a
+ * 5-minute Neon cache (same TTL/pattern as getAdminTraffic above).
+ * Requires CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_RUM_API_TOKEN (Account ->
+ * Analytics -> Read scope) and CLOUDFLARE_RUM_SITE_TAG in the server
+ * environment.
+ */
+export const getAdminRum = createServerFn({ method: "POST" })
+  .validator((data: unknown) => {
+    const d = data as { passcode?: unknown };
+    if (typeof d?.passcode !== "string") throw new Error("Missing passcode");
+    return { passcode: d.passcode };
+  })
+  .handler(async ({ data }): Promise<AdminRumResult> => {
+    requirePasscode(data.passcode);
+
+    try {
+      const cached = await readRumCache();
+      if (cached && Date.now() - cached.fetchedAt.getTime() < CACHE_TTL_MS) {
+        return { configured: true, ...cached.payload, cache: { hit: true, fetchedAt: cached.fetchedAt.toISOString() } };
+      }
+    } catch (error) {
+      console.error("[admin] RUM cache read failed, fetching live:", error);
+    }
+
+    const result = await fetchRumFromCloudflare();
+
+    if (result.configured) {
+      try {
+        const { cache, configured, ...payload } = result;
+        void cache;
+        void configured;
+        await writeRumCache(payload);
+      } catch (error) {
+        console.error("[admin] RUM cache write failed:", error);
+      }
+    }
+
+    return result;
+  });
+
+// ---------------------------------------------------------------------
 // Manage Resources panel: real-time Drive folder listing + upload, backed
 // by the service-account credentials + target folder ID stored in Neon
 // (table: drive_integration) — never the static committed JSON datasets.
