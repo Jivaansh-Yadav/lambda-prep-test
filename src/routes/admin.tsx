@@ -181,12 +181,10 @@ function AdminPage() {
   const totals = result?.configured
     ? result.days.reduce(
         (acc, d) => ({
-          requests: acc.requests + d.requests,
-          pageViews: acc.pageViews + d.pageViews,
-          uniques: acc.uniques + d.uniques,
-          threats: acc.threats + d.threats,
+          pageLoads: acc.pageLoads + d.pageLoads,
+          visits: acc.visits + d.visits,
         }),
-        { requests: 0, pageViews: 0, uniques: 0, threats: 0 },
+        { pageLoads: 0, visits: 0 },
       )
     : null;
 
@@ -214,29 +212,34 @@ function AdminPage() {
 
       {error && <p className="mb-4 text-sm text-destructive">{error}</p>}
 
-      {/* Top summary: at-a-glance web analytics totals, plus the latest commit. */}
-      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
-        <KpiCard label="Total requests (30d)" value={totals ? totals.requests.toLocaleString() : '—'} accent="indigo" />
-        <KpiCard label="Page views (30d)" value={totals ? totals.pageViews.toLocaleString() : '—'} accent="emerald" />
-        <KpiCard label="Unique visitors (30d)" value={totals ? totals.uniques.toLocaleString() : '—'} accent="amber" />
-        <KpiCard label="Threats blocked (30d)" value={totals ? totals.threats.toLocaleString() : '—'} accent="rose" />
+      {/* Top summary: at-a-glance web analytics totals, plus the latest commit.
+          Only two real metrics come out of the RUM dataset (page loads and
+          visits — no raw request count or unique-visitor count), so there
+          are two KPI cards here instead of the old zone-analytics four. */}
+      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <KpiCard label="Page loads (30d)" value={totals ? totals.pageLoads.toLocaleString() : '—'} accent="indigo" />
+        <KpiCard label="Visits (30d)" value={totals ? totals.visits.toLocaleString() : '—'} accent="emerald" />
         <LatestCommitCard />
       </div>
 
       {result && !result.configured && (
         <Card className="mb-8">
           <CardContent className="pt-6">
-            <p className="text-sm font-medium text-foreground">Cloudflare analytics not configured</p>
+            <p className="text-sm font-medium text-foreground">Web Analytics not configured</p>
             <p className="mt-2 text-sm text-muted-foreground">{result.reason}</p>
             <ol className="mt-4 list-decimal space-y-1 pl-5 text-sm text-muted-foreground">
-              <li>Open the Cloudflare dashboard for this domain's zone and copy the Zone ID from the overview page.</li>
               <li>
-                Create an API token under <span className="font-mono">My Profile → API Tokens</span> with{' '}
-                <span className="font-mono">Zone → Analytics → Read</span> permission.
+                Find the account ID in the Cloudflare dashboard sidebar, and the site token in{' '}
+                <span className="font-mono">Web Analytics → Manage site → Beacon</span>.
               </li>
               <li>
-                Set <span className="font-mono">CLOUDFLARE_ZONE_ID</span> and{' '}
-                <span className="font-mono">CLOUDFLARE_API_TOKEN</span> in the server environment, then refresh.
+                Create an API token under <span className="font-mono">My Profile → API Tokens</span> with{' '}
+                <span className="font-mono">Account → Analytics → Read</span> permission.
+              </li>
+              <li>
+                Set <span className="font-mono">CLOUDFLARE_ACCOUNT_ID</span>,{' '}
+                <span className="font-mono">CLOUDFLARE_RUM_API_TOKEN</span> and{' '}
+                <span className="font-mono">CLOUDFLARE_RUM_SITE_TAG</span> in the server environment, then refresh.
               </li>
             </ol>
           </CardContent>
@@ -280,7 +283,7 @@ function AdminPage() {
                 </CardHeader>
                 <CardContent className="h-80">
                   {result.days.length === 0 ? (
-                    <p className="text-sm text-muted-foreground">No data yet for this zone.</p>
+                    <p className="text-sm text-muted-foreground">No data yet — the beacon hasn't recorded any page loads.</p>
                   ) : (
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart data={result.days}>
@@ -292,9 +295,8 @@ function AdminPage() {
                         />
                         <YAxis tick={{ fontSize: 12 }} allowDecimals={false} />
                         <Tooltip labelFormatter={(v: string) => new Date(v).toLocaleDateString()} />
-                        <Line type="monotone" dataKey="pageViews" name="Page views" stroke="#6366f1" strokeWidth={2} dot={false} />
-                        <Line type="monotone" dataKey="uniques" name="Unique visitors" stroke="#22c55e" strokeWidth={2} dot={false} />
-                        <Line type="monotone" dataKey="threats" name="Threats blocked" stroke="#f97316" strokeWidth={2} dot={false} />
+                        <Line type="monotone" dataKey="pageLoads" name="Page loads" stroke="#6366f1" strokeWidth={2} dot={false} />
+                        <Line type="monotone" dataKey="visits" name="Visits" stroke="#22c55e" strokeWidth={2} dot={false} />
                       </LineChart>
                     </ResponsiveContainer>
                   )}

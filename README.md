@@ -161,8 +161,8 @@ Create a `.env` file (never commit it) with:
 |---|---|
 | `DATABASE_URL` | Neon Postgres connection string — ratings, admin/integration data, analytics cache |
 | `ADMIN_PASSCODE` | Passcode gating access to `/admin` |
-| `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ZONE_ID` | Used by `scripts/analytics-cron` and the admin "Deep analytics" zone-level traffic chart (Zone → Analytics → Read scope) |
-| `CLOUDFLARE_RUM_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID` / `CLOUDFLARE_RUM_SITE_TAG` | Separate credential/dataset for Cloudflare **Web Analytics (RUM)** detail (top pages, countries, devices, browsers, referrers) shown in the same "Deep analytics" modal. Requires an API token with **Account → Analytics → Read** scope (not Zone → Analytics → Read) plus the account ID and the beacon's site token — see the `data-cf-beacon` script in `src/routes/__root.tsx` |
+| `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ZONE_ID` | Used only by the standalone `scripts/analytics-cron` archival job (Zone → Analytics → Read scope) — **not** used by the admin dashboard itself |
+| `CLOUDFLARE_RUM_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID` / `CLOUDFLARE_RUM_SITE_TAG` | Powers the entire admin "Deep analytics" modal — the traffic chart/KPIs/section breakdown and the top pages/countries/devices/browsers/referrers detail — via Cloudflare's account-scoped **Web Analytics (RUM)** GraphQL dataset. Requires an API token with **Account → Analytics → Read** scope (not Zone → Analytics → Read), the account ID, and the beacon's site token — see the `data-cf-beacon` script in `src/routes/__root.tsx` |
 | `GDRIVE_CLIENT_ID` / `GDRIVE_CLIENT_SECRET` / `GDRIVE_REFRESH_TOKEN` | OAuth credentials for a real Google account with Editor access to the resources folder — used for admin Drive **writes** (upload/rename/delete in "Manage resources"); falls back to the Neon-stored service account (read-only safe) when unset |
 | `ISC11_SRC_DIR` | Optional override for the ISC Class 11 raw upload source directory used by the resource pipeline |
 | `NEXT_PUBLIC_APP_TITLE` / `NEXT_PUBLIC_APP_DESCRIPTION` | Public app branding metadata |

@@ -121,20 +121,24 @@ function requirePasscode(passcode: string) {
   }
 }
 
+// Daily bucket for the traffic chart. Both numbers come from the same
+// account-scoped Web Analytics (RUM) dataset the beacon in __root.tsx
+// reports to: `pageLoads` is the raw RUM event count (every page load the
+// beacon recorded), `visits` is Cloudflare's own `sum.visits` (page loads
+// whose referrer was a different site — i.e. not internal navigation).
+// RUM doesn't expose a separate unique-visitor count, so there's no third
+// number here.
 export type TrafficDay = {
   date: string;
-  requests: number;
-  pageViews: number;
-  uniques: number;
-  threats: number;
-  bytes: number;
+  pageLoads: number;
+  visits: number;
 };
 
 // Top-level sections we can distinguish by URL path alone. Subcategories
 // (class/subject/chapter) live in search params on these same routes, and
-// Cloudflare's path dimension strips the query string, so only this
-// top-level split is possible without a custom tracker — see admin.tsx for
-// the user-facing note explaining that limitation.
+// the RUM path dimension strips the query string, so only this top-level
+// split is possible without a custom tracker — see admin.tsx for the
+// user-facing note explaining that limitation.
 const SECTION_DEFS = [
   { label: "Doxxmarks", prefix: "/doxxmarks" },
   { label: "Resources", prefix: "/resources" },
@@ -148,38 +152,41 @@ export type AdminTrafficResult =
 
 const CLOUDFLARE_GRAPHQL_ENDPOINT = "https://api.cloudflare.com/client/v4/graphql";
 
+// Account-scoped Web Analytics (RUM) query — reads the same beacon data
+// (keyed by siteTag, not zoneTag) that getAdminRum below drills into for
+// the top-pages/countries/devices detail. Needs CLOUDFLARE_ACCOUNT_ID +
+// CLOUDFLARE_RUM_API_TOKEN (Account -> Analytics -> Read) +
+// CLOUDFLARE_RUM_SITE_TAG, not a Zone ID/zone-scoped token — Cloudflare's
+// legacy httpRequests*/zone-level analytics requires a Zone ID + Zone
+// Analytics Read token this project doesn't have, whereas the RUM beacon
+// + Account Analytics Read token work from a single Cloudflare account.
 const TRAFFIC_QUERY = `
-  query GetTrafficData($zoneTag: String!, $since: String!, $until: String!, $sinceDT: Time!, $untilDT: Time!) {
+  query GetTrafficData($accountTag: String!, $siteTag: String!, $since: Time!, $until: Time!) {
     viewer {
-      zones(filter: { zoneTag: $zoneTag }) {
-        dailyTraffic: httpRequests1dGroups(
-          limit: 30,
-          filter: { date_geq: $since, date_lt: $until },
+      accounts(filter: { accountTag: $accountTag }) {
+        dailyTraffic: rumPageloadEventsAdaptiveGroups(
+          limit: 31,
+          filter: { siteTag: $siteTag, datetime_geq: $since, datetime_lt: $until },
           orderBy: [date_ASC]
         ) {
+          count
+          sum { visits }
           dimensions { date }
-          sum {
-            requests
-            pageViews
-            bytes
-            threats
-          }
-          uniq { uniques }
         }
-        sectionBreakdown: httpRequestsAdaptiveGroups(
+        sectionBreakdown: rumPageloadEventsAdaptiveGroups(
           limit: 1000,
           filter: {
-            datetime_geq: $sinceDT,
-            datetime_lt: $untilDT,
-            requestSource: "eyeball",
+            siteTag: $siteTag,
+            datetime_geq: $since,
+            datetime_lt: $until,
             OR: [
-              { clientRequestPath_like: "/doxxmarks%" },
-              { clientRequestPath_like: "/resources%" }
+              { requestPath_like: "/doxxmarks%" },
+              { requestPath_like: "/resources%" }
             ]
           }
         ) {
           sum { visits }
-          dimensions { clientRequestPath }
+          dimensions { requestPath }
         }
       }
     }
@@ -189,15 +196,15 @@ const TRAFFIC_QUERY = `
 type CloudflareGraphQLResponse = {
   data?: {
     viewer?: {
-      zones?: Array<{
+      accounts?: Array<{
         dailyTraffic?: Array<{
+          count: number;
           dimensions: { date: string };
-          sum: { requests: number; pageViews: number; bytes: number; threats: number };
-          uniq: { uniques: number };
+          sum: { visits: number };
         }>;
         sectionBreakdown?: Array<{
           sum: { visits: number };
-          dimensions: { clientRequestPath: string };
+          dimensions: { requestPath: string };
         }>;
       }>;
     };
@@ -254,20 +261,21 @@ async function writeCache(payload: CachedPayload): Promise<void> {
 
 /**
  * Calls Cloudflare's GraphQL Analytics API for the last 30 days of
- * zone-level traffic plus the doxxmarks/resources section breakdown.
- * Returns `configured: false` (never throws) when credentials are missing
- * or the request/response fails, so the admin UI can show a clear setup
- * state instead of a generic error.
+ * Web Analytics (RUM) traffic plus the doxxmarks/resources section
+ * breakdown. Returns `configured: false` (never throws) when credentials
+ * are missing or the request/response fails, so the admin UI can show a
+ * clear setup state instead of a generic error.
  */
 async function fetchFromCloudflare(): Promise<AdminTrafficResult> {
-  const zoneId = process.env["CLOUDFLARE_ZONE_ID"];
-  const apiToken = process.env["CLOUDFLARE_API_TOKEN"];
+  const accountId = process.env["CLOUDFLARE_ACCOUNT_ID"];
+  const apiToken = process.env["CLOUDFLARE_RUM_API_TOKEN"];
+  const siteTag = process.env["CLOUDFLARE_RUM_SITE_TAG"];
 
-  if (!zoneId || !apiToken) {
+  if (!accountId || !apiToken || !siteTag) {
     return {
       configured: false,
       reason:
-        "Cloudflare analytics isn't configured yet. Set CLOUDFLARE_ZONE_ID and CLOUDFLARE_API_TOKEN (Zone → Analytics → Read) in the environment.",
+        "Web Analytics isn't configured yet. Set CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_RUM_API_TOKEN (Account → Analytics → Read) and CLOUDFLARE_RUM_SITE_TAG in the environment.",
     };
   }
 
@@ -285,11 +293,10 @@ async function fetchFromCloudflare(): Promise<AdminTrafficResult> {
       body: JSON.stringify({
         query: TRAFFIC_QUERY,
         variables: {
-          zoneTag: zoneId,
-          since: since.toISOString().slice(0, 10),
-          until: until.toISOString().slice(0, 10),
-          sinceDT: since.toISOString(),
-          untilDT: until.toISOString(),
+          accountTag: accountId,
+          siteTag,
+          since: since.toISOString(),
+          until: until.toISOString(),
         },
       }),
     });
@@ -306,9 +313,9 @@ async function fetchFromCloudflare(): Promise<AdminTrafficResult> {
     return { configured: false, reason: json.errors[0]?.message ?? "Cloudflare API returned an error." };
   }
 
-  const zone = json.data?.viewer?.zones?.[0];
-  const groups = zone?.dailyTraffic ?? [];
-  const pathRows = zone?.sectionBreakdown ?? [];
+  const account = json.data?.viewer?.accounts?.[0];
+  const groups = account?.dailyTraffic ?? [];
+  const pathRows = account?.sectionBreakdown ?? [];
 
   // Bucket raw path rows (one per distinct path) into the two known
   // top-level sections by prefix match, since the dataset can't group by
@@ -317,29 +324,27 @@ async function fetchFromCloudflare(): Promise<AdminTrafficResult> {
     label: def.label,
     path: def.prefix,
     visits: pathRows
-      .filter((r) => r.dimensions.clientRequestPath.startsWith(def.prefix))
+      .filter((r) => r.dimensions.requestPath.startsWith(def.prefix))
       .reduce((sum, r) => sum + r.sum.visits, 0),
   }));
 
   const days: TrafficDay[] = groups.map((g) => ({
     date: g.dimensions.date,
-    requests: g.sum.requests,
-    pageViews: g.sum.pageViews,
-    uniques: g.uniq.uniques,
-    threats: g.sum.threats,
-    bytes: g.sum.bytes,
+    pageLoads: g.count,
+    visits: g.sum.visits,
   }));
 
   return { configured: true, days, sections, cache: { hit: false, fetchedAt: new Date().toISOString() } };
 }
 
 /**
- * Returns the last 30 days of Cloudflare traffic + section breakdown,
- * backed by a 5-minute Neon cache: a fresh cache row is served directly
- * from the database; a stale or missing row triggers a live Cloudflare
- * fetch, whose result is written back to the cache before returning.
- * Requires CLOUDFLARE_ZONE_ID and CLOUDFLARE_API_TOKEN (Zone -> Analytics
- * -> Read scope) in the server environment.
+ * Returns the last 30 days of Web Analytics (RUM) traffic + section
+ * breakdown, backed by a 5-minute Neon cache: a fresh cache row is served
+ * directly from the database; a stale or missing row triggers a live
+ * Cloudflare fetch, whose result is written back to the cache before
+ * returning. Requires CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_RUM_API_TOKEN
+ * (Account -> Analytics -> Read scope) and CLOUDFLARE_RUM_SITE_TAG in the
+ * server environment.
  */
 export const getAdminTraffic = createServerFn({ method: "POST" })
   .validator((data: unknown) => {
@@ -382,13 +387,11 @@ export const getAdminTraffic = createServerFn({ method: "POST" })
   });
 
 // ---------------------------------------------------------------------
-// Deep analytics: Cloudflare Web Analytics (RUM) detail — top pages,
-// countries, devices, browsers and referrers, sourced from the beacon
-// script embedded in __root.tsx. This is a *separate* credential/dataset
-// from fetchFromCloudflare() above: RUM is queried account-wide (filtered
-// by the beacon's siteTag) rather than zone-wide, and needs an API token
-// scoped to Account -> Analytics -> Read rather than Zone -> Analytics ->
-// Read, hence the distinct CLOUDFLARE_RUM_* env vars below.
+// Deep analytics detail: top pages, countries, devices, browsers and
+// referrers for the same Web Analytics (RUM) dataset fetchFromCloudflare
+// above uses for the chart/KPIs — this just adds the breakdown panels,
+// sharing the same CLOUDFLARE_ACCOUNT_ID / CLOUDFLARE_RUM_API_TOKEN /
+// CLOUDFLARE_RUM_SITE_TAG credentials.
 // ---------------------------------------------------------------------
 
 export type RumBreakdownItem = { label: string; visits: number };
