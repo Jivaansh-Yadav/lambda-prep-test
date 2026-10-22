@@ -408,7 +408,22 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
       .filter(s => s.subject === MISC_LABEL || s.subject === 'Featured' || subjectMatchesStream(s.subject, activeStream))
       .map(s => ({ subject: s.subject, count: s.count }));
     if (manifest.miscCount > 0) cards.push({ subject: MISC_LABEL, count: manifest.miscCount });
-    return cards;
+    // Keep card order deterministic and independent of the underlying
+    // dataset's own subject order, which can silently shift between Google
+    // Drive re-crawls (folder listing order from the Drive API isn't
+    // guaranteed stable run-to-run). Without this, a routine "Update
+    // resource datasets" re-crawl could reshuffle the whole grid for
+    // anyone browsing once the regenerated dataset ships — "Featured"
+    // always leads, "Miscellaneous" always trails, everything else sorts
+    // alphabetically in between, so the grid's layout stays stable no
+    // matter what order the crawl happened to return folders in.
+    const priority = (subject: string) => (subject === 'Featured' ? 0 : subject === MISC_LABEL ? 2 : 1);
+    return [...cards].sort((a, b) => {
+      const pa = priority(a.subject);
+      const pb = priority(b.subject);
+      if (pa !== pb) return pa - pb;
+      return pa === 1 ? a.subject.localeCompare(b.subject) : 0;
+    });
   }, [manifest, activeStream]);
   const filteredSubjectCards = useFuseSearch(subjectCards, SUBJECT_SEARCH_KEYS, subjectQuery);
 
