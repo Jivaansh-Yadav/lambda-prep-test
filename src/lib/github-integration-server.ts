@@ -40,6 +40,9 @@ function authHeaders(pat: string) {
     Authorization: `Bearer ${pat}`,
     Accept: "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
+    // GitHub's REST API rejects requests without a User-Agent header
+    // (HTTP 403 "Request forbidden by administrative rules").
+    "User-Agent": "lambda-prep-admin",
   };
 }
 

@@ -432,14 +432,22 @@ function LatestCommitCard() {
               href={state.commit.htmlUrl}
               target="_blank"
               rel="noreferrer"
-              className="mt-1 block truncate text-sm font-medium text-foreground hover:underline"
+              className="mt-1 flex items-center gap-1.5 truncate text-sm font-medium text-foreground hover:underline"
               title={state.commit.message}
             >
-              {state.commit.message}
+              <span className="truncate">{state.commit.message}</span>
+              <ExternalLink size={13} className="shrink-0 text-muted-foreground" />
             </a>
             <p className="mt-1 text-xs text-muted-foreground">
-              <span className="font-mono">{state.commit.shortSha}</span> · {state.commit.authorName} ·{' '}
-              {formatRelativeTime(state.commit.authoredAt)}
+              <a
+                href={state.commit.htmlUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="font-mono hover:underline hover:text-foreground"
+              >
+                {state.commit.shortSha}
+              </a>{' '}
+              · {state.commit.authorName} · {formatRelativeTime(state.commit.authoredAt)}
             </p>
           </>
         )}
@@ -466,6 +474,7 @@ function ManageResourcesCard() {
   const [updateRunId, setUpdateRunId] = useState<number | null>(null);
   const [updateStatus, setUpdateStatus] = useState<WorkflowRunStatus | null>(null);
   const [updateError, setUpdateError] = useState<string | null>(null);
+  const [showConfirm, setShowConfirm] = useState(false);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   function getPasscode() {
@@ -538,6 +547,7 @@ function ManageResourcesCard() {
   useEffect(() => stopPolling, []);
 
   async function handleTriggerUpdate() {
+    setShowConfirm(false);
     setTriggering(true);
     setUpdateError(null);
     setUpdateStatus(null);
@@ -582,7 +592,7 @@ function ManageResourcesCard() {
                 <span className="font-mono">update-resources.yml</span> GitHub Actions workflow.
               </p>
             </div>
-            <Button size="sm" onClick={() => void handleTriggerUpdate()} disabled={triggering || isRunning}>
+            <Button size="sm" onClick={() => setShowConfirm(true)} disabled={triggering || isRunning}>
               {triggering ? 'Starting…' : isRunning ? 'Running…' : 'Update resource datasets'}
             </Button>
           </div>
@@ -706,6 +716,53 @@ function ManageResourcesCard() {
           </>
         )}
       </CardContent>
+
+      {showConfirm && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+          onClick={() => setShowConfirm(false)}
+          role="presentation"
+        >
+          <div
+            className="w-full max-w-md rounded-lg border bg-background p-6 shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Confirm dataset update"
+          >
+            <h3 className="text-base font-semibold text-foreground">Update resource datasets?</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              This re-crawls the Google Drive folder below, regenerates every committed JSON dataset, and
+              commits the result to the repo. It runs as a GitHub Actions workflow and is{' '}
+              <span className="font-medium text-foreground">not stoppable</span> once started — it can take
+              several minutes.
+            </p>
+            <div className="mt-3 rounded-md border bg-muted/30 p-3">
+              <p className="text-xs font-medium text-muted-foreground">Drive folder to be crawled</p>
+              {state?.configured ? (
+                <a
+                  href={state.rootFolderUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-1 flex items-center gap-1.5 break-all text-sm text-primary hover:underline"
+                >
+                  {state.rootFolderUrl} <ExternalLink size={13} className="shrink-0" />
+                </a>
+              ) : (
+                <p className="mt-1 text-sm text-muted-foreground">Unknown — Drive isn't configured.</p>
+              )}
+            </div>
+            <div className="mt-5 flex justify-end gap-2">
+              <Button variant="outline" size="sm" onClick={() => setShowConfirm(false)}>
+                Cancel
+              </Button>
+              <Button size="sm" onClick={() => void handleTriggerUpdate()}>
+                Start update
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </Card>
   );
 }

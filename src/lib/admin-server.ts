@@ -383,7 +383,7 @@ export const getAdminTraffic = createServerFn({ method: "POST" })
 // ---------------------------------------------------------------------
 
 export type ManageResourcesResult =
-  | { configured: true; files: DriveFileEntry[] }
+  | { configured: true; files: DriveFileEntry[]; rootFolderUrl: string }
   | { configured: false; reason: string };
 
 export const getManageResources = createServerFn({ method: "POST" })
@@ -413,7 +413,11 @@ export const getManageResources = createServerFn({ method: "POST" })
 
     try {
       const files = await listDriveFolderFiles(config, data.folderId);
-      return { configured: true, files };
+      return {
+        configured: true,
+        files,
+        rootFolderUrl: `https://drive.google.com/drive/folders/${encodeURIComponent(config.folderId)}`,
+      };
     } catch (error) {
       return {
         configured: false,
