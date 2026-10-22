@@ -15,6 +15,7 @@ import {
   type WorkflowRunStatus,
   type LatestCommit,
 } from "./github-integration-server";
+import { resolveFileLocations } from "./resource-lookup-server";
 
 // No fallback default: an unset ADMIN_PASSCODE must disable admin access
 // entirely rather than silently accepting a hardcoded, publicly-visible
@@ -500,6 +501,8 @@ export const triggerDatasetUpdate = createServerFn({ method: "POST" })
 
 export type AdminRatingRow = {
   fileId: string;
+  fileName: string;
+  classLabel: string;
   driveUrl: string;
   average: number;
   count: number;
@@ -509,6 +512,8 @@ export type AdminRatingRow = {
 export type AdminFeedbackRow = {
   id: number;
   fileId: string;
+  fileName: string;
+  classLabel: string;
   driveUrl: string;
   feedback: string;
   createdAt: string;
@@ -516,6 +521,8 @@ export type AdminFeedbackRow = {
 
 export type AdminViewRow = {
   fileId: string;
+  fileName: string;
+  classLabel: string;
   driveUrl: string;
   viewCount: number;
   lastViewedAt: string;
@@ -523,6 +530,8 @@ export type AdminViewRow = {
 
 export type AdminShareRow = {
   fileId: string;
+  fileName: string;
+  classLabel: string;
   driveUrl: string;
   shareCount: number;
   lastSharedAt: string;
@@ -577,10 +586,23 @@ export const getAdminResourceStats = createServerFn({ method: "POST" })
         `SELECT file_id, share_count, last_shared_at FROM resource_shares ORDER BY last_shared_at DESC`
       );
 
+      // Resolve every distinct file id across all four tables to its
+      // display name + class in one pass, so admins see what a file
+      // actually is instead of a bare Drive id.
+      const allFileIds = new Set<string>();
+      for (const r of ratingRows as Array<{ file_id: string }>) allFileIds.add(r.file_id);
+      for (const r of feedbackRows as Array<{ file_id: string }>) allFileIds.add(r.file_id);
+      for (const r of viewRows as Array<{ file_id: string }>) allFileIds.add(r.file_id);
+      for (const r of shareRows as Array<{ file_id: string }>) allFileIds.add(r.file_id);
+      const locations = await resolveFileLocations([...allFileIds]);
+      const locate = (fileId: string) => locations.get(fileId) ?? { name: "Unknown file", classLabel: "Unknown class" };
+
       const ratings: AdminRatingRow[] = (
         ratingRows as Array<{ file_id: string; average: number; count: number; last_rated_at: string }>
       ).map((r) => ({
         fileId: r.file_id,
+        fileName: locate(r.file_id).name,
+        classLabel: locate(r.file_id).classLabel,
         driveUrl: driveFileUrl(r.file_id),
         average: r.average,
         count: r.count,
@@ -592,6 +614,8 @@ export const getAdminResourceStats = createServerFn({ method: "POST" })
       ).map((r) => ({
         id: r.id,
         fileId: r.file_id,
+        fileName: locate(r.file_id).name,
+        classLabel: locate(r.file_id).classLabel,
         driveUrl: driveFileUrl(r.file_id),
         feedback: r.feedback,
         createdAt: r.created_at,
@@ -601,6 +625,8 @@ export const getAdminResourceStats = createServerFn({ method: "POST" })
         viewRows as Array<{ file_id: string; view_count: number; last_viewed_at: string }>
       ).map((r) => ({
         fileId: r.file_id,
+        fileName: locate(r.file_id).name,
+        classLabel: locate(r.file_id).classLabel,
         driveUrl: driveFileUrl(r.file_id),
         viewCount: r.view_count,
         lastViewedAt: r.last_viewed_at,
@@ -610,6 +636,8 @@ export const getAdminResourceStats = createServerFn({ method: "POST" })
         shareRows as Array<{ file_id: string; share_count: number; last_shared_at: string }>
       ).map((r) => ({
         fileId: r.file_id,
+        fileName: locate(r.file_id).name,
+        classLabel: locate(r.file_id).classLabel,
         driveUrl: driveFileUrl(r.file_id),
         shareCount: r.share_count,
         lastSharedAt: r.last_shared_at,

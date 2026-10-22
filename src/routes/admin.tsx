@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import {
   Bar,
   BarChart,
@@ -773,10 +773,6 @@ function formatDateTime(value: string): string {
   return date.toLocaleString([], { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
 }
 
-function truncateFileId(fileId: string): string {
-  return fileId.length > 18 ? `${fileId.slice(0, 8)}…${fileId.slice(-6)}` : fileId;
-}
-
 type StatsTab = 'ratings' | 'feedback' | 'views' | 'shares';
 
 const STATS_TABS: Array<{ key: StatsTab; label: string; icon: typeof Star }> = [
@@ -915,7 +911,7 @@ function StatsModal({
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>File ID</TableHead>
+                    <TableHead>File</TableHead>
                     <TableHead>Drive link</TableHead>
                     <TableHead>Average</TableHead>
                     <TableHead>Ratings</TableHead>
@@ -924,17 +920,22 @@ function StatsModal({
                 </TableHeader>
                 <TableBody>
                   {state.ratings.map((r) => (
-                    <TableRow key={r.fileId}>
-                      <TableCell className="font-mono text-xs" title={r.fileId}>{truncateFileId(r.fileId)}</TableCell>
-                      <TableCell>
-                        <a href={r.driveUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-primary hover:underline">
-                          Open <ExternalLink size={13} />
-                        </a>
-                      </TableCell>
-                      <TableCell>{r.average.toFixed(1)} / 5</TableCell>
-                      <TableCell>{r.count}</TableCell>
-                      <TableCell className="whitespace-nowrap text-xs text-muted-foreground">{formatDateTime(r.lastRatedAt)}</TableCell>
-                    </TableRow>
+                    <Fragment key={r.fileId}>
+                      <TableRow key={r.fileId} className="border-b-0">
+                        <TableCell className="max-w-xs truncate" title={r.fileName}>{r.fileName}</TableCell>
+                        <TableCell>
+                          <a href={r.driveUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-primary hover:underline">
+                            Open <ExternalLink size={13} />
+                          </a>
+                        </TableCell>
+                        <TableCell>{r.average.toFixed(1)} / 5</TableCell>
+                        <TableCell>{r.count}</TableCell>
+                        <TableCell className="whitespace-nowrap text-xs text-muted-foreground">{formatDateTime(r.lastRatedAt)}</TableCell>
+                      </TableRow>
+                      <TableRow key={`${r.fileId}-class`}>
+                        <TableCell colSpan={5} className="pt-0 text-xs text-muted-foreground">{r.classLabel}</TableCell>
+                      </TableRow>
+                    </Fragment>
                   ))}
                 </TableBody>
               </Table>
@@ -948,7 +949,7 @@ function StatsModal({
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>File ID</TableHead>
+                    <TableHead>File</TableHead>
                     <TableHead>Drive link</TableHead>
                     <TableHead>Feedback</TableHead>
                     <TableHead>Submitted</TableHead>
@@ -956,16 +957,21 @@ function StatsModal({
                 </TableHeader>
                 <TableBody>
                   {state.feedback.map((f) => (
-                    <TableRow key={f.id}>
-                      <TableCell className="font-mono text-xs" title={f.fileId}>{truncateFileId(f.fileId)}</TableCell>
-                      <TableCell>
-                        <a href={f.driveUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-primary hover:underline">
-                          Open <ExternalLink size={13} />
-                        </a>
-                      </TableCell>
-                      <TableCell className="max-w-sm whitespace-pre-wrap break-words">{f.feedback}</TableCell>
-                      <TableCell className="whitespace-nowrap text-xs text-muted-foreground">{formatDateTime(f.createdAt)}</TableCell>
-                    </TableRow>
+                    <Fragment key={f.id}>
+                      <TableRow key={f.id} className="border-b-0">
+                        <TableCell className="max-w-xs truncate" title={f.fileName}>{f.fileName}</TableCell>
+                        <TableCell>
+                          <a href={f.driveUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-primary hover:underline">
+                            Open <ExternalLink size={13} />
+                          </a>
+                        </TableCell>
+                        <TableCell className="max-w-sm whitespace-pre-wrap break-words">{f.feedback}</TableCell>
+                        <TableCell className="whitespace-nowrap text-xs text-muted-foreground">{formatDateTime(f.createdAt)}</TableCell>
+                      </TableRow>
+                      <TableRow key={`${f.id}-class`}>
+                        <TableCell colSpan={4} className="pt-0 text-xs text-muted-foreground">{f.classLabel}</TableCell>
+                      </TableRow>
+                    </Fragment>
                   ))}
                 </TableBody>
               </Table>
@@ -979,7 +985,7 @@ function StatsModal({
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>File ID</TableHead>
+                    <TableHead>File</TableHead>
                     <TableHead>Drive link</TableHead>
                     <TableHead>Views</TableHead>
                     <TableHead>Last viewed</TableHead>
@@ -987,16 +993,21 @@ function StatsModal({
                 </TableHeader>
                 <TableBody>
                   {state.views.map((v) => (
-                    <TableRow key={v.fileId}>
-                      <TableCell className="font-mono text-xs" title={v.fileId}>{truncateFileId(v.fileId)}</TableCell>
-                      <TableCell>
-                        <a href={v.driveUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-primary hover:underline">
-                          Open <ExternalLink size={13} />
-                        </a>
-                      </TableCell>
-                      <TableCell>{v.viewCount.toLocaleString()}</TableCell>
-                      <TableCell className="whitespace-nowrap text-xs text-muted-foreground">{formatDateTime(v.lastViewedAt)}</TableCell>
-                    </TableRow>
+                    <Fragment key={v.fileId}>
+                      <TableRow key={v.fileId} className="border-b-0">
+                        <TableCell className="max-w-xs truncate" title={v.fileName}>{v.fileName}</TableCell>
+                        <TableCell>
+                          <a href={v.driveUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-primary hover:underline">
+                            Open <ExternalLink size={13} />
+                          </a>
+                        </TableCell>
+                        <TableCell>{v.viewCount.toLocaleString()}</TableCell>
+                        <TableCell className="whitespace-nowrap text-xs text-muted-foreground">{formatDateTime(v.lastViewedAt)}</TableCell>
+                      </TableRow>
+                      <TableRow key={`${v.fileId}-class`}>
+                        <TableCell colSpan={4} className="pt-0 text-xs text-muted-foreground">{v.classLabel}</TableCell>
+                      </TableRow>
+                    </Fragment>
                   ))}
                 </TableBody>
               </Table>
@@ -1010,7 +1021,7 @@ function StatsModal({
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>File ID</TableHead>
+                    <TableHead>File</TableHead>
                     <TableHead>Drive link</TableHead>
                     <TableHead>Shares</TableHead>
                     <TableHead>Last shared</TableHead>
@@ -1018,16 +1029,21 @@ function StatsModal({
                 </TableHeader>
                 <TableBody>
                   {state.shares.map((s) => (
-                    <TableRow key={s.fileId}>
-                      <TableCell className="font-mono text-xs" title={s.fileId}>{truncateFileId(s.fileId)}</TableCell>
-                      <TableCell>
-                        <a href={s.driveUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-primary hover:underline">
-                          Open <ExternalLink size={13} />
-                        </a>
-                      </TableCell>
-                      <TableCell>{s.shareCount.toLocaleString()}</TableCell>
-                      <TableCell className="whitespace-nowrap text-xs text-muted-foreground">{formatDateTime(s.lastSharedAt)}</TableCell>
-                    </TableRow>
+                    <Fragment key={s.fileId}>
+                      <TableRow key={s.fileId} className="border-b-0">
+                        <TableCell className="max-w-xs truncate" title={s.fileName}>{s.fileName}</TableCell>
+                        <TableCell>
+                          <a href={s.driveUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-primary hover:underline">
+                            Open <ExternalLink size={13} />
+                          </a>
+                        </TableCell>
+                        <TableCell>{s.shareCount.toLocaleString()}</TableCell>
+                        <TableCell className="whitespace-nowrap text-xs text-muted-foreground">{formatDateTime(s.lastSharedAt)}</TableCell>
+                      </TableRow>
+                      <TableRow key={`${s.fileId}-class`}>
+                        <TableCell colSpan={4} className="pt-0 text-xs text-muted-foreground">{s.classLabel}</TableCell>
+                      </TableRow>
+                    </Fragment>
                   ))}
                 </TableBody>
               </Table>
