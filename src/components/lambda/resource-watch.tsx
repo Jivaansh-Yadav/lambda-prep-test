@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ChevronDown, ChevronUp, Download, ExternalLink, FileText, Maximize, Minimize } from 'lucide-react';
+import { ChevronDown, ChevronUp, Download, ExternalLink, Eye, FileText, Maximize, Minimize, Share2 } from 'lucide-react';
 import { useFullscreen } from '@/hooks/use-fullscreen';
 import { useI18n } from '@/lib/i18n';
 import { getGroupLabel, type ResourceItem } from '@/lib/resources-data';
@@ -7,6 +7,8 @@ import { VirtualFileGrid } from '@/components/lambda/virtual-file-grid';
 import { ResourceRatingControl } from '@/components/lambda/resource-rating';
 import { ResourceFeedbackControl } from '@/components/lambda/resource-feedback';
 import { ShareWidget } from '@/components/lambda/share-widget';
+import { recordResourceView } from '@/lib/views-server';
+import { recordResourceShare, getResourceSharesBatch } from '@/lib/shares-server';
 
 interface ResourceWatchProps {
   /** Items grouped by their original folder/section name, in display order. */
@@ -105,6 +107,31 @@ export function ResourceWatch({ groups, active, onSelect, shareUrl }: ResourceWa
   const wrapRef = useRef<HTMLDivElement>(null);
   const { isFullscreen, toggleFullscreen } = useFullscreen(wrapRef);
   const [sideHeight, setSideHeight] = useState<number | undefined>(undefined);
+  const [viewCount, setViewCount] = useState<number | null>(null);
+  const [shareCount, setShareCount] = useState<number | null>(null);
+
+  // Record one view per file load (not per render) — fires whenever the
+  // active file's id changes, including the very first file shown. Also
+  // fetches the file's persisted share count (without incrementing it) so
+  // a previously-shared file's count shows immediately, not only after a
+  // fresh share in this session.
+  useEffect(() => {
+    let cancelled = false;
+    recordResourceView({ data: { fileId: active.id } }).then((result) => {
+      if (!cancelled) setViewCount(result.count);
+    });
+    setShareCount(null);
+    getResourceSharesBatch({ data: { fileIds: [active.id] } }).then((result) => {
+      if (!cancelled) setShareCount(result[active.id] ?? 0);
+    });
+    return () => { cancelled = true; };
+  }, [active.id]);
+
+  const handleShare = () => {
+    recordResourceShare({ data: { fileId: active.id } }).then((result) => {
+      setShareCount(result.count);
+    });
+  };
 
   useEffect(() => {
     const el = wrapRef.current;
@@ -178,12 +205,12 @@ export function ResourceWatch({ groups, active, onSelect, shareUrl }: ResourceWa
             <a className="doxx-sandbox-fullscreen" href={downloadSrc} target="_blank" rel="noreferrer" aria-label={t('resources.watch.download')} title={t('resources.watch.download')}>
               <Download size={16} />
             </a>
-            <ShareWidget compact url={shareUrl} title={active.name} />
+            <ShareWidget compact url={shareUrl} title={active.name} onShare={handleShare} />
           </div>
         </div>
         <h2 className="doxx-watch-title">{active.name}</h2>
         <p className="doxx-watch-kind">{getGroupLabel(active.group)}</p>
-        {(lastUpdatedLabel || sizeLabel) && (
+        {(lastUpdatedLabel || sizeLabel || viewCount !== null || shareCount !== null) && (
           <div className="resource-watch-meta">
             {lastUpdatedLabel && (
               <span className="resource-watch-meta-item">
@@ -193,6 +220,16 @@ export function ResourceWatch({ groups, active, onSelect, shareUrl }: ResourceWa
             {sizeLabel && (
               <span className="resource-watch-meta-item">
                 <span className="resource-watch-meta-label">{t('resources.watch.size')}:</span> {sizeLabel}
+              </span>
+            )}
+            {viewCount !== null && (
+              <span className="resource-watch-meta-item resource-watch-meta-stat">
+                <Eye size={13} /> {viewCount.toLocaleString()} {viewCount === 1 ? t('resources.watch.view') : t('resources.watch.views')}
+              </span>
+            )}
+            {shareCount !== null && shareCount > 0 && (
+              <span className="resource-watch-meta-item resource-watch-meta-stat">
+                <Share2 size={13} /> {shareCount.toLocaleString()} {shareCount === 1 ? t('resources.watch.share') : t('resources.watch.shares')}
               </span>
             )}
           </div>

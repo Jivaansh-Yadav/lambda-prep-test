@@ -12,6 +12,12 @@ interface ShareWidgetProps {
    * viewer's fullscreen/open-in-Drive/download toolbar) instead of the
    * default labeled button. */
   compact?: boolean;
+  /** Fired once per completed share action (link copied, a share target
+   * opened, or the native share sheet accepted) — not on cancelled/failed
+   * attempts. Used by the Resource Watch pane to track a per-file share
+   * counter; omitted entirely where there's no resource to attribute the
+   * share to. */
+  onShare?: () => void;
 }
 
 /** Transient "Copied!" / "Link copied — paste it into Discord" hint shown
@@ -58,7 +64,7 @@ async function copyToClipboard(text: string): Promise<boolean> {
  * Reddit), plus a "More" button that hands off to the device's native share
  * sheet when available. Every target gets the same pre-generated template
  * text so the resource is identifiable wherever it lands. */
-export function ShareWidget({ url, title, compact = false }: ShareWidgetProps) {
+export function ShareWidget({ url, title, compact = false, onShare }: ShareWidgetProps) {
   const { t } = useI18n();
   const [open, setOpen] = useState(false);
   const { hint, show } = useTransientHint();
@@ -82,10 +88,12 @@ export function ShareWidget({ url, title, compact = false }: ShareWidgetProps) {
   const handleCopy = async () => {
     const ok = await copyToClipboard(url);
     show(ok ? t('share.copied') : t('share.copyFailed'), ok);
+    if (ok) onShare?.();
   };
 
   const openShareLink = (href: string) => {
     window.open(href, '_blank', 'noopener,noreferrer');
+    onShare?.();
   };
 
   const handleDiscord = async () => {
@@ -94,12 +102,14 @@ export function ShareWidget({ url, title, compact = false }: ShareWidgetProps) {
     // channel or DM themselves.
     const ok = await copyToClipboard(message);
     show(ok ? t('share.discordHint') : t('share.copyFailed'), ok);
+    if (ok) onShare?.();
   };
 
   const handleNativeShare = async () => {
     if (!navigator.share) return;
     try {
       await navigator.share({ title, text: message, url });
+      onShare?.();
     } catch {
       // User cancelled the share sheet or it's unsupported for this
       // payload — no error state needed, the popup just stays open.

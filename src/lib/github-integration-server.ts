@@ -88,7 +88,6 @@ export type WorkflowRunStatus = {
   conclusion: string | null; // success | failure | cancelled | ... | null while running
   steps: WorkflowStep[];
 };
-
 /**
  * Fetches the current status + per-step progress of a previously
  * dispatched run, for the UI to poll.
@@ -120,4 +119,43 @@ export async function getWorkflowRunStatus(
   }
 
   return { runId, htmlUrl: run.html_url, status: run.status, conclusion: run.conclusion, steps };
+}
+
+export type LatestCommit = {
+  sha: string;
+  shortSha: string;
+  message: string;
+  authorName: string;
+  authoredAt: string;
+  htmlUrl: string;
+};
+
+/**
+ * Fetches the most recent commit on the configured ref, for the admin
+ * "Latest commit" card. Uses the same PAT already stored for workflow
+ * dispatch — no separate credential needed.
+ */
+export async function getLatestCommit(config: GithubIntegrationConfig): Promise<LatestCommit> {
+  const url = `${GITHUB_API}/repos/${config.owner}/${config.repo}/commits/${config.ref}`;
+  const res = await fetch(url, { headers: authHeaders(config.pat) });
+  if (!res.ok) {
+    const bodyText = await res.text().catch(() => "<unreadable>");
+    throw new Error(`Could not fetch latest commit (HTTP ${res.status}): ${bodyText.slice(0, 300)}`);
+  }
+  const json = (await res.json()) as {
+    sha: string;
+    html_url: string;
+    commit: {
+      message: string;
+      author: { name: string; date: string };
+    };
+  };
+  return {
+    sha: json.sha,
+    shortSha: json.sha.slice(0, 7),
+    message: json.commit.message.split("\n")[0] ?? json.commit.message,
+    authorName: json.commit.author.name,
+    authoredAt: json.commit.author.date,
+    htmlUrl: json.html_url,
+  };
 }

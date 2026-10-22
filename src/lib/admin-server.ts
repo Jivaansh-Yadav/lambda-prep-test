@@ -11,7 +11,9 @@ import {
   getGithubIntegrationConfig,
   dispatchWorkflow,
   getWorkflowRunStatus,
+  getLatestCommit,
   type WorkflowRunStatus,
+  type LatestCommit,
 } from "./github-integration-server";
 
 // No fallback default: an unset ADMIN_PASSCODE must disable admin access
@@ -508,8 +510,22 @@ export type AdminFeedbackRow = {
   createdAt: string;
 };
 
-export type AdminFeedbackResult =
-  | { configured: true; ratings: AdminRatingRow[]; feedback: AdminFeedbackRow[] }
+export type AdminViewRow = {
+  fileId: string;
+  driveUrl: string;
+  viewCount: number;
+  lastViewedAt: string;
+};
+
+export type AdminShareRow = {
+  fileId: string;
+  driveUrl: string;
+  shareCount: number;
+  lastSharedAt: string;
+};
+
+export type AdminResourceStatsResult =
+  | { configured: true; ratings: AdminRatingRow[]; feedback: AdminFeedbackRow[]; views: AdminViewRow[]; shares: AdminShareRow[] }
   | { configured: false; reason: string };
 
 const FEEDBACK_ROW_LIMIT = 200;
@@ -519,17 +535,17 @@ function driveFileUrl(fileId: string): string {
 }
 
 /**
- * Returns every file's aggregate rating plus the most recent feedback
- * entries, for the admin "Ratings & Feedback" panel. Read-only: neither
- * table is ever mutated here.
+ * Returns every file's aggregate rating, view count and share count, plus
+ * the most recent feedback entries, for the admin "Resource stats" panel.
+ * Read-only: none of the four tables is ever mutated here.
  */
-export const getAdminResourceFeedback = createServerFn({ method: "POST" })
+export const getAdminResourceStats = createServerFn({ method: "POST" })
   .validator((data: unknown) => {
     const d = data as { passcode?: unknown };
     if (typeof d?.passcode !== "string") throw new Error("Missing passcode");
     return { passcode: d.passcode };
   })
-  .handler(async ({ data }): Promise<AdminFeedbackResult> => {
+  .handler(async ({ data }): Promise<AdminResourceStatsResult> => {
     requirePasscode(data.passcode);
 
     if (!sql) {
@@ -549,6 +565,12 @@ export const getAdminResourceFeedback = createServerFn({ method: "POST" })
          ORDER BY created_at DESC
          LIMIT $1`,
         [FEEDBACK_ROW_LIMIT]
+      );
+      const viewRows = await sql.query(
+        `SELECT file_id, view_count, last_viewed_at FROM resource_views ORDER BY last_viewed_at DESC`
+      );
+      const shareRows = await sql.query(
+        `SELECT file_id, share_count, last_shared_at FROM resource_shares ORDER BY last_shared_at DESC`
       );
 
       const ratings: AdminRatingRow[] = (
@@ -571,11 +593,29 @@ export const getAdminResourceFeedback = createServerFn({ method: "POST" })
         createdAt: r.created_at,
       }));
 
-      return { configured: true, ratings, feedback };
+      const views: AdminViewRow[] = (
+        viewRows as Array<{ file_id: string; view_count: number; last_viewed_at: string }>
+      ).map((r) => ({
+        fileId: r.file_id,
+        driveUrl: driveFileUrl(r.file_id),
+        viewCount: r.view_count,
+        lastViewedAt: r.last_viewed_at,
+      }));
+
+      const shares: AdminShareRow[] = (
+        shareRows as Array<{ file_id: string; share_count: number; last_shared_at: string }>
+      ).map((r) => ({
+        fileId: r.file_id,
+        driveUrl: driveFileUrl(r.file_id),
+        shareCount: r.share_count,
+        lastSharedAt: r.last_shared_at,
+      }));
+
+      return { configured: true, ratings, feedback, views, shares };
     } catch (error) {
       return {
         configured: false,
-        reason: `Could not load ratings/feedback: ${error instanceof Error ? error.message : String(error)}`,
+        reason: `Could not load resource stats: ${error instanceof Error ? error.message : String(error)}`,
       };
     }
   });
@@ -602,6 +642,38 @@ export const getDatasetUpdateStatus = createServerFn({ method: "POST" })
     try {
       const status = await getWorkflowRunStatus(config, data.runId);
       return { ok: true, status };
+    } catch (error) {
+      return { ok: false, reason: error instanceof Error ? error.message : String(error) };
+    }
+  });
+
+// ---------------------------------------------------------------------
+// "Latest commit" admin card: surfaces the most recent commit on the
+// configured ref (see github_integration in Neon), using the same PAT
+// already stored for the dataset-update workflow dispatch above.
+// ---------------------------------------------------------------------
+
+export type AdminLatestCommitResult =
+  | { ok: true; commit: LatestCommit }
+  | { ok: false; reason: string };
+
+export const getAdminLatestCommit = createServerFn({ method: "POST" })
+  .validator((data: unknown) => {
+    const d = data as { passcode?: unknown };
+    if (typeof d?.passcode !== "string") throw new Error("Missing passcode");
+    return { passcode: d.passcode };
+  })
+  .handler(async ({ data }): Promise<AdminLatestCommitResult> => {
+    requirePasscode(data.passcode);
+
+    const config = await getGithubIntegrationConfig();
+    if (!config) {
+      return { ok: false, reason: "GitHub integration isn't configured yet." };
+    }
+
+    try {
+      const commit = await getLatestCommit(config);
+      return { ok: true, commit };
     } catch (error) {
       return { ok: false, reason: error instanceof Error ? error.message : String(error) };
     }

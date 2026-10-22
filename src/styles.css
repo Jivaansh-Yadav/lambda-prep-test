@@ -576,6 +576,7 @@
 .resource-watch-meta { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 14px; font-size: 13px; color: var(--muted-foreground); }
 .resource-watch-meta-item { display: inline-flex; gap: 4px; }
 .resource-watch-meta-label { font-weight: 600; color: var(--foreground); }
+.resource-watch-meta-stat { align-items: center; }
 
 /* Resource file star ratings — single partially-filled star icon per
  * rating slot (clip-path style fill via a width-clamped overlay), used
