@@ -184,13 +184,13 @@ function Doxxmarks() {
 
       {currentClass && !subject && <>
         <div className="content-header">
-          <div className="content-header-text">
-            <h1>{currentClass.board} Class {currentClass.roman}<span className="text-primary">.</span></h1>
+          <h1>{currentClass.board} Class {currentClass.roman}<span className="text-primary">.</span></h1>
+          <div className="content-header-row">
             <p className="page-intro">{t('doxx.chooseSubject')}</p>
+            {!!currentClass.subjects.length && (
+              <label className="search-field resource-search"><Search size={18} /><input aria-label={t('doxx.searchSubjects.label')} placeholder={t('doxx.searchSubjects.placeholder')} value={subjectQuery} onChange={e => setSubjectQuery(e.target.value)} /></label>
+            )}
           </div>
-          {!!currentClass.subjects.length && (
-            <label className="search-field resource-search"><Search size={18} /><input aria-label={t('doxx.searchSubjects.label')} placeholder={t('doxx.searchSubjects.placeholder')} value={subjectQuery} onChange={e => setSubjectQuery(e.target.value)} /></label>
-          )}
         </div>
         {currentClass.subjects.length && !filteredSubjects.length ? (
           <div className="empty-state"><Search /><h3>{t('doxx.searchSubjects.empty.title')}</h3><p>{t('doxx.searchSubjects.empty.text')}</p></div>
@@ -214,13 +214,13 @@ function Doxxmarks() {
 
       {subject && !chapter && <>
         <div className="content-header">
-          <div className="content-header-text">
-            <h1>{subject.name}<span className="text-primary">.</span></h1>
+          <h1>{subject.name}<span className="text-primary">.</span></h1>
+          <div className="content-header-row">
             <p className="page-intro">{currentClass!.board} Class {currentClass!.roman} · {t('doxx.chooseChapter')}</p>
+            {!!subject.chapters.length && (
+              <label className="search-field resource-search"><Search size={18} /><input aria-label={t('doxx.searchChapters.label')} placeholder={t('doxx.searchChapters.placeholder')} value={chapterQuery} onChange={e => setChapterQuery(e.target.value)} /></label>
+            )}
           </div>
-          {!!subject.chapters.length && (
-            <label className="search-field resource-search"><Search size={18} /><input aria-label={t('doxx.searchChapters.label')} placeholder={t('doxx.searchChapters.placeholder')} value={chapterQuery} onChange={e => setChapterQuery(e.target.value)} /></label>
-          )}
         </div>
         {subject.chapters.length && !filteredChapterEntries.length ? (
           <div className="empty-state"><Search /><h3>{t('doxx.searchChapters.empty.title')}</h3><p>{t('doxx.searchChapters.empty.text')}</p></div>
