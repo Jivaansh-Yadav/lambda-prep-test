@@ -40,6 +40,17 @@ export function findSubjectMeta(name: string) {
   return subjects.find(s => s.name.toLowerCase() === normalized)
     ?? subjects.find(s => normalized.startsWith(s.name.toLowerCase()) || s.name.toLowerCase().startsWith(normalized));
 }
+
+/** Whether a raw subject name (as it appears in a resource dataset, e.g.
+ * "Accountancy") belongs to the given ISC stream — used to filter the
+ * subject-card grid on the resources pages by Science/Commerce/Humanities,
+ * the same way the class hub's stream tabs already filter its subject
+ * list. `All` always matches. */
+export function subjectMatchesStream(name: string, stream: string) {
+  if (stream === 'All') return true;
+  const meta = findSubjectMeta(name);
+  return !!meta && (meta.streams as readonly string[]).includes(stream);
+}
 export const SITE_URL = 'https://project-3354c0eb.eazo.dev';
 export const OG_IMAGE = `${SITE_URL}/og/lambda-prep-og.png`;
 

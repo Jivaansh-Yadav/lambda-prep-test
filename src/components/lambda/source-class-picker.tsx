@@ -1,12 +1,13 @@
 import { Link } from '@tanstack/react-router';
 import { ArrowLeft, ArrowUpRight, BookOpen, ChevronDown, ChevronUp, File, FileImage, FileSpreadsheet, FileText, Folder, MessageCircle, RefreshCw, Search, Sparkles } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { classes, findSubjectMeta, getSiteOrigin } from '@/lib/lambda';
+import { classes, findSubjectMeta, getSiteOrigin, subjectMatchesStream } from '@/lib/lambda';
 import { useI18n } from '@/lib/i18n';
 import { useFuseSearch } from '@/hooks/use-fuse-search';
 import { flattenFolderFiles, findItemInSubject, getFileKind, getGroupBadge, getGroupLabel, groupItems, hasResourceDataset, isFolderNode, isPremiumGroup, loadResourceManifest, loadResourceMisc, loadResourceSubject, type FileKind, type ResourceFolderNode, type ResourceItem, type ResourceManifest, type ResourceNode, type ResourceSubject } from '@/lib/resources-data';
 import { ResourceWatch } from '@/components/lambda/resource-watch';
 import { VirtualFileGrid } from '@/components/lambda/virtual-file-grid';
+import { StreamTabs } from '@/components/lambda/stream-tabs';
 import { Button } from '@/components/ui/button';
 
 export type SourceId = 'cisce' | 'community';
@@ -19,6 +20,14 @@ interface SourceClassPickerProps {
    * `file` search param, if any — lets a shared link reopen the exact file
    * instead of just the subject grid. */
   file?: string | undefined;
+  /** Current ISC stream filter ('Science' | 'Commerce' | 'Humanities'),
+   * undefined/`'All'` meaning no filter. Only shown once a class whose
+   * board is ISC is selected, mirroring the class hub's stream tabs. */
+  stream?: string | undefined;
+  /** Called when the stream filter changes, so the host route can keep it
+   * in the `?stream=` search param (and therefore the shareable/back-nav
+   * URL) in sync. */
+  onStreamChange?: (stream: string) => void;
   /** Called whenever the viewer opens/closes a file, so the host route can
    * keep the `file` search param (and therefore the shareable URL) in sync.
    * Passing `undefined` clears the param. */
@@ -218,7 +227,7 @@ function GroupSection({ group, items, editorFolders, onPick }: {
   );
 }
 
-export function SourceClassPicker({ source, classSlug, subject, file, onFileChange, title, desc }: SourceClassPickerProps) {
+export function SourceClassPicker({ source, classSlug, subject, file, stream, onStreamChange, onFileChange, title, desc }: SourceClassPickerProps) {
   const { t } = useI18n();
   const [query, setQuery] = useState('');
   const [subjectQuery, setSubjectQuery] = useState('');
@@ -300,13 +309,19 @@ export function SourceClassPicker({ source, classSlug, subject, file, onFileChan
   // Subject-grid search corpus: one card per subject plus a synthetic
   // "Miscellaneous" card when there are ungrouped files, so the fuzzy
   // search can match it by its displayed name too. Built from the
-  // manifest's counts, not full file lists.
+  // manifest's counts, not full file lists. For ISC classes, also honors
+  // the Science/Commerce/Humanities stream filter — mirroring the class
+  // hub's stream tabs — but "Featured"/"Miscellaneous" are mixed-subject
+  // buckets with no single stream, so they stay visible regardless.
+  const activeStream = currentClass?.board === 'ISC' ? (stream ?? 'All') : 'All';
   const subjectCards = useMemo((): Array<{ subject: string; count: number }> => {
     if (!manifest) return [];
-    const cards = manifest.subjects.map(s => ({ subject: s.subject, count: s.count }));
+    const cards = manifest.subjects
+      .filter(s => s.subject === MISC_LABEL || s.subject === 'Featured' || subjectMatchesStream(s.subject, activeStream))
+      .map(s => ({ subject: s.subject, count: s.count }));
     if (manifest.miscCount > 0) cards.push({ subject: MISC_LABEL, count: manifest.miscCount });
     return cards;
-  }, [manifest]);
+  }, [manifest, activeStream]);
   const filteredSubjectCards = useFuseSearch(subjectCards, SUBJECT_SEARCH_KEYS, subjectQuery);
 
   // Per-subject file search corpus: the subject's flat items plus every file
@@ -398,20 +413,34 @@ export function SourceClassPicker({ source, classSlug, subject, file, onFileChan
 
   // Class + manifest present, but no subject picked yet -> subject card grid.
   if (currentClass && manifest && !subject) {
+    // Manifest has literally nothing yet (e.g. freshly added class) vs. the
+    // stream filter narrowing an otherwise-populated manifest down to zero
+    // matches — these need different empty-state copy, so the check has to
+    // happen before the stream filter above has had a chance to hide
+    // everything.
+    const manifestIsEmpty = !manifest.subjects.length && !manifest.miscCount;
     return <main className="container content-page">
       <Link to={sourcePath} search={{}} className="back-link"><ArrowLeft size={15} /> {t('resources.backToClasses')}</Link>
       <h1>{title}<span className="text-primary">.</span></h1>
       <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {t('resources.chooseSubject')}</p>
-      {!!subjectCards.length && <p className="library-note resource-total-count">{manifest.subjects.reduce((sum, s) => sum + s.count, 0) + manifest.miscCount} {t('resources.filesLabel')} {t('resources.total')}</p>}
+      {!manifestIsEmpty && currentClass.board === 'ISC' && (
+        <div className="resource-stream-tabs"><StreamTabs stream={activeStream} onChange={next => onStreamChange?.(next)} /></div>
+      )}
+      {!!subjectCards.length && <p className="library-note resource-total-count">{subjectCards.reduce((sum, s) => sum + s.count, 0)} {t('resources.filesLabel')} {t('resources.total')}</p>}
       {!!subjectCards.length && (
         <label className="search-field resource-search"><Search size={18} /><input aria-label={t('resources.searchSubjects.label')} placeholder={t('resources.searchSubjects.placeholder')} value={subjectQuery} onChange={e => setSubjectQuery(e.target.value)} /></label>
       )}
-      {!subjectCards.length ? (
+      {manifestIsEmpty ? (
         // Dataset exists for this class but its manifest lists zero
         // subjects (e.g. freshly added class awaiting content) — same
         // "being prepared" message as a class with no dataset at all,
         // not the "no search results" copy below.
         <div className="empty-state"><BookOpen /><h3>{t('resources.classNote.title')}</h3><p>{t('resources.classNote.text')}</p></div>
+      ) : !subjectCards.length ? (
+        // The manifest has subjects, but none of them belong to the
+        // selected stream — same "clear filters" framing as the class
+        // hub's own stream tabs use.
+        <div className="empty-state"><BookOpen /><h3>{t('hub.empty.title')}</h3><p>{t('hub.empty.text')}</p></div>
       ) : filteredSubjectCards.length ? (
         <div className="doxx-cards">
           {filteredSubjectCards.map(s => {
@@ -420,7 +449,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, onFileChan
             const meta = findSubjectMeta(s.subject);
             const Icon = isMisc ? Folder : isFeatured ? Sparkles : meta?.icon ?? FileText;
             return (
-              <Link key={s.subject} to={sourcePath} search={{ class: classSlug, subject: s.subject }} className={`doxx-card${isMisc || isFeatured ? ' tone-rose' : meta ? ` tone-${meta.tone}` : ''}${isFeatured ? ' doxx-card-featured-glow' : ''}`}>
+              <Link key={s.subject} to={sourcePath} search={{ class: classSlug, subject: s.subject, stream }} className={`doxx-card${isMisc || isFeatured ? ' tone-rose' : meta ? ` tone-${meta.tone}` : ''}${isFeatured ? ' doxx-card-featured-glow' : ''}`}>
                 <span className="subject-icon doxx-subject-icon"><Icon size={22} strokeWidth={1.6} /></span>
                 <span className="doxx-card-title">{s.subject}</span>
                 <span className="doxx-card-meta">{s.count} {t('resources.filesLabel')}</span>
@@ -440,7 +469,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, onFileChan
     // Subject shard failed to load -> same treatment as the manifest error.
     if (subjectError) {
       return <main className="container content-page">
-        <Link to={sourcePath} search={{ class: classSlug }} className="back-link"><ArrowLeft size={15} /> {t('hub.backToSubjects')}</Link>
+        <Link to={sourcePath} search={{ class: classSlug, stream }} className="back-link"><ArrowLeft size={15} /> {t('hub.backToSubjects')}</Link>
         <h1>{subject}<span className="text-primary">.</span></h1>
         <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {title}</p>
         <div className="empty-state">
@@ -455,7 +484,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, onFileChan
     // Still fetching the subject's own JSON shard -> lightweight loading state.
     if (!subjectDataReady) {
       return <main className="container content-page">
-        <Link to={sourcePath} search={{ class: classSlug }} className="back-link"><ArrowLeft size={15} /> {t('hub.backToSubjects')}</Link>
+        <Link to={sourcePath} search={{ class: classSlug, stream }} className="back-link"><ArrowLeft size={15} /> {t('hub.backToSubjects')}</Link>
         <h1>{subject}<span className="text-primary">.</span></h1>
         <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {title}</p>
         <div className="resource-file-grid" aria-busy={subjectLoading}>
@@ -493,7 +522,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, onFileChan
     }
 
     return <main className="container content-page">
-      <Link to={sourcePath} search={{ class: classSlug }} className="back-link"><ArrowLeft size={15} /> {t('hub.backToSubjects')}</Link>
+      <Link to={sourcePath} search={{ class: classSlug, stream }} className="back-link"><ArrowLeft size={15} /> {t('hub.backToSubjects')}</Link>
       <h1>{subject}<span className="text-primary">.</span></h1>
       <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {title}</p>
       <label className="search-field resource-search"><Search size={18} /><input aria-label={t('resources.searchFiles.label')} placeholder={t('resources.searchFiles.placeholder')} value={fileQuery} onChange={e => setFileQuery(e.target.value)} /></label>

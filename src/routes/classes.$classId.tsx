@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { classes, getSubjects, pageHead } from '@/lib/lambda';
 import { getCurriculumClass, findSubjectInClass } from '@/lib/curriculum';
 import { useI18n } from '@/lib/i18n';
+import { StreamTabs } from '@/components/lambda/stream-tabs';
 
 export const Route = createFileRoute('/classes/$classId')({
   loader: ({ params }) => { const current = classes.find(c => c.slug === params.classId); if (!current) throw notFound(); return { current: { slug: current.slug, grade: current.grade, roman: current.roman, board: current.board, label: current.label } }; },
@@ -21,7 +22,10 @@ function ClassHubView({ current }: { current: CurrentClass }) {
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState<string | null>(null);
   const available = getSubjects(current.board, stream).filter(s => s.name.toLowerCase().includes(search.toLowerCase()));
-  const streamLabels: Record<string, string> = { All: t('hub.stream.all'), Science: t('hub.stream.science'), Commerce: t('hub.stream.commerce'), Humanities: t('hub.stream.humanities') };
+  // Threaded into the Community/CISCE Resources links below so picking a
+  // stream here and then jumping to a resource source lands pre-filtered
+  // to that same stream, instead of resetting back to "All".
+  const streamSearchParam = current.board === 'ISC' && stream !== 'All' ? stream : undefined;
   const curriculumClass = getCurriculumClass(current.board, current.roman);
   const selectedSubject = selected ? findSubjectInClass(curriculumClass, selected) : undefined;
   const hasDoxxContent = !!selectedSubject && selectedSubject.chapters.length > 0;
@@ -33,7 +37,7 @@ function ClassHubView({ current }: { current: CurrentClass }) {
       <span className="hub-badge"><BookOpen size={18} /> {current.board} {t('hub.curriculum')}</span>
     </div>
     <div className="hub-toolbar">
-      {current.board === 'ISC' ? <div className="stream-tabs" role="tablist" aria-label="Stream">{['All', 'Science', 'Commerce', 'Humanities'].map(s => <Button variant="ghost" role="tab" aria-selected={stream === s} key={s} onClick={() => setStream(s)} className={stream === s ? 'selected-tab' : ''}>{streamLabels[s]}</Button>)}</div> : <h2>{t('hub.yourSubjects')} <span>{available.length}</span></h2>}
+      {current.board === 'ISC' ? <StreamTabs stream={stream} onChange={setStream} /> : <h2>{t('hub.yourSubjects')} <span>{available.length}</span></h2>}
       <label className="search-field"><Search size={18} /><input aria-label={t('hub.searchLabel')} placeholder={t('hub.searchPlaceholder')} value={search} onChange={e => setSearch(e.target.value)} /></label>
     </div>
     <div className="subject-grid">
@@ -44,6 +48,7 @@ function ClassHubView({ current }: { current: CurrentClass }) {
       </Button>)}
     </div>
     {!available.length && <div className="empty-state"><Search /><h3>{t('hub.empty.title')}</h3><p>{t('hub.empty.text')}</p><Button variant="outline" onClick={() => { setSearch(''); setStream('All'); }}>{t('hub.clearFilters')}</Button></div>}
+    <div className="hub-note"></div>
     {selected && (
       <div className="modal-backdrop" onClick={() => setSelected(null)}>
         <section role="dialog" aria-modal="true" aria-labelledby="subject-title" className="subject-dialog" onClick={e => e.stopPropagation()}>
@@ -70,12 +75,12 @@ function ClassHubView({ current }: { current: CurrentClass }) {
 
           <div className="dialog-path-group">
             <p className="dialog-path-label">{t('hub.detail.resourcesLabel')}</p>
-            <Link to="/resources/community" search={{ class: current.slug, subject: selected }} className="dialog-path-card tone-green" onClick={() => setSelected(null)}>
+            <Link to="/resources/community" search={{ class: current.slug, subject: selected, stream: streamSearchParam }} className="dialog-path-card tone-green" onClick={() => setSelected(null)}>
               <span className="subject-icon"><UsersRound size={22} /></span>
               <span className="dialog-path-copy"><strong>{t('hub.detail.communityTitle')}</strong><span>{t('hub.detail.communityText')}</span></span>
               <ArrowRight size={18} />
             </Link>
-            <Link to="/resources/cisce" search={{ class: current.slug, subject: selected }} className="dialog-path-card tone-blue" onClick={() => setSelected(null)}>
+            <Link to="/resources/cisce" search={{ class: current.slug, subject: selected, stream: streamSearchParam }} className="dialog-path-card tone-blue" onClick={() => setSelected(null)}>
               <span className="subject-icon"><ShieldCheck size={22} /></span>
               <span className="dialog-path-copy"><strong>{t('hub.detail.cisceTitle')}</strong><span>{t('hub.detail.cisceText')}</span></span>
               <ArrowRight size={18} />
