@@ -2,8 +2,10 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { ArrowLeft, ArrowUpRight, BookOpen, ChevronRight, MonitorPlay, PlayCircle, FileText, Search } from 'lucide-react';
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import type { DoxxLesson } from '@/components/lambda/doxx-watch';
+import { ResourceWatch } from '@/components/lambda/resource-watch';
 import { curriculumClasses } from '@/lib/curriculum';
 import { classes, findSubjectMeta, pageHead, getSiteOrigin } from '@/lib/lambda';
+import { type ResourceItem } from '@/lib/resources-data';
 import { useI18n } from '@/lib/i18n';
 import { useFuseSearch } from '@/hooks/use-fuse-search';
 
@@ -11,6 +13,15 @@ import { useFuseSearch } from '@/hooks/use-fuse-search';
 // it's only fetched once a lesson is actually opened — not on every visit to
 // the chapter/topic browsing grid.
 const DoxxWatch = lazy(() => import('@/components/lambda/doxx-watch').then(m => ({ default: m.DoxxWatch })));
+
+/** Extracts the Drive file id from a `.../file/d/<id>/view` share link, so a
+ * chapter's revision-note links (plain `{name, link}` entries in
+ * curriculum.json) can be opened through the same embedded ResourceWatch
+ * player used for Resources, instead of a new tab. */
+function driveIdFromLink(link: string): string | null {
+  const match = /\/file\/d\/([^/]+)/.exec(link);
+  return match?.[1] ?? null;
+}
 
 // Referentially stable key arrays for useFuseSearch — a fresh array literal
 // at the call site would rebuild the Fuse index on every render.
@@ -27,6 +38,10 @@ interface DoxxSearch {
    * no Drive id of their own, so this index is the stable, shareable
    * pointer back to a specific lesson. */
   lesson?: number | undefined;
+  /** Index into the active chapter's `revisionNotes` array, used to open
+   * the embedded ResourceWatch viewer for that note. `note` to avoid
+   * clashing with the per-lesson `lesson` index above. */
+  note?: number | undefined;
 }
 
 export const Route = createFileRoute('/doxxmarks')({
@@ -36,6 +51,7 @@ export const Route = createFileRoute('/doxxmarks')({
     chapter: typeof search['chapter'] === 'number' ? search['chapter'] : undefined,
     topic: typeof search['topic'] === 'number' ? search['topic'] : undefined,
     lesson: typeof search['lesson'] === 'number' ? search['lesson'] : undefined,
+    note: typeof search['note'] === 'number' ? search['note'] : undefined,
   }),
   head: () => pageHead('Doxxmarks — Chapter-wise lessons', 'Browse classes, subjects, chapters and topics with interactive classes and concept videos.', '/doxxmarks'),
   component: Doxxmarks,
@@ -43,7 +59,7 @@ export const Route = createFileRoute('/doxxmarks')({
 
 function Doxxmarks() {
   const { t } = useI18n();
-  const { class: classSlug, subject: subjectName, chapter: chapterIdx, topic: topicIdx, lesson: lessonIdx } = Route.useSearch();
+  const { class: classSlug, subject: subjectName, chapter: chapterIdx, topic: topicIdx, lesson: lessonIdx, note: noteIdx } = Route.useSearch();
   const navigate = Route.useNavigate();
   const classMeta = classSlug ? classes.find(c => c.slug === classSlug) : undefined;
   const currentClass = classMeta ? curriculumClasses.find(c => c.board === classMeta.board && c.roman === classMeta.roman) : undefined;
@@ -70,6 +86,26 @@ function Doxxmarks() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   const closeLesson = () => navigate({ search: prev => ({ ...prev, lesson: undefined }) });
+
+  // Chapter revision notes (plain `{name, link}` entries in curriculum.json,
+  // Drive share-links) converted to the same ResourceItem shape Resources
+  // uses, so they can be opened through ResourceWatch's embedded preview +
+  // sidebar instead of a plain "open in new tab" link. Entries whose link
+  // isn't a recognizable Drive file URL are dropped rather than shown as a
+  // broken player.
+  const noteItems = useMemo((): ResourceItem[] => (chapter?.revisionNotes ?? [])
+    .flatMap((n): ResourceItem[] => {
+      const id = driveIdFromLink(n.link);
+      return id ? [{ name: n.name, id, group: t('doxx.revisionNotes') }] : [];
+    }), [chapter, t]);
+  const activeNote = noteIdx !== undefined ? noteItems[noteIdx] ?? null : null;
+
+  const openNote = (item: ResourceItem) => {
+    const index = noteItems.findIndex(n => n.id === item.id);
+    navigate({ search: prev => ({ ...prev, note: index >= 0 ? index : undefined }) });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  const closeNote = () => navigate({ search: prev => ({ ...prev, note: undefined }) });
 
   useEffect(() => {
     setSubjectQuery('');
@@ -118,6 +154,8 @@ function Doxxmarks() {
       {(subject || chapter || topic) && (
         playing ? (
           <button type="button" className="back-link" onClick={closeLesson}><ArrowLeft size={15} /> {t('doxx.back')}</button>
+        ) : activeNote ? (
+          <button type="button" className="back-link" onClick={closeNote}><ArrowLeft size={15} /> {t('doxx.back')}</button>
         ) : (
           <Link to="/doxxmarks" search={backSearch} className="back-link"><ArrowLeft size={15} /> {t('doxx.back')}</Link>
         )
@@ -192,25 +230,38 @@ function Doxxmarks() {
       </>}
 
       {chapter && !topic && <>
-        <h1>{chapter.name}<span className="text-primary">.</span></h1>
-        <p className="page-intro">{subject!.name} · {t('doxx.chooseTopic')}</p>
-        <div className="doxx-cards">
-          {chapter.topics.map((top, i) => (
-            <Link key={top.name} to="/doxxmarks" search={{ class: classSlug, subject: subjectName, chapter: chapterIdx, topic: i }} className="doxx-card">
-              <span className="doxx-card-title">{top.name}</span>
-              <span className="doxx-card-meta">{top.videoLessons.length} {t('doxx.videosCount')} · {top.interactiveClasses.length} {t('doxx.interactiveCount')} <ChevronRight size={14} /></span>
-            </Link>
-          ))}
-          {!chapter.topics.length && <EmptyState text={t('doxx.empty.topics')} />}
-        </div>
+        {!activeNote && <>
+          <h1>{chapter.name}<span className="text-primary">.</span></h1>
+          <p className="page-intro">{subject!.name} · {t('doxx.chooseTopic')}</p>
+          <div className="doxx-cards">
+            {chapter.topics.map((top, i) => (
+              <Link key={top.name} to="/doxxmarks" search={{ class: classSlug, subject: subjectName, chapter: chapterIdx, topic: i }} className="doxx-card">
+                <span className="doxx-card-title">{top.name}</span>
+                <span className="doxx-card-meta">{top.videoLessons.length} {t('doxx.videosCount')} · {top.interactiveClasses.length} {t('doxx.interactiveCount')} <ChevronRight size={14} /></span>
+              </Link>
+            ))}
+            {!chapter.topics.length && <EmptyState text={t('doxx.empty.topics')} />}
+          </div>
+        </>}
         <section className="doxx-notes">
-          <h2><FileText size={18} /> {t('doxx.revisionNotes')}</h2>
-          {chapter.revisionNotes?.length ? (
+          {!activeNote && <h2><FileText size={18} /> {t('doxx.revisionNotes')}</h2>}
+          {activeNote ? (
+            // Opens through the same embedded preview + sidebar used for
+            // Resources, with the sidebar scoped to just this chapter's
+            // own notes (noteItems derives from `chapter.revisionNotes`
+            // only) — not every chapter's notes mixed together.
+            <ResourceWatch
+              groups={[{ group: t('doxx.revisionNotes'), items: noteItems }]}
+              active={activeNote}
+              onSelect={openNote}
+              shareUrl={`${getSiteOrigin()}/doxxmarks?class=${encodeURIComponent(classSlug ?? '')}&subject=${encodeURIComponent(subjectName ?? '')}&chapter=${chapterIdx}&note=${noteItems.findIndex(n => n.id === activeNote.id)}`}
+            />
+          ) : noteItems.length ? (
             <div className="doxx-list">
-              {chapter.revisionNotes.map(n => (
-                <a key={n.link} href={n.link} target="_blank" rel="noreferrer" className="doxx-row">
+              {noteItems.map(n => (
+                <button key={n.id} type="button" className="doxx-row" onClick={() => openNote(n)}>
                   <span className="doxx-row-title">{n.name}</span><ArrowUpRight size={18} />
-                </a>
+                </button>
               ))}
             </div>
           ) : (
