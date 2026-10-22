@@ -19,14 +19,18 @@ import {
   ExternalLink,
   File,
   FileImage,
+  FilePlus2,
   FileSpreadsheet,
   FileText,
   Folder,
   FolderOpen,
   GitCommit,
+  Loader2,
   MessageSquareText,
+  Pencil,
   Share2,
   Star,
+  Trash2,
   X,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -41,6 +45,10 @@ import {
   getDatasetUpdateStatus,
   getAdminResourceStats,
   getAdminLatestCommit,
+  uploadResource,
+  renameResource,
+  deleteResource,
+  getDriveWriteCapability,
   type AdminTrafficResult,
   type ManageResourcesResult,
   type AdminResourceStatsResult,
@@ -74,6 +82,7 @@ function AdminPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AdminTrafficResult | null>(null);
+  const [openSection, setOpenSection] = useState<'analytics' | 'manage' | 'stats' | null>(null);
 
   async function handleUnlock(e: React.FormEvent) {
     e.preventDefault();
@@ -207,15 +216,35 @@ function AdminPage() {
         </Card>
       )}
 
-      {/* Category cards. Each is its own colored, self-contained section;
-          "Resource stats" opens a 4-table modal instead of rendering inline. */}
-      <div className="space-y-6">
-        <CategorySection
+      {/* Three clickable cards: each opens its matching section in a
+          full-screen modal instead of rendering inline, so the top-level
+          page stays a quick-glance summary + three clear entry points. */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <CategoryCard
           accent="indigo"
-          icon={<Activity size={18} />}
-          title="Web analytics"
-          description="Cloudflare traffic for the last 30 days."
-        >
+          icon={<Activity size={20} />}
+          title="Deep analytics"
+          description="Traffic charts and section breakdown for the last 30 days."
+          onClick={() => setOpenSection('analytics')}
+        />
+        <CategoryCard
+          accent="emerald"
+          icon={<FolderOpen size={20} />}
+          title="Manage resources"
+          description="Browse, upload, rename and delete files in the live Drive folder."
+          onClick={() => setOpenSection('manage')}
+        />
+        <CategoryCard
+          accent="amber"
+          icon={<Star size={20} />}
+          title="Resource stats"
+          description="Ratings, feedback, views and shares for every resource file."
+          onClick={() => setOpenSection('stats')}
+        />
+      </div>
+
+      {openSection === 'analytics' && (
+        <SectionModal title="Deep analytics" icon={<Activity size={16} />} onClose={() => setOpenSection(null)}>
           {result?.configured && totals ? (
             <>
               <Card>
@@ -284,26 +313,20 @@ function AdminPage() {
               {result ? 'Cloudflare analytics is not configured — see the notice above.' : 'Loading…'}
             </p>
           )}
-        </CategorySection>
+        </SectionModal>
+      )}
 
-        <CategorySection
-          accent="emerald"
-          icon={<FolderOpen size={18} />}
-          title="Resource management"
-          description="Live Google Drive folder viewer, plus the dataset-update workflow trigger."
-        >
+      {openSection === 'manage' && (
+        <SectionModal title="Manage resources" icon={<FolderOpen size={16} />} onClose={() => setOpenSection(null)}>
           <ManageResourcesCard />
-        </CategorySection>
+        </SectionModal>
+      )}
 
-        <CategorySection
-          accent="amber"
-          icon={<Star size={18} />}
-          title="Resource stats"
-          description="Ratings, feedback, views and shares for every resource file."
-        >
+      {openSection === 'stats' && (
+        <SectionModal title="Resource stats" icon={<Star size={16} />} onClose={() => setOpenSection(null)}>
           <ResourceStatsCard />
-        </CategorySection>
-      </div>
+        </SectionModal>
+      )}
     </div>
   );
 }
@@ -311,7 +334,7 @@ function AdminPage() {
 const SECTION_COLORS = ['#6366f1', '#22c55e'];
 
 /** Tailwind utility classes per accent color, used by both KpiCard and
- * CategorySection so every card in a given category shares one color
+ * CategoryCard so every card in a given category shares one color
  * identity (icon chip + left border) without hand-picking hexes per call
  * site. */
 const ACCENT_CLASSES = {
@@ -321,6 +344,7 @@ const ACCENT_CLASSES = {
   rose: { chip: 'bg-rose-500/10 text-rose-600 dark:text-rose-400', border: 'border-l-rose-500' },
   sky: { chip: 'bg-sky-500/10 text-sky-600 dark:text-sky-400', border: 'border-l-sky-500' },
 } as const;
+
 type Accent = keyof typeof ACCENT_CLASSES;
 
 function KpiCard({ label, value, accent }: { label: string; value: string; accent: Accent }) {
@@ -334,35 +358,87 @@ function KpiCard({ label, value, accent }: { label: string; value: string; accen
   );
 }
 
-/** Collapsible, color-coded wrapper for each top-level admin category
- * (Web analytics / Resource management / Resource stats), so the page
- * reads as a short list of named sections rather than one long scroll of
- * unlabeled cards. */
-function CategorySection({
+/** A single clickable top-level category card (Deep analytics / Manage
+ * resources / Resource stats) that opens its section in a full-screen
+ * modal via onClick — replaces the previous always-expanded
+ * CategorySection wrapper so the top-level page stays a compact,
+ * three-card entry point instead of one long scroll. */
+function CategoryCard({
   accent,
   icon,
   title,
   description,
-  children,
+  onClick,
 }: {
   accent: Accent;
   icon: React.ReactNode;
   title: string;
   description: string;
-  children: React.ReactNode;
+  onClick: () => void;
 }) {
   const classes = ACCENT_CLASSES[accent];
   return (
-    <section className={`rounded-xl border border-l-4 ${classes.border} bg-card/40 p-4 sm:p-6`}>
-      <div className="mb-4 flex items-start gap-3">
-        <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${classes.chip}`}>{icon}</span>
-        <div>
-          <h2 className="text-lg font-semibold text-foreground">{title}</h2>
-          <p className="text-sm text-muted-foreground">{description}</p>
-        </div>
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex items-start gap-3 rounded-xl border border-l-4 ${classes.border} bg-card/40 p-4 text-left transition-colors hover:bg-card/70 sm:p-6`}
+    >
+      <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${classes.chip}`}>{icon}</span>
+      <div className="min-w-0">
+        <h2 className="text-lg font-semibold text-foreground">{title}</h2>
+        <p className="text-sm text-muted-foreground">{description}</p>
       </div>
-      {children}
-    </section>
+    </button>
+  );
+}
+
+/** Full-screen modal wrapper used by each of the three category cards'
+ * opened section, so the detail content (charts, Drive browser, stats
+ * tables) gets room to breathe instead of competing for space on the
+ * top-level page. */
+function SectionModal({
+  title,
+  icon,
+  onClose,
+  children,
+}: {
+  title: string;
+  icon: React.ReactNode;
+  onClose: () => void;
+  children: React.ReactNode;
+}) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/80 p-4 sm:items-center"
+      onClick={onClose}
+      role="presentation"
+    >
+      <div
+        className="my-8 w-full max-w-4xl rounded-lg border bg-background p-4 shadow-lg sm:p-6"
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+      >
+        <div className="mb-4 flex items-center justify-between gap-4">
+          <h2 className="flex items-center gap-2 text-lg font-semibold text-foreground">
+            {icon} {title}
+          </h2>
+          <button type="button" onClick={onClose} className="rounded-sm p-1 text-muted-foreground hover:text-foreground" aria-label="Close">
+            <X size={18} />
+          </button>
+        </div>
+        {children}
+      </div>
+    </div>
   );
 }
 
@@ -460,6 +536,7 @@ function ManageResourcesCard() {
   const [state, setState] = useState<ManageResourcesResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [hasOAuth, setHasOAuth] = useState<boolean | null>(null);
 
   // Drill-down path into Drive subfolders: an empty array means the
   // configured root folder. Each entry is the folder clicked to get there,
@@ -476,6 +553,28 @@ function ManageResourcesCard() {
   const [updateError, setUpdateError] = useState<string | null>(null);
   const [showConfirm, setShowConfirm] = useState(false);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Upload: a hidden <input type="file"> triggered by the "+file" button
+  // in the header, so the browser's native picker handles file selection.
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
+  // Rename: at most one row is "in edit mode" at a time, tracked by file
+  // id + a draft name seeded from the current name when the pencil icon
+  // is clicked.
+  const [renamingId, setRenamingId] = useState<string | null>(null);
+  const [renameValue, setRenameValue] = useState('');
+  const [renameSaving, setRenameSaving] = useState(false);
+  const [renameError, setRenameError] = useState<string | null>(null);
+
+  // Delete: the bin icon opens a confirmation modal rather than deleting
+  // immediately — Drive trash is recoverable, but an admin still
+  // shouldn't be one misclick away from removing a resource everyone
+  // else relies on.
+  const [deleteTarget, setDeleteTarget] = useState<DriveFileEntry | null>(null);
+  const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   function getPasscode() {
     return adminSessionPasscode ?? '';
@@ -496,6 +595,9 @@ function ManageResourcesCard() {
 
   useEffect(() => {
     void load();
+    getDriveWriteCapability({ data: { passcode: getPasscode() } })
+      .then((res) => setHasOAuth(res.hasOAuth))
+      .catch(() => setHasOAuth(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -567,21 +669,113 @@ function ManageResourcesCard() {
     }
   }
 
+  async function handleFileSelected(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = ''; // allow re-selecting the same file name later
+    if (!file) return;
+
+    setUploading(true);
+    setUploadError(null);
+    try {
+      const form = new FormData();
+      form.set('passcode', getPasscode());
+      form.set('file', file);
+      if (currentFolderId) form.set('folderId', currentFolderId);
+      const res = await uploadResource({ data: form });
+      if (res.ok) {
+        void load(currentFolderId);
+      } else {
+        setUploadError(res.reason);
+      }
+    } catch {
+      setUploadError('Could not upload the file. Try again.');
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  function startRename(f: DriveFileEntry) {
+    setRenameError(null);
+    setRenamingId(f.id);
+    setRenameValue(f.name);
+  }
+
+  async function confirmRename(fileId: string) {
+    const newName = renameValue.trim();
+    if (!newName) {
+      setRenameError('Name cannot be empty.');
+      return;
+    }
+    setRenameSaving(true);
+    setRenameError(null);
+    try {
+      const res = await renameResource({ data: { passcode: getPasscode(), fileId, newName } });
+      if (res.ok) {
+        setRenamingId(null);
+        void load(currentFolderId);
+      } else {
+        setRenameError(res.reason);
+      }
+    } catch {
+      setRenameError('Could not rename the file. Try again.');
+    } finally {
+      setRenameSaving(false);
+    }
+  }
+
+  async function confirmDelete() {
+    if (!deleteTarget) return;
+    setDeleting(true);
+    setDeleteError(null);
+    try {
+      const res = await deleteResource({ data: { passcode: getPasscode(), fileId: deleteTarget.id } });
+      if (res.ok) {
+        setDeleteTarget(null);
+        void load(currentFolderId);
+      } else {
+        setDeleteError(res.reason);
+      }
+    } catch {
+      setDeleteError('Could not delete the file. Try again.');
+    } finally {
+      setDeleting(false);
+    }
+  }
+
   const isRunning = updateStatus ? updateStatus.status !== 'completed' : updateRunId !== null && !updateError;
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between gap-4">
+      <CardHeader className="flex flex-row items-center justify-between gap-2">
         <CardTitle>Manage resources</CardTitle>
-        <Button variant="outline" size="sm" onClick={() => void load(currentFolderId)} disabled={loading}>
-          {loading ? 'Refreshing…' : 'Refresh'}
-        </Button>
+        <div className="flex items-center gap-2">
+          <input
+            ref={fileInputRef}
+            type="file"
+            className="hidden"
+            onChange={(e) => void handleFileSelected(e)}
+          />
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={uploading || !state?.configured}
+            title="Upload a file into the current folder"
+          >
+            {uploading ? <Loader2 size={14} className="animate-spin" /> : <FilePlus2 size={14} />}
+            {uploading ? 'Uploading…' : 'Upload'}
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => void load(currentFolderId)} disabled={loading}>
+            {loading ? 'Refreshing…' : 'Refresh'}
+          </Button>
+        </div>
       </CardHeader>
       <CardContent>
         <p className="mb-4 text-xs text-muted-foreground">
-          Lists files live from the configured Google Drive folder via the service account — not from the
-          committed JSON datasets.
+          Lists files live from the configured Google Drive folder — not from the committed JSON datasets.
         </p>
+
+        {uploadError && <p className="mb-4 text-sm text-destructive">{uploadError}</p>}
 
         <div className="mb-6 rounded-lg border bg-muted/20 p-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -650,15 +844,17 @@ function ManageResourcesCard() {
 
         {state?.configured && (
           <>
-            <div className="mb-4 rounded-lg border border-amber-500/30 bg-amber-500/10 p-3">
-              <p className="text-xs text-amber-700 dark:text-amber-400">
-                Uploads are disabled: this folder is shared with Editor access, but Google only lets service
-                accounts create new files inside a <span className="font-medium">Shared Drive</span> (storage
-                owned by the Drive, not the account) — a plain "shared with me" folder still rejects uploads
-                with <span className="font-mono">storageQuotaExceeded</span>. Move this folder into a Shared
-                Drive to enable uploads here.
-              </p>
-            </div>
+            {hasOAuth === false && (
+              <div className="mb-4 rounded-lg border border-amber-500/30 bg-amber-500/10 p-3">
+                <p className="text-xs text-amber-700 dark:text-amber-400">
+                  Uploads may fail: no real Google account is configured for Drive writes (only the
+                  read-only service account). Set <span className="font-mono">GDRIVE_CLIENT_ID</span>,{' '}
+                  <span className="font-mono">GDRIVE_CLIENT_SECRET</span> and{' '}
+                  <span className="font-mono">GDRIVE_REFRESH_TOKEN</span> in the server environment for an
+                  account with Editor access to this folder.
+                </p>
+              </div>
+            )}
 
             {path.length > 0 && (
               <nav className="doxx-breadcrumb manage-resources-breadcrumb" aria-label="Breadcrumb">
@@ -687,32 +883,123 @@ function ManageResourcesCard() {
                 {state.files.map((f) => {
                   const folder = isDriveFolder(f);
                   const Icon = folder ? Folder : FILE_KIND_ICON[getFileKind(f.name)];
+                  const isRenaming = renamingId === f.id;
                   return (
-                    <button
-                      type="button"
-                      key={f.id}
-                      className="doxx-row manage-resources-row"
-                      onClick={() => {
-                        if (folder) openFolder(f);
-                        else if (f.webViewLink) window.open(f.webViewLink, '_blank', 'noopener,noreferrer');
-                      }}
-                    >
-                      <span className="manage-resources-row-main">
-                        <Icon size={18} strokeWidth={1.6} className="manage-resources-row-icon" />
-                        <span className="doxx-row-title">{f.name}</span>
+                    <div key={f.id} className="doxx-row manage-resources-row manage-resources-row-editable">
+                      {isRenaming ? (
+                        <span className="manage-resources-row-main">
+                          <Icon size={18} strokeWidth={1.6} className="manage-resources-row-icon" />
+                          <Input
+                            autoFocus
+                            value={renameValue}
+                            onChange={(e) => setRenameValue(e.target.value)}
+                            onClick={(e) => e.stopPropagation()}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') void confirmRename(f.id);
+                              if (e.key === 'Escape') setRenamingId(null);
+                            }}
+                            className="h-8"
+                          />
+                        </span>
+                      ) : (
+                        <button
+                          type="button"
+                          className="manage-resources-row-main manage-resources-row-open"
+                          onClick={() => {
+                            if (folder) openFolder(f);
+                            else if (f.webViewLink) window.open(f.webViewLink, '_blank', 'noopener,noreferrer');
+                          }}
+                        >
+                          <Icon size={18} strokeWidth={1.6} className="manage-resources-row-icon" />
+                          <span className="doxx-row-title">{f.name}</span>
+                        </button>
+                      )}
+
+                      {!isRenaming && (
+                        <>
+                          <span className="doxx-row-meta manage-resources-row-meta">
+                            {folder ? '—' : formatBytes(f.size)}
+                          </span>
+                          <span className="doxx-row-meta manage-resources-row-meta">
+                            {f.modifiedTime ? new Date(f.modifiedTime).toLocaleDateString() : '—'}
+                          </span>
+                        </>
+                      )}
+
+                      <span className="manage-resources-row-actions">
+                        {isRenaming ? (
+                          <>
+                            <button
+                              type="button"
+                              className="manage-resources-icon-btn"
+                              onClick={() => void confirmRename(f.id)}
+                              disabled={renameSaving}
+                              aria-label="Save name"
+                            >
+                              {renameSaving ? <Loader2 size={15} className="animate-spin" /> : '✓'}
+                            </button>
+                            <button
+                              type="button"
+                              className="manage-resources-icon-btn"
+                              onClick={() => setRenamingId(null)}
+                              disabled={renameSaving}
+                              aria-label="Cancel rename"
+                            >
+                              <X size={15} />
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              type="button"
+                              className="manage-resources-icon-btn"
+                              onClick={() => startRename(f)}
+                              aria-label={`Rename ${f.name}`}
+                              title="Rename"
+                            >
+                              <Pencil size={15} />
+                            </button>
+                            <button
+                              type="button"
+                              className="manage-resources-icon-btn manage-resources-icon-btn-danger"
+                              onClick={() => setDeleteTarget(f)}
+                              aria-label={`Delete ${f.name}`}
+                              title="Delete"
+                            >
+                              <Trash2 size={15} />
+                            </button>
+                            {!folder && f.webViewLink && (
+                              <a
+                                href={f.webViewLink}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="manage-resources-icon-btn"
+                                aria-label={`Open ${f.name}`}
+                                title="Open"
+                              >
+                                <ExternalLink size={15} />
+                              </a>
+                            )}
+                            {folder && (
+                              <button
+                                type="button"
+                                className="manage-resources-icon-btn"
+                                onClick={() => openFolder(f)}
+                                aria-label={`Open folder ${f.name}`}
+                                title="Open"
+                              >
+                                <ChevronRight size={15} />
+                              </button>
+                            )}
+                          </>
+                        )}
                       </span>
-                      <span className="doxx-row-meta manage-resources-row-meta">
-                        {folder ? '—' : formatBytes(f.size)}
-                      </span>
-                      <span className="doxx-row-meta manage-resources-row-meta">
-                        {f.modifiedTime ? new Date(f.modifiedTime).toLocaleDateString() : '—'}
-                      </span>
-                      {folder ? <ChevronRight size={18} /> : <ExternalLink size={16} />}
-                    </button>
+                    </div>
                   );
                 })}
               </div>
             )}
+            {renamingId && renameError && <p className="mt-3 text-sm text-destructive">{renameError}</p>}
           </>
         )}
       </CardContent>
@@ -758,6 +1045,37 @@ function ManageResourcesCard() {
               </Button>
               <Button size="sm" onClick={() => void handleTriggerUpdate()}>
                 Start update
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {deleteTarget && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+          onClick={() => !deleting && setDeleteTarget(null)}
+          role="presentation"
+        >
+          <div
+            className="w-full max-w-md rounded-lg border bg-background p-6 shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Confirm delete"
+          >
+            <h3 className="text-base font-semibold text-foreground">Delete this file?</h3>
+            <p className="mt-2 break-words text-sm text-muted-foreground">
+              <span className="font-medium text-foreground">{deleteTarget.name}</span> will be moved to the
+              Drive trash. It stays recoverable there for 30 days.
+            </p>
+            {deleteError && <p className="mt-3 text-sm text-destructive">{deleteError}</p>}
+            <div className="mt-5 flex justify-end gap-2">
+              <Button variant="outline" size="sm" onClick={() => setDeleteTarget(null)} disabled={deleting}>
+                Cancel
+              </Button>
+              <Button variant="destructive" size="sm" onClick={() => void confirmDelete()} disabled={deleting}>
+                {deleting ? 'Deleting…' : 'Delete'}
               </Button>
             </div>
           </div>

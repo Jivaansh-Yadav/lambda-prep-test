@@ -91,7 +91,7 @@ The brand mark is a Half-Life-authentic Greek lambda (λ) in a circular border w
 - **Search**: Fuse.js runs entirely client-side over the already-loaded JSON datasets via a dedicated hook in `src/hooks/`.
 - **Large-list performance**: `@tanstack/react-virtual` virtualizes community resource groups once a user expands a large group ("View all"), avoiding an unbounded DOM for groups with 100+ files while keeping normal small groups in a plain responsive grid.
 - **Cross-cutting providers** (set up in `src/routes/__root.tsx`): `QueryClientProvider` (TanStack Query), `I18nProvider`, `ThemeProvider` (with an inline bootstrap script to avoid a flash of the wrong theme), plus root-level 404 and error boundaries wired to lightweight error reporting (`lovable-error-reporting.ts`).
-- **Build/deploy target**: Vite 8 build via `@lovable.dev/vite-tanstack-config`, with Nitro targeting Cloudflare by default for the server bundle; the app is deployed to **Vercel** in this project's hosting setup, fronted by  deployment pipeline.
+- **Build/deploy target**: Vite 8 build via `@lovable.dev/vite-tanstack-config`, with Nitro targeting Cloudflare by default for the server bundle; the app is deployed to **Vercel** in this project's hosting setup, fronted by Eazo's deployment pipeline.
 - **Analytics**: a standalone cron script (`scripts/analytics-cron/`) pulls Cloudflare Web Analytics/GraphQL data on a schedule and writes it into a Postgres cache table, which the admin dashboard reads instead of hitting Cloudflare's API on every page view.
 
 ## Tech stack
@@ -109,7 +109,7 @@ The brand mark is a Half-Life-authentic Greek lambda (λ) in a circular border w
 - **Linting/formatting**: ESLint (flat config, typescript-eslint), Prettier.
 - **Runtime/package manager**: Bun (Node.js 18+ with npm also supported).
 - **Resource pipeline**: Node.js orchestrator (`generate-all-resources.js`) + Python 3 transform/split/sort/count scripts + a Google Drive service-account crawler.
-- **Deployment**: Cloudflare (production).
+- **Deployment**: Vercel (production), Eazo-managed project/environment sync.
 
 ## Design details
 
@@ -162,9 +162,11 @@ Create a `.env` file (never commit it) with:
 | `DATABASE_URL` | Neon Postgres connection string — ratings, admin/integration data, analytics cache |
 | `ADMIN_PASSCODE` | Passcode gating access to `/admin` |
 | `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ZONE_ID` | Used by `scripts/analytics-cron` to pull Cloudflare Web Analytics |
+| `GDRIVE_CLIENT_ID` / `GDRIVE_CLIENT_SECRET` / `GDRIVE_REFRESH_TOKEN` | OAuth credentials for a real Google account with Editor access to the resources folder — used for admin Drive **writes** (upload/rename/delete in "Manage resources"); falls back to the Neon-stored service account (read-only safe) when unset |
 | `ISC11_SRC_DIR` | Optional override for the ISC Class 11 raw upload source directory used by the resource pipeline |
 | `NEXT_PUBLIC_APP_TITLE` / `NEXT_PUBLIC_APP_DESCRIPTION` | Public app branding metadata |
 
+Eazo-managed deployment/platform variables are synced automatically and should not be set manually.
 
 ### Regenerating the resource catalog
 

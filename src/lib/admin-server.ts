@@ -5,6 +5,10 @@ import {
   getDriveIntegrationConfig,
   isDriveId,
   listDriveFolderFiles,
+  uploadDriveFile,
+  renameDriveFile,
+  trashDriveFile,
+  hasOAuthCredentials,
   type DriveFileEntry,
 } from "./drive-integration-server";
 import {
@@ -431,31 +435,110 @@ export type UploadResourceResult =
   | { ok: true; file: DriveFileEntry }
   | { ok: false; reason: string };
 
+const MAX_UPLOAD_BYTES = 50 * 1024 * 1024; // 50MB — generous for PDFs/docs/slides, keeps the request body sane
+
 export const uploadResource = createServerFn({ method: "POST" })
   .validator((data: unknown) => {
     if (!(data instanceof FormData)) throw new Error("Expected FormData");
     const passcode = data.get("passcode");
     const file = data.get("file");
+    const folderId = data.get("folderId");
     if (typeof passcode !== "string") throw new Error("Missing passcode");
     if (!(file instanceof File)) throw new Error("Missing file");
-    return { passcode, file };
+    if (folderId !== null && typeof folderId !== "string") throw new Error("Invalid folderId");
+    if (typeof folderId === "string" && folderId && !isDriveId(folderId)) {
+      throw new Error("Invalid folderId: expected a Drive folder ID");
+    }
+    return { passcode, file, folderId: (folderId as string | null) || undefined };
   })
   .handler(async ({ data }): Promise<UploadResourceResult> => {
     requirePasscode(data.passcode);
 
-    // Disabled: this folder is "shared with Editor access" rather than a
-    // Shared Drive. Google rejects file *creation* from service accounts
-    // in a regular My Drive folder with storageQuotaExceeded, even with
-    // Editor permission — only a Shared Drive (storage owned by the
-    // Drive itself) or domain-wide delegation lets a service account own
-    // new content. Re-enable this handler once the target folder has
-    // been moved into a Shared Drive.
-    return {
-      ok: false,
-      reason:
-        "Uploads are disabled: Google blocks service-account uploads to a regular \"shared with me\" folder " +
-        "(storageQuotaExceeded). Move the folder into a Shared Drive to enable this.",
-    };
+    const config = await getDriveIntegrationConfig();
+    if (!config) {
+      return { ok: false, reason: "Drive integration isn't configured yet." };
+    }
+
+    if (data.file.size > MAX_UPLOAD_BYTES) {
+      return { ok: false, reason: `File is too large (max ${MAX_UPLOAD_BYTES / (1024 * 1024)}MB).` };
+    }
+
+    try {
+      const arrayBuffer = await data.file.arrayBuffer();
+      const file = await uploadDriveFile(
+        config,
+        { name: data.file.name, mimeType: data.file.type || "application/octet-stream", data: arrayBuffer },
+        data.folderId
+      );
+      return { ok: true, file };
+    } catch (error) {
+      return { ok: false, reason: error instanceof Error ? error.message : String(error) };
+    }
+  });
+
+export type RenameResourceResult = { ok: true; file: DriveFileEntry } | { ok: false; reason: string };
+
+export const renameResource = createServerFn({ method: "POST" })
+  .validator((data: unknown) => {
+    const d = data as { passcode?: unknown; fileId?: unknown; newName?: unknown };
+    if (typeof d?.passcode !== "string") throw new Error("Missing passcode");
+    if (typeof d?.fileId !== "string" || !isDriveId(d.fileId)) throw new Error("Invalid fileId");
+    if (typeof d?.newName !== "string" || !d.newName.trim()) throw new Error("Missing newName");
+    return { passcode: d.passcode, fileId: d.fileId, newName: d.newName.trim() };
+  })
+  .handler(async ({ data }): Promise<RenameResourceResult> => {
+    requirePasscode(data.passcode);
+
+    const config = await getDriveIntegrationConfig();
+    if (!config) {
+      return { ok: false, reason: "Drive integration isn't configured yet." };
+    }
+
+    try {
+      const file = await renameDriveFile(config, data.fileId, data.newName);
+      return { ok: true, file };
+    } catch (error) {
+      return { ok: false, reason: error instanceof Error ? error.message : String(error) };
+    }
+  });
+
+export type DeleteResourceResult = { ok: true } | { ok: false; reason: string };
+
+export const deleteResource = createServerFn({ method: "POST" })
+  .validator((data: unknown) => {
+    const d = data as { passcode?: unknown; fileId?: unknown };
+    if (typeof d?.passcode !== "string") throw new Error("Missing passcode");
+    if (typeof d?.fileId !== "string" || !isDriveId(d.fileId)) throw new Error("Invalid fileId");
+    return { passcode: d.passcode, fileId: d.fileId };
+  })
+  .handler(async ({ data }): Promise<DeleteResourceResult> => {
+    requirePasscode(data.passcode);
+
+    const config = await getDriveIntegrationConfig();
+    if (!config) {
+      return { ok: false, reason: "Drive integration isn't configured yet." };
+    }
+
+    try {
+      await trashDriveFile(config, data.fileId);
+      return { ok: true };
+    } catch (error) {
+      return { ok: false, reason: error instanceof Error ? error.message : String(error) };
+    }
+  });
+
+/** Whether a real Google account (not just the Neon service account) is
+ * configured for Drive writes — surfaced to the admin UI so it can show
+ * an accurate explanation if uploads/rename/delete fail for lack of one. */
+export const getDriveWriteCapability = createServerFn({ method: "POST" })
+  .validator((data: unknown) => {
+    const d = data as { passcode?: unknown };
+    if (typeof d?.passcode !== "string") throw new Error("Missing passcode");
+    return { passcode: d.passcode };
+  })
+  .handler(async ({ data }): Promise<{ hasOAuth: boolean }> => {
+    requirePasscode(data.passcode);
+    return { hasOAuth: hasOAuthCredentials() };
   });
 
 // ---------------------------------------------------------------------

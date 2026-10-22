@@ -2,15 +2,28 @@
 //
 // Server-only Google Drive client for the admin "Manage Resources" panel.
 // Reads the service-account credentials + target folder ID from Neon
-// (table: drive_integration), signs a JWT assertion with `jose` (edge/
-// Workers-compatible, unlike the heavier `googleapis` package used by the
-// Node-only scripts/drive-crawl crawler), exchanges it for an OAuth2
-// access token, and talks to the Drive v3 REST API directly over fetch.
+// (table: drive_integration) for *read* access (listing folders/files),
+// signing a JWT assertion with `jose` (edge/Workers-compatible, unlike
+// the heavier `googleapis` package used by the Node-only
+// scripts/drive-crawl crawler) and exchanging it for an OAuth2 access
+// token.
 //
-// Scope is the full `drive` scope (not drive.readonly) because this panel
-// also uploads new files — actual permission enforcement still depends on
-// the service account having Editor access to the target folder in Drive's
-// own sharing settings.
+// *Write* operations (upload/rename/delete) instead prefer a real Google
+// account's OAuth credentials from the server environment
+// (GDRIVE_CLIENT_ID/GDRIVE_CLIENT_SECRET/GDRIVE_REFRESH_TOKEN, via
+// getWriteAccessToken below) when configured, falling back to the same
+// service account otherwise. This matters because a service account has
+// no storage quota of its own — Google rejects file creation from one in
+// a regular "shared with me" folder with storageQuotaExceeded even with
+// Editor access (only a Shared Drive or a real account's own quota lets
+// writes succeed there) — whereas a real account with Editor access can
+// write into the target folder as-is.
+//
+// Scope is the full `drive` scope (not drive.readonly) for both paths,
+// since this panel uploads/renames/deletes files in addition to listing
+// them — actual permission enforcement still depends on whichever
+// credential actually being granted Editor access to the target folder
+// in Drive's own sharing settings.
 
 import { SignJWT, importPKCS8 } from "jose";
 import { sql } from "./db";
@@ -19,6 +32,7 @@ const DRIVE_SCOPE = "https://www.googleapis.com/auth/drive";
 const TOKEN_URL = "https://oauth2.googleapis.com/token";
 const DRIVE_FILES_URL = "https://www.googleapis.com/drive/v3/files";
 const DRIVE_UPLOAD_URL = "https://www.googleapis.com/upload/drive/v3/files";
+
 
 export type ServiceAccountJson = {
   client_email: string;
@@ -60,6 +74,61 @@ export async function getDriveIntegrationConfig(): Promise<DriveIntegrationConfi
 // requests within the same server instance don't re-mint a token every
 // time. Keyed by client_email in case credentials ever change at runtime.
 const tokenCache = new Map<string, { token: string; expiresAt: number }>();
+
+export type OAuthCredentials = { clientId: string; clientSecret: string; refreshToken: string };
+
+/**
+ * Reads a real Google account's OAuth app credentials + refresh token
+ * from the server environment (GDRIVE_CLIENT_ID / GDRIVE_CLIENT_SECRET /
+ * GDRIVE_REFRESH_TOKEN). Returns null when any of the three is missing,
+ * so callers can fall back to the Neon-stored service account instead.
+ */
+function getOAuthCredentialsFromEnv(): OAuthCredentials | null {
+  const clientId = process.env["GDRIVE_CLIENT_ID"];
+  const clientSecret = process.env["GDRIVE_CLIENT_SECRET"];
+  const refreshToken = process.env["GDRIVE_REFRESH_TOKEN"];
+  if (!clientId || !clientSecret || !refreshToken) return null;
+  return { clientId, clientSecret, refreshToken };
+}
+
+/** True when GDRIVE_CLIENT_ID/SECRET/REFRESH_TOKEN are all configured. */
+export function hasOAuthCredentials(): boolean {
+  return getOAuthCredentialsFromEnv() !== null;
+}
+
+let oauthTokenCache: { token: string; expiresAt: number } | null = null;
+
+/**
+ * Exchanges the OAuth refresh token for a short-lived access token via
+ * the standard `refresh_token` grant, caching it in memory until shortly
+ * before expiry — mirrors getDriveAccessToken's caching below, just for
+ * a user-account credential instead of a service account.
+ */
+async function getOAuthAccessToken(creds: OAuthCredentials): Promise<string> {
+  if (oauthTokenCache && oauthTokenCache.expiresAt > Date.now() + 30_000) {
+    return oauthTokenCache.token;
+  }
+
+  const response = await fetch(TOKEN_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      client_id: creds.clientId,
+      client_secret: creds.clientSecret,
+      refresh_token: creds.refreshToken,
+      grant_type: "refresh_token",
+    }),
+  });
+
+  if (!response.ok) {
+    const bodyText = await response.text().catch(() => "<unreadable>");
+    throw new Error(`Google OAuth token refresh failed (HTTP ${response.status}): ${bodyText.slice(0, 300)}`);
+  }
+
+  const json = (await response.json()) as { access_token: string; expires_in: number };
+  oauthTokenCache = { token: json.access_token, expiresAt: Date.now() + json.expires_in * 1000 };
+  return json.access_token;
+}
 
 /**
  * Exchanges the service-account JSON for a short-lived Drive OAuth2 access
@@ -232,18 +301,39 @@ export async function listDriveFolderFiles(
 }
 
 /**
- * Uploads a single file into the configured Drive folder via a multipart
- * upload (metadata + content in one request). Returns the newly created
+ * Returns an access token for Drive write operations, preferring the
+ * OAuth-authenticated real Google account (GDRIVE_CLIENT_ID/SECRET/
+ * REFRESH_TOKEN) over the Neon-stored service account when both are
+ * configured. A real account has its own storage quota and can create
+ * files in a folder it merely has Editor access to — a service account
+ * cannot (see the storageQuotaExceeded note below) — so
+ * uploads/deletes/renames should always prefer it when available.
+ */
+async function getWriteAccessToken(config: DriveIntegrationConfig): Promise<string> {
+  const oauth = getOAuthCredentialsFromEnv();
+  if (oauth) return getOAuthAccessToken(oauth);
+  return getDriveAccessToken(config.serviceAccount);
+}
+
+/**
+ * Uploads a single file into a Drive folder via a multipart upload
+ * (metadata + content in one request). Defaults to the configured root
+ * folder, but accepts any folder ID so uploads can target whatever
+ * subfolder the admin is currently browsing. Returns the newly created
  * file's basic metadata.
  */
 export async function uploadDriveFile(
   config: DriveIntegrationConfig,
-  file: { name: string; mimeType: string; data: ArrayBuffer }
+  file: { name: string; mimeType: string; data: ArrayBuffer },
+  folderId: string = config.folderId
 ): Promise<DriveFileEntry> {
-  const token = await getDriveAccessToken(config.serviceAccount);
+  if (!isDriveId(folderId)) {
+    throw new Error("Invalid Drive folder ID: expected letters, digits, '-' and '_' only.");
+  }
+  const token = await getWriteAccessToken(config);
 
   const boundary = `lp-upload-${crypto.randomUUID()}`;
-  const metadata = JSON.stringify({ name: file.name, parents: [config.folderId] });
+  const metadata = JSON.stringify({ name: file.name, parents: [folderId] });
 
   const encoder = new TextEncoder();
   const parts: Uint8Array[] = [
@@ -266,11 +356,11 @@ export async function uploadDriveFile(
   url.searchParams.set("uploadType", "multipart");
   url.searchParams.set("fields", FILE_FIELDS);
   // Required for the destination folder to accept writes when it lives
-  // inside a Shared Drive — service accounts have no personal storage
-  // quota, so uploads to a regular "My Drive" folder are rejected by
-  // Google with a storageQuotaExceeded error even with Editor access;
-  // moving the folder into a Shared Drive (billed to the Drive, not the
-  // service account) is what makes this flag actually take effect.
+  // inside a Shared Drive. With a real OAuth account (its own storage
+  // quota) this flag is only needed for the folder to resolve at all when
+  // it's inside a Shared Drive; with the service-account fallback it's
+  // also what's required (on top of Editor access) to avoid
+  // storageQuotaExceeded in the first place — see the catch below.
   url.searchParams.set("supportsAllDrives", "true");
 
   const response = await fetch(url, {
@@ -287,7 +377,8 @@ export async function uploadDriveFile(
     if (bodyText.includes("storageQuotaExceeded")) {
       throw new Error(
         "Google rejected the upload: service accounts have no storage quota in a regular \"My Drive\" " +
-          "folder. Move the target folder into a Shared Drive (service accounts can write there) and try again."
+          "folder. Configure GDRIVE_CLIENT_ID/GDRIVE_CLIENT_SECRET/GDRIVE_REFRESH_TOKEN for a real Google " +
+          "account with Editor access instead, or move the target folder into a Shared Drive."
       );
     }
     throw new Error(`Drive upload failed (HTTP ${response.status}): ${bodyText.slice(0, 300)}`);
@@ -295,3 +386,70 @@ export async function uploadDriveFile(
 
   return (await response.json()) as DriveFileEntry;
 }
+
+/**
+ * Renames a single file or folder in place (metadata-only PATCH — doesn't
+ * touch content, parents, or any other field). Returns the updated
+ * entry's basic metadata.
+ */
+export async function renameDriveFile(
+  config: DriveIntegrationConfig,
+  fileId: string,
+  newName: string
+): Promise<DriveFileEntry> {
+  if (!isDriveId(fileId)) {
+    throw new Error("Invalid Drive file ID: expected letters, digits, '-' and '_' only.");
+  }
+  const token = await getWriteAccessToken(config);
+
+  const url = new URL(`${DRIVE_FILES_URL}/${fileId}`);
+  url.searchParams.set("fields", FILE_FIELDS);
+  url.searchParams.set("supportsAllDrives", "true");
+
+  const response = await fetch(url, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name: newName }),
+  });
+
+  if (!response.ok) {
+    const bodyText = await response.text().catch(() => "<unreadable>");
+    throw new Error(`Drive rename failed (HTTP ${response.status}): ${bodyText.slice(0, 300)}`);
+  }
+
+  return (await response.json()) as DriveFileEntry;
+}
+
+/**
+ * Moves a single file or folder to the Drive trash (not a permanent
+ * delete — `trashed: true` is reversible from Drive's own UI/trash for
+ * 30 days, which is safer than `files.delete`'s immediate, irreversible
+ * removal for an admin-triggered action with no undo in this app).
+ */
+export async function trashDriveFile(config: DriveIntegrationConfig, fileId: string): Promise<void> {
+  if (!isDriveId(fileId)) {
+    throw new Error("Invalid Drive file ID: expected letters, digits, '-' and '_' only.");
+  }
+  const token = await getWriteAccessToken(config);
+
+  const url = new URL(`${DRIVE_FILES_URL}/${fileId}`);
+  url.searchParams.set("supportsAllDrives", "true");
+
+  const response = await fetch(url, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ trashed: true }),
+  });
+
+  if (!response.ok) {
+    const bodyText = await response.text().catch(() => "<unreadable>");
+    throw new Error(`Drive delete failed (HTTP ${response.status}): ${bodyText.slice(0, 300)}`);
+  }
+}
+

@@ -557,6 +557,17 @@
 .manage-resources-row-meta { text-align: right; }
 .manage-resources-list.slide-in { animation: resource-folder-slide-in .22s ease-out; }
 .manage-resources-list.slide-out { animation: resource-folder-slide-out .22s ease-out; }
+/* File rows now carry their own click target (name/open) plus a
+   dedicated actions cluster (rename/delete/open), since the whole row
+   can no longer be one <button> once it needs independent controls. */
+.manage-resources-row-editable { cursor: default; }
+.manage-resources-row-open { display: flex; align-items: center; gap: 10px; min-width: 0; background: none; border: none; padding: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+.manage-resources-row-open .doxx-row-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.manage-resources-row-actions { display: flex; align-items: center; gap: 4px; justify-self: end; }
+.manage-resources-icon-btn { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border: none; background: none; border-radius: 6px; color: var(--muted-foreground); cursor: pointer; transition: background .15s, color .15s; }
+.manage-resources-icon-btn:hover { background: color-mix(in oklch, var(--muted) 70%, transparent); color: var(--foreground); }
+.manage-resources-icon-btn:disabled { opacity: 0.5; cursor: default; }
+.manage-resources-icon-btn-danger:hover { color: var(--destructive, oklch(0.58 0.22 27)); }
 @media (max-width: 560px) {
   .manage-resources-row { grid-template-columns: minmax(0, 1fr) auto; gap: 8px; padding: 10px 12px; }
   .manage-resources-row-meta { display: none; }
