@@ -214,7 +214,7 @@ function AdminPage() {
           accent="indigo"
           icon={<Activity size={18} />}
           title="Web analytics"
-          description="Cloudflare traffic for the last 30 days, plus a breakdown of Doxxmarks vs Resources visits."
+          description="Cloudflare traffic for the last 30 days."
         >
           {result?.configured && totals ? (
             <>
