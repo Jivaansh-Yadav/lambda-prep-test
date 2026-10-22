@@ -6,12 +6,16 @@ import { getGroupLabel, type ResourceItem } from '@/lib/resources-data';
 import { VirtualFileGrid } from '@/components/lambda/virtual-file-grid';
 import { ResourceRatingControl } from '@/components/lambda/resource-rating';
 import { ResourceFeedbackControl } from '@/components/lambda/resource-feedback';
+import { ShareWidget } from '@/components/lambda/share-widget';
 
 interface ResourceWatchProps {
   /** Items grouped by their original folder/section name, in display order. */
   groups: Array<{ group: string; items: ResourceItem[] }>;
   active: ResourceItem;
   onSelect: (item: ResourceItem) => void;
+  /** Fully-qualified, directly-shareable URL for the active file (includes
+   * the `?file=<driveId>` deep-link param), used by the share popup. */
+  shareUrl: string;
 }
 
 const SIDEBAR_CAP = 6;
@@ -96,7 +100,7 @@ function SidebarSection({ group, items, active, onSelect }: { group: string; ite
   );
 }
 
-export function ResourceWatch({ groups, active, onSelect }: ResourceWatchProps) {
+export function ResourceWatch({ groups, active, onSelect, shareUrl }: ResourceWatchProps) {
   const { t } = useI18n();
   const wrapRef = useRef<HTMLDivElement>(null);
   const { isFullscreen, toggleFullscreen } = useFullscreen(wrapRef);
@@ -174,6 +178,7 @@ export function ResourceWatch({ groups, active, onSelect }: ResourceWatchProps) 
             <a className="doxx-sandbox-fullscreen" href={downloadSrc} target="_blank" rel="noreferrer" aria-label={t('resources.watch.download')} title={t('resources.watch.download')}>
               <Download size={16} />
             </a>
+            <ShareWidget compact url={shareUrl} title={active.name} />
           </div>
         </div>
         <h2 className="doxx-watch-title">{active.name}</h2>

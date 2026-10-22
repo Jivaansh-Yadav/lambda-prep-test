@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowUpRight, BookOpen, ChevronRight, MonitorPlay, PlayCircl
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import type { DoxxLesson } from '@/components/lambda/doxx-watch';
 import { curriculumClasses } from '@/lib/curriculum';
-import { classes, findSubjectMeta, pageHead } from '@/lib/lambda';
+import { classes, findSubjectMeta, pageHead, SITE_URL } from '@/lib/lambda';
 import { useI18n } from '@/lib/i18n';
 import { useFuseSearch } from '@/hooks/use-fuse-search';
 
@@ -22,6 +22,11 @@ interface DoxxSearch {
   subject?: string | undefined;
   chapter?: number | undefined;
   topic?: number | undefined;
+  /** Position of the active lesson within the topic's combined
+   * interactiveClasses + videoLessons list (in that order) — lessons have
+   * no Drive id of their own, so this index is the stable, shareable
+   * pointer back to a specific lesson. */
+  lesson?: number | undefined;
 }
 
 export const Route = createFileRoute('/doxxmarks')({
@@ -30,6 +35,7 @@ export const Route = createFileRoute('/doxxmarks')({
     subject: typeof search['subject'] === 'string' ? search['subject'] : undefined,
     chapter: typeof search['chapter'] === 'number' ? search['chapter'] : undefined,
     topic: typeof search['topic'] === 'number' ? search['topic'] : undefined,
+    lesson: typeof search['lesson'] === 'number' ? search['lesson'] : undefined,
   }),
   head: () => pageHead('Doxxmarks — Chapter-wise lessons', 'Browse classes, subjects, chapters and topics with interactive classes and concept videos.', '/doxxmarks'),
   component: Doxxmarks,
@@ -37,19 +43,34 @@ export const Route = createFileRoute('/doxxmarks')({
 
 function Doxxmarks() {
   const { t } = useI18n();
-  const { class: classSlug, subject: subjectName, chapter: chapterIdx, topic: topicIdx } = Route.useSearch();
+  const { class: classSlug, subject: subjectName, chapter: chapterIdx, topic: topicIdx, lesson: lessonIdx } = Route.useSearch();
+  const navigate = Route.useNavigate();
   const classMeta = classSlug ? classes.find(c => c.slug === classSlug) : undefined;
   const currentClass = classMeta ? curriculumClasses.find(c => c.board === classMeta.board && c.roman === classMeta.roman) : undefined;
   const subject = currentClass?.subjects.find(s => s.name === subjectName);
   const chapter = subject && chapterIdx !== undefined ? subject.chapters[chapterIdx] : undefined;
   const topic = chapter && topicIdx !== undefined ? chapter.topics[topicIdx] : undefined;
-  const [playing, setPlaying] = useState<DoxxLesson | null>(null);
   const [subjectQuery, setSubjectQuery] = useState('');
   const [chapterQuery, setChapterQuery] = useState('');
 
-  useEffect(() => {
-    setPlaying(null);
-  }, [subjectName, chapterIdx, topicIdx]);
+  // Combined lesson list in the same order DoxxWatch renders them — the
+  // `lesson` search param is this array's index, so both must agree on
+  // ordering for a deep link to resolve to the right lesson.
+  const combinedLessons = useMemo((): DoxxLesson[] => topic
+    ? [
+        ...topic.interactiveClasses.map(ic => ({ ...ic, kind: 'interactive' as const })),
+        ...topic.videoLessons.map(v => ({ ...v, kind: 'video' as const })),
+      ]
+    : [], [topic]);
+  const playing = lessonIdx !== undefined ? combinedLessons[lessonIdx] ?? null : null;
+
+  const playLesson = (lesson: DoxxLesson) => {
+    const index = combinedLessons.findIndex(l => l.link === lesson.link && l.kind === lesson.kind);
+    navigate({ search: prev => ({ ...prev, lesson: index >= 0 ? index : undefined }) });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  const closeLesson = () => navigate({ search: prev => ({ ...prev, lesson: undefined }) });
+
   useEffect(() => {
     setSubjectQuery('');
   }, [classSlug]);
@@ -96,7 +117,7 @@ function Doxxmarks() {
 
       {(subject || chapter || topic) && (
         playing ? (
-          <button type="button" className="back-link" onClick={() => setPlaying(null)}><ArrowLeft size={15} /> {t('doxx.back')}</button>
+          <button type="button" className="back-link" onClick={closeLesson}><ArrowLeft size={15} /> {t('doxx.back')}</button>
         ) : (
           <Link to="/doxxmarks" search={backSearch} className="back-link"><ArrowLeft size={15} /> {t('doxx.back')}</Link>
         )
@@ -207,13 +228,11 @@ function Doxxmarks() {
         {playing && (
           <Suspense fallback={<div className="doxx-watch-loading" aria-busy="true" />}>
             <DoxxWatch
-              lessons={[
-                ...topic.interactiveClasses.map(ic => ({ ...ic, kind: 'interactive' as const })),
-                ...topic.videoLessons.map(v => ({ ...v, kind: 'video' as const })),
-              ]}
+              lessons={combinedLessons}
               active={playing}
               topicName={topic.name}
-              onSelect={setPlaying}
+              onSelect={playLesson}
+              shareUrl={`${SITE_URL}/doxxmarks?class=${encodeURIComponent(classSlug ?? '')}&subject=${encodeURIComponent(subjectName ?? '')}&chapter=${chapterIdx}&topic=${topicIdx}&lesson=${combinedLessons.findIndex(l => l.link === playing.link && l.kind === playing.kind)}`}
             />
           </Suspense>
         )}
@@ -224,7 +243,7 @@ function Doxxmarks() {
           {topic.interactiveClasses.length ? (
             <div className="doxx-cards">
               {topic.interactiveClasses.map(ic => (
-                <button key={ic.link} type="button" className="doxx-card" onClick={() => { setPlaying({ ...ic, kind: 'interactive' }); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+                <button key={ic.link} type="button" className="doxx-card" onClick={() => playLesson({ ...ic, kind: 'interactive' })}>
                   <span className="doxx-card-title">{ic.name}</span>
                   <span className="doxx-card-meta">{t('doxx.playInteractive')} <PlayCircle size={14} /></span>
                 </button>
@@ -240,7 +259,7 @@ function Doxxmarks() {
           {topic.videoLessons.length ? (
             <div className="doxx-cards">
               {topic.videoLessons.map(v => (
-                <button key={v.link} type="button" className="doxx-card" onClick={() => { setPlaying({ ...v, kind: 'video' }); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
+                <button key={v.link} type="button" className="doxx-card" onClick={() => playLesson({ ...v, kind: 'video' })}>
                   <span className="doxx-card-title">{v.name}</span>
                   <span className="doxx-card-meta">{t('doxx.watchVideo')} <PlayCircle size={14} /></span>
                 </button>

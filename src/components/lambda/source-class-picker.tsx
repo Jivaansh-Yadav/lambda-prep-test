@@ -1,10 +1,10 @@
 import { Link } from '@tanstack/react-router';
 import { ArrowLeft, ArrowUpRight, ChevronDown, ChevronUp, File, FileImage, FileSpreadsheet, FileText, Folder, MessageCircle, RefreshCw, Search, Sparkles } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { classes, findSubjectMeta } from '@/lib/lambda';
+import { classes, findSubjectMeta, SITE_URL } from '@/lib/lambda';
 import { useI18n } from '@/lib/i18n';
 import { useFuseSearch } from '@/hooks/use-fuse-search';
-import { flattenFolderFiles, getFileKind, getGroupBadge, getGroupLabel, groupItems, hasResourceDataset, isFolderNode, isPremiumGroup, loadResourceManifest, loadResourceMisc, loadResourceSubject, type FileKind, type ResourceFolderNode, type ResourceItem, type ResourceManifest, type ResourceNode, type ResourceSubject } from '@/lib/resources-data';
+import { flattenFolderFiles, findItemInSubject, getFileKind, getGroupBadge, getGroupLabel, groupItems, hasResourceDataset, isFolderNode, isPremiumGroup, loadResourceManifest, loadResourceMisc, loadResourceSubject, type FileKind, type ResourceFolderNode, type ResourceItem, type ResourceManifest, type ResourceNode, type ResourceSubject } from '@/lib/resources-data';
 import { ResourceWatch } from '@/components/lambda/resource-watch';
 import { VirtualFileGrid } from '@/components/lambda/virtual-file-grid';
 import { Button } from '@/components/ui/button';
@@ -15,6 +15,14 @@ interface SourceClassPickerProps {
   source: SourceId;
   classSlug?: string | undefined;
   subject?: string | undefined;
+  /** Google Drive file id of the resource currently deep-linked via the
+   * `file` search param, if any — lets a shared link reopen the exact file
+   * instead of just the subject grid. */
+  file?: string | undefined;
+  /** Called whenever the viewer opens/closes a file, so the host route can
+   * keep the `file` search param (and therefore the shareable URL) in sync.
+   * Passing `undefined` clears the param. */
+  onFileChange?: (fileId: string | undefined) => void;
   title: string;
   desc: React.ReactNode;
 }
@@ -210,7 +218,7 @@ function GroupSection({ group, items, editorFolders, onPick }: {
   );
 }
 
-export function SourceClassPicker({ source, classSlug, subject, title, desc }: SourceClassPickerProps) {
+export function SourceClassPicker({ source, classSlug, subject, file, onFileChange, title, desc }: SourceClassPickerProps) {
   const { t } = useI18n();
   const [query, setQuery] = useState('');
   const [subjectQuery, setSubjectQuery] = useState('');
@@ -314,6 +322,32 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
   const isFileSearchActive = fileQuery.trim().length > 0;
   const groups = groupItems(subjectItems);
   const subjectDataReady = subject === MISC_LABEL ? miscItems !== undefined : subjectEntry !== undefined || (!subjectLoading && subject !== undefined);
+
+  // Deep-link support: once the subject's files are loaded, resolve the
+  // `?file=<driveId>` search param (if any) against them and open that
+  // file automatically — this is what makes a shared resource link land
+  // directly on the file instead of just the subject grid. Only runs when
+  // there's no file already open, so a later in-page file click (which
+  // clears/updates the param itself) doesn't get fought by this effect.
+  useEffect(() => {
+    if (!file || activeFile || !subjectDataReady) return;
+    const resolved = findItemInSubject(subjectItems, editorFolders, file);
+    if (resolved) {
+      setActiveFile(resolved.item);
+      setActiveFolderScope(resolved.folderScope);
+    }
+  }, [file, activeFile, subjectDataReady, subjectItems, editorFolders]);
+
+  const openFile = (item: ResourceItem, folderScope: ResourceFolderNode | null = null) => {
+    setActiveFolderScope(folderScope);
+    setActiveFile(item);
+    onFileChange?.(item.id);
+  };
+  const closeFile = () => {
+    setActiveFile(null);
+    setActiveFolderScope(null);
+    onFileChange?.(undefined);
+  };
 
   const disclaimer = source === 'community' ? (
     <div className="doxx-disclaimer">
@@ -437,10 +471,15 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
 
     if (activeFile) {
       return <main className="container content-page">
-        <button type="button" className="back-link" onClick={() => { setActiveFile(null); setActiveFolderScope(null); }}><ArrowLeft size={15} /> {t('doxx.back')}</button>
+        <button type="button" className="back-link" onClick={closeFile}><ArrowLeft size={15} /> {t('doxx.back')}</button>
         <h1>{subject}<span className="text-primary">.</span></h1>
         <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {title}</p>
-        <ResourceWatch groups={sidebarGroups} active={activeFile} onSelect={item => setActiveFile(item)} />
+        <ResourceWatch
+          groups={sidebarGroups}
+          active={activeFile}
+          onSelect={item => openFile(item)}
+          shareUrl={`${SITE_URL}${sourcePath}?class=${encodeURIComponent(classSlug ?? '')}&subject=${encodeURIComponent(subject ?? '')}&file=${encodeURIComponent(activeFile.id)}`}
+        />
         {source === 'community' && disclaimer}
       </main>;
     }
@@ -456,12 +495,12 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
             <VirtualFileGrid
               className="resource-file-grid-virtual resource-search-results"
               items={filteredFiles}
-              renderItem={item => <FileCard key={item.id} item={item} onClick={() => { setActiveFolderScope(null); setActiveFile(item); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />}
+              renderItem={item => <FileCard key={item.id} item={item} onClick={() => { openFile(item); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />}
             />
           ) : (
             <div className="resource-file-grid resource-search-results">
               {filteredFiles.map(item => (
-                <FileCard key={item.id} item={item} onClick={() => { setActiveFolderScope(null); setActiveFile(item); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
+                <FileCard key={item.id} item={item} onClick={() => { openFile(item); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />
               ))}
             </div>
           )
@@ -476,8 +515,7 @@ export function SourceClassPicker({ source, classSlug, subject, title, desc }: S
             items={section.items}
             editorFolders={section.group.toLowerCase() === 'general' ? editorFolders : undefined}
             onPick={(item, folderScope) => {
-              setActiveFolderScope(folderScope ?? null);
-              setActiveFile(item);
+              openFile(item, folderScope ?? null);
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
           />

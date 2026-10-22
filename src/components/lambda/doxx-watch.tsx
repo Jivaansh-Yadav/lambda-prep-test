@@ -5,6 +5,7 @@ import { VideoPlayer } from '@videojs/react/video';
 import { VideoSkin } from '@/components/videojs/video/skin';
 import { useFullscreen } from '@/hooks/use-fullscreen';
 import { useI18n } from '@/lib/i18n';
+import { ShareWidget } from '@/components/lambda/share-widget';
 
 export interface DoxxLesson {
   name: string;
@@ -17,9 +18,13 @@ interface DoxxWatchProps {
   active: DoxxLesson;
   topicName: string;
   onSelect: (lesson: DoxxLesson) => void;
+  /** Fully-qualified, directly-shareable URL for the active lesson (includes
+   * a `?lesson=<index>` deep-link param, since lessons have no Drive id of
+   * their own), used by the share popup. */
+  shareUrl: string;
 }
 
-export function DoxxWatch({ lessons, active, topicName, onSelect }: DoxxWatchProps) {
+export function DoxxWatch({ lessons, active, topicName, onSelect, shareUrl }: DoxxWatchProps) {
   const { t } = useI18n();
   const videoLessons = lessons.filter(l => l.kind === 'video');
   const interactiveLessons = lessons.filter(l => l.kind === 'interactive');
@@ -28,9 +33,9 @@ export function DoxxWatch({ lessons, active, topicName, onSelect }: DoxxWatchPro
     <div className="doxx-watch">
       <div className="doxx-watch-main">
         {active.kind === 'interactive' ? (
-          <SandboxedFrame src={active.link} title={active.name} />
+          <SandboxedFrame src={active.link} title={active.name} shareUrl={shareUrl} />
         ) : (
-          <ContentVideoPlayer src={active.link} title={active.name} />
+          <ContentVideoPlayer src={active.link} title={active.name} shareUrl={shareUrl} />
         )}
         <h2 className="doxx-watch-title">{active.name}</h2>
         <p className="doxx-watch-kind">
@@ -88,7 +93,7 @@ function PlaylistSection({ icon, title, lessons, active, onSelect }: { icon: Rea
   );
 }
 
-function SandboxedFrame({ src, title }: { src: string; title: string }) {
+function SandboxedFrame({ src, title, shareUrl }: { src: string; title: string; shareUrl: string }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const { isFullscreen, toggleFullscreen } = useFullscreen(wrapRef);
 
@@ -101,19 +106,22 @@ function SandboxedFrame({ src, title }: { src: string; title: string }) {
         loading="lazy"
         referrerPolicy="no-referrer"
       />
-      <button
-        type="button"
-        className="doxx-sandbox-fullscreen"
-        onClick={toggleFullscreen}
-        aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
-      >
-        {isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}
-      </button>
+      <div className="resource-pdf-toolbar">
+        <button
+          type="button"
+          className="doxx-sandbox-fullscreen"
+          onClick={toggleFullscreen}
+          aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+        >
+          {isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}
+        </button>
+        <ShareWidget compact url={shareUrl} title={title} />
+      </div>
     </div>
   );
 }
 
-function ContentVideoPlayer({ src, title }: { src: string; title: string }) {
+function ContentVideoPlayer({ src, title, shareUrl }: { src: string; title: string; shareUrl: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
 
@@ -122,14 +130,19 @@ function ContentVideoPlayer({ src, title }: { src: string; title: string }) {
   }, [src]);
 
   return (
-    <div className="doxx-video-wrap" ref={containerRef} aria-label={title}>
-      {ready && (
-        <VideoPlayer key={src}>
-          <VideoSkin className="doxx-video-skin">
-            <HlsJsVideo src={src} playsInline preload="auto" />
-          </VideoSkin>
-        </VideoPlayer>
-      )}
+    <div className="doxx-video-wrap-outer">
+      <div className="doxx-video-wrap" ref={containerRef} aria-label={title}>
+        {ready && (
+          <VideoPlayer key={src}>
+            <VideoSkin className="doxx-video-skin">
+              <HlsJsVideo src={src} playsInline preload="auto" />
+            </VideoSkin>
+          </VideoPlayer>
+        )}
+      </div>
+      <div className="doxx-video-toolbar">
+        <ShareWidget compact url={shareUrl} title={title} />
+      </div>
     </div>
   );
 }

@@ -206,6 +206,30 @@ export function findFolderPathForFile(folders: ResourceFolderNode[], fileId: str
   return null;
 }
 
+/** Resolve a Drive file id against a subject's loose items + its Editor's
+ * Choice folder tree (used to reopen a deep-linked `?file=<id>` resource).
+ * Returns the matching item plus the immediate folder it lives in, if any —
+ * mirrors what the manual folder-card navigation in EditorChoiceNav tracks
+ * as `activeFolderScope`, so a shared link into a nested file shows the
+ * same scoped sidebar as clicking there would. */
+export function findItemInSubject(
+  subjectItems: ResourceItem[],
+  editorFolders: ResourceFolderNode[] | undefined,
+  fileId: string
+): { item: ResourceItem; folderScope: ResourceFolderNode | null } | null {
+  const loose = subjectItems.find(i => i.id === fileId);
+  if (loose) return { item: loose, folderScope: null };
+  if (editorFolders?.length) {
+    const path = findFolderPathForFile(editorFolders, fileId);
+    if (path) {
+      const folderScope = path[path.length - 1]!;
+      const item = folderScope.children.find((c): c is ResourceItem => !isFolderNode(c) && c.id === fileId);
+      if (item) return { item, folderScope };
+    }
+  }
+  return null;
+}
+
 export function groupItems(items: ResourceItem[]): Array<{ group: string; items: ResourceItem[] }> {
   const order: string[] = [];
   const byGroup = new Map<string, ResourceItem[]>();

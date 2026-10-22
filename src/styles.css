@@ -606,7 +606,39 @@
 .resource-feedback-status { display: block; font-size: 12px; color: var(--muted-foreground); }
 .resource-feedback-status:empty { display: none; }
 
+/* Share widget — trigger button sits in the CTA row (next to fullscreen /
+ * open-in-Drive / download), opens a popup with a copiable link and a grid
+ * of share targets. Shares the same modal-backdrop pattern used elsewhere
+ * (classes.$classId.tsx) but scoped with its own share- prefix so it can
+ * evolve independently. */
+.share-widget { display: inline-flex; }
+.share-trigger-btn { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding-inline: 14px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--foreground); font-size: 13px; font-weight: 600; cursor: pointer; transition: background .15s, border-color .15s; }
+.share-trigger-btn:hover { background: var(--muted); border-color: var(--primary); }
+.share-modal-backdrop { position: fixed; inset: 0; z-index: 60; background: var(--overlay); display: flex; align-items: center; justify-content: center; padding: 20px; animation: overlay-fade-in .18s ease-out; }
+.share-dialog { position: relative; background: var(--background); padding: 28px; border-radius: 14px; max-width: 420px; width: 100%; box-shadow: var(--shadow); animation: modal-in .22s ease-out; }
+.share-dialog h2 { font-size: 18px; font-weight: 700; margin-right: 24px; }
+.share-dialog-close { position: absolute; right: 16px; top: 16px; display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border: none; border-radius: 8px; background: none; color: var(--muted-foreground); cursor: pointer; transition: background .15s; }
+.share-dialog-close:hover { background: var(--muted); color: var(--foreground); }
+.share-link-row { display: flex; gap: 8px; margin-top: 18px; }
+.share-link-input { flex: 1; min-width: 0; height: 38px; padding-inline: 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--muted); color: var(--muted-foreground); font-size: 13px; }
+.share-link-input:focus { outline: none; border-color: var(--primary); color: var(--foreground); }
+.share-copy-btn { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; height: 38px; padding-inline: 14px; border: none; border-radius: 8px; background: var(--primary); color: var(--primary-foreground); font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity .15s; }
+.share-copy-btn:hover { opacity: 0.9; }
+.share-targets-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; }
+.share-target-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 6px; border: 1px solid var(--border); border-radius: 10px; background: var(--card); color: var(--foreground); cursor: pointer; transition: background .15s, border-color .15s, transform .15s; }
+.share-target-btn:hover { background: var(--muted); border-color: var(--primary); transform: translateY(-1px); }
+.share-target-icon { display: inline-flex; align-items: center; justify-content: center; color: var(--primary); }
+.share-target-label { font-size: 11.5px; font-weight: 600; color: var(--muted-foreground); }
+.share-hint { display: flex; align-items: center; gap: 4px; justify-content: center; margin-top: 16px; font-size: 12.5px; color: var(--green-ink); min-height: 16px; }
+.share-hint:empty { margin-top: 0; }
+@media (max-width: 480px) {
+  .share-targets-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
 .doxx-video-wrap { border-radius: 12px; overflow: hidden; background: oklch(0.12 0.015 260); aspect-ratio: 16 / 9; }
+.doxx-video-wrap-outer { position: relative; }
+.doxx-video-toolbar { position: absolute; top: 10px; right: 10px; z-index: 25; }
+.doxx-video-toolbar .doxx-sandbox-fullscreen { position: static; }
 .doxx-video-skin { width: 100%; height: 100%; aspect-ratio: 16 / 9; }
 
 .doxx-sandbox-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: var(--muted); border: 1px solid var(--border); }
