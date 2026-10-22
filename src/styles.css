@@ -858,13 +858,16 @@ body.pseudo-fullscreen-open { overflow: hidden; }
 /* Collapsible resource groups: capped-height grid + fade + view all / show less */
 .resource-group { position: relative; }
 
-/* The file search field can sit directly above the first resource group. Plain
-   groups have no top margin, so the group's rounded top border used to land
-   flush on the field's bottom border and read as a clipped edge. Give that
-   first group a gap; the glowing variants already carry one, and later groups
-   keep their 24px rhythm. Stays unlayered on purpose: the group margins below
-   are unlayered too, so a rule inside @layer components would lose. */
-.resource-search + .resource-group:not(.resource-group-editors-choice):not(.resource-group-featured-glow) {
+/* The page header (title + description/search row) sits directly above the
+   first resource group. Plain groups have no top margin, so the group's
+   rounded top border used to land flush on the header and read as a
+   crumpled/clipped edge. Give that first group a gap; the glowing variants
+   already carry one, and later groups keep their 24px rhythm. Targets
+   `.content-header` (not `.resource-search`) since the search field now
+   lives nested inside the header's inline title/description/search row.
+   Stays unlayered on purpose: the group margins below are unlayered too,
+   so a rule inside @layer components would lose. */
+.content-header + .resource-group:not(.resource-group-editors-choice):not(.resource-group-featured-glow) {
   margin-top: 24px;
 }
 
