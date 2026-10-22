@@ -14,6 +14,7 @@ import {
 } from 'recharts';
 import {
   Activity,
+  ArrowLeft,
   ChevronRight,
   Eye,
   ExternalLink,
@@ -68,7 +69,17 @@ function isDriveFolder(entry: DriveFileEntry): boolean {
   return entry.mimeType === DRIVE_FOLDER_MIME;
 }
 
+type AdminSection = 'analytics' | 'manage' | 'stats';
+const ADMIN_SECTIONS: AdminSection[] = ['analytics', 'manage', 'stats'];
+
+interface AdminSearch {
+  section?: AdminSection | undefined;
+}
+
 export const Route = createFileRoute('/admin')({
+  validateSearch: (search: Record<string, unknown>): AdminSearch => ({
+    section: ADMIN_SECTIONS.includes(search['section'] as AdminSection) ? (search['section'] as AdminSection) : undefined,
+  }),
   head: () => ({ meta: [{ name: 'robots', content: 'noindex, nofollow' }, { title: 'Admin — Lambda Prep' }] }),
   component: AdminPage,
 });
@@ -87,7 +98,11 @@ function AdminPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AdminTrafficResult | null>(null);
-  const [openSection, setOpenSection] = useState<'analytics' | 'manage' | 'stats' | null>(null);
+  const { section: openSection } = Route.useSearch();
+  const navigate = Route.useNavigate();
+  function setOpenSection(next: AdminSection | null) {
+    void navigate({ search: (prev) => ({ ...prev, section: next ?? undefined }) });
+  }
   const [rumResult, setRumResult] = useState<AdminRumResult | null>(null);
   const [rumLoading, setRumLoading] = useState(false);
 
@@ -190,6 +205,111 @@ function AdminPage() {
       )
     : null;
 
+  // A section is a full-width page (driven by the ?section= query param)
+  // rather than a capped-height modal, so charts, the Drive browser and
+  // stats tables all get the full viewport width to work with instead of
+  // being squeezed into a max-w-4xl box.
+  if (openSection) {
+    const SECTION_META: Record<AdminSection, { title: string; icon: React.ReactNode }> = {
+      analytics: { title: 'Deep analytics', icon: <Activity size={18} /> },
+      manage: { title: 'Manage resources', icon: <FolderOpen size={18} /> },
+      stats: { title: 'Resource stats', icon: <Star size={18} /> },
+    };
+    const meta = SECTION_META[openSection];
+    return (
+      <div className="mx-auto w-full max-w-[1400px] px-4 py-10">
+        <button
+          type="button"
+          onClick={() => setOpenSection(null)}
+          className="mb-6 flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeft size={15} /> Admin dashboard
+        </button>
+        <h1 className="mb-6 flex items-center gap-2 text-2xl font-semibold text-foreground">
+          {meta.icon} {meta.title}
+        </h1>
+
+        {openSection === 'analytics' && (
+          <>
+            {result?.configured && totals ? (
+              <>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Traffic — last 30 days</CardTitle>
+                  </CardHeader>
+                  <CardContent className="h-80 sm:h-96">
+                    {result.days.length === 0 ? (
+                      <p className="text-sm text-muted-foreground">No data yet — the beacon hasn't recorded any page loads.</p>
+                    ) : (
+                      <ResponsiveContainer width="100%" height="100%">
+                        <LineChart data={result.days}>
+                          <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
+                          <XAxis
+                            dataKey="date"
+                            tickFormatter={(v: string) => new Date(v).toLocaleDateString([], { month: 'short', day: 'numeric' })}
+                            tick={{ fontSize: 12 }}
+                          />
+                          <YAxis tick={{ fontSize: 12 }} allowDecimals={false} />
+                          <Tooltip labelFormatter={(v: string) => new Date(v).toLocaleDateString()} />
+                          <Line type="monotone" dataKey="pageLoads" name="Page loads" stroke="#6366f1" strokeWidth={2} dot={false} />
+                          <Line type="monotone" dataKey="visits" name="Visits" stroke="#22c55e" strokeWidth={2} dot={false} />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    )}
+                  </CardContent>
+                </Card>
+
+                <Card className="mt-6">
+                  <CardHeader>
+                    <CardTitle>Visits by section — last 30 days</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-64 sm:h-72">
+                      {result.sections.every((s) => s.visits === 0) ? (
+                        <p className="text-sm text-muted-foreground">No section visits recorded yet.</p>
+                      ) : (
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart data={result.sections} layout="vertical" margin={{ left: 16 }}>
+                            <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
+                            <XAxis type="number" allowDecimals={false} tick={{ fontSize: 12 }} />
+                            <YAxis type="category" dataKey="label" tick={{ fontSize: 12 }} width={90} />
+                            <Tooltip />
+                            <Bar dataKey="visits" name="Visits" radius={4}>
+                              {result.sections.map((s, i) => (
+                                <Cell key={s.path} fill={SECTION_COLORS[i % SECTION_COLORS.length]} />
+                              ))}
+                            </Bar>
+                          </BarChart>
+                        </ResponsiveContainer>
+                      )}
+                    </div>
+                    <p className="mt-4 text-xs text-muted-foreground">
+                      Shows top-level visits to <span className="font-mono">/doxxmarks</span> vs{' '}
+                      <span className="font-mono">/resources</span>. Class, subject and chapter choices on these pages
+                      live in the URL's query string (e.g. <span className="font-mono">?class=...&amp;subject=...</span>),
+                      and Cloudflare's analytics path dimension doesn't include query strings — so a subcategory
+                      breakdown isn't available from this data source alone.
+                    </p>
+                  </CardContent>
+                </Card>
+              </>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                {result ? 'Cloudflare analytics is not configured — see the notice above.' : 'Loading…'}
+              </p>
+            )}
+
+            <RumAnalyticsSection result={rumResult} loading={rumLoading} />
+          </>
+        )}
+
+        {openSection === 'manage' && <ManageResourcesCard />}
+
+        {openSection === 'stats' && <ResourceStatsCard />}
+      </div>
+    );
+  }
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
       <div className="mb-6 flex items-center justify-between gap-4">
@@ -258,9 +378,10 @@ function AdminPage() {
         </Card>
       )}
 
-      {/* Three clickable cards: each opens its matching section in a
-          full-screen modal instead of rendering inline, so the top-level
-          page stays a quick-glance summary + three clear entry points. */}
+      {/* Three clickable cards: each opens its matching section as a
+          full-width page (?section=...) instead of rendering inline, so
+          the top-level page stays a quick-glance summary + three clear
+          entry points. */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <CategoryCard
           accent="indigo"
@@ -284,92 +405,6 @@ function AdminPage() {
           onClick={() => setOpenSection('stats')}
         />
       </div>
-
-      {openSection === 'analytics' && (
-        <SectionModal title="Deep analytics" icon={<Activity size={16} />} onClose={() => setOpenSection(null)}>
-          {result?.configured && totals ? (
-            <>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Traffic — last 30 days</CardTitle>
-                </CardHeader>
-                <CardContent className="h-80">
-                  {result.days.length === 0 ? (
-                    <p className="text-sm text-muted-foreground">No data yet — the beacon hasn't recorded any page loads.</p>
-                  ) : (
-                    <ResponsiveContainer width="100%" height="100%">
-                      <LineChart data={result.days}>
-                        <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
-                        <XAxis
-                          dataKey="date"
-                          tickFormatter={(v: string) => new Date(v).toLocaleDateString([], { month: 'short', day: 'numeric' })}
-                          tick={{ fontSize: 12 }}
-                        />
-                        <YAxis tick={{ fontSize: 12 }} allowDecimals={false} />
-                        <Tooltip labelFormatter={(v: string) => new Date(v).toLocaleDateString()} />
-                        <Line type="monotone" dataKey="pageLoads" name="Page loads" stroke="#6366f1" strokeWidth={2} dot={false} />
-                        <Line type="monotone" dataKey="visits" name="Visits" stroke="#22c55e" strokeWidth={2} dot={false} />
-                      </LineChart>
-                    </ResponsiveContainer>
-                  )}
-                </CardContent>
-              </Card>
-
-              <Card className="mt-6">
-                <CardHeader>
-                  <CardTitle>Visits by section — last 30 days</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-64">
-                    {result.sections.every((s) => s.visits === 0) ? (
-                      <p className="text-sm text-muted-foreground">No section visits recorded yet.</p>
-                    ) : (
-                      <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={result.sections} layout="vertical" margin={{ left: 16 }}>
-                          <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
-                          <XAxis type="number" allowDecimals={false} tick={{ fontSize: 12 }} />
-                          <YAxis type="category" dataKey="label" tick={{ fontSize: 12 }} width={90} />
-                          <Tooltip />
-                          <Bar dataKey="visits" name="Visits" radius={4}>
-                            {result.sections.map((s, i) => (
-                              <Cell key={s.path} fill={SECTION_COLORS[i % SECTION_COLORS.length]} />
-                            ))}
-                          </Bar>
-                        </BarChart>
-                      </ResponsiveContainer>
-                    )}
-                  </div>
-                  <p className="mt-4 text-xs text-muted-foreground">
-                    Shows top-level visits to <span className="font-mono">/doxxmarks</span> vs{' '}
-                    <span className="font-mono">/resources</span>. Class, subject and chapter choices on these pages
-                    live in the URL's query string (e.g. <span className="font-mono">?class=...&amp;subject=...</span>),
-                    and Cloudflare's analytics path dimension doesn't include query strings — so a subcategory
-                    breakdown isn't available from this data source alone.
-                  </p>
-                </CardContent>
-              </Card>
-            </>
-          ) : (
-            <p className="text-sm text-muted-foreground">
-              {result ? 'Cloudflare analytics is not configured — see the notice above.' : 'Loading…'}
-            </p>
-          )}
-
-          <RumAnalyticsSection result={rumResult} loading={rumLoading} />
-        </SectionModal>
-      )}
-
-      {openSection === 'manage' && (
-        <SectionModal title="Manage resources" icon={<FolderOpen size={16} />} onClose={() => setOpenSection(null)}>
-          <ManageResourcesCard />
-        </SectionModal>
-      )}
-
-      {openSection === 'stats' && (
-        <SectionModal title="Resource stats" icon={<Star size={16} />} onClose={() => setOpenSection(null)}>
-          <ResourceStatsCard />
-        </SectionModal>
-      )}
     </div>
   );
 }
@@ -472,7 +507,7 @@ function RumAnalyticsSection({ result, loading }: { result: AdminRumResult | nul
         <p className="mb-4 text-sm text-muted-foreground">
           {result.totalVisits.toLocaleString()} real-user page-load visits recorded by the beacon script.
         </p>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {panels.map((panel) => (
             <RumBreakdownList key={panel.title} title={panel.title} items={panel.items} />
           ))}
@@ -534,56 +569,6 @@ function CategoryCard({
         <span className="admin-category-description">{description}</span>
       </span>
     </button>
-  );
-}
-
-/** Full-screen modal wrapper used by each of the three category cards'
- * opened section, so the detail content (charts, Drive browser, stats
- * tables) gets room to breathe instead of competing for space on the
- * top-level page. */
-function SectionModal({
-  title,
-  icon,
-  onClose,
-  children,
-}: {
-  title: string;
-  icon: React.ReactNode;
-  onClose: () => void;
-  children: React.ReactNode;
-}) {
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, [onClose]);
-
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/80 p-4 sm:items-center"
-      onClick={onClose}
-      role="presentation"
-    >
-      <div
-        className="my-8 w-full max-w-4xl rounded-lg border bg-background p-4 shadow-lg sm:p-6"
-        onClick={(e) => e.stopPropagation()}
-        role="dialog"
-        aria-modal="true"
-        aria-label={title}
-      >
-        <div className="mb-4 flex items-center justify-between gap-4">
-          <h2 className="flex items-center gap-2 text-lg font-semibold text-foreground">
-            {icon} {title}
-          </h2>
-          <button type="button" onClick={onClose} className="rounded-sm p-1 text-muted-foreground hover:text-foreground" aria-label="Close">
-            <X size={18} />
-          </button>
-        </div>
-        {children}
-      </div>
-    </div>
   );
 }
 
@@ -894,8 +879,7 @@ function ManageResourcesCard() {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between gap-2">
-        <CardTitle>Manage resources</CardTitle>
+      <CardHeader className="flex flex-row items-center justify-end gap-2">
         <div className="flex items-center gap-2">
           <input
             ref={fileInputRef}
@@ -1282,8 +1266,7 @@ function ResourceStatsCard() {
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between gap-4">
-        <CardTitle>Resource stats</CardTitle>
+      <CardHeader className="flex flex-row items-center justify-end gap-4">
         <Button variant="outline" size="sm" onClick={() => void load()} disabled={loading}>
           {loading ? 'Refreshing…' : 'Refresh'}
         </Button>
