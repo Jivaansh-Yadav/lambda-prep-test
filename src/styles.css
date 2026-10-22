@@ -433,7 +433,7 @@
     .hub-toolbar { flex-wrap: wrap; }
     .search-field, .hub-toolbar .search-field { width: 100%; flex: 1 1 100%; }
     .content-header-row { flex-direction: column; align-items: stretch; gap: 12px; }
-    .content-header-row .page-intro { max-width: none; }
+    .content-header-row .page-intro { max-width: none; flex-basis: auto; }
     .content-header-row .resource-search { width: 100%; max-width: none; margin-top: 0; }
     .syllabus-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
     .syllabus-notice { flex-wrap: wrap; padding: 18px 0; }
@@ -543,10 +543,24 @@
 .doxx-notes { margin-top: 36px; }
 .doxx-notes h2 { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 700; }
 
+/* Admin dashboard group label — a small uppercase caption above each of
+   the two card rows (Analytics / Manage), so the two different card
+   treatments below them (show-only vs clickable) read as deliberately
+   separate categories instead of one undifferentiated grid. */
+.admin-group-label {
+  margin: 0 0 10px; font-size: 12px; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--muted-foreground);
+}
+
 /* Admin dashboard category cards — same hover-lift, tinted-gradient tile
-   treatment as the share widget's target buttons (share-target-btn),
-   so the three top-level entry points read as real cards instead of
-   plain bordered boxes. */
+   treatment as the share widget's target buttons (share-target-btn).
+   Two visual weights share this base class: the Analytics row (KpiCard /
+   LatestCommitCard) is show-only, so it gets a flatter single-tone tint
+   and no pointer cursor (see .admin-kpi-card below); the Manage row
+   (CategoryCard, via .admin-category-card-clickable) is interactive, so
+   it gets a bolder two-stop gradient, a stronger border and a trailing
+   chevron that slides on hover — the two rows should look like different
+   categories, not the same card repeated with different colors. */
 .admin-category-card {
   display: flex; align-items: flex-start; gap: 14px; width: 100%;
   padding: 18px 20px; border: 1px solid var(--border); border-radius: 14px;
@@ -562,17 +576,37 @@
   transition: transform .25s ease;
 }
 .admin-category-card:hover .admin-category-icon { transform: scale(1.1) rotate(-6deg); }
-.admin-category-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.admin-category-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
 .admin-category-title { font-size: 16px; font-weight: 700; letter-spacing: -0.01em; color: var(--foreground); }
 .admin-category-description { font-size: 13px; line-height: 1.5; color: var(--muted-foreground); }
-.admin-category-card-indigo { background: linear-gradient(160deg, oklch(0.95 0.03 265), var(--card)); border-color: oklch(0.82 0.06 265); }
+
+/* Analytics accents (show-only): flatter single-stop tint, thinner
+   border — reads as calmer, informational. */
+.admin-category-card-indigo { background: linear-gradient(160deg, oklch(0.96 0.02 265), var(--card) 75%); border-color: oklch(0.88 0.04 265); }
 .admin-category-card-indigo .admin-category-icon { background: oklch(0.9 0.05 265); color: oklch(0.45 0.16 265); }
-.admin-category-card-emerald { background: linear-gradient(160deg, oklch(0.95 0.035 155), var(--card)); border-color: oklch(0.8 0.08 155); }
-.admin-category-card-emerald .admin-category-icon { background: oklch(0.9 0.06 155); color: oklch(0.45 0.15 155); }
-.admin-category-card-amber { background: linear-gradient(160deg, oklch(0.95 0.04 85), var(--card)); border-color: oklch(0.8 0.1 85); }
-.admin-category-card-amber .admin-category-icon { background: oklch(0.9 0.08 85); color: oklch(0.48 0.14 70); }
-.admin-category-card-sky { background: linear-gradient(160deg, oklch(0.95 0.03 230), var(--card)); border-color: oklch(0.8 0.07 230); }
+.admin-category-card-violet { background: linear-gradient(160deg, oklch(0.96 0.02 300), var(--card) 75%); border-color: oklch(0.88 0.04 300); }
+.admin-category-card-violet .admin-category-icon { background: oklch(0.9 0.06 300); color: oklch(0.48 0.17 300); }
+.admin-category-card-sky { background: linear-gradient(160deg, oklch(0.96 0.02 230), var(--card) 75%); border-color: oklch(0.88 0.035 230); }
 .admin-category-card-sky .admin-category-icon { background: oklch(0.9 0.055 230); color: oklch(0.45 0.13 230); }
+
+/* Manage accents (clickable): bolder two-stop gradient, deeper-tinted
+   border — reads as a real actionable card, distinct from the Analytics
+   palette above (deep indigo instead of plain indigo, plus emerald/amber
+   not used anywhere in the Analytics row). */
+.admin-category-card-indigo-deep { background: linear-gradient(145deg, oklch(0.93 0.055 268), oklch(0.97 0.015 268) 60%, var(--card)); border-color: oklch(0.78 0.09 268); }
+.admin-category-card-indigo-deep .admin-category-icon { background: oklch(0.88 0.08 268); color: oklch(0.4 0.19 268); }
+.admin-category-card-emerald { background: linear-gradient(145deg, oklch(0.92 0.06 155), oklch(0.97 0.02 155) 60%, var(--card)); border-color: oklch(0.76 0.1 155); }
+.admin-category-card-emerald .admin-category-icon { background: oklch(0.87 0.09 155); color: oklch(0.42 0.16 155); }
+.admin-category-card-amber { background: linear-gradient(145deg, oklch(0.92 0.07 85), oklch(0.97 0.025 85) 60%, var(--card)); border-color: oklch(0.76 0.12 85); }
+.admin-category-card-amber .admin-category-icon { background: oklch(0.87 0.1 85); color: oklch(0.46 0.15 70); }
+
+/* Trailing chevron, clickable cards only — a small affordance that slides
+   right on hover to reinforce "this opens something", absent from the
+   show-only Analytics tiles entirely. */
+.admin-category-card-clickable { padding-right: 16px; }
+.admin-category-chevron { flex-shrink: 0; align-self: center; color: var(--muted-foreground); transition: transform .18s ease, color .18s ease; }
+.admin-category-card-clickable:hover .admin-category-chevron { transform: translateX(3px); color: var(--foreground); }
+
 @media (max-width: 480px) {
   .admin-category-card { padding: 14px 16px; gap: 10px; }
   .admin-category-icon { width: 38px; height: 38px; }

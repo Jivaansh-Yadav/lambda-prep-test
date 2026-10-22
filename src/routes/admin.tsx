@@ -334,10 +334,10 @@ function AdminPage() {
 
       {error && <p className="mb-4 text-sm text-destructive">{error}</p>}
 
-      {/* Top summary: at-a-glance web analytics totals, plus the latest commit.
-          Only two real metrics come out of the RUM dataset (page loads and
-          visits — no raw request count or unique-visitor count), so there
-          are two KPI cards here instead of the old zone-analytics four. */}
+      {/* Group 1: Analytics — at-a-glance numbers only, nothing to click.
+          Cool blue/violet accents mark this whole row as "read-only"
+          data, distinct from the warm, clickable Manage group below. */}
+      <p className="admin-group-label">Analytics</p>
       <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
         <KpiCard
           label="Page loads (30d)"
@@ -348,7 +348,7 @@ function AdminPage() {
         <KpiCard
           label="Visits (30d)"
           value={totals ? totals.visits.toLocaleString() : '—'}
-          accent="emerald"
+          accent="violet"
           icon={<Users size={20} />}
         />
         <LatestCommitCard />
@@ -378,13 +378,14 @@ function AdminPage() {
         </Card>
       )}
 
-      {/* Three clickable cards: each opens its matching section as a
-          full-width page (?section=...) instead of rendering inline, so
-          the top-level page stays a quick-glance summary + three clear
-          entry points. */}
+      {/* Group 2: Manage — every card here is clickable and opens a
+          full-width page (?section=...). Warm emerald/amber/rose accents
+          and a trailing chevron mark the whole row as actionable, visually
+          distinct from the read-only Analytics group above. */}
+      <p className="admin-group-label">Manage</p>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <CategoryCard
-          accent="indigo"
+          accent="indigo-deep"
           icon={<Activity size={20} />}
           title="Deep analytics"
           description="Traffic charts and section breakdown for the last 30 days."
@@ -413,8 +414,11 @@ const SECTION_COLORS = ['#6366f1', '#22c55e'];
 
 /** Accent color identity shared by every top-level tile (KpiCard,
  * LatestCommitCard, CategoryCard) via the admin-category-card-{accent}
- * CSS variants in styles.css. */
-type Accent = 'indigo' | 'emerald' | 'amber' | 'sky';
+ * CSS variants in styles.css. The Analytics group (KpiCard/LatestCommitCard)
+ * uses cool blue/violet/sky accents; the Manage group (CategoryCard) uses a
+ * deeper indigo plus warm emerald/amber — distinct palettes so the two
+ * show-only vs clickable rows read as separate categories at a glance. */
+type Accent = 'indigo' | 'violet' | 'sky' | 'indigo-deep' | 'emerald' | 'amber';
 
 function KpiCard({
   label,
@@ -561,13 +565,14 @@ function CategoryCard({
     <button
       type="button"
       onClick={onClick}
-      className={`admin-category-card admin-category-card-${accent}`}
+      className={`admin-category-card admin-category-card-clickable admin-category-card-${accent}`}
     >
       <span className="admin-category-icon">{icon}</span>
       <span className="admin-category-text">
         <span className="admin-category-title">{title}</span>
         <span className="admin-category-description">{description}</span>
       </span>
+      <ChevronRight size={18} className="admin-category-chevron" />
     </button>
   );
 }
