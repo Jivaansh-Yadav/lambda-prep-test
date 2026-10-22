@@ -201,10 +201,7 @@ export function ShareWidget({ url, title, compact = false }: ShareWidgetProps) {
               {heroTargets.map(target => (
                 <button key={target.key} type="button" className={target.className} onClick={target.onClick}>
                   <span className="share-hero-icon">{target.icon}</span>
-                  <span className="share-hero-label">
-                    <span className="share-hero-label-app">Lambda Prep</span>
-                    <span className="share-hero-label-target">{target.label}</span>
-                  </span>
+                  <span className="share-hero-label-target">{target.label}</span>
                 </button>
               ))}
             </div>

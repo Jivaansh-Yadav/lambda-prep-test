@@ -628,8 +628,7 @@
 .share-copy-btn:active { transform: translateY(0); }
 
 /* Hero row — WhatsApp and Discord get full-width, high-contrast gradient
- * tiles since those are where the Lambda Prep community actually lives;
- * each shows the app name alongside the target name. */
+ * tiles since those are where the Lambda Prep community actually lives. */
 .share-hero-row { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
 .share-hero-btn {
   display: flex; align-items: center; gap: 14px; width: 100%;
@@ -657,9 +656,7 @@
   transition: transform .25s ease;
 }
 .share-hero-btn:hover .share-hero-icon { transform: scale(1.1) rotate(-6deg); }
-.share-hero-label { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
-.share-hero-label-app { font-size: 15px; font-weight: 800; letter-spacing: -0.01em; }
-.share-hero-label-target { font-size: 12px; font-weight: 600; opacity: 0.85; }
+.share-hero-label-target { font-size: 16px; font-weight: 700; letter-spacing: -0.01em; }
 
 /* Secondary grid — Telegram, Reddit, Email, Message(+More): smaller
  * tiles with light brand-tinted gradients instead of the hero treatment. */
