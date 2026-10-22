@@ -299,7 +299,7 @@ function AdminPage() {
           accent="amber"
           icon={<Star size={18} />}
           title="Resource stats"
-          description="Ratings, feedback, views and shares for every resource file — opens in a 4-table modal."
+          description="Ratings, feedback, views and shares for every resource file."
         >
           <ResourceStatsCard />
         </CategorySection>
