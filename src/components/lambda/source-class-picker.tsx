@@ -402,9 +402,17 @@ export function SourceClassPicker({ source, classSlug, subject, file, onFileChan
       <Link to={sourcePath} search={{}} className="back-link"><ArrowLeft size={15} /> {t('resources.backToClasses')}</Link>
       <h1>{title}<span className="text-primary">.</span></h1>
       <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {t('resources.chooseSubject')}</p>
-      <p className="library-note resource-total-count">{manifest.subjects.reduce((sum, s) => sum + s.count, 0) + manifest.miscCount} {t('resources.filesLabel')} {t('resources.total')}</p>
-      <label className="search-field resource-search"><Search size={18} /><input aria-label={t('resources.searchSubjects.label')} placeholder={t('resources.searchSubjects.placeholder')} value={subjectQuery} onChange={e => setSubjectQuery(e.target.value)} /></label>
-      {filteredSubjectCards.length ? (
+      {!!subjectCards.length && <p className="library-note resource-total-count">{manifest.subjects.reduce((sum, s) => sum + s.count, 0) + manifest.miscCount} {t('resources.filesLabel')} {t('resources.total')}</p>}
+      {!!subjectCards.length && (
+        <label className="search-field resource-search"><Search size={18} /><input aria-label={t('resources.searchSubjects.label')} placeholder={t('resources.searchSubjects.placeholder')} value={subjectQuery} onChange={e => setSubjectQuery(e.target.value)} /></label>
+      )}
+      {!subjectCards.length ? (
+        // Dataset exists for this class but its manifest lists zero
+        // subjects (e.g. freshly added class awaiting content) — same
+        // "being prepared" message as a class with no dataset at all,
+        // not the "no search results" copy below.
+        <div className="empty-state"><h3>{t('resources.classNote.title')}</h3><p>{t('resources.classNote.text')}</p></div>
+      ) : filteredSubjectCards.length ? (
         <div className="doxx-cards">
           {filteredSubjectCards.map(s => {
             const isMisc = s.subject === MISC_LABEL;
