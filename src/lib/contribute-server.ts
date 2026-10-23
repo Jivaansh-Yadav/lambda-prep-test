@@ -74,6 +74,28 @@ function isHttpUrl(value: string): boolean {
   }
 }
 
+// Formats a Date as "YYYY-MM-DD HH-mm-ss" for embedding in a filename —
+// no colons or slashes, which Drive (and most filesystems) tolerate fine
+// but look odd/break on some clients.
+function formatTimestampForFilename(date: Date): string {
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}-${pad(date.getMinutes())}-${pad(date.getSeconds())}`;
+}
+
+// Every file actually written to the Drive "Contributions" folder gets a
+// "{contributor's file name} - {submission date+time}" name, so the
+// admin can tell submissions apart in Drive itself even when several
+// contributors reuse the same generic file name (e.g. "Notes.pdf").
+// Keeps the original extension intact when there is one.
+function withContributionTimestamp(fileName: string, when: Date): string {
+  const stamp = formatTimestampForFilename(when);
+  const dotIndex = fileName.lastIndexOf(".");
+  if (dotIndex > 0 && dotIndex < fileName.length - 1) {
+    return `${fileName.slice(0, dotIndex)} - ${stamp}${fileName.slice(dotIndex)}`;
+  }
+  return `${fileName} - ${stamp}`;
+}
+
 export type ContributeDetails = {
   fileName: string;
   classSlug: string;
@@ -147,10 +169,11 @@ export const submitContributionUpload = createServerFn({ method: "POST" })
     let uploaded: DriveFileEntry;
     try {
       const arrayBuffer = await data.file.arrayBuffer();
+      const driveFileName = withContributionTimestamp(data.details.fileName, new Date());
       uploaded = await uploadDriveFile(
         config,
         {
-          name: data.details.fileName,
+          name: driveFileName,
           mimeType: data.file.type || "application/octet-stream",
           data: arrayBuffer,
         },
