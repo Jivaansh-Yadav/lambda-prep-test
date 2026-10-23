@@ -19,6 +19,7 @@ import {
   type WorkflowRunStatus,
   type LatestCommit,
 } from "./github-integration-server";
+import { getCloudflareIntegrationConfig } from "./cloudflare-integration-server";
 import { resolveFileLocations } from "./resource-lookup-server";
 
 // No fallback default: an unset ADMIN_PASSCODE must disable admin access
@@ -188,11 +189,13 @@ const CLOUDFLARE_GRAPHQL_ENDPOINT = "https://api.cloudflare.com/client/v4/graphq
 
 // Account-scoped Web Analytics (RUM) query — reads the same beacon data
 // (keyed by siteTag, not zoneTag) that getAdminRum below drills into for
-// the top-pages/countries/devices detail. Needs CLOUDFLARE_ACCOUNT_ID +
-// CLOUDFLARE_RUM_API_TOKEN (Account -> Analytics -> Read) +
-// CLOUDFLARE_RUM_SITE_TAG, not a Zone ID/zone-scoped token — Cloudflare's
-// legacy httpRequests*/zone-level analytics requires a Zone ID + Zone
-// Analytics Read token this project doesn't have, whereas the RUM beacon
+// the top-pages/countries/devices detail. Needs the account ID, a RUM
+// API token (Account -> Analytics -> Read) and the site tag, all read
+// from the cloudflare_integration row on Neon (see
+// getCloudflareIntegrationConfig), not a Zone ID/zone-scoped token —
+// Cloudflare's legacy httpRequests*/zone-level analytics requires a Zone
+// ID + Zone Analytics Read token this project doesn't have, whereas the
+// RUM beacon
 // + Account Analytics Read token work from a single Cloudflare account.
 // Two variants of the same query, differing only in which time
 // dimension dailyTraffic buckets by: "date" (one point per calendar day)
@@ -340,17 +343,16 @@ async function writeCache(range: AdminRange, payload: CachedPayload): Promise<vo
  * can show a clear setup state instead of a generic error.
  */
 async function fetchFromCloudflare(range: AdminRange): Promise<AdminTrafficResult> {
-  const accountId = process.env["CLOUDFLARE_ACCOUNT_ID"];
-  const apiToken = process.env["CLOUDFLARE_RUM_API_TOKEN"];
-  const siteTag = process.env["CLOUDFLARE_RUM_SITE_TAG"];
+  const config = await getCloudflareIntegrationConfig();
 
-  if (!accountId || !apiToken || !siteTag) {
+  if (!config) {
     return {
       configured: false,
       reason:
-        "Web Analytics isn't configured yet. Set CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_RUM_API_TOKEN (Account → Analytics → Read) and CLOUDFLARE_RUM_SITE_TAG in the environment.",
+        "Web Analytics isn't configured yet. Seed the cloudflare_integration row (account ID, RUM API token with Account → Analytics → Read scope, and RUM site tag) in Neon.",
     };
   }
+  const { accountId, rumApiToken: apiToken, rumSiteTag: siteTag } = config;
 
   const until = new Date();
   const since = new Date(until.getTime() - RANGE_WINDOW_MS[range]);
@@ -417,9 +419,9 @@ async function fetchFromCloudflare(range: AdminRange): Promise<AdminTrafficResul
  * 5-minute Neon cache keyed per range: a fresh cache row for that range is
  * served directly from the database; a stale or missing row triggers a
  * live Cloudflare fetch, whose result is written back to the cache before
- * returning. Requires CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_RUM_API_TOKEN
- * (Account -> Analytics -> Read scope) and CLOUDFLARE_RUM_SITE_TAG in the
- * server environment.
+ * returning. Requires the cloudflare_integration row (account ID,
+ * RUM API token with Account -> Analytics -> Read scope, and site tag)
+ * to be seeded on Neon.
  */
 export const getAdminTraffic = createServerFn({ method: "POST" })
   .validator((data: unknown) => {
@@ -467,8 +469,7 @@ export const getAdminTraffic = createServerFn({ method: "POST" })
 // Deep analytics detail: top pages, countries, devices, browsers and
 // referrers for the same Web Analytics (RUM) dataset fetchFromCloudflare
 // above uses for the chart/KPIs — this just adds the breakdown panels,
-// sharing the same CLOUDFLARE_ACCOUNT_ID / CLOUDFLARE_RUM_API_TOKEN /
-// CLOUDFLARE_RUM_SITE_TAG credentials.
+// sharing the same cloudflare_integration credentials from Neon.
 // ---------------------------------------------------------------------
 
 export type RumBreakdownItem = { label: string; visits: number };
@@ -600,17 +601,16 @@ function sortedBreakdown(groups: RumGroup[] | undefined): RumBreakdownItem[] {
  * missing or the request/response fails.
  */
 async function fetchRumFromCloudflare(range: AdminRange): Promise<AdminRumResult> {
-  const accountId = process.env["CLOUDFLARE_ACCOUNT_ID"];
-  const apiToken = process.env["CLOUDFLARE_RUM_API_TOKEN"];
-  const siteTag = process.env["CLOUDFLARE_RUM_SITE_TAG"];
+  const config = await getCloudflareIntegrationConfig();
 
-  if (!accountId || !apiToken || !siteTag) {
+  if (!config) {
     return {
       configured: false,
       reason:
-        "Web Analytics (RUM) isn't configured yet. Set CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_RUM_API_TOKEN (Account → Analytics → Read) and CLOUDFLARE_RUM_SITE_TAG in the environment.",
+        "Web Analytics (RUM) isn't configured yet. Seed the cloudflare_integration row (account ID, RUM API token with Account → Analytics → Read scope, and RUM site tag) in Neon.",
     };
   }
+  const { accountId, rumApiToken: apiToken, rumSiteTag: siteTag } = config;
 
   const until = new Date();
   const since = new Date(until.getTime() - RANGE_WINDOW_MS[range]);
@@ -650,7 +650,7 @@ async function fetchRumFromCloudflare(range: AdminRange): Promise<AdminRumResult
   if (!account) {
     return {
       configured: false,
-      reason: "Cloudflare API returned no account data — check CLOUDFLARE_ACCOUNT_ID and the token's permissions.",
+      reason: "Cloudflare API returned no account data — check the account ID and the token's permissions in the cloudflare_integration row.",
     };
   }
 
@@ -671,9 +671,9 @@ async function fetchRumFromCloudflare(range: AdminRange): Promise<AdminRumResult
 /**
  * Returns Web Analytics (RUM) detail for the requested lookback window
  * (24h/7d/14d/30d, default 30d), backed by a 5-minute Neon cache keyed
- * per range (same TTL/pattern as getAdminTraffic above). Requires
- * CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_RUM_API_TOKEN (Account -> Analytics
- * -> Read scope) and CLOUDFLARE_RUM_SITE_TAG in the server environment.
+ * per range (same TTL/pattern as getAdminTraffic above). Requires the
+ * cloudflare_integration row (account ID, RUM API token with Account ->
+ * Analytics -> Read scope, and site tag) to be seeded on Neon.
  */
 export const getAdminRum = createServerFn({ method: "POST" })
   .validator((data: unknown) => {
@@ -868,7 +868,8 @@ export const getDriveWriteCapability = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }): Promise<{ hasOAuth: boolean }> => {
     requirePasscode(data.passcode);
-    return { hasOAuth: hasOAuthCredentials() };
+    const config = await getDriveIntegrationConfig();
+    return { hasOAuth: hasOAuthCredentials(config) };
   });
 
 // ---------------------------------------------------------------------

@@ -161,11 +161,17 @@ Create a `.env` file (never commit it) with:
 |---|---|
 | `DATABASE_URL` | Neon Postgres connection string — ratings, admin/integration data, analytics cache |
 | `ADMIN_PASSCODE` | Passcode gating access to `/admin` |
-| `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ZONE_ID` | Used only by the standalone `scripts/analytics-cron` archival job (Zone → Analytics → Read scope) — **not** used by the admin dashboard itself |
-| `CLOUDFLARE_RUM_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID` / `CLOUDFLARE_RUM_SITE_TAG` | Powers the entire admin "Deep analytics" modal — the traffic chart/KPIs/section breakdown and the top pages/countries/devices/browsers/referrers detail — via Cloudflare's account-scoped **Web Analytics (RUM)** GraphQL dataset. Requires an API token with **Account → Analytics → Read** scope (not Zone → Analytics → Read), the account ID, and the beacon's site token — see the `data-cf-beacon` script in `src/routes/__root.tsx` |
-| `GDRIVE_CLIENT_ID` / `GDRIVE_CLIENT_SECRET` / `GDRIVE_REFRESH_TOKEN` | OAuth credentials for a real Google account with Editor access to the resources folder — used for admin Drive **writes** (upload/rename/delete in "Manage resources"); falls back to the Neon-stored service account (read-only safe) when unset |
 | `ISC11_SRC_DIR` | Optional override for the ISC Class 11 raw upload source directory used by the resource pipeline |
 | `NEXT_PUBLIC_APP_TITLE` / `NEXT_PUBLIC_APP_DESCRIPTION` | Public app branding metadata |
+
+`DATABASE_URL` and `ADMIN_PASSCODE` are the **only** app secrets kept as environment variables. Every other third-party credential lives in Neon instead, read at request time rather than from `process.env`:
+
+| Neon table | Columns | Purpose |
+|---|---|---|
+| `cloudflare_integration` | `account_id`, `rum_api_token`, `rum_site_tag` | Powers the entire admin "Deep analytics" modal — the traffic chart/KPIs/section breakdown and the top pages/countries/devices/browsers/referrers detail — via Cloudflare's account-scoped **Web Analytics (RUM)** GraphQL dataset. The token needs **Account → Analytics → Read** scope (not Zone → Analytics → Read); the site tag also drives the `data-cf-beacon` script in `src/routes/__root.tsx`. Read via `getCloudflareIntegrationConfig()` in `src/lib/cloudflare-integration-server.ts`. |
+| `drive_integration` | `service_account_json`, `folder_id` (existing) + `oauth_client_id`, `oauth_client_secret`, `oauth_refresh_token` | The OAuth columns hold a real Google account's credentials with Editor access to the resources folder, used for admin Drive **writes** (upload/rename/delete in "Manage resources"); writes fall back to the service account (read-only safe) when they're unset. Read via `getDriveIntegrationConfig()` in `src/lib/drive-integration-server.ts`. |
+
+The standalone `scripts/analytics-cron` archival job (a separate GitHub Actions cron, not the admin dashboard) still reads `CLOUDFLARE_ZONE_ID`/`CLOUDFLARE_API_TOKEN`/`DATABASE_URL` from its own GitHub Actions secrets, since it runs outside the deployed app and has no access to the app's Neon-stored config — see `.github/workflows/analytics-history-sync.yml`.
 
 Eazo-managed deployment/platform variables are synced automatically and should not be set manually.
 

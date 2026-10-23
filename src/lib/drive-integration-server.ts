@@ -9,15 +9,15 @@
 // token.
 //
 // *Write* operations (upload/rename/delete) instead prefer a real Google
-// account's OAuth credentials from the server environment
-// (GDRIVE_CLIENT_ID/GDRIVE_CLIENT_SECRET/GDRIVE_REFRESH_TOKEN, via
-// getWriteAccessToken below) when configured, falling back to the same
-// service account otherwise. This matters because a service account has
-// no storage quota of its own — Google rejects file creation from one in
-// a regular "shared with me" folder with storageQuotaExceeded even with
-// Editor access (only a Shared Drive or a real account's own quota lets
-// writes succeed there) — whereas a real account with Editor access can
-// write into the target folder as-is.
+// account's OAuth credentials, also stored in the same drive_integration
+// row (oauth_client_id/oauth_client_secret/oauth_refresh_token columns,
+// via getWriteAccessToken below) when configured, falling back to the
+// same service account otherwise. This matters because a service account
+// has no storage quota of its own — Google rejects file creation from one
+// in a regular "shared with me" folder with storageQuotaExceeded even
+// with Editor access (only a Shared Drive or a real account's own quota
+// lets writes succeed there) — whereas a real account with Editor access
+// can write into the target folder as-is.
 //
 // Scope is the full `drive` scope (not drive.readonly) for both paths,
 // since this panel uploads/renames/deletes files in addition to listing
@@ -43,6 +43,7 @@ export type ServiceAccountJson = {
 export type DriveIntegrationConfig = {
   serviceAccount: ServiceAccountJson;
   folderId: string;
+  oauth: OAuthCredentials | null;
 };
 
 export type DriveFileEntry = {
@@ -57,17 +58,34 @@ export type DriveFileEntry = {
 
 /**
  * Reads the single-row Drive integration config (service account JSON +
- * target folder ID) from Neon. Returns null if the row doesn't exist yet,
- * or if `sql` isn't configured (no DATABASE_URL).
+ * target folder ID + optional real-account OAuth credentials) from Neon.
+ * Returns null if the row doesn't exist yet, or if `sql` isn't configured
+ * (no DATABASE_URL).
  */
 export async function getDriveIntegrationConfig(): Promise<DriveIntegrationConfig | null> {
   if (!sql) return null;
   const rows = await sql.query(
-    "SELECT service_account_json, folder_id FROM drive_integration WHERE id = true LIMIT 1"
+    "SELECT service_account_json, folder_id, oauth_client_id, oauth_client_secret, oauth_refresh_token FROM drive_integration WHERE id = true LIMIT 1"
   );
-  const row = rows[0] as { service_account_json: ServiceAccountJson; folder_id: string } | undefined;
+  const row = rows[0] as
+    | {
+        service_account_json: ServiceAccountJson;
+        folder_id: string;
+        oauth_client_id: string | null;
+        oauth_client_secret: string | null;
+        oauth_refresh_token: string | null;
+      }
+    | undefined;
   if (!row) return null;
-  return { serviceAccount: row.service_account_json, folderId: row.folder_id };
+  const oauth =
+    row.oauth_client_id && row.oauth_client_secret && row.oauth_refresh_token
+      ? {
+          clientId: row.oauth_client_id,
+          clientSecret: row.oauth_client_secret,
+          refreshToken: row.oauth_refresh_token,
+        }
+      : null;
+  return { serviceAccount: row.service_account_json, folderId: row.folder_id, oauth };
 }
 
 // Access tokens are valid for ~1h; cache in module scope so repeated
@@ -77,23 +95,9 @@ const tokenCache = new Map<string, { token: string; expiresAt: number }>();
 
 export type OAuthCredentials = { clientId: string; clientSecret: string; refreshToken: string };
 
-/**
- * Reads a real Google account's OAuth app credentials + refresh token
- * from the server environment (GDRIVE_CLIENT_ID / GDRIVE_CLIENT_SECRET /
- * GDRIVE_REFRESH_TOKEN). Returns null when any of the three is missing,
- * so callers can fall back to the Neon-stored service account instead.
- */
-function getOAuthCredentialsFromEnv(): OAuthCredentials | null {
-  const clientId = process.env["GDRIVE_CLIENT_ID"];
-  const clientSecret = process.env["GDRIVE_CLIENT_SECRET"];
-  const refreshToken = process.env["GDRIVE_REFRESH_TOKEN"];
-  if (!clientId || !clientSecret || !refreshToken) return null;
-  return { clientId, clientSecret, refreshToken };
-}
-
-/** True when GDRIVE_CLIENT_ID/SECRET/REFRESH_TOKEN are all configured. */
-export function hasOAuthCredentials(): boolean {
-  return getOAuthCredentialsFromEnv() !== null;
+/** True when the drive_integration row has oauth_client_id/secret/refresh_token all set. */
+export function hasOAuthCredentials(config: DriveIntegrationConfig | null): boolean {
+  return config?.oauth != null;
 }
 
 let oauthTokenCache: { token: string; expiresAt: number } | null = null;
@@ -302,16 +306,16 @@ export async function listDriveFolderFiles(
 
 /**
  * Returns an access token for Drive write operations, preferring the
- * OAuth-authenticated real Google account (GDRIVE_CLIENT_ID/SECRET/
- * REFRESH_TOKEN) over the Neon-stored service account when both are
- * configured. A real account has its own storage quota and can create
- * files in a folder it merely has Editor access to — a service account
- * cannot (see the storageQuotaExceeded note below) — so
- * uploads/deletes/renames should always prefer it when available.
+ * OAuth-authenticated real Google account (oauth_client_id/secret/
+ * refresh_token on the drive_integration row) over the Neon-stored
+ * service account when both are configured. A real account has its own
+ * storage quota and can create files in a folder it merely has Editor
+ * access to — a service account cannot (see the storageQuotaExceeded
+ * note below) — so uploads/deletes/renames should always prefer it when
+ * available.
  */
 async function getWriteAccessToken(config: DriveIntegrationConfig): Promise<string> {
-  const oauth = getOAuthCredentialsFromEnv();
-  if (oauth) return getOAuthAccessToken(oauth);
+  if (config.oauth) return getOAuthAccessToken(config.oauth);
   return getDriveAccessToken(config.serviceAccount);
 }
 
@@ -377,7 +381,7 @@ export async function uploadDriveFile(
     if (bodyText.includes("storageQuotaExceeded")) {
       throw new Error(
         "Google rejected the upload: service accounts have no storage quota in a regular \"My Drive\" " +
-          "folder. Configure GDRIVE_CLIENT_ID/GDRIVE_CLIENT_SECRET/GDRIVE_REFRESH_TOKEN for a real Google " +
+          "folder. Set oauth_client_id/oauth_client_secret/oauth_refresh_token on the drive_integration row for a real Google " +
           "account with Editor access instead, or move the target folder into a Shared Drive."
       );
     }

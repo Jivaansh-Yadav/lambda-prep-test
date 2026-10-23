@@ -441,9 +441,9 @@ function AdminPage() {
                 <span className="font-mono">Account → Analytics → Read</span> permission.
               </li>
               <li>
-                Set <span className="font-mono">CLOUDFLARE_ACCOUNT_ID</span>,{' '}
-                <span className="font-mono">CLOUDFLARE_RUM_API_TOKEN</span> and{' '}
-                <span className="font-mono">CLOUDFLARE_RUM_SITE_TAG</span> in the server environment, then refresh.
+                Set <span className="font-mono">account_id</span>,{' '}
+                <span className="font-mono">rum_api_token</span> and{' '}
+                <span className="font-mono">rum_site_tag</span> on the <span className="font-mono">cloudflare_integration</span> row in Neon, then refresh.
               </li>
             </ol>
           </CardContent>
@@ -580,9 +580,9 @@ function RumAnalyticsSection({
               <span className="font-mono">Account → Analytics → Read</span> permission.
             </li>
             <li>
-              Set <span className="font-mono">CLOUDFLARE_ACCOUNT_ID</span>,{' '}
-              <span className="font-mono">CLOUDFLARE_RUM_API_TOKEN</span> and{' '}
-              <span className="font-mono">CLOUDFLARE_RUM_SITE_TAG</span> in the server environment, then refresh.
+              Set <span className="font-mono">account_id</span>,{' '}
+              <span className="font-mono">rum_api_token</span> and{' '}
+              <span className="font-mono">rum_site_tag</span> on the <span className="font-mono">cloudflare_integration</span> row in Neon, then refresh.
             </li>
           </ol>
         </CardContent>
@@ -1094,9 +1094,9 @@ function ManageResourcesCard() {
               <div className="mb-4 rounded-lg border border-amber-500/30 bg-amber-500/10 p-3">
                 <p className="text-xs text-amber-700 dark:text-amber-400">
                   Uploads may fail: no real Google account is configured for Drive writes (only the
-                  read-only service account). Set <span className="font-mono">GDRIVE_CLIENT_ID</span>,{' '}
-                  <span className="font-mono">GDRIVE_CLIENT_SECRET</span> and{' '}
-                  <span className="font-mono">GDRIVE_REFRESH_TOKEN</span> in the server environment for an
+                  read-only service account). Set <span className="font-mono">oauth_client_id</span>,{' '}
+                  <span className="font-mono">oauth_client_secret</span> and{' '}
+                  <span className="font-mono">oauth_refresh_token</span> on the <span className="font-mono">drive_integration</span> row in Neon for an
                   account with Editor access to this folder.
                 </p>
               </div>
