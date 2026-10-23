@@ -66,7 +66,7 @@ export function Header() {
     return () => document.removeEventListener('pointerdown', handlePointerDown);
   }, [open]);
 
-  return <header className="site-header"><div className="container header-inner" ref={navRef}><Brand /><Link to="/contribute" onClick={() => setOpen(false)} className="header-contribute-link"><HeartHandshake size={15} /><span>{t('footer.contribute')}</span></Link><nav className={`quick-nav ${open ? 'is-open' : ''}`} aria-label="Main navigation">
+  return <header className="site-header"><div className="container header-inner" ref={navRef}><Brand /><Link to="/contribute" onClick={() => setOpen(false)} className="header-contribute-link"><HeartHandshake size={15} /><span>{t('footer.contribute')}</span><span className="header-contribute-sheen" aria-hidden="true" /></Link><nav className={`quick-nav ${open ? 'is-open' : ''}`} aria-label="Main navigation">
     <Link to="/" onClick={() => setOpen(false)} className={`nav-link ${isHome ? 'nav-active' : ''}`}><Home size={16} />{t('nav.home')}</Link>
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

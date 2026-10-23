@@ -223,6 +223,29 @@
   .dark .header-contribute-link:hover { color: #2a1a00; }
   @property --contribute-angle { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
   @keyframes header-contribute-spin { to { --contribute-angle: 360deg; } }
+  /* On hover, layer the Featured-card's traveling-highlight border effect
+     (same masked-gradient-ring + sheen-animation technique as
+     .resource-group-featured-glow::before) on top of the solid gold fill —
+     a bright patch glides around the pill's edge while the fill stays put. */
+  .header-contribute-sheen {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: 0;
+    padding: 1.5px;
+    background: linear-gradient(120deg, oklch(1 0 0 / 0.0), oklch(1 0.02 95 / 0.95), oklch(1 0 0 / 0.0));
+    background-size: 220% 220%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity .2s ease;
+    pointer-events: none;
+  }
+  .header-contribute-link:hover .header-contribute-sheen {
+    opacity: 1;
+    animation: editors-choice-sheen 2.4s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .header-contribute-link:hover .header-contribute-sheen { animation: none; }
+  }
 
   /* Hero */
   .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; padding-block: 73px 62px; }
