@@ -86,6 +86,22 @@ function NotFoundComponent() {
   // Picked once per mount so the message doesn't shuffle on re-renders.
   const [messageKey] = useState<string>(() => NOTFOUND_MESSAGE_KEYS[Math.floor(Math.random() * NOTFOUND_MESSAGE_KEYS.length)] ?? 'notfound.text');
 
+  // notFoundComponent renders outside the normal route `head()` pipeline, so
+  // this page's own title/robots meta are set directly here instead — a
+  // distinct, non-indexable title rather than inheriting the root default.
+  useEffect(() => {
+    const previousTitle = document.title;
+    document.title = 'Page not found | Lambda Prep';
+    const meta = document.createElement('meta');
+    meta.name = 'robots';
+    meta.content = 'noindex, follow';
+    document.head.appendChild(meta);
+    return () => {
+      document.title = previousTitle;
+      meta.remove();
+    };
+  }, []);
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
