@@ -72,6 +72,12 @@ const NOTFOUND_MESSAGE_KEYS: readonly string[] = [
   'notfound.text4',
   'notfound.text5',
   'notfound.text6',
+  'notfound.text7',
+  'notfound.text8',
+  'notfound.text9',
+  'notfound.text10',
+  'notfound.text11',
+  'notfound.text12',
 ];
 
 function NotFoundComponent() {
