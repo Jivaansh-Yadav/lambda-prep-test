@@ -188,22 +188,41 @@
   .theme-toggle:hover { border-color: color-mix(in oklch, var(--primary) 40%, var(--border)); color: var(--primary); }
 
   /* Header "Contribute a resource" pill — sits right beside the brand mark.
-     Golden gradient card with a lift + glow on hover to draw the eye without
-     competing with the primary nav links. */
+     Idle: transparent card ringed by a slowly spinning golden border (via a
+     masked conic-gradient pseudo-element) so it stays noticeable without
+     looking like a solid CTA. Hover: the ring's gradient takes over the
+     whole fill (golden gradient card) with a lift + glow, and the spin
+     pauses since the ring and fill now read as one solid surface. */
   .header-contribute-link {
+    position: relative; isolation: isolate;
     display: inline-flex; align-items: center; gap: 7px; flex-shrink: 0;
-    font-size: 13.5px; font-weight: 700; color: #4a3200;
-    border: 1px solid oklch(0.78 0.13 80 / 60%); border-radius: 999px; padding: 7px 14px;
-    background: linear-gradient(135deg, oklch(0.88 0.11 90), oklch(0.78 0.15 70), oklch(0.85 0.14 85));
-    box-shadow: 0 1px 4px oklch(0.6 0.12 70 / 25%);
-    transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+    font-size: 13.5px; font-weight: 700; color: var(--amber-ink);
+    border: none; border-radius: 999px; padding: 7px 14px;
+    background: transparent;
+    transition: color .2s ease, transform .2s ease, box-shadow .2s ease;
+  }
+  .header-contribute-link::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -2;
+    background: conic-gradient(from var(--contribute-angle, 0deg), oklch(0.88 0.11 90), oklch(0.78 0.15 70), oklch(0.85 0.14 85), oklch(0.88 0.11 90));
+    animation: header-contribute-spin 2.6s linear infinite;
+  }
+  .header-contribute-link::after {
+    content: ""; position: absolute; inset: 1.5px; border-radius: inherit; z-index: -1;
+    background: var(--chrome);
+    transition: background .2s ease;
   }
   .header-contribute-link:hover {
+    color: #4a3200;
     transform: scale(1.07) translateY(-1px);
     box-shadow: 0 4px 18px oklch(0.75 0.18 75 / 55%), 0 0 22px oklch(0.8 0.2 80 / 45%);
-    filter: brightness(1.05);
   }
-  .dark .header-contribute-link { color: #2a1a00; }
+  .header-contribute-link:hover::before { animation-play-state: paused; }
+  .header-contribute-link:hover::after {
+    background: linear-gradient(135deg, oklch(0.88 0.11 90), oklch(0.78 0.15 70), oklch(0.85 0.14 85));
+  }
+  .dark .header-contribute-link:hover { color: #2a1a00; }
+  @property --contribute-angle { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+  @keyframes header-contribute-spin { to { --contribute-angle: 360deg; } }
 
   /* Hero */
   .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; padding-block: 73px 62px; }
