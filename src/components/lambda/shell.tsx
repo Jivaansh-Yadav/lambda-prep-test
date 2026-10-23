@@ -55,7 +55,7 @@ export function Header() {
     return () => document.removeEventListener('pointerdown', handlePointerDown);
   }, [open]);
 
-  return <header className="site-header"><div className="container header-inner" ref={navRef}><Brand /><nav className={`quick-nav ${open ? 'is-open' : ''}`} aria-label="Main navigation">
+  return <header className="site-header"><div className="container header-inner" ref={navRef}><Brand /><Link to="/contribute" onClick={() => setOpen(false)} className="header-contribute-link"><HeartHandshake size={15} /><span>{t('footer.contribute')}</span></Link><nav className={`quick-nav ${open ? 'is-open' : ''}`} aria-label="Main navigation">
     <Link to="/" onClick={() => setOpen(false)} className={`nav-link ${isHome ? 'nav-active' : ''}`}><Home size={16} />{t('nav.home')}</Link>
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -85,5 +85,5 @@ export function Header() {
 
 export function Footer() {
   const { t } = useI18n();
-  return <footer className="site-footer"><div className="container"><div className="footer-top"><div><Brand /><Link to="/contribute" className="footer-contribute-link"><HeartHandshake size={15} /> {t('footer.contribute')}</Link></div><div className="footer-links"><div><p>{t('footer.tagline')}<br />{t('footer.tagline2')}</p></div></div></div><div className="footer-bottom"><span>{t('footer.copyright')}</span><span className="tiny-lambda"> λ</span></div></div></footer>;
+  return <footer className="site-footer"><div className="container"><div className="footer-top"><div><Brand /></div><div className="footer-links"><div><p>{t('footer.tagline')}<br />{t('footer.tagline2')}</p></div></div></div><div className="footer-bottom"><span>{t('footer.copyright')}</span><span className="tiny-lambda"> λ</span></div></div></footer>;
 }

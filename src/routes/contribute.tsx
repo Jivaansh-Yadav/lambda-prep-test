@@ -8,7 +8,6 @@ import {
   Link2,
   Loader2,
   MessageCircle,
-  Sparkles,
   UploadCloud,
   X,
 } from 'lucide-react';
@@ -31,6 +30,7 @@ export const Route = createFileRoute('/contribute')({
 });
 
 const MAX_UPLOAD_BYTES = 50 * 1024 * 1024;
+const OTHER_SUBJECT_VALUE = '__other__';
 
 type Method = 'upload' | 'link';
 type SubmitState = 'idle' | 'submitting' | 'done' | 'error';
@@ -45,6 +45,7 @@ function ContributePage() {
   // --- Details (shared by both submission paths) ---
   const [classSlug, setClassSlug] = useState('');
   const [subject, setSubject] = useState('');
+  const [customSubject, setCustomSubject] = useState('');
   const [fileName, setFileName] = useState('');
   const [description, setDescription] = useState('');
   const [alias, setAlias] = useState('');
@@ -62,6 +63,8 @@ function ContributePage() {
 
   const selectedClass = classes.find((c) => c.slug === classSlug);
   const subjectOptions = selectedClass ? getSubjects(selectedClass.board) : [];
+  const isOtherSubject = subject === OTHER_SUBJECT_VALUE;
+  const resolvedSubject = isOtherSubject ? customSubject.trim() : subject;
 
   function pickFile(next: File | null) {
     if (!next) {
@@ -84,7 +87,7 @@ function ContributePage() {
     if (dropped) pickFile(dropped);
   }
 
-  const detailsValid = classSlug && subject.trim() && fileName.trim() && contactMethod.trim();
+  const detailsValid = classSlug && (isOtherSubject ? customSubject.trim() : subject.trim()) && fileName.trim() && contactMethod.trim();
   const methodValid = method === 'upload' ? !!file : driveLink.trim().length > 0;
   const canSubmit = detailsValid && methodValid && submitState !== 'submitting';
 
@@ -105,7 +108,7 @@ function ContributePage() {
         form.set('fileName', fileName.trim());
         form.set('classSlug', classSlug);
         form.set('classLabel', classLabel);
-        form.set('subject', subject);
+        form.set('subject', resolvedSubject);
         form.set('description', description.trim());
         form.set('contributorAlias', alias.trim());
         form.set('contactMethod', contactMethod.trim());
@@ -123,7 +126,7 @@ function ContributePage() {
             fileName: fileName.trim(),
             classSlug,
             classLabel,
-            subject,
+            subject: resolvedSubject,
             description: description.trim(),
             contributorAlias: alias.trim(),
             contactMethod: contactMethod.trim(),
@@ -146,6 +149,7 @@ function ContributePage() {
   function resetForm() {
     setClassSlug('');
     setSubject('');
+    setCustomSubject('');
     setFileName('');
     setDescription('');
     setAlias('');
@@ -210,6 +214,7 @@ function ContributePage() {
                 onValueChange={(next) => {
                   setClassSlug(next);
                   setSubject('');
+                  setCustomSubject('');
                 }}
               >
                 <SelectTrigger id="contribute-class">
@@ -237,8 +242,19 @@ function ContributePage() {
                       {s.name}
                     </SelectItem>
                   ))}
+                  <SelectItem value={OTHER_SUBJECT_VALUE}>Other</SelectItem>
                 </SelectContent>
               </Select>
+              {isOtherSubject && (
+                <Input
+                  id="contribute-subject-other"
+                  className="contribute-subject-other-input"
+                  placeholder="Type the subject name"
+                  value={customSubject}
+                  onChange={(e) => setCustomSubject(e.target.value)}
+                  maxLength={100}
+                />
+              )}
             </div>
 
             <div className="contribute-field contribute-field-wide">
@@ -356,14 +372,6 @@ function ContributePage() {
               </p>
             </div>
           )}
-
-          <div className="contribute-trouble">
-            <Sparkles size={15} />
-            <span>
-              Having trouble uploading? Switch to <strong>Share a Drive link</strong> above — upload the file
-              to your own Drive, turn on link sharing, and paste it here instead.
-            </span>
-          </div>
         </section>
 
         {/* Step 3 — contact */}
