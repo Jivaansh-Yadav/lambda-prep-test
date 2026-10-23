@@ -184,7 +184,7 @@ function ContactMessageDialog({ open, onOpenChange }: ContactMessageDialogProps)
               </div>
               <div className="contact-dialog-field">
                 <Label htmlFor="contact-social">Discord or Reddit <span className="contact-dialog-optional">(optional)</span></Label>
-                <Input id="contact-social" value={socialHandle} onChange={(e) => setSocialHandle(e.target.value)} maxLength={200} placeholder="e.g. username#1234 or u/yourname" />
+                <Input id="contact-social" value={socialHandle} onChange={(e) => setSocialHandle(e.target.value)} maxLength={200} placeholder="e.g. @username or u/username" />
               </div>
               <div className="contact-dialog-field">
                 <Label htmlFor="contact-message">Message</Label>
