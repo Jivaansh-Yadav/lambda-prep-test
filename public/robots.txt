@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://lambda-prep-test.pages.dev/sitemap.xml
+Sitemap: https://project-3354c0eb.eazo.dev/sitemap.xml
