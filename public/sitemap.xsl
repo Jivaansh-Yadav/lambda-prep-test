@@ -56,7 +56,7 @@
             border: 1px solid var(--border);
           }
           .priority-high { background: rgba(0,102,255,0.1); color: var(--primary-deep); border-color: rgba(0,102,255,0.25); }
-          .freq { color: var(--muted-foreground); font-size: 13px; text-transform: capitalize; }
+          .freq { color: var(--muted-foreground); font-size: 13px; font-variant-numeric: tabular-nums; }
           .footer-note { margin-top: 28px; font-size: 12px; color: var(--muted-foreground); text-align: center; }
           .footer-note a { color: var(--primary); text-decoration: none; }
           .footer-note a:hover { text-decoration: underline; }
@@ -88,7 +88,7 @@
               <tr>
                 <th>URL</th>
                 <th>Priority</th>
-                <th>Change frequency</th>
+                <th>Last modified</th>
               </tr>
             </thead>
             <tbody>
@@ -109,7 +109,7 @@
                     </xsl:choose>
                   </td>
                   <td>
-                    <span class="freq"><xsl:value-of select="sm:changefreq"/></span>
+                    <span class="freq"><xsl:value-of select="sm:lastmod"/></span>
                   </td>
                 </tr>
               </xsl:for-each>
