@@ -152,11 +152,6 @@ function RootShell({ children }: { children: ReactNode }) {
           src="https://static.cloudflareinsights.com/beacon.min.js"
           data-cf-beacon='{"token": "a9d4d976f92b48ed89669f9959c889de"}'
         ></script>
-        <script
-          defer
-          src="https://cdn.eazo.ai/branding/eazo-brand-banner.js"
-          data-eazo-app-id="i09GkkEAEpnvvjcT"
-        ></script>
       </head>
       <body>
         {children}
