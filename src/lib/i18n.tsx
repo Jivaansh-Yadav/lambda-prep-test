@@ -61,6 +61,7 @@ const en: Dict = {
   'footer.tagline': 'Better resources. Clearer understanding.',
   'footer.tagline2': 'A stronger foundation for what\u2019s next.',
   'footer.copyright': '\u00a9 2026 Lambda Education Pvt. Ltd. All rights reserved.',
+  'footer.contribute': 'Contribute a resource',
 
   'resources.title': 'Your resource library',
   'resources.intro': 'Choose where you want your resources from, then pick your class.',

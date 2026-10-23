@@ -26,6 +26,8 @@ import {
   Folder,
   FolderOpen,
   GitCommit,
+  HeartHandshake,
+  Link2,
   Loader2,
   MessageSquareText,
   Pencil,
@@ -33,6 +35,7 @@ import {
   Star,
   Trash2,
   TrendingUp,
+  UploadCloud,
   Users,
   X,
 } from 'lucide-react';
@@ -64,6 +67,13 @@ import {
   type AdminResourceStatsResult,
   type AdminLatestCommitResult,
 } from '@/lib/admin-server';
+import {
+  getAdminContributions,
+  updateContributionStatus,
+  type AdminContributionRow,
+  type AdminContributionsResult,
+  type ContributionStatus,
+} from '@/lib/contribute-server';
 import type { WorkflowRunStatus } from '@/lib/github-integration-server';
 import type { DriveFileEntry } from '@/lib/drive-integration-server';
 import { getFileKind, type FileKind } from '@/lib/resources-data';
@@ -73,8 +83,8 @@ function isDriveFolder(entry: DriveFileEntry): boolean {
   return entry.mimeType === DRIVE_FOLDER_MIME;
 }
 
-type AdminSection = 'analytics' | 'manage' | 'stats';
-const ADMIN_SECTIONS: AdminSection[] = ['analytics', 'manage', 'stats'];
+type AdminSection = 'analytics' | 'manage' | 'stats' | 'contributions';
+const ADMIN_SECTIONS: AdminSection[] = ['analytics', 'manage', 'stats', 'contributions'];
 
 interface AdminSearch {
   section?: AdminSection | undefined;
@@ -236,6 +246,7 @@ function AdminPage() {
       analytics: { title: 'Deep analytics', icon: <Activity size={18} /> },
       manage: { title: 'Manage resources', icon: <FolderOpen size={18} /> },
       stats: { title: 'Resource stats', icon: <Star size={18} /> },
+      contributions: { title: 'Contributed resources', icon: <HeartHandshake size={18} /> },
     };
     const meta = SECTION_META[openSection];
     return (
@@ -341,6 +352,8 @@ function AdminPage() {
         {openSection === 'manage' && <ManageResourcesCard />}
 
         {openSection === 'stats' && <ResourceStatsCard />}
+
+        {openSection === 'contributions' && <ContributedResourcesCard />}
       </div>
     );
   }
@@ -419,7 +432,7 @@ function AdminPage() {
           and a trailing chevron mark the whole row as actionable, visually
           distinct from the read-only Analytics group above. */}
       <p className="admin-group-label">Manage</p>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <CategoryCard
           accent="indigo-deep"
           icon={<Activity size={20} />}
@@ -441,6 +454,13 @@ function AdminPage() {
           description="Ratings, feedback, views and shares for every resource file."
           onClick={() => setOpenSection('stats')}
         />
+        <CategoryCard
+          accent="rose"
+          icon={<HeartHandshake size={20} />}
+          title="Contributed resources"
+          description="Review resources submitted via the public /contribute form."
+          onClick={() => setOpenSection('contributions')}
+        />
       </div>
     </div>
   );
@@ -454,7 +474,7 @@ const SECTION_COLORS = ['#6366f1', '#22c55e'];
  * uses cool blue/violet/sky accents; the Manage group (CategoryCard) uses a
  * deeper indigo plus warm emerald/amber — distinct palettes so the two
  * show-only vs clickable rows read as separate categories at a glance. */
-type Accent = 'indigo' | 'violet' | 'sky' | 'indigo-deep' | 'emerald' | 'amber';
+type Accent = 'indigo' | 'violet' | 'sky' | 'indigo-deep' | 'emerald' | 'amber' | 'rose';
 
 /** The analytics lookback-window toggle shown next to the top-level
  * dashboard header and again inside the Deep analytics page — a single
@@ -1572,5 +1592,210 @@ function StatsModal({
         </div>
       </div>
     </div>
+  );
+}
+
+const CONTRIBUTION_STATUS_META: Record<ContributionStatus, { label: string; className: string }> = {
+  pending: { label: 'Pending', className: 'contribution-badge-pending' },
+  approved: { label: 'Approved', className: 'contribution-badge-approved' },
+  rejected: { label: 'Rejected', className: 'contribution-badge-rejected' },
+};
+
+/** "Contributed resources" panel: lists every row from resource_contributions
+ * (newest first) submitted via the public /contribute form, with a status
+ * badge, the submitted details, a link to the uploaded Drive file or the
+ * contributor's own shared link, and inline approve/reject actions. Doesn't
+ * touch Drive or the live resource datasets itself — approving here is just
+ * a review decision; actually folding an approved resource into the public
+ * library is still the admin's existing "Manage resources" / "Update
+ * resource datasets" workflow. */
+function ContributedResourcesCard() {
+  const [state, setState] = useState<AdminContributionsResult | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [filter, setFilter] = useState<ContributionStatus | 'all'>('all');
+  const [updatingId, setUpdatingId] = useState<number | null>(null);
+  const [expandedId, setExpandedId] = useState<number | null>(null);
+
+  function getPasscode() {
+    return adminSessionPasscode ?? '';
+  }
+
+  async function load() {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await getAdminContributions({ data: { passcode: getPasscode() } });
+      setState(data);
+    } catch {
+      setError('Could not load contributions.');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    void load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  async function setStatus(row: AdminContributionRow, status: ContributionStatus) {
+    setUpdatingId(row.id);
+    try {
+      const res = await updateContributionStatus({ data: { passcode: getPasscode(), id: row.id, status } });
+      if (res.ok) {
+        setState((prev) =>
+          prev && prev.configured
+            ? { ...prev, contributions: prev.contributions.map((c) => (c.id === row.id ? { ...c, status } : c)) }
+            : prev,
+        );
+      } else {
+        setError(res.reason);
+      }
+    } catch {
+      setError('Could not update this contribution. Try again.');
+    } finally {
+      setUpdatingId(null);
+    }
+  }
+
+  const rows = state?.configured ? state.contributions : [];
+  const visibleRows = filter === 'all' ? rows : rows.filter((r) => r.status === filter);
+  const counts = {
+    all: rows.length,
+    pending: rows.filter((r) => r.status === 'pending').length,
+    approved: rows.filter((r) => r.status === 'approved').length,
+    rejected: rows.filter((r) => r.status === 'rejected').length,
+  };
+
+  return (
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between gap-2">
+        <div className="flex items-center gap-1.5">
+          {(['all', 'pending', 'approved', 'rejected'] as const).map((key) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => setFilter(key)}
+              className={`contribution-filter-tab ${filter === key ? 'is-active' : ''}`}
+            >
+              {key === 'all' ? 'All' : CONTRIBUTION_STATUS_META[key].label} · {counts[key]}
+            </button>
+          ))}
+        </div>
+        <Button variant="outline" size="sm" onClick={() => void load()} disabled={loading}>
+          {loading ? 'Refreshing…' : 'Refresh'}
+        </Button>
+      </CardHeader>
+      <CardContent>
+        <p className="mb-4 text-xs text-muted-foreground">
+          Every submission from the public <span className="font-mono">/contribute</span> form — review the
+          file or link, then approve or reject. Approving doesn't publish it automatically; fold it into the
+          real resource folders via Manage resources, then re-run Update resource datasets.
+        </p>
+
+        {error && <p className="mb-4 text-sm text-destructive">{error}</p>}
+
+        {state && !state.configured && (
+          <div className="rounded-lg border bg-muted/30 p-4">
+            <p className="text-sm font-medium text-foreground">{state.reason}</p>
+          </div>
+        )}
+
+        {state?.configured && visibleRows.length === 0 && (
+          <p className="text-sm text-muted-foreground">No contributions {filter === 'all' ? 'yet' : `with status "${filter}"`}.</p>
+        )}
+
+        {state?.configured && visibleRows.length > 0 && (
+          <div className="space-y-3">
+            {visibleRows.map((row) => {
+              const badge = CONTRIBUTION_STATUS_META[row.status];
+              const expanded = expandedId === row.id;
+              return (
+                <div key={row.id} className="contribution-row">
+                  <button
+                    type="button"
+                    className="contribution-row-main"
+                    onClick={() => setExpandedId(expanded ? null : row.id)}
+                  >
+                    <span className="contribution-row-icon">
+                      {row.submissionType === 'upload' ? <UploadCloud size={16} /> : <Link2 size={16} />}
+                    </span>
+                    <span className="contribution-row-title">
+                      <span className="contribution-row-filename" title={row.fileName}>{row.fileName}</span>
+                      <span className="contribution-row-meta">
+                        {row.classLabel} · {row.subject} · {formatDateTime(row.createdAt)}
+                      </span>
+                    </span>
+                    <span className={`contribution-badge ${badge.className}`}>{badge.label}</span>
+                  </button>
+
+                  {expanded && (
+                    <div className="contribution-row-detail">
+                      {row.description && (
+                        <p className="contribution-detail-line">
+                          <span className="contribution-detail-label">Description</span> {row.description}
+                        </p>
+                      )}
+                      {row.contributorAlias && (
+                        <p className="contribution-detail-line">
+                          <span className="contribution-detail-label">From</span> {row.contributorAlias}
+                        </p>
+                      )}
+                      <p className="contribution-detail-line">
+                        <span className="contribution-detail-label">Contact</span> {row.contactMethod}
+                      </p>
+                      <p className="contribution-detail-line">
+                        <span className="contribution-detail-label">File</span>{' '}
+                        {row.driveFileLink ? (
+                          <a href={row.driveFileLink} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-primary hover:underline">
+                            Uploaded file <ExternalLink size={13} />
+                          </a>
+                        ) : row.sharedDriveLink ? (
+                          <a href={row.sharedDriveLink} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-primary hover:underline break-all">
+                            {row.sharedDriveLink} <ExternalLink size={13} />
+                          </a>
+                        ) : (
+                          '—'
+                        )}
+                      </p>
+
+                      <div className="contribution-actions">
+                        <Button
+                          size="sm"
+                          variant={row.status === 'approved' ? 'secondary' : 'default'}
+                          disabled={updatingId === row.id}
+                          onClick={() => void setStatus(row, 'approved')}
+                        >
+                          Approve
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant={row.status === 'rejected' ? 'secondary' : 'outline'}
+                          disabled={updatingId === row.id}
+                          onClick={() => void setStatus(row, 'rejected')}
+                        >
+                          Reject
+                        </Button>
+                        {row.status !== 'pending' && (
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            disabled={updatingId === row.id}
+                            onClick={() => void setStatus(row, 'pending')}
+                          >
+                            Reset to pending
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </CardContent>
+    </Card>
   );
 }

@@ -289,6 +289,13 @@
   .footer-top .brand > span { font-size: 30px; }
   .footer-top .brand img { width: 44px; height: 44px; }
   .footer-top p { color: var(--muted-foreground); font-size: 16px; line-height: 1.8; margin-top: 8px; }
+  .footer-contribute-link {
+    display: inline-flex; align-items: center; gap: 7px; margin-top: 14px;
+    font-size: 13.5px; font-weight: 600; color: var(--muted-foreground);
+    border: 1px solid var(--border); border-radius: 999px; padding: 7px 14px;
+    transition: color .15s, border-color .15s, background .15s;
+  }
+  .footer-contribute-link:hover { color: var(--primary); border-color: color-mix(in oklch, var(--primary) 40%, var(--border)); background: var(--blue-soft); }
   .footer-links { display: flex; gap: 85px; padding-right: 50px; }
   .footer-links > div { display: flex; flex-direction: column; gap: 5px; font-size: 16px; font-weight: 400; }
   .footer-links > div > span { font-size: 12px; letter-spacing: 1px; color: var(--quiet); margin-bottom: 6px; font-weight: 300; }
@@ -599,6 +606,8 @@
 .admin-category-card-emerald .admin-category-icon { background: oklch(0.87 0.09 155); color: oklch(0.42 0.16 155); }
 .admin-category-card-amber { background: linear-gradient(145deg, oklch(0.92 0.07 85), oklch(0.97 0.025 85) 60%, var(--card)); border-color: oklch(0.76 0.12 85); }
 .admin-category-card-amber .admin-category-icon { background: oklch(0.87 0.1 85); color: oklch(0.46 0.15 70); }
+.admin-category-card-rose { background: linear-gradient(145deg, oklch(0.92 0.06 10), oklch(0.97 0.02 10) 60%, var(--card)); border-color: oklch(0.76 0.1 10); }
+.admin-category-card-rose .admin-category-icon { background: oklch(0.87 0.09 10); color: oklch(0.46 0.16 10); }
 
 /* Trailing chevron, clickable cards only — a small affordance that slides
    right on hover to reinforce "this opens something", absent from the
@@ -1243,3 +1252,150 @@ body.pseudo-fullscreen-open { overflow: hidden; }
   .doxx-row { padding: 13px 14px; font-size: 15px; gap: 10px; }
   .doxx-row-meta { display: none; }
 }
+
+/* Contribute a resource page — a three-step form (details / method /
+   contact) laid out as stacked cards, matching the content-page shell
+   every other standalone page (syllabus, resources) already uses. */
+.contribute-page { max-width: 760px; }
+.contribute-form { margin-top: 32px; display: flex; flex-direction: column; gap: 22px; }
+.contribute-section {
+  border: 1px solid var(--border); border-radius: 14px; background: var(--card);
+  padding: 26px 26px 28px; box-shadow: 0 1px 2px oklch(0.2 0.03 260 / 4%);
+}
+.contribute-section-title {
+  display: flex; align-items: center; gap: 12px; font-size: 17px; font-weight: 700;
+  letter-spacing: -0.01em; margin: 0 0 20px;
+}
+.contribute-step {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+  background: var(--blue-soft); color: var(--primary); font-size: 13px; font-weight: 700;
+}
+.contribute-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+.contribute-field { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+.contribute-field-wide { grid-column: 1 / -1; }
+.contribute-field label { font-size: 13px; font-weight: 600; color: var(--foreground); }
+.contribute-hint {
+  display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--muted-foreground);
+  margin-top: 2px; line-height: 1.5;
+}
+
+.contribute-method-tabs { display: flex; gap: 8px; margin-bottom: 18px; }
+.contribute-method-tab {
+  display: inline-flex; align-items: center; gap: 7px; padding: 9px 16px;
+  border: 1px solid var(--border); border-radius: 8px; background: var(--background);
+  color: var(--muted-foreground); font-size: 13.5px; font-weight: 600; cursor: pointer;
+  transition: border-color .15s, color .15s, background .15s;
+}
+.contribute-method-tab:hover { color: var(--foreground); border-color: color-mix(in oklch, var(--primary) 35%, var(--border)); }
+.contribute-method-tab.is-active {
+  background: var(--blue-soft); color: var(--primary); border-color: color-mix(in oklch, var(--primary) 45%, var(--border));
+}
+
+.contribute-dropzone {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px; text-align: center; padding: 40px 24px; border: 1.5px dashed var(--border);
+  border-radius: 12px; background: var(--muted); color: var(--muted-foreground);
+  cursor: pointer; transition: border-color .18s, background .18s, transform .12s;
+}
+.contribute-dropzone:hover { border-color: color-mix(in oklch, var(--primary) 40%, var(--border)); background: color-mix(in oklch, var(--primary) 4%, var(--muted)); }
+.contribute-dropzone.is-dragover {
+  border-color: var(--primary); background: color-mix(in oklch, var(--primary) 8%, var(--muted));
+  transform: scale(1.005);
+}
+.contribute-dropzone svg { color: var(--primary); }
+.contribute-dropzone-title { font-size: 14.5px; font-weight: 600; color: var(--foreground); margin: 0; }
+.contribute-dropzone-subtitle { font-size: 12.5px; margin: 0; }
+.contribute-dropzone.has-file { padding: 18px 20px; cursor: default; }
+.contribute-dropzone-file { display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; }
+.contribute-dropzone-file svg { flex-shrink: 0; color: var(--primary); }
+.contribute-dropzone-file-meta { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.contribute-dropzone-file-name { font-size: 14px; font-weight: 600; color: var(--foreground); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.contribute-dropzone-file-size { font-size: 12px; color: var(--muted-foreground); }
+.contribute-dropzone-remove {
+  flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--background); color: var(--muted-foreground); cursor: pointer;
+}
+.contribute-dropzone-remove:hover { color: var(--destructive); border-color: color-mix(in oklch, var(--destructive) 40%, var(--border)); }
+
+.contribute-link-field { display: flex; flex-direction: column; gap: 7px; }
+.contribute-link-field label { font-size: 13px; font-weight: 600; color: var(--foreground); }
+
+.contribute-trouble {
+  display: flex; align-items: flex-start; gap: 9px; margin-top: 16px; padding: 12px 14px;
+  border-radius: 10px; background: var(--amber-soft); color: var(--amber-ink);
+  font-size: 12.5px; line-height: 1.6;
+}
+.contribute-trouble svg { flex-shrink: 0; margin-top: 2px; }
+
+.contribute-error {
+  font-size: 13.5px; color: var(--destructive); background: color-mix(in oklch, var(--destructive) 8%, transparent);
+  border: 1px solid color-mix(in oklch, var(--destructive) 25%, var(--border)); border-radius: 10px; padding: 12px 16px;
+}
+
+.contribute-submit-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+}
+.contribute-submit-note { font-size: 12.5px; color: var(--muted-foreground); line-height: 1.6; max-width: 420px; }
+.contribute-submit-note a { display: inline-flex; align-items: center; gap: 3px; color: var(--primary); }
+.contribute-submit-note a:hover { text-decoration: underline; }
+
+.contribute-success {
+  max-width: 440px; margin: 60px auto; display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: 14px; animation: fade-slide-up .3s ease-out;
+}
+.contribute-success-icon {
+  display: inline-flex; align-items: center; justify-content: center; width: 72px; height: 72px;
+  border-radius: 50%; background: var(--green-soft); color: var(--green-ink); margin-bottom: 6px;
+}
+.contribute-success p { color: var(--muted-foreground); font-size: 15px; line-height: 1.7; }
+.contribute-success button { margin-top: 8px; }
+
+@media (max-width: 640px) {
+  .contribute-grid { grid-template-columns: 1fr; }
+  .contribute-section { padding: 20px 18px 22px; }
+  .contribute-method-tabs { flex-direction: column; }
+  .contribute-submit-row { flex-direction: column-reverse; align-items: stretch; }
+  .contribute-submit-row button { width: 100%; }
+}
+
+/* Admin "Contributed resources" panel — status filter tabs + a stacked
+   list of submissions, each row a one-line summary that expands into
+   full detail + approve/reject actions on click. Mirrors the existing
+   manage-resources-row interaction pattern (click to expand) without
+   reusing its class names, since this row has a very different shape
+   (badge + expandable detail block vs. inline rename/delete icons). */
+.contribution-filter-tab {
+  padding: 7px 13px; border-radius: 999px; border: 1px solid var(--border);
+  background: var(--background); color: var(--muted-foreground); font-size: 12.5px;
+  font-weight: 600; cursor: pointer; transition: border-color .15s, color .15s, background .15s;
+}
+.contribution-filter-tab:hover { color: var(--foreground); }
+.contribution-filter-tab.is-active { background: var(--blue-soft); color: var(--primary); border-color: color-mix(in oklch, var(--primary) 40%, var(--border)); }
+
+.contribution-row { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--card); }
+.contribution-row-main {
+  display: flex; align-items: center; gap: 12px; width: 100%; padding: 13px 16px;
+  background: none; border: none; text-align: left; cursor: pointer; font-family: inherit;
+}
+.contribution-row-icon {
+  display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+  width: 32px; height: 32px; border-radius: 8px; background: var(--muted); color: var(--primary);
+}
+.contribution-row-title { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.contribution-row-filename { font-size: 14px; font-weight: 600; color: var(--foreground); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.contribution-row-meta { font-size: 12px; color: var(--muted-foreground); }
+
+.contribution-badge { flex-shrink: 0; padding: 4px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 700; letter-spacing: .02em; }
+.contribution-badge-pending { background: var(--amber-soft); color: var(--amber-ink); }
+.contribution-badge-approved { background: var(--green-soft); color: var(--green-ink); }
+.contribution-badge-rejected { background: color-mix(in oklch, var(--destructive) 14%, transparent); color: var(--destructive); }
+
+.contribution-row-detail {
+  padding: 4px 16px 16px; border-top: 1px solid var(--border); display: flex;
+  flex-direction: column; gap: 8px;
+}
+.contribution-detail-line { font-size: 13px; color: var(--foreground); line-height: 1.6; margin: 0; word-break: break-word; }
+.contribution-detail-label { font-weight: 600; color: var(--muted-foreground); margin-right: 4px; }
+.contribution-actions { display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap; }

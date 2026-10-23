@@ -1,4 +1,4 @@
-import { createServerFn } from "@tanstack/react-start";
+import { createServerFn, createServerOnlyFn } from "@tanstack/react-start";
 import { getRequestIP } from "@tanstack/react-start/server";
 import { sql } from "./db";
 import {
@@ -111,7 +111,7 @@ function verifyPasscode(passcode: string): { ok: boolean; lockedOutMs?: number }
   return { ok: false };
 }
 
-function requirePasscode(passcode: string) {
+export const requirePasscode = createServerOnlyFn((passcode: string) => {
   const { ok, lockedOutMs } = verifyPasscode(passcode);
   if (!ok) {
     if (lockedOutMs) {
@@ -119,7 +119,7 @@ function requirePasscode(passcode: string) {
     }
     throw new Error("Unauthorized");
   }
-}
+});
 
 // Daily bucket for the traffic chart. Both numbers come from the same
 // account-scoped Web Analytics (RUM) dataset the beacon in __root.tsx
