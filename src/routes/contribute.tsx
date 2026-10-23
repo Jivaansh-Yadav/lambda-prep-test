@@ -403,9 +403,17 @@ function ContributePage() {
             <a href="https://www.reddit.com/r/ICSE" target="_blank" rel="noreferrer">
               r/ICSE
             </a>{' '}
+            and{' '}
+            <a href="https://www.reddit.com/r/ISCNERDS/" target="_blank" rel="noreferrer">
+              r/ISCNERDS
+            </a>{' '}
             or{' '}
             <a href="https://discord.gg/7daJugjUA3" target="_blank" rel="noreferrer">
-              ICSEcord <ExternalLink size={12} />
+              ICSEcord
+            </a>{' '}
+            and{' '}
+            <a href="https://discord.gg/7daJugjUA3" target="_blank" rel="noreferrer">
+              ISCcord <ExternalLink size={12} />
             </a>
             .
           </p>

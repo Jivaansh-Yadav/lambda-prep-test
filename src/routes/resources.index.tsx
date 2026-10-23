@@ -15,7 +15,7 @@ function Resources() {
       <Link to="/resources/community" className="source-card tone-green">
         <span className="subject-icon"><UsersRound /></span>
         <h3>{t('resources.community.title')}</h3>
-        <p>{t('resources.community.descPrefix')} <a href="https://www.reddit.com/r/ICSE" target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()}>r/ICSE</a> {t('resources.community.descMid')} <a href="https://discord.gg/7daJugjUA3" target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()}>ICSEcord</a> {t('resources.community.descSuffix')}</p>
+        <p>{t('resources.community.descPrefix')} <a href="https://www.reddit.com/r/ICSE" target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()}>r/ICSE</a> and <a href="https://www.reddit.com/r/ISCNERDS/" target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()}>r/ISCNERDS</a> {t('resources.community.descMid')} <a href="https://discord.gg/7daJugjUA3" target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()}>ICSEcord</a> and <a href="https://discord.gg/7daJugjUA3" target="_blank" rel="noreferrer" onClick={e => e.stopPropagation()}>ISCcord</a> {t('resources.community.descSuffix')}</p>
         <div className="card-bottom">{t('resources.explore')} <ArrowUpRight size={18} /></div>
       </Link>
       <Link to="/resources/cisce" className="source-card tone-blue">

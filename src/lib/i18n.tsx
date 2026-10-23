@@ -151,10 +151,10 @@ const en: Dict = {
   'resources.community.title': 'Community Resources',
   'resources.community.descPrefix': 'Notes, papers and resources shared by the student community \u2014 including',
   'resources.community.descMid': 'on Reddit and the',
-  'resources.community.descSuffix': 'Discord server.',
+  'resources.community.descSuffix': 'Discord servers.',
   'resources.community.disclaimerPrefix': 'These resources are contributed and shared by the student community, not by Lambda Prep \u2014 including',
   'resources.community.disclaimerMid': 'on Reddit and the',
-  'resources.community.disclaimerSuffix': 'Discord server. All rights and ownership remain with their original creators and communities. Lambda Prep only links to this content for your convenience and does not create, edit, host or verify it. For any issues, errors or concerns about this content, please contact the respective community directly.',
+  'resources.community.disclaimerSuffix': 'Discord servers. All rights and ownership remain with their original creators and communities. Lambda Prep only links to this content for your convenience and does not create, edit, host or verify it. For any issues, errors or concerns about this content, please contact the respective community directly.',
 
   'syllabus.title': 'Your syllabus, in focus',
   'syllabus.subtitle': 'ICSE and ISC \u00b7 2026-27 reference curriculum',

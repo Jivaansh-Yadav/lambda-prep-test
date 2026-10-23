@@ -492,7 +492,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
   const disclaimer = source === 'community' ? (
     <div className="doxx-disclaimer">
       <div className="doxx-disclaimer-title"><MessageCircle size={15} style={{ display: 'inline', marginRight: 6, verticalAlign: -2 }} />About community resources</div>
-      <p>{t('resources.community.disclaimerPrefix')} <a href="https://www.reddit.com/r/icse/" target="_blank" rel="noreferrer">r/ICSE</a> {t('resources.community.disclaimerMid')} <a href="https://discord.gg/7daJugjUA3" target="_blank" rel="noreferrer">ICSEcord</a> {t('resources.community.disclaimerSuffix')}</p>
+      <p>{t('resources.community.disclaimerPrefix')} <a href="https://www.reddit.com/r/icse/" target="_blank" rel="noreferrer">r/ICSE</a> and <a href="https://www.reddit.com/r/ISCNERDS/" target="_blank" rel="noreferrer">r/ISCNERDS</a> {t('resources.community.disclaimerMid')} <a href="https://discord.gg/7daJugjUA3" target="_blank" rel="noreferrer">ICSEcord</a> and <a href="https://discord.gg/7daJugjUA3" target="_blank" rel="noreferrer">ISCcord</a> {t('resources.community.disclaimerSuffix')}</p>
     </div>
   ) : <p className="library-note">{t('resources.note')}</p>;
 

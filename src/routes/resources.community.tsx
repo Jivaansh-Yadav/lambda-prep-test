@@ -30,7 +30,7 @@ function CommunityResources() {
       onStreamChange={next => navigate({ search: prev => ({ ...prev, stream: next === 'All' ? undefined : next }), replace: true })}
       onFileChange={fileId => navigate({ search: prev => ({ ...prev, file: fileId ?? undefined }), replace: true })}
       title={t('resources.community.title')}
-      desc={<>{t('resources.community.descPrefix')} <a href="https://www.reddit.com/r/ICSE" target="_blank" rel="noreferrer">r/ICSE</a> {t('resources.community.descMid')} <a href="https://discord.gg/7daJugjUA3" target="_blank" rel="noreferrer">ICSEcord</a> {t('resources.community.descSuffix')}</>}
+      desc={<>{t('resources.community.descPrefix')} <a href="https://www.reddit.com/r/ICSE" target="_blank" rel="noreferrer">r/ICSE</a> and <a href="https://www.reddit.com/r/ISCNERDS/" target="_blank" rel="noreferrer">r/ISCNERDS</a> {t('resources.community.descMid')} <a href="https://discord.gg/7daJugjUA3" target="_blank" rel="noreferrer">ICSEcord</a> and <a href="https://discord.gg/7daJugjUA3" target="_blank" rel="noreferrer">ISCcord</a> {t('resources.community.descSuffix')}</>}
     />
   );
 }
