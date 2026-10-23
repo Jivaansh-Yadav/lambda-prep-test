@@ -1694,19 +1694,19 @@ function ContributedResourcesCard() {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between gap-2">
-        <div className="flex items-center gap-1.5">
+        <div className="flex min-w-0 items-center gap-1.5 overflow-x-auto">
           {(['all', 'pending', 'approved', 'rejected'] as const).map((key) => (
             <button
               key={key}
               type="button"
               onClick={() => setFilter(key)}
-              className={`contribution-filter-tab ${filter === key ? 'is-active' : ''}`}
+              className={`contribution-filter-tab shrink-0 ${filter === key ? 'is-active' : ''}`}
             >
               {key === 'all' ? 'All' : CONTRIBUTION_STATUS_META[key].label} · {counts[key]}
             </button>
           ))}
         </div>
-        <Button variant="outline" size="sm" onClick={() => void load()} disabled={loading}>
+        <Button variant="outline" size="sm" className="shrink-0" onClick={() => void load()} disabled={loading}>
           {loading ? 'Refreshing…' : 'Refresh'}
         </Button>
       </CardHeader>
@@ -1903,19 +1903,19 @@ function ContactMessagesCard() {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between gap-2">
-        <div className="flex items-center gap-1.5">
+        <div className="flex min-w-0 items-center gap-1.5 overflow-x-auto">
           {(['all', 'unread', 'read', 'archived'] as const).map((key) => (
             <button
               key={key}
               type="button"
               onClick={() => setFilter(key)}
-              className={`contribution-filter-tab ${filter === key ? 'is-active' : ''}`}
+              className={`contribution-filter-tab shrink-0 ${filter === key ? 'is-active' : ''}`}
             >
               {key === 'all' ? 'All' : CONTACT_MESSAGE_STATUS_META[key].label} · {counts[key]}
             </button>
           ))}
         </div>
-        <Button variant="outline" size="sm" onClick={() => void load()} disabled={loading}>
+        <Button variant="outline" size="sm" className="shrink-0" onClick={() => void load()} disabled={loading}>
           {loading ? 'Refreshing…' : 'Refresh'}
         </Button>
       </CardHeader>
