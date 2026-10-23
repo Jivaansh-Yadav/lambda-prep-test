@@ -7,7 +7,6 @@ const en: Dict = {
   'nav.classes': 'Classes',
   'nav.doxxmarks': 'Doxxmarks',
   'nav.resources': 'Resources',
-  'nav.syllabus': 'Syllabus',
   'nav.open': 'Open navigation',
   'nav.close': 'Close navigation',
   'nav.chooseClass': 'Choose your class',
@@ -19,7 +18,7 @@ const en: Dict = {
   'hero.trust1': 'Curated content',
   'hero.trust2': 'Real testimonials',
   'hero.explore': 'Explore resources',
-  'hero.viewSyllabus': 'View syllabus',
+  'hero.openDoxxmarks': 'Open Doxxmarks',
   'hero.imageAlt': 'A student reading a book beside a plant and a stack of textbooks',
 
   'metrics.intro': 'A community built around better learning.',
@@ -156,11 +155,6 @@ const en: Dict = {
   'resources.community.disclaimerPrefix': 'These resources are contributed and shared by the student community, not by Lambda Prep \u2014 including',
   'resources.community.disclaimerMid': 'on Reddit and the',
   'resources.community.disclaimerSuffix': 'Discord servers. All rights and ownership remain with their original creators and communities. Lambda Prep only links to this content for your convenience and does not create, edit, host or verify it. For any issues, errors or concerns about this content, please contact the respective community directly.',
-
-  'syllabus.title': 'Your syllabus, in focus',
-  'syllabus.subtitle': 'ICSE and ISC \u00b7 2026-27 reference curriculum',
-  'syllabus.notice': 'Lambda Prep covers the core ICSE and ISC subjects that need the most rigorous, structured practice \u2014 the ones where consistent revision and past-paper drilling make the biggest difference to your board score. This is a subject overview, not an official syllabus document. Confirm prescribed topics, subject combinations and examination years with your school and the latest CISCE publications.',
-  'syllabus.visitCisce': 'Visit CISCE',
 
   'hub.allClasses': 'All classes',
   'hub.curriculum': 'curriculum',
