@@ -54,6 +54,8 @@ function isH3SwallowedErrorBody(body: string): boolean {
 //   - mscontent-gcp.extramarks.com -> Doxxmarks interactive lessons (iframe)
 //                              and lesson videos (HLS: manifest + segments via
 //                              hls.js, which fetches them with XHR)
+//   - cdn.eazo.ai / eazo.ai / assets.eazo.ai -> Eazo branding banner script,
+//                              its API calls and its logo
 //   - fonts.googleapis.com / fonts.gstatic.com -> DM Sans + Manrope
 // 'unsafe-inline' is required for scripts (the theme-before-first-paint
 // bootstrap, JSON-LD and TanStack Start's hydration payload are inline) and
@@ -61,28 +63,38 @@ function isH3SwallowedErrorBody(body: string): boolean {
 // an oversight — the remaining directives (frame-ancestors, object-src,
 // base-uri, connect-src/frame-src allowlists) are what actually contain an
 // XSS or clickjacking attempt here.
+//
+// frame-ancestors also allows https://*.e2b.app and https://*.eazo.dev/.ai —
+// those are the Eazo sandbox preview host and production alias domains that
+// embed this app in their own iframe (Creator's live Preview panel and
+// in-app QR/test links). Without them the host shows its own clickjacking
+// block page instead of the app.
 // ---------------------------------------------------------------------
 const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
   "base-uri 'self'",
   "object-src 'none'",
-  "script-src 'self' 'unsafe-inline'",
+  "script-src 'self' 'unsafe-inline' https://cdn.eazo.ai",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' data: https://fonts.gstatic.com",
-  "img-src 'self' data: blob: https://drive.google.com",
+  "img-src 'self' data: blob: https://cdn.eazo.ai https://assets.eazo.ai https://drive.google.com",
   "media-src 'self' blob: https://mscontent-gcp.extramarks.com",
-  "connect-src 'self' https://mscontent-gcp.extramarks.com",
+  "connect-src 'self' https://mscontent-gcp.extramarks.com https://eazo.ai https://cdn.eazo.ai",
   "frame-src 'self' https://drive.google.com https://docs.google.com https://mscontent-gcp.extramarks.com",
   "worker-src 'self' blob:",
-  "frame-ancestors 'self'",
+  "frame-ancestors 'self' https://*.e2b.app https://*.eazo.dev https://*.eazo.ai",
   "form-action 'self'",
 ].join("; ");
 
 const SECURITY_HEADERS: ReadonlyArray<readonly [string, string]> = [
   ["Content-Security-Policy", CONTENT_SECURITY_POLICY],
-  // frame-ancestors above already covers modern browsers; X-Frame-Options is
-  // the belt-and-braces version for anything that ignores CSP.
-  ["X-Frame-Options", "SAMEORIGIN"],
+  // No X-Frame-Options header here: per the HTML/CSP spec, an enforced CSP
+  // frame-ancestors directive makes browsers ignore X-Frame-Options, but it
+  // is per-response — if a route sets X-Frame-Options itself and skips CSP,
+  // SAMEORIGIN would silently re-block the Eazo preview iframe. Omitting it
+  // keeps the allowlist in one place (frame-ancestors above); every current
+  // browser enforces that directive, and the app registers nothing that
+  // needs the IE/old-Safari-only fallback.
   ["X-Content-Type-Options", "nosniff"],
   ["Referrer-Policy", "strict-origin-when-cross-origin"],
   // `fullscreen=(self)` is deliberate: the resource viewer requests fullscreen
