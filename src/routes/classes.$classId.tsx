@@ -2,14 +2,19 @@ import { createFileRoute, Link, notFound } from '@tanstack/react-router';
 import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, MonitorPlay, Search, ShieldCheck, UsersRound, X } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { classes, getSubjects, pageHead } from '@/lib/lambda';
+import { classes, getSubjects, pageHead, classSeoDescriptions } from '@/lib/lambda';
 import { getCurriculumClass, findSubjectInClass } from '@/lib/curriculum';
 import { useI18n } from '@/lib/i18n';
 import { StreamTabs } from '@/components/lambda/stream-tabs';
 
 export const Route = createFileRoute('/classes/$classId')({
   loader: ({ params }) => { const current = classes.find(c => c.slug === params.classId); if (!current) throw notFound(); return { current: { slug: current.slug, grade: current.grade, roman: current.roman, board: current.board, label: current.label } }; },
-  head: ({ loaderData, params }) => pageHead(loaderData ? `${loaderData.current.board} Class ${loaderData.current.grade}` : 'Class not found', 'Explore subject-wise study resources, revision notes and practice papers for your class.', `/classes/${params.classId}`), component: ClassHub,
+  head: ({ loaderData, params }) => pageHead(
+    loaderData ? `${loaderData.current.board} Class ${loaderData.current.grade} — ${loaderData.current.label}` : 'Class not found',
+    classSeoDescriptions[params.classId] ?? 'Explore subject-wise study resources, revision notes and practice papers for your class.',
+    `/classes/${params.classId}`,
+  ),
+  component: ClassHub,
 });
 function ClassHub() {
   const { current } = Route.useLoaderData();

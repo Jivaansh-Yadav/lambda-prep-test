@@ -6,6 +6,16 @@ export const classes = [
   { slug: 'isc-11', grade: '11', roman: 'XI', board: 'ISC', label: 'ISC Core Streams', description: 'Find your stream. Deepen your understanding.', icon: BookOpen, tone: 'purple' },
   { slug: 'isc-12', grade: '12', roman: 'XII', board: 'ISC', label: 'ISC Board Finals', description: 'Make every revision count. Finish strong.', icon: BookOpen, tone: 'amber' },
 ] as const;
+/** Unique, keyword-specific meta descriptions for each class hub page —
+ * kept distinct per class (rather than one shared string) so search
+ * engines don't treat the four /classes/* pages as duplicate content. */
+export const classSeoDescriptions: Record<string, string> = {
+  'icse-9': 'ICSE Class 9 study resources: subject-wise notes, revision material and practice papers for Biology, Chemistry, Maths, Computer Applications and more.',
+  'icse-10': 'ICSE Class 10 board exam preparation: notes, specimen papers, past papers and subject-wise resources for Maths, Science, English, History & Civics and more.',
+  'isc-11': 'ISC Class 11 resources for Science, Commerce and Humanities streams: notes, practice papers and subject guides for Physics, Accountancy, Economics and more.',
+  'isc-12': 'ISC Class 12 board finals prep: curated notes, past papers and revision material across Science, Commerce and Humanities streams.',
+};
+
 export const subjects = [
   { name: 'Biology', icon: Leaf, tone: 'green', streams: ['Science'] },
   { name: 'Chemistry', icon: FlaskConical, tone: 'purple', streams: ['Science'] },
