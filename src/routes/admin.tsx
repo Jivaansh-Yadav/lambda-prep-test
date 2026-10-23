@@ -397,11 +397,13 @@ function AdminPage() {
       {/* Group 1: Analytics — at-a-glance numbers (KpiCard/LatestCommitCard,
           read-only) plus the one clickable drill-down into full charts
           (Deep analytics) that naturally belongs with the rest of the
-          analytics data rather than the Manage row below it. Cool
-          blue/violet/indigo accents mark this whole group as "analytics",
-          distinct from the warm, action-oriented Manage group below. */}
+          analytics data rather than the Manage row below it. All four
+          sit in a single row so the group reads as one glance, not two
+          stacked rows. Cool blue/violet/indigo accents mark this whole
+          group as "analytics", distinct from the warm, action-oriented
+          Manage group below. */}
       <p className="admin-group-label">Analytics</p>
-      <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <KpiCard
           label={`Page loads (${range})`}
           value={totals ? totals.pageLoads.toLocaleString() : '—'}
@@ -415,8 +417,6 @@ function AdminPage() {
           icon={<Users size={20} />}
         />
         <LatestCommitCard />
-      </div>
-      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
         <CategoryCard
           accent="indigo-deep"
           icon={<Activity size={20} />}
