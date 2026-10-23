@@ -134,6 +134,40 @@ export type TrafficDay = {
   visits: number;
 };
 
+// Selectable lookback windows for the Deep analytics traffic chart +
+// Web Analytics (RUM) detail panel. "24h" buckets by hour
+// (datetimeHour) since a day has too few points to chart meaningfully by
+// day; the other three bucket by calendar day (date) same as before.
+export const ADMIN_RANGES = ["24h", "7d", "14d", "30d"] as const;
+export type AdminRange = (typeof ADMIN_RANGES)[number];
+
+function isAdminRange(value: unknown): value is AdminRange {
+  return typeof value === "string" && (ADMIN_RANGES as readonly string[]).includes(value);
+}
+
+const RANGE_WINDOW_MS: Record<AdminRange, number> = {
+  "24h": 24 * 60 * 60 * 1000,
+  "7d": 7 * 24 * 60 * 60 * 1000,
+  "14d": 14 * 24 * 60 * 60 * 1000,
+  "30d": 30 * 24 * 60 * 60 * 1000,
+};
+
+export const ADMIN_RANGE_LABEL: Record<AdminRange, string> = {
+  "24h": "last 24 hours",
+  "7d": "last 7 days",
+  "14d": "last 14 days",
+  "30d": "last 30 days",
+};
+
+// Row limit for the per-bucket traffic query: 24h buckets by hour (24
+// points max), the rest bucket by day (up to 30 points max).
+const RANGE_BUCKET_LIMIT: Record<AdminRange, number> = {
+  "24h": 25,
+  "7d": 8,
+  "14d": 15,
+  "30d": 31,
+};
+
 // Top-level sections we can distinguish by URL path alone. Subcategories
 // (class/subject/chapter) live in search params on these same routes, and
 // the RUM path dimension strips the query string, so only this top-level
@@ -160,18 +194,55 @@ const CLOUDFLARE_GRAPHQL_ENDPOINT = "https://api.cloudflare.com/client/v4/graphq
 // legacy httpRequests*/zone-level analytics requires a Zone ID + Zone
 // Analytics Read token this project doesn't have, whereas the RUM beacon
 // + Account Analytics Read token work from a single Cloudflare account.
-const TRAFFIC_QUERY = `
-  query GetTrafficData($accountTag: String!, $siteTag: String!, $since: Time!, $until: Time!) {
+// Two variants of the same query, differing only in which time
+// dimension dailyTraffic buckets by: "date" (one point per calendar day)
+// for the 7d/14d/30d ranges, or "datetimeHour" (one point per hour) for
+// 24h, since a single day has too few calendar-day points to chart.
+const TRAFFIC_QUERY_BY_DAY = `
+  query GetTrafficData($accountTag: String!, $siteTag: String!, $since: Time!, $until: Time!, $limit: Int!) {
     viewer {
       accounts(filter: { accountTag: $accountTag }) {
         dailyTraffic: rumPageloadEventsAdaptiveGroups(
-          limit: 31,
+          limit: $limit,
           filter: { siteTag: $siteTag, datetime_geq: $since, datetime_lt: $until },
           orderBy: [date_ASC]
         ) {
           count
           sum { visits }
-          dimensions { date }
+          dimensions { bucket: date }
+        }
+        sectionBreakdown: rumPageloadEventsAdaptiveGroups(
+          limit: 1000,
+          filter: {
+            siteTag: $siteTag,
+            datetime_geq: $since,
+            datetime_lt: $until,
+            OR: [
+              { requestPath_like: "/doxxmarks%" },
+              { requestPath_like: "/resources%" }
+            ]
+          }
+        ) {
+          sum { visits }
+          dimensions { requestPath }
+        }
+      }
+    }
+  }
+`;
+
+const TRAFFIC_QUERY_BY_HOUR = `
+  query GetTrafficData($accountTag: String!, $siteTag: String!, $since: Time!, $until: Time!, $limit: Int!) {
+    viewer {
+      accounts(filter: { accountTag: $accountTag }) {
+        dailyTraffic: rumPageloadEventsAdaptiveGroups(
+          limit: $limit,
+          filter: { siteTag: $siteTag, datetime_geq: $since, datetime_lt: $until },
+          orderBy: [datetimeHour_ASC]
+        ) {
+          count
+          sum { visits }
+          dimensions { bucket: datetimeHour }
         }
         sectionBreakdown: rumPageloadEventsAdaptiveGroups(
           limit: 1000,
@@ -199,7 +270,7 @@ type CloudflareGraphQLResponse = {
       accounts?: Array<{
         dailyTraffic?: Array<{
           count: number;
-          dimensions: { date: string };
+          dimensions: { bucket: string };
           sum: { visits: number };
         }>;
         sectionBreakdown?: Array<{
@@ -229,15 +300,16 @@ export const checkAdminPasscode = createServerFn({ method: "POST" })
 type CachedPayload = { days: TrafficDay[]; sections: SectionBreakdownItem[] };
 
 /**
- * Reads the single-row Cloudflare analytics cache from Neon. Returns null
- * if the row doesn't exist yet, or if `sql` isn't configured (no
- * DATABASE_URL) — callers should fall back to a live Cloudflare fetch in
- * either case.
+ * Reads the per-range Cloudflare analytics cache row from Neon. Returns
+ * null if no row exists yet for this range, or if `sql` isn't configured
+ * (no DATABASE_URL) — callers should fall back to a live Cloudflare fetch
+ * in either case.
  */
-async function readCache(): Promise<{ payload: CachedPayload; fetchedAt: Date } | null> {
+async function readCache(range: AdminRange): Promise<{ payload: CachedPayload; fetchedAt: Date } | null> {
   if (!sql) return null;
   const rows = await sql.query(
-    `SELECT payload, fetched_at FROM cloudflare_analytics_cache WHERE id = true LIMIT 1`
+    `SELECT payload, fetched_at FROM cloudflare_analytics_cache WHERE range = $1 LIMIT 1`,
+    [range]
   );
   const row = rows[0] as { payload: CachedPayload; fetched_at: string } | undefined;
   if (!row) return null;
@@ -245,28 +317,29 @@ async function readCache(): Promise<{ payload: CachedPayload; fetchedAt: Date } 
 }
 
 /**
- * Upserts the single-row Cloudflare analytics cache on Neon with a fresh
- * timestamp. No-ops silently if `sql` isn't configured, so a missing
- * DATABASE_URL degrades to "always fetch live" rather than crashing.
+ * Upserts the per-range Cloudflare analytics cache row on Neon with a
+ * fresh timestamp. No-ops silently if `sql` isn't configured, so a
+ * missing DATABASE_URL degrades to "always fetch live" rather than
+ * crashing.
  */
-async function writeCache(payload: CachedPayload): Promise<void> {
+async function writeCache(range: AdminRange, payload: CachedPayload): Promise<void> {
   if (!sql) return;
   await sql.query(
-    `INSERT INTO cloudflare_analytics_cache (id, payload, fetched_at)
-     VALUES (true, $1, now())
-     ON CONFLICT (id) DO UPDATE SET payload = EXCLUDED.payload, fetched_at = EXCLUDED.fetched_at`,
-    [JSON.stringify(payload)]
+    `INSERT INTO cloudflare_analytics_cache (range, payload, fetched_at)
+     VALUES ($1, $2, now())
+     ON CONFLICT (range) DO UPDATE SET payload = EXCLUDED.payload, fetched_at = EXCLUDED.fetched_at`,
+    [range, JSON.stringify(payload)]
   );
 }
 
 /**
- * Calls Cloudflare's GraphQL Analytics API for the last 30 days of
- * Web Analytics (RUM) traffic plus the doxxmarks/resources section
- * breakdown. Returns `configured: false` (never throws) when credentials
- * are missing or the request/response fails, so the admin UI can show a
- * clear setup state instead of a generic error.
+ * Calls Cloudflare's GraphQL Analytics API for Web Analytics (RUM)
+ * traffic plus the doxxmarks/resources section breakdown, over the given
+ * lookback window. Returns `configured: false` (never throws) when
+ * credentials are missing or the request/response fails, so the admin UI
+ * can show a clear setup state instead of a generic error.
  */
-async function fetchFromCloudflare(): Promise<AdminTrafficResult> {
+async function fetchFromCloudflare(range: AdminRange): Promise<AdminTrafficResult> {
   const accountId = process.env["CLOUDFLARE_ACCOUNT_ID"];
   const apiToken = process.env["CLOUDFLARE_RUM_API_TOKEN"];
   const siteTag = process.env["CLOUDFLARE_RUM_SITE_TAG"];
@@ -280,7 +353,7 @@ async function fetchFromCloudflare(): Promise<AdminTrafficResult> {
   }
 
   const until = new Date();
-  const since = new Date(until.getTime() - 30 * 24 * 60 * 60 * 1000);
+  const since = new Date(until.getTime() - RANGE_WINDOW_MS[range]);
 
   let response: Response;
   try {
@@ -291,12 +364,13 @@ async function fetchFromCloudflare(): Promise<AdminTrafficResult> {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        query: TRAFFIC_QUERY,
+        query: range === "24h" ? TRAFFIC_QUERY_BY_HOUR : TRAFFIC_QUERY_BY_DAY,
         variables: {
           accountTag: accountId,
           siteTag,
           since: since.toISOString(),
           until: until.toISOString(),
+          limit: RANGE_BUCKET_LIMIT[range],
         },
       }),
     });
@@ -329,7 +403,7 @@ async function fetchFromCloudflare(): Promise<AdminTrafficResult> {
   }));
 
   const days: TrafficDay[] = groups.map((g) => ({
-    date: g.dimensions.date,
+    date: g.dimensions.bucket,
     pageLoads: g.count,
     visits: g.sum.visits,
   }));
@@ -338,25 +412,28 @@ async function fetchFromCloudflare(): Promise<AdminTrafficResult> {
 }
 
 /**
- * Returns the last 30 days of Web Analytics (RUM) traffic + section
- * breakdown, backed by a 5-minute Neon cache: a fresh cache row is served
- * directly from the database; a stale or missing row triggers a live
- * Cloudflare fetch, whose result is written back to the cache before
+ * Returns Web Analytics (RUM) traffic + section breakdown for the
+ * requested lookback window (24h/7d/14d/30d, default 30d), backed by a
+ * 5-minute Neon cache keyed per range: a fresh cache row for that range is
+ * served directly from the database; a stale or missing row triggers a
+ * live Cloudflare fetch, whose result is written back to the cache before
  * returning. Requires CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_RUM_API_TOKEN
  * (Account -> Analytics -> Read scope) and CLOUDFLARE_RUM_SITE_TAG in the
  * server environment.
  */
 export const getAdminTraffic = createServerFn({ method: "POST" })
   .validator((data: unknown) => {
-    const d = data as { passcode?: unknown };
+    const d = data as { passcode?: unknown; range?: unknown };
     if (typeof d?.passcode !== "string") throw new Error("Missing passcode");
-    return { passcode: d.passcode };
+    if (d.range !== undefined && !isAdminRange(d.range)) throw new Error("Invalid range");
+    return { passcode: d.passcode, range: (d.range as AdminRange | undefined) ?? "30d" };
   })
   .handler(async ({ data }): Promise<AdminTrafficResult> => {
     requirePasscode(data.passcode);
+    const range = data.range;
 
     try {
-      const cached = await readCache();
+      const cached = await readCache(range);
       if (cached && Date.now() - cached.fetchedAt.getTime() < CACHE_TTL_MS) {
         return {
           configured: true,
@@ -371,11 +448,11 @@ export const getAdminTraffic = createServerFn({ method: "POST" })
       console.error("[admin] cache read failed, fetching live:", error);
     }
 
-    const result = await fetchFromCloudflare();
+    const result = await fetchFromCloudflare(range);
 
     if (result.configured) {
       try {
-        await writeCache({ days: result.days, sections: result.sections });
+        await writeCache(range, { days: result.days, sections: result.sections });
       } catch (error) {
         // A failed cache write shouldn't fail the request — the UI still
         // gets fresh data this time, it just won't be cached for next time.
@@ -484,27 +561,28 @@ type RumGraphQLResponse = {
 
 type CachedRumPayload = Omit<Extract<AdminRumResult, { configured: true }>, "cache" | "configured">;
 
-/** Reads the single-row RUM analytics cache from Neon, mirroring
- * readCache() above for the zone-level traffic cache. */
-async function readRumCache(): Promise<{ payload: CachedRumPayload; fetchedAt: Date } | null> {
+/** Reads the per-range RUM analytics cache row from Neon, mirroring
+ * readCache() above for the traffic cache. */
+async function readRumCache(range: AdminRange): Promise<{ payload: CachedRumPayload; fetchedAt: Date } | null> {
   if (!sql) return null;
   const rows = await sql.query(
-    `SELECT payload, fetched_at FROM cloudflare_rum_cache WHERE id = true LIMIT 1`
+    `SELECT payload, fetched_at FROM cloudflare_rum_cache WHERE range = $1 LIMIT 1`,
+    [range]
   );
   const row = rows[0] as { payload: CachedRumPayload; fetched_at: string } | undefined;
   if (!row) return null;
   return { payload: row.payload, fetchedAt: new Date(row.fetched_at) };
 }
 
-/** Upserts the single-row RUM analytics cache on Neon, mirroring
+/** Upserts the per-range RUM analytics cache row on Neon, mirroring
  * writeCache() above. No-ops silently without DATABASE_URL. */
-async function writeRumCache(payload: CachedRumPayload): Promise<void> {
+async function writeRumCache(range: AdminRange, payload: CachedRumPayload): Promise<void> {
   if (!sql) return;
   await sql.query(
-    `INSERT INTO cloudflare_rum_cache (id, payload, fetched_at)
-     VALUES (true, $1, now())
-     ON CONFLICT (id) DO UPDATE SET payload = EXCLUDED.payload, fetched_at = EXCLUDED.fetched_at`,
-    [JSON.stringify(payload)]
+    `INSERT INTO cloudflare_rum_cache (range, payload, fetched_at)
+     VALUES ($1, $2, now())
+     ON CONFLICT (range) DO UPDATE SET payload = EXCLUDED.payload, fetched_at = EXCLUDED.fetched_at`,
+    [range, JSON.stringify(payload)]
   );
 }
 
@@ -515,13 +593,13 @@ function sortedBreakdown(groups: RumGroup[] | undefined): RumBreakdownItem[] {
 }
 
 /**
- * Calls Cloudflare's GraphQL Analytics API for the last 30 days of
- * Web Analytics (RUM) detail — top pages, countries, device types,
- * browsers and referrers — scoped by the beacon's site tag. Returns
- * `configured: false` (never throws) when credentials are missing or the
- * request/response fails.
+ * Calls Cloudflare's GraphQL Analytics API for Web Analytics (RUM)
+ * detail — top pages, countries, device types, browsers and referrers —
+ * over the given lookback window, scoped by the beacon's site tag.
+ * Returns `configured: false` (never throws) when credentials are
+ * missing or the request/response fails.
  */
-async function fetchRumFromCloudflare(): Promise<AdminRumResult> {
+async function fetchRumFromCloudflare(range: AdminRange): Promise<AdminRumResult> {
   const accountId = process.env["CLOUDFLARE_ACCOUNT_ID"];
   const apiToken = process.env["CLOUDFLARE_RUM_API_TOKEN"];
   const siteTag = process.env["CLOUDFLARE_RUM_SITE_TAG"];
@@ -535,7 +613,7 @@ async function fetchRumFromCloudflare(): Promise<AdminRumResult> {
   }
 
   const until = new Date();
-  const since = new Date(until.getTime() - 30 * 24 * 60 * 60 * 1000);
+  const since = new Date(until.getTime() - RANGE_WINDOW_MS[range]);
 
   let response: Response;
   try {
@@ -591,23 +669,25 @@ async function fetchRumFromCloudflare(): Promise<AdminRumResult> {
 }
 
 /**
- * Returns the last 30 days of Web Analytics (RUM) detail, backed by a
- * 5-minute Neon cache (same TTL/pattern as getAdminTraffic above).
- * Requires CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_RUM_API_TOKEN (Account ->
- * Analytics -> Read scope) and CLOUDFLARE_RUM_SITE_TAG in the server
- * environment.
+ * Returns Web Analytics (RUM) detail for the requested lookback window
+ * (24h/7d/14d/30d, default 30d), backed by a 5-minute Neon cache keyed
+ * per range (same TTL/pattern as getAdminTraffic above). Requires
+ * CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_RUM_API_TOKEN (Account -> Analytics
+ * -> Read scope) and CLOUDFLARE_RUM_SITE_TAG in the server environment.
  */
 export const getAdminRum = createServerFn({ method: "POST" })
   .validator((data: unknown) => {
-    const d = data as { passcode?: unknown };
+    const d = data as { passcode?: unknown; range?: unknown };
     if (typeof d?.passcode !== "string") throw new Error("Missing passcode");
-    return { passcode: d.passcode };
+    if (d.range !== undefined && !isAdminRange(d.range)) throw new Error("Invalid range");
+    return { passcode: d.passcode, range: (d.range as AdminRange | undefined) ?? "30d" };
   })
   .handler(async ({ data }): Promise<AdminRumResult> => {
     requirePasscode(data.passcode);
+    const range = data.range;
 
     try {
-      const cached = await readRumCache();
+      const cached = await readRumCache(range);
       if (cached && Date.now() - cached.fetchedAt.getTime() < CACHE_TTL_MS) {
         return { configured: true, ...cached.payload, cache: { hit: true, fetchedAt: cached.fetchedAt.toISOString() } };
       }
@@ -615,14 +695,14 @@ export const getAdminRum = createServerFn({ method: "POST" })
       console.error("[admin] RUM cache read failed, fetching live:", error);
     }
 
-    const result = await fetchRumFromCloudflare();
+    const result = await fetchRumFromCloudflare(range);
 
     if (result.configured) {
       try {
         const { cache, configured, ...payload } = result;
         void cache;
         void configured;
-        await writeRumCache(payload);
+        await writeRumCache(range, payload);
       } catch (error) {
         console.error("[admin] RUM cache write failed:", error);
       }

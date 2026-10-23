@@ -39,6 +39,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import {
   checkAdminPasscode,
@@ -53,6 +54,9 @@ import {
   renameResource,
   deleteResource,
   getDriveWriteCapability,
+  ADMIN_RANGES,
+  ADMIN_RANGE_LABEL,
+  type AdminRange,
   type AdminTrafficResult,
   type AdminRumResult,
   type RumBreakdownItem,
@@ -98,6 +102,7 @@ function AdminPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AdminTrafficResult | null>(null);
+  const [range, setRange] = useState<AdminRange>('30d');
   const { section: openSection } = Route.useSearch();
   const navigate = Route.useNavigate();
   function setOpenSection(next: AdminSection | null) {
@@ -115,7 +120,7 @@ function AdminPage() {
       if (check.ok) {
         adminSessionPasscode = passcode;
         setAuthed(true);
-        await loadTraffic(passcode);
+        await loadTraffic(passcode, range);
       } else if (check.lockedOutSeconds) {
         setError(`Too many attempts. Try again in ${check.lockedOutSeconds}s.`);
       } else {
@@ -128,11 +133,11 @@ function AdminPage() {
     }
   }
 
-  async function loadTraffic(code: string) {
+  async function loadTraffic(code: string, forRange: AdminRange) {
     setLoading(true);
     setError(null);
     try {
-      const data = await getAdminTraffic({ data: { passcode: code } });
+      const data = await getAdminTraffic({ data: { passcode: code, range: forRange } });
       setResult(data);
     } catch {
       setError('Could not load analytics. Try unlocking again.');
@@ -145,15 +150,15 @@ function AdminPage() {
 
   useEffect(() => {
     if (authed && !result && !loading) {
-      void loadTraffic(adminSessionPasscode ?? '');
+      void loadTraffic(adminSessionPasscode ?? '', range);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authed]);
 
-  async function loadRum(code: string) {
+  async function loadRum(code: string, forRange: AdminRange) {
     setRumLoading(true);
     try {
-      const data = await getAdminRum({ data: { passcode: code } });
+      const data = await getAdminRum({ data: { passcode: code, range: forRange } });
       setRumResult(data);
     } catch {
       setRumResult({ configured: false, reason: 'Could not load Web Analytics (RUM) data. Try again.' });
@@ -167,10 +172,27 @@ function AdminPage() {
   // credential/dataset the admin may not have configured yet.
   useEffect(() => {
     if (openSection === 'analytics' && !rumResult && !rumLoading) {
-      void loadRum(adminSessionPasscode ?? '');
+      void loadRum(adminSessionPasscode ?? '', range);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openSection]);
+
+  // Changing the range re-fetches both datasets for the new window and
+  // discards the previous range's data (rather than keeping stale numbers
+  // visible) — both come from the same per-range Neon cache on the
+  // server, so this is usually a cheap cache hit rather than a live
+  // Cloudflare call.
+  function handleRangeChange(next: AdminRange) {
+    setRange(next);
+    setResult(null);
+    setRumResult(null);
+    if (authed) {
+      void loadTraffic(adminSessionPasscode ?? '', next);
+      if (openSection === 'analytics') {
+        void loadRum(adminSessionPasscode ?? '', next);
+      }
+    }
+  }
 
 
   if (!authed) {
@@ -225,9 +247,12 @@ function AdminPage() {
         >
           <ArrowLeft size={15} /> Admin dashboard
         </button>
-        <h1 className="mb-6 flex items-center gap-2 text-2xl font-semibold text-foreground">
-          {meta.icon} {meta.title}
-        </h1>
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+          <h1 className="flex items-center gap-2 text-2xl font-semibold text-foreground">
+            {meta.icon} {meta.title}
+          </h1>
+          {openSection === 'analytics' && <RangeSelect value={range} onChange={handleRangeChange} />}
+        </div>
 
         {openSection === 'analytics' && (
           <>
@@ -235,7 +260,7 @@ function AdminPage() {
               <>
                 <Card>
                   <CardHeader>
-                    <CardTitle>Traffic — last 30 days</CardTitle>
+                    <CardTitle>Traffic — {ADMIN_RANGE_LABEL[range]}</CardTitle>
                   </CardHeader>
                   <CardContent className="h-80 sm:h-96">
                     {result.days.length === 0 ? (
@@ -246,11 +271,21 @@ function AdminPage() {
                           <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
                           <XAxis
                             dataKey="date"
-                            tickFormatter={(v: string) => new Date(v).toLocaleDateString([], { month: 'short', day: 'numeric' })}
+                            tickFormatter={(v: string) =>
+                              range === '24h'
+                                ? new Date(v).toLocaleTimeString([], { hour: 'numeric' })
+                                : new Date(v).toLocaleDateString([], { month: 'short', day: 'numeric' })
+                            }
                             tick={{ fontSize: 12 }}
                           />
                           <YAxis tick={{ fontSize: 12 }} allowDecimals={false} />
-                          <Tooltip labelFormatter={(v: string) => new Date(v).toLocaleDateString()} />
+                          <Tooltip
+                            labelFormatter={(v: string) =>
+                              range === '24h'
+                                ? new Date(v).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric' })
+                                : new Date(v).toLocaleDateString()
+                            }
+                          />
                           <Line type="monotone" dataKey="pageLoads" name="Page loads" stroke="#6366f1" strokeWidth={2} dot={false} />
                           <Line type="monotone" dataKey="visits" name="Visits" stroke="#22c55e" strokeWidth={2} dot={false} />
                         </LineChart>
@@ -261,7 +296,7 @@ function AdminPage() {
 
                 <Card className="mt-6">
                   <CardHeader>
-                    <CardTitle>Visits by section — last 30 days</CardTitle>
+                    <CardTitle>Visits by section — {ADMIN_RANGE_LABEL[range]}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="h-64 sm:h-72">
@@ -299,7 +334,7 @@ function AdminPage() {
               </p>
             )}
 
-            <RumAnalyticsSection result={rumResult} loading={rumLoading} />
+            <RumAnalyticsSection result={rumResult} loading={rumLoading} range={range} />
           </>
         )}
 
@@ -312,7 +347,7 @@ function AdminPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
-      <div className="mb-6 flex items-center justify-between gap-4">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
         <h1 className="text-2xl font-semibold text-foreground">Admin dashboard</h1>
         <div className="flex items-center gap-3">
           {result?.configured && (
@@ -321,10 +356,11 @@ function AdminPage() {
               {new Date(result.cache.fetchedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </span>
           )}
+          <RangeSelect value={range} onChange={handleRangeChange} />
           <Button
             variant="outline"
             size="sm"
-            onClick={() => loadTraffic(adminSessionPasscode ?? '')}
+            onClick={() => loadTraffic(adminSessionPasscode ?? '', range)}
             disabled={loading}
           >
             {loading ? 'Refreshing…' : 'Refresh'}
@@ -340,13 +376,13 @@ function AdminPage() {
       <p className="admin-group-label">Analytics</p>
       <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
         <KpiCard
-          label="Page loads (30d)"
+          label={`Page loads (${range})`}
           value={totals ? totals.pageLoads.toLocaleString() : '—'}
           accent="indigo"
           icon={<TrendingUp size={20} />}
         />
         <KpiCard
-          label="Visits (30d)"
+          label={`Visits (${range})`}
           value={totals ? totals.visits.toLocaleString() : '—'}
           accent="violet"
           icon={<Users size={20} />}
@@ -388,7 +424,7 @@ function AdminPage() {
           accent="indigo-deep"
           icon={<Activity size={20} />}
           title="Deep analytics"
-          description="Traffic charts and section breakdown for the last 30 days."
+          description={`Traffic charts and section breakdown for the ${ADMIN_RANGE_LABEL[range]}.`}
           onClick={() => setOpenSection('analytics')}
         />
         <CategoryCard
@@ -420,6 +456,28 @@ const SECTION_COLORS = ['#6366f1', '#22c55e'];
  * show-only vs clickable rows read as separate categories at a glance. */
 type Accent = 'indigo' | 'violet' | 'sky' | 'indigo-deep' | 'emerald' | 'amber';
 
+/** The analytics lookback-window toggle shown next to the top-level
+ * dashboard header and again inside the Deep analytics page — a single
+ * Radix Select backs both, driven by the same `range` state so switching
+ * it in either place re-fetches the traffic + RUM data for the new
+ * window (see handleRangeChange in AdminPage). */
+function RangeSelect({ value, onChange }: { value: AdminRange; onChange: (next: AdminRange) => void }) {
+  return (
+    <Select value={value} onValueChange={(next) => onChange(next as AdminRange)}>
+      <SelectTrigger className="h-9 w-[132px] text-sm">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        {ADMIN_RANGES.map((r) => (
+          <SelectItem key={r} value={r}>
+            {ADMIN_RANGE_LABEL[r]}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  );
+}
+
 function KpiCard({
   label,
   value,
@@ -444,11 +502,19 @@ function KpiCard({
 
 /** Renders the Web Analytics (RUM) detail panel inside the Deep
  * analytics modal: top pages, countries, device types, browsers and
- * referrers for the last 30 days. Separate from the zone-level traffic
- * chart above it since it's sourced from a different Cloudflare
- * credential/dataset (account-scoped RUM vs zone-scoped httpRequests) —
- * see getAdminRum in admin-server.ts. */
-function RumAnalyticsSection({ result, loading }: { result: AdminRumResult | null; loading: boolean }) {
+ * referrers for the selected lookback window. Separate from the
+ * zone-level traffic chart above it since it's sourced from a different
+ * Cloudflare credential/dataset (account-scoped RUM vs zone-scoped
+ * httpRequests) — see getAdminRum in admin-server.ts. */
+function RumAnalyticsSection({
+  result,
+  loading,
+  range,
+}: {
+  result: AdminRumResult | null;
+  loading: boolean;
+  range: AdminRange;
+}) {
   if (loading && !result) {
     return <p className="mt-6 text-sm text-muted-foreground">Loading Web Analytics (RUM) detail…</p>;
   }
@@ -486,8 +552,8 @@ function RumAnalyticsSection({ result, loading }: { result: AdminRumResult | nul
       <Card className="mt-6">
         <CardContent className="pt-6">
           <p className="text-sm text-muted-foreground">
-            No Web Analytics (RUM) visits recorded yet for the last 30 days. The beacon script is live on every
-            page — data should start appearing shortly after real visitors load the site.
+            No Web Analytics (RUM) visits recorded yet for the {ADMIN_RANGE_LABEL[range]}. The beacon script is
+            live on every page — data should start appearing shortly after real visitors load the site.
           </p>
         </CardContent>
       </Card>
@@ -505,7 +571,7 @@ function RumAnalyticsSection({ result, loading }: { result: AdminRumResult | nul
   return (
     <Card className="mt-6">
       <CardHeader>
-        <CardTitle>Web Analytics (RUM) — last 30 days</CardTitle>
+        <CardTitle>Web Analytics (RUM) — {ADMIN_RANGE_LABEL[range]}</CardTitle>
       </CardHeader>
       <CardContent>
         <p className="mb-4 text-sm text-muted-foreground">
