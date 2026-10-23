@@ -333,6 +333,34 @@
   .footer-bottom { border-top: 1px solid var(--border); padding-block: 10px; display: flex; justify-content: space-between; font-size: 13px; color: var(--muted-foreground); gap: 20px; }
   .tiny-lambda { color: var(--primary); font-size: 20px; margin-left: 13px; }
 
+  /* Footer "Send us a message" trigger — sits just below the tagline, a
+     plain text line (no border/background) matching the tagline's own
+     color so it reads as an inline link, not a button. Only on hover does
+     a thin rotating golden ring fade in around it (reusing the same
+     conic-gradient + --contribute-angle technique as the header's
+     Contribute pill) — idle state has zero visual chrome. */
+  .footer-contact-link {
+    display: inline-flex; align-items: center; gap: 6px; align-self: flex-start;
+    margin-top: 10px; margin-left: -9px;
+    background: none; border: none; border-radius: 7px; padding: 5px 9px;
+    font: inherit; font-size: 14px; font-weight: 600; color: var(--muted-foreground);
+    cursor: pointer; position: relative; isolation: isolate;
+    transition: color .2s ease;
+  }
+  .footer-contact-link:hover { color: var(--primary); }
+  .footer-contact-link::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -2;
+    background: conic-gradient(from var(--contribute-angle, 0deg), oklch(0.88 0.11 90), oklch(0.78 0.15 70), oklch(0.85 0.14 85), oklch(0.88 0.11 90));
+    opacity: 0; transition: opacity .25s ease;
+    animation: header-contribute-spin 2.6s linear infinite;
+  }
+  .footer-contact-link::after {
+    content: ""; position: absolute; inset: 1.5px; border-radius: inherit; z-index: -1;
+    background: var(--chrome); opacity: 0; transition: opacity .25s ease;
+  }
+  .footer-contact-link:hover::before,
+  .footer-contact-link:hover::after { opacity: 1; }
+
   /* Hub / content pages */
   .hub-page,.content-page { padding-block: 38px 78px; min-height: 65vh; animation: page-enter .32s ease-out; }
   .back-link { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; color: var(--muted-foreground); background: none; border: none; padding: 0; cursor: pointer; font-family: inherit; }
@@ -642,6 +670,8 @@
 .admin-category-card-amber .admin-category-icon { background: oklch(0.87 0.1 85); color: oklch(0.46 0.15 70); }
 .admin-category-card-rose { background: linear-gradient(145deg, oklch(0.92 0.06 10), oklch(0.97 0.02 10) 60%, var(--card)); border-color: oklch(0.76 0.1 10); }
 .admin-category-card-rose .admin-category-icon { background: oklch(0.87 0.09 10); color: oklch(0.46 0.16 10); }
+.admin-category-card-teal { background: linear-gradient(145deg, oklch(0.92 0.06 190), oklch(0.97 0.02 190) 60%, var(--card)); border-color: oklch(0.76 0.1 190); }
+.admin-category-card-teal .admin-category-icon { background: oklch(0.87 0.09 190); color: oklch(0.42 0.1 190); }
 
 /* Trailing chevron, clickable cards only — a small affordance that slides
    right on hover to reinforce "this opens something", absent from the
@@ -1426,3 +1456,20 @@ body.pseudo-fullscreen-open { overflow: hidden; }
 .contribution-detail-line { font-size: 13px; color: var(--foreground); line-height: 1.6; margin: 0; word-break: break-word; }
 .contribution-detail-label { font-weight: 600; color: var(--muted-foreground); margin-right: 4px; }
 .contribution-actions { display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap; }
+
+/* Footer "Send us a message" popup */
+.contact-dialog-form { display: flex; flex-direction: column; gap: 14px; margin-top: 4px; }
+.contact-dialog-field { display: flex; flex-direction: column; gap: 6px; }
+.contact-dialog-error { font-size: 13px; color: var(--destructive); margin: 0; }
+.contact-dialog-success {
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  gap: 10px; padding-block: 12px 4px;
+}
+.contact-dialog-success-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--green-soft); color: var(--green-ink); margin-bottom: 4px;
+}
+.contact-dialog-success p { color: var(--muted-foreground); font-size: 14px; margin: 0 0 6px; }
+.contact-dialog-optional { color: var(--muted-foreground); font-weight: 400; font-size: 12px; }
+

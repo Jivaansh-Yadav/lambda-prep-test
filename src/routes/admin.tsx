@@ -29,6 +29,7 @@ import {
   HeartHandshake,
   Link2,
   Loader2,
+  Mail,
   MessageSquareText,
   Pencil,
   Share2,
@@ -74,6 +75,13 @@ import {
   type AdminContributionsResult,
   type ContributionStatus,
 } from '@/lib/contribute-server';
+import {
+  getAdminContactMessages,
+  updateContactMessageStatus,
+  type AdminContactMessageRow,
+  type AdminContactMessagesResult,
+  type ContactMessageStatus,
+} from '@/lib/contact-server';
 import type { WorkflowRunStatus } from '@/lib/github-integration-server';
 import type { DriveFileEntry } from '@/lib/drive-integration-server';
 import { getFileKind, type FileKind } from '@/lib/resources-data';
@@ -83,8 +91,8 @@ function isDriveFolder(entry: DriveFileEntry): boolean {
   return entry.mimeType === DRIVE_FOLDER_MIME;
 }
 
-type AdminSection = 'analytics' | 'manage' | 'stats' | 'contributions';
-const ADMIN_SECTIONS: AdminSection[] = ['analytics', 'manage', 'stats', 'contributions'];
+type AdminSection = 'analytics' | 'manage' | 'stats' | 'contributions' | 'messages';
+const ADMIN_SECTIONS: AdminSection[] = ['analytics', 'manage', 'stats', 'contributions', 'messages'];
 
 interface AdminSearch {
   section?: AdminSection | undefined;
@@ -247,6 +255,7 @@ function AdminPage() {
       manage: { title: 'Manage resources', icon: <FolderOpen size={18} /> },
       stats: { title: 'Resource stats', icon: <Star size={18} /> },
       contributions: { title: 'Contributed resources', icon: <HeartHandshake size={18} /> },
+      messages: { title: 'Contact messages', icon: <Mail size={18} /> },
     };
     const meta = SECTION_META[openSection];
     return (
@@ -354,6 +363,8 @@ function AdminPage() {
         {openSection === 'stats' && <ResourceStatsCard />}
 
         {openSection === 'contributions' && <ContributedResourcesCard />}
+
+        {openSection === 'messages' && <ContactMessagesCard />}
       </div>
     );
   }
@@ -383,11 +394,14 @@ function AdminPage() {
 
       {error && <p className="mb-4 text-sm text-destructive">{error}</p>}
 
-      {/* Group 1: Analytics — at-a-glance numbers only, nothing to click.
-          Cool blue/violet accents mark this whole row as "read-only"
-          data, distinct from the warm, clickable Manage group below. */}
+      {/* Group 1: Analytics — at-a-glance numbers (KpiCard/LatestCommitCard,
+          read-only) plus the one clickable drill-down into full charts
+          (Deep analytics) that naturally belongs with the rest of the
+          analytics data rather than the Manage row below it. Cool
+          blue/violet/indigo accents mark this whole group as "analytics",
+          distinct from the warm, action-oriented Manage group below. */}
       <p className="admin-group-label">Analytics</p>
-      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
         <KpiCard
           label={`Page loads (${range})`}
           value={totals ? totals.pageLoads.toLocaleString() : '—'}
@@ -401,6 +415,15 @@ function AdminPage() {
           icon={<Users size={20} />}
         />
         <LatestCommitCard />
+      </div>
+      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <CategoryCard
+          accent="indigo-deep"
+          icon={<Activity size={20} />}
+          title="Deep analytics"
+          description={`Traffic charts and section breakdown for the ${ADMIN_RANGE_LABEL[range]}.`}
+          onClick={() => setOpenSection('analytics')}
+        />
       </div>
 
       {result && !result.configured && (
@@ -428,18 +451,11 @@ function AdminPage() {
       )}
 
       {/* Group 2: Manage — every card here is clickable and opens a
-          full-width page (?section=...). Warm emerald/amber/rose accents
-          and a trailing chevron mark the whole row as actionable, visually
-          distinct from the read-only Analytics group above. */}
+          full-width page (?section=...). Warm emerald/amber/rose/teal
+          accents and a trailing chevron mark the whole row as actionable,
+          visually distinct from the read-only/analytics group above. */}
       <p className="admin-group-label">Manage</p>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <CategoryCard
-          accent="indigo-deep"
-          icon={<Activity size={20} />}
-          title="Deep analytics"
-          description={`Traffic charts and section breakdown for the ${ADMIN_RANGE_LABEL[range]}.`}
-          onClick={() => setOpenSection('analytics')}
-        />
         <CategoryCard
           accent="emerald"
           icon={<FolderOpen size={20} />}
@@ -461,6 +477,13 @@ function AdminPage() {
           description="Review resources submitted via the public /contribute form."
           onClick={() => setOpenSection('contributions')}
         />
+        <CategoryCard
+          accent="teal"
+          icon={<Mail size={20} />}
+          title="Contact messages"
+          description={'Read messages sent via the footer\'s "Send us a message" form.'}
+          onClick={() => setOpenSection('messages')}
+        />
       </div>
     </div>
   );
@@ -474,7 +497,7 @@ const SECTION_COLORS = ['#6366f1', '#22c55e'];
  * uses cool blue/violet/sky accents; the Manage group (CategoryCard) uses a
  * deeper indigo plus warm emerald/amber — distinct palettes so the two
  * show-only vs clickable rows read as separate categories at a glance. */
-type Accent = 'indigo' | 'violet' | 'sky' | 'indigo-deep' | 'emerald' | 'amber' | 'rose';
+type Accent = 'indigo' | 'violet' | 'sky' | 'indigo-deep' | 'emerald' | 'amber' | 'rose' | 'teal';
 
 /** The analytics lookback-window toggle shown next to the top-level
  * dashboard header and again inside the Deep analytics page — a single
@@ -1785,6 +1808,193 @@ function ContributedResourcesCard() {
                             onClick={() => void setStatus(row, 'pending')}
                           >
                             Reset to pending
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+const CONTACT_MESSAGE_STATUS_META: Record<ContactMessageStatus, { label: string; className: string }> = {
+  unread: { label: 'Unread', className: 'contribution-badge-pending' },
+  read: { label: 'Read', className: 'contribution-badge-approved' },
+  archived: { label: 'Archived', className: 'contribution-badge-rejected' },
+};
+
+/** "Contact messages" panel: lists every row from contact_messages
+ * (newest first) submitted via the footer's "Send us a message" popup,
+ * with a status badge and inline mark-as-read/archive actions. Mirrors
+ * ContributedResourcesCard's shape (filter tabs, expandable rows) but for
+ * the simpler name/email/subject/message fields instead of file
+ * submissions. */
+function ContactMessagesCard() {
+  const [state, setState] = useState<AdminContactMessagesResult | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [filter, setFilter] = useState<ContactMessageStatus | 'all'>('all');
+  const [updatingId, setUpdatingId] = useState<number | null>(null);
+  const [expandedId, setExpandedId] = useState<number | null>(null);
+
+  function getPasscode() {
+    return adminSessionPasscode ?? '';
+  }
+
+  async function load() {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await getAdminContactMessages({ data: { passcode: getPasscode() } });
+      setState(data);
+    } catch {
+      setError('Could not load messages.');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    void load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  async function setStatus(row: AdminContactMessageRow, status: ContactMessageStatus) {
+    setUpdatingId(row.id);
+    try {
+      const res = await updateContactMessageStatus({ data: { passcode: getPasscode(), id: row.id, status } });
+      if (res.ok) {
+        setState((prev) =>
+          prev && prev.configured
+            ? { ...prev, messages: prev.messages.map((m) => (m.id === row.id ? { ...m, status } : m)) }
+            : prev,
+        );
+      } else {
+        setError(res.reason);
+      }
+    } catch {
+      setError('Could not update this message. Try again.');
+    } finally {
+      setUpdatingId(null);
+    }
+  }
+
+  async function openRow(row: AdminContactMessageRow) {
+    const expanding = expandedId !== row.id;
+    setExpandedId(expanding ? row.id : null);
+    if (expanding && row.status === 'unread') void setStatus(row, 'read');
+  }
+
+  const rows = state?.configured ? state.messages : [];
+  const visibleRows = filter === 'all' ? rows : rows.filter((r) => r.status === filter);
+  const counts = {
+    all: rows.length,
+    unread: rows.filter((r) => r.status === 'unread').length,
+    read: rows.filter((r) => r.status === 'read').length,
+    archived: rows.filter((r) => r.status === 'archived').length,
+  };
+
+  return (
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between gap-2">
+        <div className="flex items-center gap-1.5">
+          {(['all', 'unread', 'read', 'archived'] as const).map((key) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => setFilter(key)}
+              className={`contribution-filter-tab ${filter === key ? 'is-active' : ''}`}
+            >
+              {key === 'all' ? 'All' : CONTACT_MESSAGE_STATUS_META[key].label} · {counts[key]}
+            </button>
+          ))}
+        </div>
+        <Button variant="outline" size="sm" onClick={() => void load()} disabled={loading}>
+          {loading ? 'Refreshing…' : 'Refresh'}
+        </Button>
+      </CardHeader>
+      <CardContent>
+        <p className="mb-4 text-xs text-muted-foreground">
+          Every submission from the footer's "Send us a message" popup. Opening a message marks it read;
+          archive it once you've followed up.
+        </p>
+
+        {error && <p className="mb-4 text-sm text-destructive">{error}</p>}
+
+        {state && !state.configured && (
+          <div className="rounded-lg border bg-muted/30 p-4">
+            <p className="text-sm font-medium text-foreground">{state.reason}</p>
+          </div>
+        )}
+
+        {state?.configured && visibleRows.length === 0 && (
+          <p className="text-sm text-muted-foreground">No messages {filter === 'all' ? 'yet' : `with status "${filter}"`}.</p>
+        )}
+
+        {state?.configured && visibleRows.length > 0 && (
+          <div className="space-y-3">
+            {visibleRows.map((row) => {
+              const badge = CONTACT_MESSAGE_STATUS_META[row.status];
+              const expanded = expandedId === row.id;
+              return (
+                <div key={row.id} className="contribution-row">
+                  <button
+                    type="button"
+                    className="contribution-row-main"
+                    onClick={() => void openRow(row)}
+                  >
+                    <span className="contribution-row-icon">
+                      <Mail size={16} />
+                    </span>
+                    <span className="contribution-row-title">
+                      <span className="contribution-row-filename" title={row.subject}>{row.subject}</span>
+                      <span className="contribution-row-meta">
+                        {row.name} · {row.email} · {formatDateTime(row.createdAt)}
+                      </span>
+                    </span>
+                    <span className={`contribution-badge ${badge.className}`}>{badge.label}</span>
+                  </button>
+
+                  {expanded && (
+                    <div className="contribution-row-detail">
+                      <p className="contribution-detail-line" style={{ whiteSpace: 'pre-wrap' }}>
+                        {row.message}
+                      </p>
+                      {row.socialHandle && (
+                        <p className="contribution-detail-line">
+                          <span className="contribution-detail-label">Discord/Reddit</span> {row.socialHandle}
+                        </p>
+                      )}
+                      <p className="contribution-detail-line">
+                        <span className="contribution-detail-label">Reply to</span>{' '}
+                        <a href={`mailto:${row.email}`} className="text-primary hover:underline">{row.email}</a>
+                      </p>
+
+                      <div className="contribution-actions">
+                        {row.status !== 'archived' && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            disabled={updatingId === row.id}
+                            onClick={() => void setStatus(row, 'archived')}
+                          >
+                            Archive
+                          </Button>
+                        )}
+                        {row.status !== 'unread' && (
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            disabled={updatingId === row.id}
+                            onClick={() => void setStatus(row, 'unread')}
+                          >
+                            Mark as unread
                           </Button>
                         )}
                       </div>
