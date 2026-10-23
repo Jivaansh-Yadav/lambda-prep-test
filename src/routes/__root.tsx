@@ -8,34 +8,113 @@ import {
   Scripts,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
-import { Header, Footer } from "@/components/lambda/shell";
+import { Header, Footer, ContactMessageDialog } from "@/components/lambda/shell";
 import { SITE_URL, OG_IMAGE } from "@/lib/lambda";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { I18nProvider, useI18n } from "../lib/i18n";
 import { ThemeProvider, themeBootstrapScript } from "../lib/theme";
 
+/** A torn-page book glyph for the 404 state — drawn by hand instead of
+ * pulled from the icon set so the ripped corner reads clearly at this size. */
+function TornBookIcon() {
+  return (
+    <svg
+      width="88"
+      height="88"
+      viewBox="0 0 88 88"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      className="notfound-icon"
+    >
+      <path
+        d="M44 16c-7-5-18-7-28-5v54c10-2 21 0 28 5"
+        stroke="currentColor"
+        strokeWidth="3.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M44 16c7-5 18-7 28-5v54c-10-2-21 0-28 5"
+        stroke="currentColor"
+        strokeWidth="3.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M44 16v54" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
+      <path
+        d="M58 30l5 3-6 2 6 3-7 2 6 4-9 1"
+        stroke="currentColor"
+        strokeWidth="2.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        opacity="0.55"
+      />
+      <path
+        d="M66 48l9-3-6 8 8-1-11 10"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="notfound-icon-tear"
+      />
+    </svg>
+  );
+}
+
+const NOTFOUND_MESSAGE_KEYS: readonly string[] = [
+  'notfound.text',
+  'notfound.text2',
+  'notfound.text3',
+  'notfound.text4',
+  'notfound.text5',
+  'notfound.text6',
+];
+
 function NotFoundComponent() {
   const { t } = useI18n();
+  const [contactOpen, setContactOpen] = useState(false);
+  // Picked once per mount so the message doesn't shuffle on re-renders.
+  const [messageKey] = useState<string>(() => NOTFOUND_MESSAGE_KEYS[Math.floor(Math.random() * NOTFOUND_MESSAGE_KEYS.length)] ?? 'notfound.text');
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
+        <TornBookIcon />
+        <h1 className="mt-4 text-7xl font-bold text-foreground">404</h1>
         <h2 className="mt-4 text-xl font-semibold text-foreground">{t('notfound.title')}</h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          {t('notfound.text')}
+          {t(messageKey)}
         </p>
-        <div className="mt-6">
+        <div className="mt-6 flex flex-wrap justify-center gap-2">
           <Link
-            to="/"
+            to="/resources"
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            {t('notfound.goHome')}
+            {t('notfound.exploreResources')}
+          </Link>
+          <Link
+            to="/doxxmarks"
+            search={{}}
+            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+          >
+            {t('notfound.openDoxxmarks')}
           </Link>
         </div>
+        <div className="mt-3">
+          <button
+            type="button"
+            onClick={() => setContactOpen(true)}
+            className="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground hover:bg-accent"
+          >
+            {t('notfound.sendMessage')}
+          </button>
+        </div>
       </div>
+      <ContactMessageDialog open={contactOpen} onOpenChange={setContactOpen} />
     </div>
   );
 }

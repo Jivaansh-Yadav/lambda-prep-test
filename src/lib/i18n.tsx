@@ -186,7 +186,15 @@ const en: Dict = {
 
   'notfound.title': 'Page not found',
   'notfound.text': "The page you're looking for doesn't exist or has been moved.",
+  'notfound.text2': 'Looks like this page flew out the window.',
+  'notfound.text3': 'Our dog ate this page. We\u2019re as upset as you are.',
+  'notfound.text4': 'This page took a leave of absence and never came back.',
+  'notfound.text5': 'Someone borrowed this page and forgot to return it.',
+  'notfound.text6': 'This page got lost between chapters.',
   'notfound.goHome': 'Go home',
+  'notfound.exploreResources': 'Explore resources',
+  'notfound.openDoxxmarks': 'Open Doxxmarks',
+  'notfound.sendMessage': 'Send us a message',
 
   'error.title': "This page didn't load",
   'error.text': 'Something went wrong on our end. You can try refreshing or head back home.',

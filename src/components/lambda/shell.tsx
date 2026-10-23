@@ -107,8 +107,11 @@ type ContactMessageDialogProps = { open: boolean; onOpenChange: (next: boolean) 
  * table via submitContactMessage(). No email is sent automatically;
  * an admin reads these from the database later. Resets to a blank form
  * every time it's reopened, and shows a brief confirmation state before
- * closing itself on a successful send. */
-function ContactMessageDialog({ open, onOpenChange }: ContactMessageDialogProps) {
+ * closing itself on a successful send.
+ *
+ * Exported so other surfaces (e.g. the 404 page) can reuse the same
+ * contact flow without duplicating the dialog/form. */
+export function ContactMessageDialog({ open, onOpenChange }: ContactMessageDialogProps) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
