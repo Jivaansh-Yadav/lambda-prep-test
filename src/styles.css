@@ -907,6 +907,22 @@
 .share-target-message .share-target-icon { background: oklch(0.9 0.06 155); color: var(--green-ink); }
 .share-target-more { background: linear-gradient(160deg, oklch(0.95 0.025 300), var(--card)); border-color: oklch(0.82 0.06 300); }
 .share-target-more .share-target-icon { background: oklch(0.9 0.05 300); color: var(--purple-ink); }
+
+/* Dark mode: the light brand-tinted gradients above read as near-black
+ * against a dark --card, washing out the icon circles and labels. Swap to
+ * darker tinted gradients with the same hue, paired with brighter icon
+ * circles so the brand color stays legible. */
+.dark .share-target-telegram { background: linear-gradient(160deg, oklch(0.3 0.045 235), var(--card)); border-color: oklch(0.4 0.06 235); }
+.dark .share-target-telegram .share-target-icon { background: oklch(0.4 0.08 235); color: oklch(0.85 0.08 230); }
+.dark .share-target-reddit { background: linear-gradient(160deg, oklch(0.3 0.05 45), var(--card)); border-color: oklch(0.42 0.07 45); }
+.dark .share-target-reddit .share-target-icon { background: oklch(0.42 0.1 45); color: oklch(0.88 0.1 45); }
+.dark .share-target-email { background: linear-gradient(160deg, oklch(0.28 0.04 260), var(--card)); border-color: oklch(0.4 0.05 260); }
+.dark .share-target-email .share-target-icon { background: oklch(0.38 0.06 260); color: oklch(0.85 0.1 261); }
+.dark .share-target-message { background: linear-gradient(160deg, oklch(0.28 0.045 155), var(--card)); border-color: oklch(0.4 0.06 155); }
+.dark .share-target-message .share-target-icon { background: oklch(0.4 0.08 155); color: var(--green-ink); }
+.dark .share-target-more { background: linear-gradient(160deg, oklch(0.28 0.035 300), var(--card)); border-color: oklch(0.4 0.05 300); }
+.dark .share-target-more .share-target-icon { background: oklch(0.4 0.06 300); color: var(--purple-ink); }
+.dark .share-target-label { color: var(--foreground); opacity: 0.85; }
 .share-hint { display: flex; align-items: center; gap: 4px; justify-content: center; margin-top: 16px; font-size: 12.5px; color: var(--green-ink); min-height: 16px; }
 .share-hint:empty { margin-top: 0; }
 @keyframes share-tile-in {
