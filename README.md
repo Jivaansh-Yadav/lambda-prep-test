@@ -47,7 +47,6 @@ The brand mark is a Half-Life-authentic Greek lambda (λ) in a circular border w
 ├── public/                        # static assets served as-is (logo, images, favicon, OG image)
 ├── scripts/
 │   ├── drive-crawl/                # crawls the Drive service account → raw folder/file JSON tree
-│   ├── analytics-cron/             # scheduled job: pulls Cloudflare Web Analytics, caches in Neon
 │   ├── transform-resources.py      # raw Drive tree → per-subject community/CISCE resource datasets
 │   ├── transform-isc11-resources.py
 │   ├── split-resources-dataset.py  # splits oversized datasets (e.g. large community buckets)
@@ -92,7 +91,7 @@ The brand mark is a Half-Life-authentic Greek lambda (λ) in a circular border w
 - **Large-list performance**: `@tanstack/react-virtual` virtualizes community resource groups once a user expands a large group ("View all"), avoiding an unbounded DOM for groups with 100+ files while keeping normal small groups in a plain responsive grid.
 - **Cross-cutting providers** (set up in `src/routes/__root.tsx`): `QueryClientProvider` (TanStack Query), `I18nProvider`, `ThemeProvider` (with an inline bootstrap script to avoid a flash of the wrong theme), plus root-level 404 and error boundaries wired to lightweight error reporting (`lovable-error-reporting.ts`).
 - **Build/deploy target**: Vite 8 build via `@lovable.dev/vite-tanstack-config`, with Nitro targeting Cloudflare by default for the server bundle; the app is deployed to **Vercel** in this project's hosting setup, fronted by Eazo's deployment pipeline.
-- **Analytics**: a standalone cron script (`scripts/analytics-cron/`) pulls Cloudflare Web Analytics/GraphQL data on a schedule and writes it into a Postgres cache table, which the admin dashboard reads instead of hitting Cloudflare's API on every page view.
+- **Analytics**: the admin dashboard reads live Cloudflare Web Analytics (RUM) GraphQL data via `rumPageloadEventsAdaptiveGroups`, backed by a 5-minute Neon cache table (`cloudflare_analytics_cache`) per lookback range, so it doesn't hit Cloudflare's API on every page view.
 
 ## Tech stack
 
