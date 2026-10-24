@@ -105,6 +105,8 @@ const en: Dict = {
   'resources.watch.exitFullscreen': 'Exit fullscreen',
   'resources.watch.openInDrive': 'Open in Google Drive',
   'resources.watch.download': 'Download',
+  'resources.watch.darkModeOn': 'Switch to dark reading mode',
+  'resources.watch.darkModeOff': 'Switch to normal reading mode',
   'resources.watch.fileList': 'Files in this section',
   'resources.watch.lastUpdated': 'Last updated',
   'resources.watch.size': 'Size',

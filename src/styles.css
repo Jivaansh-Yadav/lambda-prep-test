@@ -965,7 +965,17 @@
 
 /* Resources PDF viewer — reuses .doxx-watch grid; adds multi-button toolbar */
 .resource-pdf-frame { aspect-ratio: 3 / 4; background: var(--muted); }
-.resource-pdf-frame iframe { background: #fff; }
+.resource-pdf-frame iframe { background: #fff; transition: filter .2s ease; }
+/* "Dark reading mode" for the embedded Drive preview. There's no same-origin
+ * access into the iframe's document to theme it properly, so this inverts
+ * luminance via a CSS filter on the iframe element itself and then flips the
+ * hue back so colors (highlights, images) don't come out as photo-negative.
+ * Values are tuned so white becomes a soft dark gray (not pure black) and
+ * black text becomes a soft off-white (not pure white) — comfortable
+ * contrast without the harsh all-or-nothing look of a straight invert(1). */
+.resource-pdf-inverted { filter: invert(0.9) hue-rotate(180deg) brightness(0.95) contrast(0.92); }
+.doxx-sandbox-fullscreen.is-active { background: var(--primary); color: var(--primary-foreground); }
+.doxx-sandbox-fullscreen.is-active:hover { background: var(--primary); filter: brightness(1.08); }
 
 /* ---------- Pseudo-fullscreen fallback ----------
    Used by useFullscreen when the element-level Fullscreen API isn't

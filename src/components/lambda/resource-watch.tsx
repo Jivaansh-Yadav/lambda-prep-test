@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ChevronDown, ChevronUp, Download, ExternalLink, Eye, FileText, Maximize, Minimize, Share2 } from 'lucide-react';
+import { ChevronDown, ChevronUp, Contrast, Download, ExternalLink, Eye, FileText, Maximize, Minimize, Share2 } from 'lucide-react';
 import { useFullscreen } from '@/hooks/use-fullscreen';
 import { useI18n } from '@/lib/i18n';
 import { getGroupLabel, type ResourceItem } from '@/lib/resources-data';
@@ -109,6 +109,14 @@ export function ResourceWatch({ groups, active, onSelect, shareUrl }: ResourceWa
   const [sideHeight, setSideHeight] = useState<number | undefined>(undefined);
   const [viewCount, setViewCount] = useState<number | null>(null);
   const [shareCount, setShareCount] = useState<number | null>(null);
+  // Dark-reading toggle for the embedded preview: Drive's PDF/doc viewer is
+  // always a bright white page, which can be harsh in low light. There's no
+  // same-origin access into the iframe's own document to theme it properly,
+  // so this applies a CSS filter to the iframe itself instead — the one lever
+  // available from outside. Kept as component state (not reset per file,
+  // since the iframe is keyed by active.id and remounts on every file
+  // change) so the preference sticks while browsing a section's files.
+  const [inverted, setInverted] = useState(false);
 
   // Record one view per file load (not per render) — fires whenever the
   // active file's id changes, including the very first file shown. Also
@@ -194,8 +202,19 @@ export function ResourceWatch({ groups, active, onSelect, shareUrl }: ResourceWa
             title={active.name}
             loading="lazy"
             allow="autoplay"
+            className={inverted ? 'resource-pdf-inverted' : undefined}
           />
           <div className="resource-pdf-toolbar">
+            <button
+              type="button"
+              className={inverted ? 'doxx-sandbox-fullscreen is-active' : 'doxx-sandbox-fullscreen'}
+              onClick={() => setInverted(v => !v)}
+              aria-pressed={inverted}
+              aria-label={inverted ? t('resources.watch.darkModeOff') : t('resources.watch.darkModeOn')}
+              title={inverted ? t('resources.watch.darkModeOff') : t('resources.watch.darkModeOn')}
+            >
+              <Contrast size={16} />
+            </button>
             <button type="button" className="doxx-sandbox-fullscreen" onClick={toggleFullscreen} aria-label={isFullscreen ? t('resources.watch.exitFullscreen') : t('resources.watch.fullscreen')} title={isFullscreen ? t('resources.watch.exitFullscreen') : t('resources.watch.fullscreen')}>
               {isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}
             </button>
