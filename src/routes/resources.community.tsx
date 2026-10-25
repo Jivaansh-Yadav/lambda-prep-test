@@ -28,7 +28,12 @@ function CommunityResources() {
       file={file}
       stream={stream}
       onStreamChange={next => navigate({ search: prev => ({ ...prev, stream: next === 'All' ? undefined : next }), replace: true })}
-      onFileChange={fileId => navigate({ search: prev => ({ ...prev, file: fileId ?? undefined }), replace: true })}
+      // Opening a file pushes a new history entry (no `replace`) so the
+      // browser's own Back can close it later — closing it directly (the
+      // in-viewer Back button) goes through `useGoBack` instead of calling
+      // this, and only falls back to clearing the param here when there's
+      // no history entry to go back to.
+      onFileChange={fileId => navigate({ search: prev => ({ ...prev, file: fileId ?? undefined }) })}
       title={t('resources.community.title')}
       desc={<>{t('resources.community.descPrefix')} <a href="https://www.reddit.com/r/ICSE" target="_blank" rel="noreferrer">r/ICSE</a> and <a href="https://www.reddit.com/r/ISCNERDS/" target="_blank" rel="noreferrer">r/ISCNERDS</a> {t('resources.community.descMid')} <a href="https://discord.gg/7daJugjUA3" target="_blank" rel="noreferrer">ICSEcord</a> and <a href="https://discord.gg/7daJugjUA3" target="_blank" rel="noreferrer">ISCcord</a> {t('resources.community.descSuffix')}</>}
     />

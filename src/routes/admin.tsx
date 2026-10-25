@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { Fragment, useEffect, useRef, useState } from 'react';
+import { useGoBack } from '@/hooks/use-go-back';
 import {
   Bar,
   BarChart,
@@ -125,6 +126,15 @@ function AdminPage() {
   const navigate = Route.useNavigate();
   function setOpenSection(next: AdminSection | null) {
     void navigate({ search: (prev) => ({ ...prev, section: next ?? undefined }) });
+  }
+  // Opening a section pushes `?section=...` onto this tab's own history
+  // (see the onClick handlers below), so the browser's own Back always
+  // undoes that — falling back to clearing the param only when there's
+  // nowhere left to go back to (e.g. a bookmarked/deep `?section=` URL).
+  const { canGoBack, goBack } = useGoBack();
+  function closeSection() {
+    if (canGoBack) goBack();
+    else setOpenSection(null);
   }
   const [rumResult, setRumResult] = useState<AdminRumResult | null>(null);
   const [rumLoading, setRumLoading] = useState(false);
@@ -262,7 +272,7 @@ function AdminPage() {
       <div className="mx-auto w-full max-w-[1400px] px-4 py-10">
         <button
           type="button"
-          onClick={() => setOpenSection(null)}
+          onClick={closeSection}
           className="mb-6 flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft size={15} /> Admin dashboard

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { classes, getSubjects, pageHead, classSeoDescriptions } from '@/lib/lambda';
 import { getCurriculumClass, findSubjectInClass } from '@/lib/curriculum';
 import { useI18n } from '@/lib/i18n';
+import { useGoBack } from '@/hooks/use-go-back';
 import { StreamTabs } from '@/components/lambda/stream-tabs';
 
 export const Route = createFileRoute('/classes/$classId')({
@@ -23,6 +24,7 @@ function ClassHub() {
 type CurrentClass = ReturnType<typeof Route.useLoaderData>['current'];
 function ClassHubView({ current }: { current: CurrentClass }) {
   const { t } = useI18n();
+  const { canGoBack, goBack } = useGoBack();
   const [stream, setStream] = useState('All');
   const [search, setSearch] = useState('');
   const [selected, setSelected] = useState<string | null>(null);
@@ -36,7 +38,11 @@ function ClassHubView({ current }: { current: CurrentClass }) {
   const hasDoxxContent = !!selectedSubject && selectedSubject.chapters.length > 0;
 
   return <main className="hub-page container">
-    <Link to="/" className="back-link"><ArrowLeft size={15} /> {t('hub.allClasses')}</Link>
+    {canGoBack ? (
+      <button type="button" className="back-link" onClick={goBack}><ArrowLeft size={15} /> {t('hub.allClasses')}</button>
+    ) : (
+      <Link to="/" className="back-link"><ArrowLeft size={15} /> {t('hub.allClasses')}</Link>
+    )}
     <div className="hub-heading">
       <div><p className="eyebrow">{current.board}</p><h1>Class {current.grade}<span className="text-primary">.</span></h1><p>{current.label}</p></div>
       <span className="hub-badge"><BookOpen size={18} /> {current.board} {t('hub.curriculum')}</span>

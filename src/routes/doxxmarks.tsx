@@ -8,6 +8,7 @@ import { classes, findSubjectMeta, pageHead, getSiteOrigin } from '@/lib/lambda'
 import { type ResourceItem } from '@/lib/resources-data';
 import { useI18n } from '@/lib/i18n';
 import { useFuseSearch } from '@/hooks/use-fuse-search';
+import { useGoBack } from '@/hooks/use-go-back';
 
 // DoxxWatch pulls in the full Video.js + hls.js player stack (over 1MB), so
 // it's only fetched once a lesson is actually opened — not on every visit to
@@ -61,6 +62,7 @@ function Doxxmarks() {
   const { t } = useI18n();
   const { class: classSlug, subject: subjectName, chapter: chapterIdx, topic: topicIdx, lesson: lessonIdx, note: noteIdx } = Route.useSearch();
   const navigate = Route.useNavigate();
+  const { canGoBack, goBack } = useGoBack();
   const classMeta = classSlug ? classes.find(c => c.slug === classSlug) : undefined;
   const currentClass = classMeta ? curriculumClasses.find(c => c.board === classMeta.board && c.roman === classMeta.roman) : undefined;
   const subject = currentClass?.subjects.find(s => s.name === subjectName);
@@ -85,7 +87,7 @@ function Doxxmarks() {
     navigate({ search: prev => ({ ...prev, lesson: index >= 0 ? index : undefined }) });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-  const closeLesson = () => navigate({ search: prev => ({ ...prev, lesson: undefined }) });
+  const closeLesson = () => { if (canGoBack) goBack(); else navigate({ search: prev => ({ ...prev, lesson: undefined }) }); };
 
   // Chapter revision notes (plain `{name, link}` entries in curriculum.json,
   // Drive share-links) converted to the same ResourceItem shape Resources
@@ -105,7 +107,7 @@ function Doxxmarks() {
     navigate({ search: prev => ({ ...prev, note: index >= 0 ? index : undefined }) });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
-  const closeNote = () => navigate({ search: prev => ({ ...prev, note: undefined }) });
+  const closeNote = () => { if (canGoBack) goBack(); else navigate({ search: prev => ({ ...prev, note: undefined }) }); };
 
   useEffect(() => {
     setSubjectQuery('');
@@ -156,6 +158,13 @@ function Doxxmarks() {
           <button type="button" className="back-link" onClick={closeLesson}><ArrowLeft size={15} /> {t('doxx.back')}</button>
         ) : activeNote ? (
           <button type="button" className="back-link" onClick={closeNote}><ArrowLeft size={15} /> {t('doxx.back')}</button>
+        ) : canGoBack ? (
+          // Every drill-down click below (class -> subject -> chapter ->
+          // topic) is a `<Link>` push, so the browser's own Back already
+          // undoes exactly one level — using it here keeps this button
+          // consistent with the browser/OS back gesture instead of
+          // re-deriving a fixed "one level up" destination.
+          <button type="button" className="back-link" onClick={goBack}><ArrowLeft size={15} /> {t('doxx.back')}</button>
         ) : (
           <Link to="/doxxmarks" search={backSearch} className="back-link"><ArrowLeft size={15} /> {t('doxx.back')}</Link>
         )

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { classes, findSubjectMeta, getSiteOrigin, subjectMatchesStream } from '@/lib/lambda';
 import { useI18n } from '@/lib/i18n';
 import { useFuseSearch } from '@/hooks/use-fuse-search';
+import { useGoBack } from '@/hooks/use-go-back';
 import { flattenFolderFiles, findItemInSubject, getFileKind, getGroupBadge, getGroupLabel, groupItems, hasResourceDataset, isFolderNode, isPremiumGroup, loadAllClassFiles, loadAllSourceFiles, loadResourceManifest, loadResourceMisc, loadResourceSubject, type FileKind, type ResourceFolderNode, type ResourceItem, type ResourceManifest, type ResourceNode, type ResourceSearchHit, type ResourceSubject } from '@/lib/resources-data';
 import { ResourceWatch } from '@/components/lambda/resource-watch';
 import { VirtualFileGrid } from '@/components/lambda/virtual-file-grid';
@@ -100,6 +101,22 @@ function countFolderFiles(folder: ResourceFolderNode): number {
     n += isFolderNode(c) ? countFolderFiles(c) : 1;
   }
   return n;
+}
+
+/** Renders every "Back to ..." link on this page. Picking a class/subject/
+ * file always pushes a new history entry (plain `<Link>`/`navigate` push),
+ * so the browser's own Back already lands exactly where the visitor came
+ * from — including a different stream filter, scroll position, or a
+ * deep-linked file shared by someone else — which a fixed destination
+ * link can't reproduce. `to`/`search` remain as the fallback for the rare
+ * case this tab has no history to go back to (e.g. the page was opened
+ * directly from a shared/bookmarked link). */
+function BackLink({ to, search, label }: { to: string; search: Record<string, unknown>; label: string }) {
+  const { canGoBack, goBack } = useGoBack();
+  if (canGoBack) {
+    return <button type="button" className="back-link" onClick={goBack}><ArrowLeft size={15} /> {label}</button>;
+  }
+  return <Link to={to} search={search} className="back-link"><ArrowLeft size={15} /> {label}</Link>;
 }
 
 function FolderCard({ folder, onClick }: { folder: ResourceFolderNode; onClick: () => void }) {
@@ -262,6 +279,7 @@ function GroupSection({ group, items, editorFolders, onPick }: {
 
 export function SourceClassPicker({ source, classSlug, subject, file, stream, onStreamChange, onFileChange, title, desc }: SourceClassPickerProps) {
   const { t } = useI18n();
+  const { canGoBack, goBack } = useGoBack();
   const [query, setQuery] = useState('');
   const [subjectQuery, setSubjectQuery] = useState('');
   const [fileQuery, setFileQuery] = useState('');
@@ -483,7 +501,13 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
     setActiveFile(item);
     onFileChange?.(item.id);
   };
+  // Opening a file above pushes a history entry (see onFileChange in the
+  // host route), so closing it should undo that via the browser's own
+  // Back — falling back to clearing the state/param directly only when
+  // there's no history entry to go back to (e.g. the file was opened via
+  // a deep `?file=` link with nothing of ours before it).
   const closeFile = () => {
+    if (canGoBack) { goBack(); return; }
     setActiveFile(null);
     setActiveFolderScope(null);
     onFileChange?.(undefined);
@@ -499,7 +523,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
   // Class picked but no indexed dataset for it yet -> "coming soon" state.
   if (currentClass && !hasDataset) {
     return <main className="container content-page">
-      <Link to={sourcePath} search={{}} className="back-link"><ArrowLeft size={15} /> {t('resources.backToClasses')}</Link>
+      <BackLink to={sourcePath} search={{}} label={t('resources.backToClasses')} />
       <h1>{title}<span className="text-primary">.</span></h1>
       <p className="page-intro">{desc}</p>
       <p className="library-note">{currentClass.board} · Class {currentClass.grade}{subject ? ` · ${subject}` : ''}</p>
@@ -512,7 +536,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
   // offer a way out instead of leaving the skeletons spinning forever.
   if (currentClass && hasDataset && manifestError) {
     return <main className="container content-page">
-      <Link to={sourcePath} search={{}} className="back-link"><ArrowLeft size={15} /> {t('resources.backToClasses')}</Link>
+      <BackLink to={sourcePath} search={{}} label={t('resources.backToClasses')} />
       <h1>{title}<span className="text-primary">.</span></h1>
       <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {t('resources.chooseSubject')}</p>
       <div className="empty-state">
@@ -527,7 +551,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
   // Dataset is being fetched (code-split per class) -> lightweight loading state.
   if (currentClass && hasDataset && !manifest) {
     return <main className="container content-page">
-      <Link to={sourcePath} search={{}} className="back-link"><ArrowLeft size={15} /> {t('resources.backToClasses')}</Link>
+      <BackLink to={sourcePath} search={{}} label={t('resources.backToClasses')} />
       <h1>{title}<span className="text-primary">.</span></h1>
       <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {t('resources.chooseSubject')}</p>
       <div className="doxx-cards" aria-busy={manifestLoading}>
@@ -545,7 +569,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
     // everything.
     const manifestIsEmpty = !manifest.subjects.length && !manifest.miscCount;
     return <main className="container content-page">
-      <Link to={sourcePath} search={{}} className="back-link"><ArrowLeft size={15} /> {t('resources.backToClasses')}</Link>
+      <BackLink to={sourcePath} search={{}} label={t('resources.backToClasses')} />
       <div className="content-header">
         <h1>{title}<span className="text-primary">.</span></h1>
         <div className="content-header-row">
@@ -621,7 +645,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
     // Subject shard failed to load -> same treatment as the manifest error.
     if (subjectError) {
       return <main className="container content-page">
-        <Link to={sourcePath} search={{ class: classSlug, stream }} className="back-link"><ArrowLeft size={15} /> {t('hub.backToSubjects')}</Link>
+        <BackLink to={sourcePath} search={{ class: classSlug, stream }} label={t('hub.backToSubjects')} />
         <h1>{subject}<span className="text-primary">.</span></h1>
         <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {title}</p>
         <div className="empty-state">
@@ -636,7 +660,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
     // Still fetching the subject's own JSON shard -> lightweight loading state.
     if (!subjectDataReady) {
       return <main className="container content-page">
-        <Link to={sourcePath} search={{ class: classSlug, stream }} className="back-link"><ArrowLeft size={15} /> {t('hub.backToSubjects')}</Link>
+        <BackLink to={sourcePath} search={{ class: classSlug, stream }} label={t('hub.backToSubjects')} />
         <h1>{subject}<span className="text-primary">.</span></h1>
         <p className="page-intro">{currentClass.board} · Class {currentClass.grade} · {title}</p>
         <div className="resource-file-grid" aria-busy={subjectLoading}>
@@ -674,7 +698,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
     }
 
     return <main className="container content-page">
-      <Link to={sourcePath} search={{ class: classSlug, stream }} className="back-link"><ArrowLeft size={15} /> {t('hub.backToSubjects')}</Link>
+      <BackLink to={sourcePath} search={{ class: classSlug, stream }} label={t('hub.backToSubjects')} />
       <div className="content-header">
         <h1>{subject}<span className="text-primary">.</span></h1>
         <div className="content-header-row">
@@ -726,7 +750,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
   const filtered = classes.filter(c => `${c.board} class ${c.grade} ${c.label}`.toLowerCase().includes(query.toLowerCase()));
 
   return <main className="container content-page">
-    <Link to="/resources" className="back-link"><ArrowLeft size={15} /> {t('resources.backToSources')}</Link>
+    <BackLink to="/resources" search={{}} label={t('resources.backToSources')} />
     <div className="content-header">
       <h1>{title}<span className="text-primary">.</span></h1>
       <div className="content-header-row">
