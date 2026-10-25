@@ -400,7 +400,11 @@
      next to the stream tabs; every other search field is a plain block. */
   .hub-toolbar .search-field { flex: 0 1 420px; min-width: 220px; }
   .stream-tabs { display: flex; gap: 5px; }
-  .subject-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 17px; animation: fade-slide-up .3s ease-out; }
+  /* `minmax(0, 1fr)` (not plain `1fr`) lets tracks shrink below each
+     .subject-card's intrinsic width — otherwise the grid (and the whole
+     page) overflows once the available width/column count ratio gets
+     tight, e.g. at tablet widths before the 4-column override kicks in. */
+  .subject-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 17px; animation: fade-slide-up .3s ease-out; }
   .subject-link { font-size: 13px; font-weight: 300; color: var(--muted-foreground); display: flex; align-items: center; gap: 12px; }
   .subject-link svg { color: var(--primary); }
   .empty-state { padding: 43px 10px; text-align: center; color: var(--muted-foreground); }
@@ -468,9 +472,25 @@
     .hero-tagline, .hero-description, .trust-points { font-size: 16px; }
     .class-grid { grid-template-columns: repeat(2, 1fr); }
     .source-grid { grid-template-columns: 1fr; }
-    .subject-grid { grid-template-columns: repeat(4, 1fr); }
+    .subject-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     .section-heading h2, .faq-layout h2, .mission-principle { font-size: 40px; }
     .faq-layout { gap: 35px; }
+  }
+
+  /* .quick-nav's items (Home/Classes/Doxxmarks/Resources/theme toggle) have
+     no room to shrink below their own intrinsic width — flex items default
+     to `min-width: auto` — so once the header gets much narrower than
+     ~1024px the nav simply pushes past the right edge instead of wrapping,
+     forcing horizontal scroll on every page. The hamburger menu (below,
+     originally gated at 800px) needs to take over before that happens, so
+     it gets its own, wider breakpoint here. */
+  @media (max-width: 1024px) {
+    .quick-nav { display: none; }
+    .quick-nav.is-open { position: fixed; top: 72px; left: 0; right: 0; z-index: 20; background: var(--background); border-bottom: 1px solid var(--border); padding: 16px 18px; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; font-size: 16px; box-shadow: var(--shadow); animation: dropdown-in .2s ease-out; }
+    .quick-nav.is-open .nav-link::after { display: none; }
+    .quick-nav.is-open .theme-toggle { margin-top: 4px; }
+    .nav-dropdown-content { position: static; }
+    .mobile-menu { display: inline-flex !important; margin-left: auto; }
   }
 
   @media (max-width: 800px) {
@@ -480,11 +500,6 @@
     .brand img, .footer-top .brand img { width: 30px; height: 30px; }
     .header-contribute-link { font-size: 11.5px; padding: 5px 10px; gap: 5px; }
     .header-contribute-link svg { width: 13px; height: 13px; }
-    .quick-nav { display: none; }
-    .quick-nav.is-open { position: fixed; top: 72px; left: 0; right: 0; z-index: 20; background: var(--background); border-bottom: 1px solid var(--border); padding: 16px 18px; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; font-size: 16px; box-shadow: var(--shadow); animation: dropdown-in .2s ease-out; }
-    .quick-nav.is-open .nav-link::after { display: none; }
-    .quick-nav.is-open .theme-toggle { margin-top: 4px; }
-    .nav-dropdown-content { position: static; }
     .hero { grid-template-columns: 1fr; padding-block: 36px 32px; gap: 24px; }
     .hero h1 { font-size: 38px; }
     .hero-tagline { font-size: 14px; margin-top: 0; }
@@ -510,7 +525,7 @@
     .faq-item > .faq-panel p { font-size: 15px; }
     .footer-top { flex-direction: column; gap: 16px; padding-block: 32px 24px; }
     .footer-bottom { flex-direction: column; gap: 8px; font-size: 12px; }
-    .subject-grid { grid-template-columns: repeat(3, 1fr); }
+    .subject-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .hub-heading { flex-wrap: wrap; gap: 16px; }
     .hub-heading h1, .content-page h1 { font-size: 34px; }
     .hub-toolbar { flex-wrap: wrap; }
@@ -550,7 +565,7 @@
     .hub-heading h1, .content-page h1 { font-size: 30px; }
     .hub-heading p:not(.eyebrow), .page-intro { font-size: 14px; }
     .hub-badge { display: none; }
-    .subject-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .subject-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
     .stream-tabs { width: 100%; overflow-x: auto; }
     .subject-dialog { padding: 28px 20px; }
     .dialog-path-card { padding: 12px; gap: 10px; }
@@ -1081,7 +1096,7 @@ body.pseudo-fullscreen-open { overflow: hidden; }
 .resource-file-card { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: 16px; border: 1px solid var(--border); border-radius: 12px; background: var(--card); color: var(--foreground); font-size: 14px; text-align: left; cursor: pointer; transition: border-color .15s, box-shadow .15s, transform .15s; }
 .resource-file-card:hover { border-color: var(--primary); box-shadow: 0 4px 14px color-mix(in oklch, var(--primary) 12%, transparent); transform: translateY(-2px); }
 .resource-file-icon { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 10px; background: var(--subject-fill, var(--muted)); color: var(--subject-ink, var(--muted-foreground)); flex-shrink: 0; }
-.resource-file-name { min-width: 0; font-weight: 600; line-height: 1.35; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+.resource-file-name { min-width: 0; width: 100%; font-weight: 600; line-height: 1.35; overflow: hidden; text-overflow: ellipsis; overflow-wrap: anywhere; word-break: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
 .resource-file-type { font-size: 11px; font-weight: 700; letter-spacing: .4px; color: var(--muted-foreground); }
 .resource-file-hit-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; width: 100%; }
 .resource-file-hit-subject { font-size: 11px; font-weight: 600; color: var(--muted-foreground); background: var(--muted); padding: 2px 8px; border-radius: 999px; }
@@ -1251,7 +1266,12 @@ body.pseudo-fullscreen-open { overflow: hidden; }
   }
 }
 .resource-group-head h2 { flex-wrap: wrap; }
-.resource-group-badge { position: relative; display: inline-flex; align-items: center; font-size: 11px; font-weight: 700; letter-spacing: .3px; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; background: var(--amber-soft); color: var(--amber-ink); }
+/* Positioning context for .resource-group-tooltip — moved here from
+   .resource-group-badge (see that tooltip's comment) since this header
+   row is wide enough to keep the tooltip on-screen when it's anchored via
+   `left: 0` instead of centered under the narrow badge pill. */
+.resource-group-head { position: relative; }
+.resource-group-badge { position: static; display: inline-flex; align-items: center; font-size: 11px; font-weight: 700; letter-spacing: .3px; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; background: var(--amber-soft); color: var(--amber-ink); }
 .resource-group-badge.is-premium {
   color: #4a3300;
   background: linear-gradient(100deg, #f8d568 0%, #ffe9a8 25%, #e8b23b 50%, #ffe9a8 75%, #f8d568 100%);
@@ -1288,13 +1308,21 @@ body.pseudo-fullscreen-open { overflow: hidden; }
   60% { left: 130%; }
   100% { left: 130%; }
 }
+/* Anchored to .resource-group-head (set `position: relative` below) rather
+   than the badge itself: the badge is a small inline pill, so centering a
+   360px tooltip under it via `left: 50%; translateX(-50%)` pushed the box
+   way past the viewport edge on narrow screens — it's `opacity: 0` while
+   closed, but a hidden box still counts toward scrollWidth, which is what
+   made these pages scroll horizontally even without the tooltip open.
+   Anchoring to the (much wider) group header and clamping both the width
+   and the left offset to the viewport keeps it fully on-screen instead. */
 .resource-group-tooltip {
   position: absolute;
   bottom: calc(100% + 10px);
-  left: 50%;
-  transform: translateX(-50%) translateY(4px);
-  width: 360px;
-  max-width: 85vw;
+  left: 0;
+  transform: translateY(4px);
+  width: min(360px, calc(100vw - 32px));
+  max-width: calc(100vw - 32px);
   padding: 16px 18px;
   border-radius: 12px;
   background: var(--foreground);
@@ -1315,8 +1343,7 @@ body.pseudo-fullscreen-open { overflow: hidden; }
   content: '';
   position: absolute;
   top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 14px;
   border: 6px solid transparent;
   border-top-color: var(--foreground);
 }
@@ -1324,7 +1351,7 @@ body.pseudo-fullscreen-open { overflow: hidden; }
 .resource-group-badge.is-premium:focus-visible .resource-group-tooltip {
   opacity: 1;
   visibility: visible;
-  transform: translateX(-50%) translateY(0);
+  transform: translateY(0);
 }
 .resource-file-grid-wrap { position: relative; }
 .resource-file-grid-wrap:not(.is-expanded) { max-height: 278px; overflow: hidden; }
