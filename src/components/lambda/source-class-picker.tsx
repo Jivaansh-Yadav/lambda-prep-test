@@ -216,15 +216,18 @@ function GroupSection({ group, items, editorFolders, onPick }: {
   }, [isGeneral, hasEditorFolders, items.length]);
 
   const showCollapseUi = !isGeneral && !hasEditorFolders && overflows;
-  // Large groups (hundreds of files) get virtualized only once the creator
-  // actually expands them, so the collapsed state still goes through the
-  // same capped grid as every other group — with its gap and "View all"
-  // button — instead of jumping straight into an unbounded scroller with
-  // no spacing or expand/collapse affordance. Gating on `expanded` also
-  // keeps `gridRef` mounted while collapsed, which is what measures
-  // `overflows` via ResizeObserver in the first place.
-  const VIRTUALIZE_THRESHOLD = 60;
-  const shouldVirtualize = !hasEditorFolders && items.length > VIRTUALIZE_THRESHOLD && expanded;
+  // Every group gets virtualized once the creator actually expands it, so
+  // the collapsed state still goes through the same capped grid as every
+  // other group — with its gap and "View all" button — instead of jumping
+  // straight into an unbounded scroller with no spacing or expand/collapse
+  // affordance. Gating on `expanded` also keeps `gridRef` mounted while
+  // collapsed, which is what measures `overflows` via ResizeObserver in
+  // the first place.
+  // Editor's Choice (`isGeneral`/`hasEditorFolders`) is the one exception:
+  // it's meant to show every curated item in full, unbounded, with no
+  // scroll container of its own — so it's excluded here regardless of how
+  // many items it holds.
+  const shouldVirtualize = !isGeneral && !hasEditorFolders && expanded;
 
   return (
     <section className={`doxx-notes resource-group${isGeneral || hasEditorFolders ? ' resource-group-editors-choice' : isFeaturedGroup ? ' resource-group-featured-glow' : ''}`}>
