@@ -201,6 +201,10 @@
     background: transparent;
     transition: color .2s ease, transform .2s ease, box-shadow .2s ease;
   }
+  /* Desktop shows the full label; the short "Contribute" label is reserved
+     for narrow headers (see the 560px override below) where the whole
+     phrase wouldn't fit without crowding the nav. */
+  .header-contribute-compact { display: none; }
   .header-contribute-link::before {
     content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -2;
     background: conic-gradient(from var(--contribute-angle, 0deg), oklch(0.88 0.11 90), oklch(0.78 0.15 70), oklch(0.85 0.14 85), oklch(0.88 0.11 90));
@@ -538,8 +542,9 @@
   @media (max-width: 560px) {
     .container { padding-inline: 16px; }
     .header-inner { flex-wrap: wrap; justify-content: space-between; padding-block: 10px; }
-    .header-contribute-link span { display: none; }
-    .header-contribute-link { padding: 7px 8px; }
+    .header-contribute-link { padding: 7px 10px; }
+    .header-contribute-full { display: none; }
+    .header-contribute-compact { display: inline; }
     .quick-nav.is-open { left: 0; right: 0; padding-inline: 16px; }
     .hero h1 { font-size: 32px; }
     .hero-description { font-size: 14px; }
