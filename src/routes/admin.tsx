@@ -431,7 +431,6 @@ function AdminPage() {
           accent="indigo-deep"
           icon={<Activity size={20} />}
           title="Deep analytics"
-          description={`Traffic charts and section breakdown for the ${ADMIN_RANGE_LABEL[range]}.`}
           onClick={() => setOpenSection('analytics')}
         />
       </div>
@@ -470,28 +469,24 @@ function AdminPage() {
           accent="emerald"
           icon={<FolderOpen size={20} />}
           title="Manage resources"
-          description="Browse, upload, rename and delete files in the live Drive folder."
           onClick={() => setOpenSection('manage')}
         />
         <CategoryCard
           accent="amber"
           icon={<Star size={20} />}
           title="Resource stats"
-          description="Ratings, feedback, views and shares for every resource file."
           onClick={() => setOpenSection('stats')}
         />
         <CategoryCard
           accent="rose"
           icon={<HeartHandshake size={20} />}
           title="Contributed resources"
-          description="Review resources submitted via the public /contribute form."
           onClick={() => setOpenSection('contributions')}
         />
         <CategoryCard
           accent="teal"
           icon={<Mail size={20} />}
           title="Contact messages"
-          description={'Read messages sent via the footer\'s "Send us a message" form.'}
           onClick={() => setOpenSection('messages')}
         />
       </div>
@@ -671,13 +666,11 @@ function CategoryCard({
   accent,
   icon,
   title,
-  description,
   onClick,
 }: {
   accent: Accent;
   icon: React.ReactNode;
   title: string;
-  description: string;
   onClick: () => void;
 }) {
   return (
@@ -687,10 +680,7 @@ function CategoryCard({
       className={`admin-category-card admin-category-card-clickable admin-category-card-${accent}`}
     >
       <span className="admin-category-icon">{icon}</span>
-      <span className="admin-category-text">
-        <span className="admin-category-title">{title}</span>
-        <span className="admin-category-description">{description}</span>
-      </span>
+      <span className="admin-category-title">{title}</span>
       <ChevronRight size={18} className="admin-category-chevron" />
     </button>
   );
