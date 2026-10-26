@@ -797,7 +797,6 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
             <span className="subject-icon"><c.icon /></span>
             <h3>Class {c.grade}</h3>
             <span className="class-label">{c.label}</span>
-            <p>{c.description}</p>
             <div className="card-bottom">{t('class.browseSubjects')} <ArrowUpRight size={18} /></div>
           </Link>
         ))}
