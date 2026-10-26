@@ -1,108 +1,108 @@
 {
-  "generatedAt": "2026-10-26T08:43:50.442644+00:00",
-  "grandTotal": 5917,
+  "generatedAt": "2026-10-26T17:38:41.641527+00:00",
+  "grandTotal": 5916,
   "bySource": {
     "cisce": {
       "icse-9": {
         "subjects": {
-          "History & Civics": 0,
-          "Biology": 0,
-          "Literature in English": 0,
-          "Physics": 0,
-          "Economic Applications": 0,
           "Mathematics": 0,
+          "Physics": 0,
+          "Economics": 0,
+          "Economic Applications": 0,
+          "History & Civics": 0,
+          "Hindi": 0,
+          "Literature in English": 0,
           "Computer Applications": 0,
           "Commercial Applications": 0,
-          "Economics": 0,
-          "Geography": 0,
           "English Language": 0,
-          "Hindi": 0,
-          "Commercial Studies": 0,
-          "Chemistry": 0
+          "Chemistry": 0,
+          "Biology": 0,
+          "Geography": 0,
+          "Commercial Studies": 0
         },
         "misc": 1,
         "total": 1
       },
       "icse-10": {
         "subjects": {
-          "History & Civics": 0,
-          "Biology": 0,
-          "Literature in English": 0,
-          "Physics": 0,
-          "Economic Applications": 0,
           "Mathematics": 0,
+          "Physics": 0,
+          "Economics": 0,
+          "Economic Applications": 0,
+          "History & Civics": 0,
+          "Hindi": 0,
+          "Literature in English": 0,
           "Computer Applications": 0,
           "Commercial Applications": 0,
-          "Economics": 0,
-          "Geography": 0,
           "English Language": 0,
-          "Hindi": 0,
-          "Commercial Studies": 0,
-          "Chemistry": 0
+          "Chemistry": 0,
+          "Biology": 0,
+          "Geography": 0,
+          "Commercial Studies": 0
         },
         "misc": 5,
         "total": 5
       },
       "isc-11": {
         "subjects": {
-          "Business Studies": 0,
-          "Geography": 0,
-          "Political Science": 0,
           "Physics": 0,
-          "Psychology": 0,
-          "Computer Science": 0,
-          "English Language": 0,
-          "Accountancy": 0,
-          "Biology": 0,
-          "Commerce": 0,
-          "Literature in English": 0,
           "Economics": 0,
-          "Sociology": 0,
-          "Chemistry": 0,
+          "Business Studies": 0,
+          "Commerce": 0,
+          "English Language": 0,
+          "Political Science": 0,
           "Mathematics": 0,
-          "History": 0
+          "History": 0,
+          "Literature in English": 0,
+          "Chemistry": 0,
+          "Computer Science": 0,
+          "Sociology": 0,
+          "Psychology": 0,
+          "Accountancy": 0,
+          "Geography": 0,
+          "Biology": 0
         },
         "misc": 3,
         "total": 3
       },
       "isc-12": {
         "subjects": {
-          "Business Studies": 0,
-          "Geography": 0,
-          "Political Science": 0,
           "Physics": 0,
-          "Psychology": 0,
-          "Computer Science": 0,
-          "English Language": 0,
-          "Accountancy": 0,
-          "Biology": 0,
-          "Commerce": 0,
-          "Literature in English": 0,
           "Economics": 0,
-          "Hindi": 0,
-          "Sociology": 0,
-          "Environmental Science": 0,
-          "Chemistry": 0,
-          "Home Science": 0,
+          "Business Studies": 0,
+          "Commerce": 0,
+          "English Language": 0,
+          "Political Science": 0,
           "Mathematics": 0,
-          "History": 0
+          "History": 0,
+          "Literature in English": 0,
+          "Chemistry": 0,
+          "Computer Science": 0,
+          "Sociology": 0,
+          "Hindi": 0,
+          "Psychology": 0,
+          "Home Science": 0,
+          "Accountancy": 0,
+          "Environmental Science": 0,
+          "Geography": 0,
+          "Biology": 0
         },
-        "misc": 4,
-        "total": 4
+        "misc": 3,
+        "total": 3
       }
     },
     "community": {
       "icse-9": {
         "subjects": {
-          "History & Civics": 1,
-          "Biology": 1,
-          "Literature in English": 2,
+          "Mathematics": 1,
           "Physics": 1,
           "Economic Applications": 1,
-          "Mathematics": 1,
+          "History & Civics": 1,
+          "Literature in English": 2,
           "Computer Applications": 1,
-          "Geography": 1,
-          "Chemistry": 1
+          "Chemistry": 1,
+          "Biology": 1,
+          "Geography": 1
         },
         "misc": 0,
         "total": 10
@@ -132,9 +132,9 @@
         "subjects": {
           "Physics": 15,
           "English Language": 4,
+          "Mathematics": 5,
           "Literature in English": 2,
-          "Chemistry": 7,
-          "Mathematics": 5
+          "Chemistry": 7
         },
         "misc": 0,
         "total": 33
