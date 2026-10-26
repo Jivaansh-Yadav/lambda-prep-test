@@ -73,7 +73,13 @@ export function VirtualFileGrid<T>({
                 top: 0,
                 left: 0,
                 width: '100%',
-                height: row.size,
+                // Row stride (row.size) is rowHeight + gap so rows land at the
+                // right vertical offsets, but the row element itself must only
+                // be rowHeight tall — otherwise its CSS-grid children stretch
+                // to fill the full stride (grid's default align-items:
+                // stretch) and swallow the gap, leaving cards touching
+                // top-to-bottom with no visible border between rows.
+                height: rowHeight,
                 transform: `translateY(${row.start}px)`,
                 display: 'grid',
                 gridTemplateColumns: `repeat(${columns}, 1fr)`,
