@@ -308,8 +308,14 @@
   .class-card h3 { font-size: 28px; font-weight: 750; margin-top: 18px; }
   .class-label { font-size: 18px; font-weight: 600; margin-top: 5px; display: block; }
   .class-card p { font-size: 16px; line-height: 1.8; color: var(--muted-foreground); margin-top: 11px; max-width: 250px; margin-bottom: 22px; }
-  .card-bottom { border-top: 1px solid var(--border); padding-block: 15px; display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-top: 15px; font-size: 15px; font-weight: 550; }
+  .card-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: auto; padding-block: 15px; font-size: 15px; font-weight: 550; }
   .card-bottom svg { color: var(--primary); }
+  /* Only show the separator line above "Browse/Explore" when the card still
+   * has a description paragraph above it (e.g. doxxmarks' class cards, the
+   * resources source cards) — without that paragraph (the homepage/resources
+   * class-picker cards, which dropped their description) a bare line right
+   * under the label looked like a stray leftover divider. */
+  :is(.class-card, .source-card) p ~ .card-bottom { border-top: 1px solid var(--border); padding-top: 15px; }
 
   /* How it works */
   .how-section { padding-block: 38px 61px; background: var(--muted); border-block: 1px solid var(--border); }
