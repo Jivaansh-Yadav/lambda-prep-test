@@ -438,6 +438,10 @@ def update_curriculum_revision_notes():
                     continue
                 chapter_name = re.sub(r'\.(pdf|docx?|pptx?)$', '', node['name'], flags=re.I)
                 chapter_name = re.sub(r'\s*-\s*InstaRevision\s*$', '', chapter_name, flags=re.I).strip()
+                # Strip a leading ordering prefix (e.g. "01 - ", "1. ") used
+                # to keep chapters sorted in Drive-folder order -- it's not
+                # part of the actual chapter name used for matching.
+                chapter_name = re.sub(r'^\d+\s*[-.)]\s*', '', chapter_name).strip()
                 link = f"https://drive.google.com/file/d/{node['id']}/view"
                 key = (class_slug, subject_name, _normalize_chapter_key(chapter_name))
                 notes_by_key.setdefault(key, []).append({'name': 'InstaRevision Notes', 'link': link})
@@ -462,7 +466,10 @@ def update_curriculum_revision_notes():
                     updated += 1
 
     with open(CURRICULUM_PATH, 'w') as f:
-        json.dump(curriculum, f, ensure_ascii=False)
+        # Pretty-printed (3-space indent) to match the hand-formatted style
+        # the file was last saved in -- keeps future diffs readable instead
+        # of collapsing back to one compact line.
+        json.dump(curriculum, f, indent=3, ensure_ascii=False)
     print(f'Updated revisionNotes for {updated} chapter(s) in {CURRICULUM_PATH}')
 
 
