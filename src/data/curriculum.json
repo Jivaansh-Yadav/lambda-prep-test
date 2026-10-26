@@ -1,1 +1,2958 @@
-{"boards": {"ICSE": {"classes": {"IX": {"subjects": [{"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Biology.", "name": "Biology", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Chemistry.", "name": "Chemistry", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Commercial Applications.", "name": "Commercial Applications", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Computer Applications.", "name": "Computer Applications", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"name": "English Language", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}, {"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}], "__comment": "Existing content for English Language."}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Geography.", "name": "Geography", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Hindi.", "name": "Hindi", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for History & Civics.", "name": "History & Civics", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"name": "Mathematics", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}, {"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}], "__comment": "Existing content for Mathematics."}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Physics.", "name": "Physics", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}], "__comment": "----------- ICSE Class IX subjects -----------"}, "X": {"subjects": [{"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Biology.", "name": "Biology", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Chemistry.", "name": "Chemistry", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Commercial Applications.", "name": "Commercial Applications", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Computer Applications.", "name": "Computer Applications", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for English Language.", "name": "English Language", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Geography.", "name": "Geography", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Hindi.", "name": "Hindi", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for History & Civics.", "name": "History & Civics", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Mathematics.", "name": "Mathematics", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"name": "Physics", "chapters": [{"name": "Force", "topics": [{"name": "Moment of Force", "interactiveClasses": [{"name": "Moment of Force", "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/28/1695910/dir_1695910/index.html#"}], "videoLessons": [{"name": "Translational and Rotational Motion", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/4/176224577404397494_dir_V001/1/1762257698723/output/Translational_And_Rotational_Motion1-hd.m3u8"}, {"name": "Moment of Force", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/5/176232019379341311_dir_V001/1/1762339176638/output/ICSE_SLMPPT_X_Physics_Force_Moment_of_Force_Moment_of_a_Force_or_Torque-hd.m3u8"}, {"name": "Principle of Moment", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/20/176361632747100160_dir_V001/1/1763616289582/output/Ppt_X_Principle_Of_Moment-hd.m3u8"}, {"name": "Couple", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/17/176337971888911266_dir_V001/1/1763379681465/output/Couple-hd.m3u8"}, {"name": "Equilibrium of Bodies", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/25/176224548124045348_dir_V001/1/1764048834312/output/Equilibrium_of_bodies-hd.m3u8"}]}, {"name": "Centre of Gravity and Uniform Circular Motion", "interactiveClasses": [{"name": "Centre of Gravity and Uniform Circular Motion", "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/11/16/1833202/dir_1833202/index.html#"}], "videoLessons": [{"name": "Centre of Gravity", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/5/176232062950760247_dir_V001/1/1762338379328/output/ICSE_SLMPPT_X_Physics_Force_Moment_of_Force_Centre_of_Gravity-hd.m3u8"}, {"name": "Uniform Circular Motion", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/3/175947384708718367_dir_V001/1/1759473817759/output/Ppt_Uniform_Circular_Motion-hd.m3u8"}, {"name": "Centripetal and Centrifugal Force", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/3/176217632678447948_dir_V001/1/1762176291913/output/Pptmp4_Icse_X_Centripetal_And_Centrifugal_Force-hd.m3u8"}]}], "revisionNotes": [{"name": "InstaRevision Notes", "link": "https://drive.google.com/file/d/140Q0RJ1V4qAgSF6NUqqkLLPAbPvfSQRK/view"}]}, {"name": "Work, Energy and Power", "topics": [{"name": "Work and Power", "interactiveClasses": [{"name": "Work and Power", "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/11/14/1830373/dir_1830373/index.html#"}], "videoLessons": [{"name": "Work", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176432855675180376_dir_V001/1/1764328638343/output/Work-hd.m3u8"}, {"name": "Types of Work", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/3/175947650478285834_dir_V001/1/1759476475371/output/Measurement_Of_Work-hd.m3u8"}, {"name": "Power", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176432698530671710_dir_V001/1/1764327067019/output/Power-hd.m3u8"}, {"name": "Energy and its Units", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/31/176165186525254919_dir_V001/1/1761908473806/output/Energy_And_Its_Units-hd.m3u8"}]}, {"name": "Forms of Energy", "interactiveClasses": [{"name": "Forms of Energy", "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/11/16/1831324/dir_1831324/index.html#"}], "videoLessons": [{"name": "Different Forms of Energy", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/4/176224772166769286_dir_V001/1/1762247686635/output/different_form-hd.m3u8"}, {"name": "Potential Energy", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/4/2/165961121390916263_dir_V001/1/1775111376426/output/Potential_Energy-hd.m3u8"}, {"name": "Kinetic Energy", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176432803153241374_dir_V001/1/1764328113219/output/Kinetic_Energy-hd.m3u8"}, {"name": "Relation between Kinetic Energy and Momentum", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/3/175947564424490919_dir_V001/1/1759475615025/output/Relationship_Between_Momentum_And_Kinetic_Energy-hd.m3u8"}, {"name": "Transformation of Energy", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/5/176232812985663969_dir_V001/1/1762333383872/output/ICSE_SLMPPT_X_Physics_Work_Energy_and_Power_Different_Forms_of_Energy_Transformation_of_Energy-hd.m3u8"}]}, {"name": "Conservation of Energy", "interactiveClasses": [{"name": "Conservation of Energy", "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/29/1699219/dir_1699219/index.html#"}], "videoLessons": [{"name": "Law of Conservation of Energy", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176432913521639395_dir_V001/1/1764329216797/output/ICD214465-hd.m3u8"}, {"name": "Energy Profile for a Simple Pendulum", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/3/175947672315783025_dir_V001/1/1759480962048/output/Energy_Profile_For_A_Simple_Pendulum-hd.m3u8"}]}, {"name": "Mechanical Energy", "interactiveClasses": [{"name": "Mechanical Energy", "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/28/1695924/dir_1695924/index.html#"}], "videoLessons": [{"name": "", "link": ""}]}], "revisionNotes": [{"name": "InstaRevision Notes", "link": "https://drive.google.com/file/d/1Wdf68ObWxcmotXGFNjuy_9kUW4CuaUTq/view"}]}, {"name": "Machines", "topics": [{"name": "Machines and Levers", "interactiveClasses": [{"name": "Machines and Levers", "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/11/14/1830341/dir_1830341/index.html#"}], "videoLessons": [{"name": "Machine", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176431407498262249_dir_V001/1/1764314035286/output/Machines-hd.m3u8"}, {"name": "Terms Related to Machine", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/2/176467553819562701_dir_V001/1/1764675503215/output/ICSE_SLMPPT_X_Physics_Machines_Machines_Terms_Related_to_Machine-hd.m3u8"}, {"name": "Principle of a Machine", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/2/176431428493575759_dir_V001/1/1764670378233/output/Principle_Of_A_Machine-hd.m3u8"}, {"name": "Efficiency and Mechanical advantage", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176432307807360005_dir_V001/1/1764323038431/output/Relation-hd.m3u8"}, {"name": "Levers", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/3/176475367740884188_dir_V001/1/1764753725298/output/Levers_X-hd.m3u8"}, {"name": "Kinds of Levers", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/3/176475324530214762_dir_V001/1/1764753209097/output/Kinds_of_Levers-hd.m3u8"}]}, {"name": "Pulley System", "interactiveClasses": [{"name": "Pulley System", "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/11/14/1830338/dir_1830338/index.html#"}], "videoLessons": [{"name": "Single Fixed Pulley", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/4/176482484342977853_dir_V001/1/1764824807832/output/Ppt_Mp4_Icse_X_Single_Fixed_Pulley-hd.m3u8"}, {"name": "Single Movable Pulley", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/2/176467575977326147_dir_V001/1/1764675724808/output/ICSE_SLMPPT_X_Physics_Machines_Pulley_Single_Movable_Pulley-hd.m3u8"}, {"name": "Combination of Pulleys", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/2/176467594273058202_dir_V001/1/1764675907898/output/ICSE_SLMPPT_X_Physics_Machines_Pulley_Combination_of_Pulley-hd.m3u8"}, {"name": "Block and Tackle system", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/2/176467517251428940_dir_V001/1/1764675137580/output/Ppt_Mp4_Icse_X_Block_And_Tackle_System-hd.m3u8"}]}], "revisionNotes": [{"name": "InstaRevision Notes", "link": "https://drive.google.com/file/d/1f5_EDRgckkNcUq4aw0z4FiXJINEk5Rwl/view"}]}, {"name": "Refraction of Light at Plane Surfaces", "topics": [{"name": "Refraction of Light", "interactiveClasses": [{"name": "Refraction of Light", "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/08/25/1764897/dir_1764897/index.html#"}], "videoLessons": [{"name": "Refraction of Light", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/26/176413894894452727_dir_V001/1/1764138909968/output/Refraction_of_light-hd.m3u8"}, {"name": "Principle of Reversibility of Light", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/4/176225900937580808_dir_V001/1/1762258974354/output/Slm-Ppt_Reversibility_Of_Light_Icse_Class_X-hd.m3u8"}, {"name": "Refraction Through Rectangular Glass Slab", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/10/11/13294531488891_dir/1/1665468975297/output/newfile-hd.m3u8"}, {"name": "", "link": ""}]}, {"name": "Applications of Refraction", "interactiveClasses": [{"name": "Refraction of Light through Prism", "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/08/30/2376372/dir_2376372/index.html#"}], "videoLessons": [{"name": "Real and Apparent Depth", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/1/176457303017292876_dir_V001/1/1764572992426/output/Slm-Ppt_Real_And_Apparent_Depth-hd.m3u8"}, {"name": "Apparent Bending of Pencil in water", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/1/176457285210808894_dir_V001/1/1764572814434/output/Apparent_Bending_In_Water-hd.m3u8"}, {"name": "Refraction through Prism", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/1/176457266367697914_dir_V001/1/1764572626065/output/Slm-Ppt_Refraction_Through_Prism-hd.m3u8"}]}, {"name": "Total Internal Reflection", "interactiveClasses": [{"name": "Total Internal Reflection", "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/11/16/1831137/dir_1831137/index.html#"}], "videoLessons": [{"name": "Critical Angle", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/4/176224628592269915_dir_V001/1/1762246250936/output/ICSE_SLMPPT_X_Physics_Refraction_of_Light_at_Plane_surface_Total_Internal_Reflection_Critical_Angle-hd.m3u8"}, {"name": "Total Internal Reflection", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/1/176457243969458015_dir_V001/1/1764572402029/output/Total_Internal_Reflection_Class_X-hd.m3u8"}, {"name": "Total Internal Reflection in Prism", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/3/176475248625518055_dir_V001/1/1764752985782/output/SLM-PPT_TIR_in_Prism-hd.m3u8"}]}], "revisionNotes": [{"name": "InstaRevision Notes", "link": "https://drive.google.com/file/d/1RjtfAwdXjFEoGfrLF3DFrABhIJwoNiFW/view"}]}, {"name": "Refraction through a Lens", "topics": [{"name": "Refraction Through Lenses", "interactiveClasses": [{"name": "Refraction Through Lenses", "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/01/1701574/dir_1701574/index.html#"}], "videoLessons": [{"name": "Lens as a set of prisms", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/5/176232540213330695_dir_V001/1/1762325366775/output/ICSE_SLMPPT_X_Physics_Refraction_through_a_Lens_Lens_Lens-hd.m3u8"}, {"name": "Spherical Lenses", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/21/27809271692021_dir/1/1663754592120/output/newfile-hd.m3u8"}, {"name": "Focus and Focal Plane", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/4/176224950367533438_dir_V001/1/1762249468547/output/Focus_And_Focal_Plane-hd.m3u8"}, {"name": "Refraction through lenses", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/4/176224515621816667_dir_V001/1/1762245121201/output/Refraction_Through_Lenses-hd.m3u8"}, {"name": "Image Formation by Spherical Lenses", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/30/25568071622931_dir/1/1664541278421/output/newfile-hd.m3u8"}, {"name": "Sign Convention in lens", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/5/176232079475965444_dir_V001/1/1762320759322/output/ICSE_SLMPPT_X_Physics_Refraction_through_a_Lens_Lens_Sign_Convention_in_Lens-hd.m3u8"}, {"name": "Lens Formula", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/25/176405230442878223_dir_V001/1/1764052265415/output/Slm-Ppt_Lens_Formula-hd.m3u8"}, {"name": "Linear Magnification", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/25/176405253390809384_dir_V001/1/1764052494738/output/Linear_Magnification-hd.m3u8"}, {"name": "Power of a Lens", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/11/28290641700821_dir/1/1662885965880/output/newfile-hd.m3u8"}]}, {"name": "Application Of Lens", "interactiveClasses": [{"name": "Spherical Lenses", "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/11/27/1837020/dir_1837020/index.html#"}], "videoLessons": [{"name": "Magnifying Glass and Simple Microscope", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/1/176458924083634862_dir_V001/1/1764589184339/output/1604153408_152738-hd.m3u8"}, {"name": "Application of lenses", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/25/176405274189711646_dir_V001/1/1764052702766/output/Application_Of_Lenses-hd.m3u8"}]}], "revisionNotes": [{"name": "InstaRevision Notes", "link": "https://drive.google.com/file/d/191ihQ1Wz8yXkx6apoMFHSiYI25PP05wG/view"}]}, {"name": "Spectrum", "topics": [{"name": "Effects of Light", "interactiveClasses": [{"name": "Dispersion", "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/10/09/1788990/dir_1788990/index.html#"}], "videoLessons": [{"name": "Refraction of Light through a Prism", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/2/176465408042584409_dir_V001/1/1764654024105/output/Deviation_Dispersion_and_Spectrum-hd.m3u8"}, {"name": "Dispersion of Light", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/8/4/165961523820865369_dir/1/1659615180540/output/newfile-hd.m3u8"}, {"name": "Scattering of Light", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/22/28138201700851_dir/1/1663831880461/output/newfile-hd.m3u8"}]}, {"name": "Electromagnetic Spectrum", "interactiveClasses": [{"name": "Electromagnetic Spectrum", "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/11/10/1827346/dir_1827346/index.html#"}], "videoLessons": [{"name": "Electromagnetic Radiations and Spectrum", "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/2/176465487943612622_dir_V001/1/1764654822879/output/Electromagnetic_Spectrum-hd.m3u"}]}], "revisionNotes": [{"name": "InstaRevision Notes", "link": "https://drive.google.com/file/d/1ywyTbUYqplmD8jszPJV5mZ6V3MRxiTjt/view"}]}], "__comment": "Existing content for Physics."}], "__comment": "----------- ICSE Class X subjects -----------"}}, "__comment": "================= ICSE BOARD ================="}, "ISC": {"classes": {"XI": {"subjects": [{"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Biology.", "name": "Biology", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Chemistry.", "name": "Chemistry", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"name": "English Language", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}, {"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}], "__comment": "Existing content for English."}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Geography.", "name": "Geography", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Hindi.", "name": "Hindi", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"name": "Mathematics", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}, {"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}], "__comment": "Existing content for Mathematics."}, {"name": "Physics", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}, {"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}], "__comment": "Existing content for Physics."}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Computer Science.", "name": "Computer Science", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Accounts.", "name": "Accountancy", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Commerce.", "name": "Commerce", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Economics.", "name": "Economics", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for History.", "name": "History", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Political Science.", "name": "Political Science", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Psychology.", "name": "Psychology", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"name": "Literature in English", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}], "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Literature in English."}, {"name": "Business Studies", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}], "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Business Studies."}, {"name": "Environmental Science", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}], "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Environmental Science."}, {"name": "Home Science", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}], "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Home Science."}, {"name": "Sociology", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}], "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Sociology."}], "__comment": "----------- ISC Class XI subjects -----------"}, "XII": {"subjects": [{"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Biology.", "name": "Biology", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Chemistry.", "name": "Chemistry", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"name": "English Language", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}, {"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}], "__comment": "Existing content for English."}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Geography.", "name": "Geography", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Hindi.", "name": "Hindi", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"name": "Mathematics", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}, {"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}], "__comment": "Existing content for Mathematics."}, {"name": "Physics", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}, {"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}], "__comment": "Existing content for Physics."}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Computer Science.", "name": "Computer Science", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Accounts.", "name": "Accountancy", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Commerce.", "name": "Commerce", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Economics.", "name": "Economics", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for History.", "name": "History", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Political Science.", "name": "Political Science", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Psychology.", "name": "Psychology", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}, {"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}]}, {"name": "Literature in English", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}], "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Literature in English."}, {"name": "Business Studies", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}], "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Business Studies."}, {"name": "Environmental Science", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}], "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Environmental Science."}, {"name": "Home Science", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}], "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Home Science."}, {"name": "Sociology", "chapters": [{"name": "", "topics": [{"name": "", "interactiveClasses": [{"name": "", "link": ""}], "videoLessons": [{"name": "", "link": ""}]}]}], "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Sociology."}], "__comment": "----------- ISC Class XII subjects -----------"}}, "__comment": "================= ISC BOARD ================="}}}
+{
+   "boards": {
+      "ICSE": {
+         "classes": {
+            "IX": {
+               "subjects": [
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Biology.",
+                     "name": "Biology",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Chemistry.",
+                     "name": "Chemistry",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Commercial Applications.",
+                     "name": "Commercial Applications",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Computer Applications.",
+                     "name": "Computer Applications",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "name": "English Language",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ],
+                     "__comment": "Existing content for English Language."
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Geography.",
+                     "name": "Geography",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Hindi.",
+                     "name": "Hindi",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for History & Civics.",
+                     "name": "History & Civics",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "name": "Mathematics",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ],
+                     "__comment": "Existing content for Mathematics."
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Physics.",
+                     "name": "Physics",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  }
+               ],
+               "__comment": "----------- ICSE Class IX subjects -----------"
+            },
+            "X": {
+               "subjects": [
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Biology.",
+                     "name": "Biology",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Chemistry.",
+                     "name": "Chemistry",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Commercial Applications.",
+                     "name": "Commercial Applications",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Computer Applications.",
+                     "name": "Computer Applications",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for English Language.",
+                     "name": "English Language",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Geography.",
+                     "name": "Geography",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Hindi.",
+                     "name": "Hindi",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for History & Civics.",
+                     "name": "History & Civics",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Mathematics.",
+                     "name": "Mathematics",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "name": "Physics",
+                     "chapters": [
+                        {
+                           "name": "Force",
+                           "topics": [
+                              {
+                                 "name": "Moment of Force",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Moment of Force",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/28/1695910/dir_1695910/index.html#"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Translational and Rotational Motion",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/4/176224577404397494_dir_V001/1/1762257698723/output/Translational_And_Rotational_Motion1-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Moment of Force",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/5/176232019379341311_dir_V001/1/1762339176638/output/ICSE_SLMPPT_X_Physics_Force_Moment_of_Force_Moment_of_a_Force_or_Torque-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Principle of Moment",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/20/176361632747100160_dir_V001/1/1763616289582/output/Ppt_X_Principle_Of_Moment-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Couple",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/17/176337971888911266_dir_V001/1/1763379681465/output/Couple-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Equilibrium of Bodies",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/25/176224548124045348_dir_V001/1/1764048834312/output/Equilibrium_of_bodies-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Centre of Gravity and Uniform Circular Motion",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Centre of Gravity and Uniform Circular Motion",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/11/16/1833202/dir_1833202/index.html#"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Centre of Gravity",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/5/176232062950760247_dir_V001/1/1762338379328/output/ICSE_SLMPPT_X_Physics_Force_Moment_of_Force_Centre_of_Gravity-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Uniform Circular Motion",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/3/175947384708718367_dir_V001/1/1759473817759/output/Ppt_Uniform_Circular_Motion-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Centripetal and Centrifugal Force",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/3/176217632678447948_dir_V001/1/1762176291913/output/Pptmp4_Icse_X_Centripetal_And_Centrifugal_Force-hd.m3u8"
+                                    }
+                                 ]
+                              }
+                           ],
+                           "revisionNotes": [
+                              {
+                                 "name": "InstaRevision Notes",
+                                 "link": "https://drive.google.com/file/d/140Q0RJ1V4qAgSF6NUqqkLLPAbPvfSQRK/view"
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Work, Energy and Power",
+                           "topics": [
+                              {
+                                 "name": "Work and Power",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Work and Power",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/11/14/1830373/dir_1830373/index.html#"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Work",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176432855675180376_dir_V001/1/1764328638343/output/Work-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Types of Work",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/3/175947650478285834_dir_V001/1/1759476475371/output/Measurement_Of_Work-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Power",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176432698530671710_dir_V001/1/1764327067019/output/Power-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Energy and its Units",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/31/176165186525254919_dir_V001/1/1761908473806/output/Energy_And_Its_Units-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Forms of Energy",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Forms of Energy",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/11/16/1831324/dir_1831324/index.html#"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Different Forms of Energy",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/4/176224772166769286_dir_V001/1/1762247686635/output/different_form-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Potential Energy",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/4/2/165961121390916263_dir_V001/1/1775111376426/output/Potential_Energy-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Kinetic Energy",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176432803153241374_dir_V001/1/1764328113219/output/Kinetic_Energy-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Relation between Kinetic Energy and Momentum",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/3/175947564424490919_dir_V001/1/1759475615025/output/Relationship_Between_Momentum_And_Kinetic_Energy-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Transformation of Energy",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/5/176232812985663969_dir_V001/1/1762333383872/output/ICSE_SLMPPT_X_Physics_Work_Energy_and_Power_Different_Forms_of_Energy_Transformation_of_Energy-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Conservation of Energy",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Conservation of Energy",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/29/1699219/dir_1699219/index.html#"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Law of Conservation of Energy",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176432913521639395_dir_V001/1/1764329216797/output/ICD214465-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Energy Profile for a Simple Pendulum",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/3/175947672315783025_dir_V001/1/1759480962048/output/Energy_Profile_For_A_Simple_Pendulum-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Mechanical Energy",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Mechanical Energy",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/28/1695924/dir_1695924/index.html#"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ],
+                           "revisionNotes": [
+                              {
+                                 "name": "InstaRevision Notes",
+                                 "link": "https://drive.google.com/file/d/1Wdf68ObWxcmotXGFNjuy_9kUW4CuaUTq/view"
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Machines",
+                           "topics": [
+                              {
+                                 "name": "Machines and Levers",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Machines and Levers",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/11/14/1830341/dir_1830341/index.html#"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Machine",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176431407498262249_dir_V001/1/1764314035286/output/Machines-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Terms Related to Machine",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/2/176467553819562701_dir_V001/1/1764675503215/output/ICSE_SLMPPT_X_Physics_Machines_Machines_Terms_Related_to_Machine-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Principle of a Machine",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/2/176431428493575759_dir_V001/1/1764670378233/output/Principle_Of_A_Machine-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Efficiency and Mechanical advantage",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176432307807360005_dir_V001/1/1764323038431/output/Relation-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Levers",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/3/176475367740884188_dir_V001/1/1764753725298/output/Levers_X-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Kinds of Levers",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/3/176475324530214762_dir_V001/1/1764753209097/output/Kinds_of_Levers-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Pulley System",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Pulley System",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/11/14/1830338/dir_1830338/index.html#"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Single Fixed Pulley",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/4/176482484342977853_dir_V001/1/1764824807832/output/Ppt_Mp4_Icse_X_Single_Fixed_Pulley-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Single Movable Pulley",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/2/176467575977326147_dir_V001/1/1764675724808/output/ICSE_SLMPPT_X_Physics_Machines_Pulley_Single_Movable_Pulley-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Combination of Pulleys",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/2/176467594273058202_dir_V001/1/1764675907898/output/ICSE_SLMPPT_X_Physics_Machines_Pulley_Combination_of_Pulley-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Block and Tackle system",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/2/176467517251428940_dir_V001/1/1764675137580/output/Ppt_Mp4_Icse_X_Block_And_Tackle_System-hd.m3u8"
+                                    }
+                                 ]
+                              }
+                           ],
+                           "revisionNotes": [
+                              {
+                                 "name": "InstaRevision Notes",
+                                 "link": "https://drive.google.com/file/d/1f5_EDRgckkNcUq4aw0z4FiXJINEk5Rwl/view"
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Refraction of Light at Plane Surfaces",
+                           "topics": [
+                              {
+                                 "name": "Refraction of Light",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Refraction of Light",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/08/25/1764897/dir_1764897/index.html#"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Refraction of Light",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/26/176413894894452727_dir_V001/1/1764138909968/output/Refraction_of_light-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Principle of Reversibility of Light",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/4/176225900937580808_dir_V001/1/1762258974354/output/Slm-Ppt_Reversibility_Of_Light_Icse_Class_X-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Refraction Through Rectangular Glass Slab",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/10/11/13294531488891_dir/1/1665468975297/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Applications of Refraction",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Refraction of Light through Prism",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/08/30/2376372/dir_2376372/index.html#"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Real and Apparent Depth",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/1/176457303017292876_dir_V001/1/1764572992426/output/Slm-Ppt_Real_And_Apparent_Depth-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Apparent Bending of Pencil in water",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/1/176457285210808894_dir_V001/1/1764572814434/output/Apparent_Bending_In_Water-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Refraction through Prism",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/1/176457266367697914_dir_V001/1/1764572626065/output/Slm-Ppt_Refraction_Through_Prism-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Total Internal Reflection",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Total Internal Reflection",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/11/16/1831137/dir_1831137/index.html#"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Critical Angle",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/4/176224628592269915_dir_V001/1/1762246250936/output/ICSE_SLMPPT_X_Physics_Refraction_of_Light_at_Plane_surface_Total_Internal_Reflection_Critical_Angle-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Total Internal Reflection",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/1/176457243969458015_dir_V001/1/1764572402029/output/Total_Internal_Reflection_Class_X-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Total Internal Reflection in Prism",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/3/176475248625518055_dir_V001/1/1764752985782/output/SLM-PPT_TIR_in_Prism-hd.m3u8"
+                                    }
+                                 ]
+                              }
+                           ],
+                           "revisionNotes": [
+                              {
+                                 "name": "InstaRevision Notes",
+                                 "link": "https://drive.google.com/file/d/1RjtfAwdXjFEoGfrLF3DFrABhIJwoNiFW/view"
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Refraction through a Lens",
+                           "topics": [
+                              {
+                                 "name": "Refraction Through Lenses",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Refraction Through Lenses",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/01/1701574/dir_1701574/index.html#"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Lens as a set of prisms",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/5/176232540213330695_dir_V001/1/1762325366775/output/ICSE_SLMPPT_X_Physics_Refraction_through_a_Lens_Lens_Lens-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Spherical Lenses",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/21/27809271692021_dir/1/1663754592120/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Focus and Focal Plane",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/4/176224950367533438_dir_V001/1/1762249468547/output/Focus_And_Focal_Plane-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Refraction through lenses",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/4/176224515621816667_dir_V001/1/1762245121201/output/Refraction_Through_Lenses-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Image Formation by Spherical Lenses",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/30/25568071622931_dir/1/1664541278421/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Sign Convention in lens",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/5/176232079475965444_dir_V001/1/1762320759322/output/ICSE_SLMPPT_X_Physics_Refraction_through_a_Lens_Lens_Sign_Convention_in_Lens-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Lens Formula",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/25/176405230442878223_dir_V001/1/1764052265415/output/Slm-Ppt_Lens_Formula-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Linear Magnification",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/25/176405253390809384_dir_V001/1/1764052494738/output/Linear_Magnification-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Power of a Lens",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/11/28290641700821_dir/1/1662885965880/output/newfile-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Application Of Lens",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Spherical Lenses",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/11/27/1837020/dir_1837020/index.html#"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Magnifying Glass and Simple Microscope",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/1/176458924083634862_dir_V001/1/1764589184339/output/1604153408_152738-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Application of lenses",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/25/176405274189711646_dir_V001/1/1764052702766/output/Application_Of_Lenses-hd.m3u8"
+                                    }
+                                 ]
+                              }
+                           ],
+                           "revisionNotes": [
+                              {
+                                 "name": "InstaRevision Notes",
+                                 "link": "https://drive.google.com/file/d/191ihQ1Wz8yXkx6apoMFHSiYI25PP05wG/view"
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Spectrum",
+                           "topics": [
+                              {
+                                 "name": "Effects of Light",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Dispersion",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/10/09/1788990/dir_1788990/index.html#"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Refraction of Light through a Prism",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/2/176465408042584409_dir_V001/1/1764654024105/output/Deviation_Dispersion_and_Spectrum-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Dispersion of Light",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/8/4/165961523820865369_dir/1/1659615180540/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Scattering of Light",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/22/28138201700851_dir/1/1663831880461/output/newfile-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Electromagnetic Spectrum",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Electromagnetic Spectrum",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/11/10/1827346/dir_1827346/index.html#"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Electromagnetic Radiations and Spectrum",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/2/176465487943612622_dir_V001/1/1764654822879/output/Electromagnetic_Spectrum-hd.m3u"
+                                    }
+                                 ]
+                              }
+                           ],
+                           "revisionNotes": [
+                              {
+                                 "name": "InstaRevision Notes",
+                                 "link": "https://drive.google.com/file/d/1ywyTbUYqplmD8jszPJV5mZ6V3MRxiTjt/view"
+                              }
+                           ]
+                        }
+                     ],
+                     "__comment": "Existing content for Physics."
+                  }
+               ],
+               "__comment": "----------- ICSE Class X subjects -----------"
+            }
+         },
+         "__comment": "================= ICSE BOARD ================="
+      },
+      "ISC": {
+         "classes": {
+            "XI": {
+               "subjects": [
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Biology.",
+                     "name": "Biology",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Chemistry.",
+                     "name": "Chemistry",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "name": "English Language",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ],
+                     "__comment": "Existing content for English."
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Geography.",
+                     "name": "Geography",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Hindi.",
+                     "name": "Hindi",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "name": "Mathematics",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ],
+                     "__comment": "Existing content for Mathematics."
+                  },
+                  {
+                     "name": "Physics",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ],
+                     "__comment": "Existing content for Physics."
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Computer Science.",
+                     "name": "Computer Science",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Accounts.",
+                     "name": "Accountancy",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Commerce.",
+                     "name": "Commerce",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Economics.",
+                     "name": "Economics",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for History.",
+                     "name": "History",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Political Science.",
+                     "name": "Political Science",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Psychology.",
+                     "name": "Psychology",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "name": "Literature in English",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ],
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Literature in English."
+                  },
+                  {
+                     "name": "Business Studies",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ],
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Business Studies."
+                  },
+                  {
+                     "name": "Environmental Science",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ],
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Environmental Science."
+                  },
+                  {
+                     "name": "Home Science",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ],
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Home Science."
+                  },
+                  {
+                     "name": "Sociology",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ],
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Sociology."
+                  }
+               ],
+               "__comment": "----------- ISC Class XI subjects -----------"
+            },
+            "XII": {
+               "subjects": [
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Biology.",
+                     "name": "Biology",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Chemistry.",
+                     "name": "Chemistry",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "name": "English Language",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ],
+                     "__comment": "Existing content for English."
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Geography.",
+                     "name": "Geography",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Hindi.",
+                     "name": "Hindi",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "name": "Mathematics",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ],
+                     "__comment": "Existing content for Mathematics."
+                  },
+                  {
+                     "name": "Physics",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ],
+                     "__comment": "Existing content for Physics."
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Computer Science.",
+                     "name": "Computer Science",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Accounts.",
+                     "name": "Accountancy",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Commerce.",
+                     "name": "Commerce",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Economics.",
+                     "name": "Economics",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for History.",
+                     "name": "History",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Political Science.",
+                     "name": "Political Science",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Psychology.",
+                     "name": "Psychology",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "name": "Literature in English",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ],
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Literature in English."
+                  },
+                  {
+                     "name": "Business Studies",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ],
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Business Studies."
+                  },
+                  {
+                     "name": "Environmental Science",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ],
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Environmental Science."
+                  },
+                  {
+                     "name": "Home Science",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ],
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Home Science."
+                  },
+                  {
+                     "name": "Sociology",
+                     "chapters": [
+                        {
+                           "name": "",
+                           "topics": [
+                              {
+                                 "name": "",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "",
+                                       "link": ""
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ],
+                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Sociology."
+                  }
+               ],
+               "__comment": "----------- ISC Class XII subjects -----------"
+            }
+         },
+         "__comment": "================= ISC BOARD ================="
+      }
+   }
+}
