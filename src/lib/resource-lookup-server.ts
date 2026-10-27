@@ -115,3 +115,13 @@ export async function resolveFileLocations(fileIds: readonly string[]): Promise<
   }
   return out;
 }
+
+/** Whether `fileId` corresponds to a real, indexed resource file (a
+ * crawled Drive file or a Doxxmarks InstaRevision note) — i.e. something
+ * that actually appears somewhere on the public Resources/Doxxmarks
+ * pages. Used to reject ratings/feedback for made-up ids before they're
+ * ever written to the database (GH issue #6). */
+export async function isKnownFileId(fileId: string): Promise<boolean> {
+  const index = await getIndex();
+  return index.has(fileId);
+}

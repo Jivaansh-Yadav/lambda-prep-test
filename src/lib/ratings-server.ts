@@ -1,5 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
+import { getRequestIP } from "@tanstack/react-start/server";
 import { sql } from "./db";
+import { isKnownFileId } from "./resource-lookup-server";
 
 // ---------------------------------------------------------------------
 // Resource file ratings: students can rate a resource file 1-5 stars from
@@ -15,7 +17,45 @@ import { sql } from "./db";
 // strong identity guarantee, but enough to let a student see/update their
 // own rating and to prevent trivial accidental double-submits from the
 // same browser.
+//
+// Abuse protection (GH issue #6): submitResourceRating previously accepted
+// any client-supplied voterId + fileId with no throttling and no check
+// that fileId was a real file, which made it trivial to script thousands
+// of fake votes (brigading) or pollute the table with junk fileIds. Two
+// mitigations, same shape as the other public write endpoints
+// (feedback-server.ts, contact-server.ts, contribute-server.ts):
+//   1. A light per-IP+voterId rate limit — not a hard security boundary
+//      (in-memory, resets on deploy/restart, and a determined attacker can
+//      rotate IPs), but it blunts naive scripted brigading from a single
+//      source, which is the realistic threat here.
+//   2. Reject any fileId that isn't found in the real resource dataset
+//      (resolveFileLocation's index — the same data the public
+//      Resources/Doxxmarks pages render from), so junk/made-up ids never
+//      reach the table at all.
 // ---------------------------------------------------------------------
+
+const MAX_SUBMISSIONS = 10;
+const WINDOW_MS = 10 * 60 * 1000; // 10 minutes
+const submissionsByKey = new Map<string, { count: number; windowStart: number }>();
+
+function getClientIp(): string {
+  try {
+    return getRequestIP({ xForwardedFor: true }) ?? "unknown";
+  } catch {
+    return "unknown";
+  }
+}
+
+function isRateLimited(key: string): boolean {
+  const now = Date.now();
+  const rec = submissionsByKey.get(key);
+  if (!rec || now - rec.windowStart > WINDOW_MS) {
+    submissionsByKey.set(key, { count: 1, windowStart: now });
+    return false;
+  }
+  rec.count += 1;
+  return rec.count > MAX_SUBMISSIONS;
+}
 
 export type ResourceRatingSummary = {
   average: number | null;
@@ -91,7 +131,10 @@ export const getResourceRatingsBatch = createServerFn({ method: "POST" })
 
 /** Upserts the current voter's 1-5 star rating for a file, then returns
  * the refreshed aggregate (so the UI can update in place without a
- * second round trip). */
+ * second round trip). Silently no-ops (returns the current aggregate
+ * unchanged) when rate-limited or when fileId isn't a real resource,
+ * rather than throwing — a dropped vote shouldn't surface as a visible
+ * error to a well-behaved caller that's just unlucky with timing. */
 export const submitResourceRating = createServerFn({ method: "POST" })
   .validator((data: unknown) => {
     const d = data as { fileId?: unknown; voterId?: unknown; rating?: unknown };
@@ -104,6 +147,14 @@ export const submitResourceRating = createServerFn({ method: "POST" })
   })
   .handler(async ({ data }): Promise<ResourceRatingSummary> => {
     if (!sql) return { average: null, count: 0, myRating: null };
+
+    if (isRateLimited(`${getClientIp()}:${data.voterId}`)) {
+      return fetchSummary(data.fileId, data.voterId);
+    }
+
+    if (!(await isKnownFileId(data.fileId))) {
+      return fetchSummary(data.fileId, data.voterId);
+    }
 
     await sql.query(
       `INSERT INTO resource_ratings (file_id, voter_id, rating, updated_at)

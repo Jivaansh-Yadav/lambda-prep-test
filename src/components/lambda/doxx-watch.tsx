@@ -102,7 +102,12 @@ function SandboxedFrame({ src, title, shareUrl }: { src: string; title: string; 
       <iframe
         src={src}
         title={title}
-        sandbox="allow-scripts allow-same-origin allow-forms allow-pointer-lock allow-popups"
+        // No allow-same-origin: combined with allow-scripts it would let this
+        // third-party (Extramarks) content strip its own sandbox attribute or
+        // navigate itself, defeating the sandbox entirely (GH issue #10). The
+        // embedded Doxxmarks interactive content is cross-origin from this app
+        // and doesn't need same-origin access to render/animate.
+        sandbox="allow-scripts allow-forms allow-pointer-lock allow-popups"
         loading="lazy"
         referrerPolicy="no-referrer"
       />
