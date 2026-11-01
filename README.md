@@ -1,193 +1,205 @@
 <div align="center">
 
-# λ Lambda Prep
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:04070f,55:101c33,100:3b82f6&height=235&section=header&text=%CE%9B%20Lambda%20Prep&fontSize=44&fontColor=eaf2ff&fontAlignY=40&desc=Four%20classes.%20One%20catalogue.%20A%20backend%20that%20remembers.&descSize=17&descAlignY=62&animation=twinkling" alt="Lambda Prep" width="100%">
 
-**Study resource portal for ICSE (9–10) and ISC (11–12) students**
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=500&size=19&duration=3200&pause=900&color=60a5fa&center=true&vCenter=true&width=700&lines=ICSE%209%2C%20ICSE%2010%2C%20ISC%2011%2C%20ISC%2012%20%E2%80%94%20CISCE%20and%20community;Ratings%2C%20views%2C%20downloads%20and%20shares%20in%20Postgres;A%20five-step%20data%20pipeline%20that%20refuses%20to%20ship%20half%20a%20crawl" alt="Typing animation" />
 
-![TanStack Start](https://img.shields.io/badge/TanStack%20Start-1.169-FF4154?style=flat-square&logo=react&logoColor=white)
-![React 19](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=flat-square&logo=vite&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
-![Radix UI](https://img.shields.io/badge/Radix%20UI-primitives-161618?style=flat-square&logo=radixui&logoColor=white)
-![Neon Postgres](https://img.shields.io/badge/Neon-Postgres-00E599?style=flat-square&logo=postgresql&logoColor=black)
-![Bun](https://img.shields.io/badge/Bun-runtime-FBF0DF?style=flat-square&logo=bun&logoColor=black)
-![Vercel](https://img.shields.io/badge/Vercel-deployed-000000?style=flat-square&logo=vercel&logoColor=white)
-![License](https://img.shields.io/badge/license-proprietary-red?style=flat-square)
+<br />
+
+<img src="https://img.shields.io/badge/Status-private%20build-3b82f6?style=flat-square&labelColor=04070f" alt="Private build" />
+<img src="https://img.shields.io/badge/License-proprietary-64748b?style=flat-square&labelColor=04070f" alt="Proprietary" />
+<img src="https://img.shields.io/badge/Stack-TanStack%20Start%20%2B%20React%2019-60a5fa?style=flat-square&labelColor=04070f" alt="TanStack Start and React 19" />
+<img src="https://img.shields.io/badge/Data-Neon%20Postgres-38bdf8?style=flat-square&labelColor=04070f" alt="Neon Postgres" />
+
+</div>
+
+<br />
+
+<div align="center">
+
+<sub><b>Not deployed, not open source.</b> This is the private product build — the repository where the resource portal grew a database, a moderation surface and a data pipeline. Everything below describes what the code does, so it can be picked up again without re-reading it.</sub>
 
 </div>
 
 ---
 
-## Overview
+<div align="center">
 
-**Lambda Prep** (Lambda Education Pvt. Ltd.) is a corporate, editorial-style web portal that aggregates curated and community-sourced study material — notes, sample papers, previous-year/prelim question papers, and solutions — for ICSE Classes 9–10 and ISC Classes 11–12 (Science/Commerce/Humanities streams). It wraps the resource catalog in fast fuzzy search, a dedicated notes/reference viewer ("Doxxmarks"), syllabus pages, and a passcode-gated admin panel for catalog and Google Drive source management plus traffic analytics.
+## What it is
 
-The brand mark is a Half-Life-authentic Greek lambda (λ) in a circular border with an electric-blue gradient; the visual language is deep navy / slate / white with electric-blue accents — deliberately corporate and institutional, with zero "generic AI slop" styling.
+</div>
 
-## Core features
+A multi-class study platform: **ICSE 9, ICSE 10, ISC 11 and ISC 12**, each with two separate catalogues — **CISCE** (what the board publishes) and **Community** (what students contribute) — plus a **Doxxmarks** section for InstaRevision PDFs that hang off the same Drive root.
 
-| Area | Description |
-|---|---|
-| **Class hubs** | `/classes/icse-9`, `/classes/icse-10`, `/classes/isc-11`, `/classes/isc-12` — subject tiles per class/stream that drill into resource listings. |
-| **CISCE resources** | Official curriculum-aligned material, one static dataset per subject. |
-| **Community resources** | Crowd-sourced files grouped by source folder; large groups (dozens–hundreds of files) render in a capped grid with a **"View all"** control that switches to a virtualized scroll list for performance. |
-| **Editor's Choice** | A curated, hand-picked subset of top/most-useful resources surfaced above the raw community listing, informed by ratings. |
-| **Search** | Instant client-side fuzzy search (Fuse.js) across resource file names and Doxxmarks subjects/chapters, debounced for responsiveness. |
-| **Doxxmarks** | Embedded notes/reference section with subject → chapter navigation. |
-| **Syllabus** | Static board-syllabus reference pages per class. |
-| **Ratings** | Per-file ratings persisted server-side, feeding Editor's Choice curation. |
-| **Admin panel** (`/admin`, passcode-gated) | Manage the resource catalog, browse/attach Google Drive folders as sources, and view Cloudflare-sourced traffic/engagement analytics (cached in Postgres). |
-| **Resource dataset pipeline** | Offline scripts crawl a Google Drive service account, transform the folder tree into structured per-subject JSON, split oversized groups, and regenerate manifests/counts consumed by the UI at build/runtime. |
+Where the earlier portals were static catalogues, this one is a product. Every file has a rating, a view count, a download count and a share action that persist across sessions. The landing page ranks an **Editor's Choice** from those ratings instead of showing whatever the crawler found first. And a passcode-protected admin panel lets the owner attach a Drive folder, pull its analytics, and refresh the catalogue without touching a spreadsheet.
 
-## Folder structure
+<div align="center">
 
-```
-.
-├── public/                        # static assets served as-is (logo, images, favicon, OG image)
+<sub>Built on <b>TanStack Start</b> — file-based routes, server functions in the same file tree, and streaming SSR — with <b>Neon</b> as the only durable store.</sub>
+
+</div>
+
+---
+
+<div align="center">
+
+## The routes
+
+</div>
+
+<ul>
+<li><b><code>/</code></b> — the landing page: four class cards, Editor's Choice, counts per class, and the search entry point.</li>
+<li><b><code>/classes/$classId</code></b> — one class: its two catalogues, subject manifest, and the subject cards in <b>Featured first, then A–Z</b> order.</li>
+<li><b><code>/resources</code></b> — the browse surface, with <code>/resources/cisce</code> and <code>/resources/community</code> as source-scoped views over the same component.</li>
+<li><b><code>/doxxmarks</code></b> — the InstaRevision library, a different content shape from the class catalogues.</li>
+<li><b><code>/contribute</code></b> — the student submission form, including feedback and contact server functions.</li>
+<li><b><code>/admin</code></b> — passcode-gated: attach Drive folders, read usage, moderate what came in.</li>
+<li><b><code>/sitemap[.]xml</code></b> — a real route, generated from the same manifests the UI uses.</li>
+</ul>
+
+<div align="center">
+
+## What is inside
+
+</div>
+
+<ul>
+<li><b>Editor's Choice</b> — computed from per-file ratings, so the top of the homepage changes as students rate. No hardcoded curation to rot.</li>
+<li><b>Four engagement counters</b> — ratings, views, downloads and shares, each written through its own server function so the write paths stay independent and a noisy counter cannot slow down a rating.</li>
+<li><b>Virtualised grids</b> — <code>@tanstack/react-virtual</code>, because a group can hold hundreds of files and rendering them all makes a phone crawl.</li>
+<li><b>Fuzzy search</b> — Fuse.js over the active catalogue, with the index scoped to the class you are looking at rather than the whole platform.</li>
+<li><b>Real media playback</b> — <code>@videojs/react</code> with an HLS source, so recorded lectures play in place instead of opening a new tab.</li>
+<li><b>Passcode admin</b> — a Drive folder can be attached to a class from the UI; the analytics the admin sees are Cloudflare's, cached in Postgres so the dashboard opens instantly.</li>
+<li><b>Bilingual UI</b> — one i18n module with <code>en-US</code> and <code>zh-CN</code> keys; no hardcoded strings in components.</li>
+<li><b>Theme with no flash</b> — an inline bootstrap script sets the class on <code>&lt;html&gt;</code> before paint.</li>
+<li><b>Error capture</b> — client errors are posted to a server route with the route path and a hash of the visitor, so a broken page is reportable without a third-party SDK.</li>
+</ul>
+
+---
+
+<div align="center">
+
+## Stack
+
+</div>
+
+<ul>
+<li><b>TanStack Start + React 19</b> — SSR, server functions, and route-level data loading without a separate API tier.</li>
+<li><b>Vite 8 + Tailwind CSS 4</b> — the CSS-first config, not a JavaScript one.</li>
+<li><b>@neondatabase/serverless</b> — HTTP driver over Postgres; works from an edge runtime, no connection pool to babysit.</li>
+<li><b>Drizzle-style typed schema in <code>src/lib/db.ts</code></b> — one place that knows every table and every counter increment.</li>
+<li><b>Vitest</b> — unit tests next to the code, <code>vitest run</code> in CI.</li>
+<li><b>Node + Python for the pipeline</b> — the crawler is Node, the transforms are Python; the orchestrator is a Node script that shells out to both.</li>
+</ul>
+
+<div align="center">
+
+<img src="https://skillicons.dev/icons?i=react,ts,vite,tailwind,postgres,nodejs,py,git" alt="React, TypeScript, Vite, Tailwind, Postgres, Node, Python, Git" />
+
+</div>
+
+---
+
+<div align="center">
+
+## Under the hood
+
+</div>
+
+<details>
+<summary><b>The five-step pipeline</b> — one command, fail-fast, never half-updated</summary>
+
+<br />
+
+<p><code>node scripts/generate-all-resources.js</code> runs the whole refresh in order:</p>
+
+<ol>
+<li><b>Drive crawl</b> → <code>scripts/drive-crawl/output/&lt;class&gt;/{cisce,community}.json</code> for all four classes, plus <code>doxxmarks.json</code>. The Doxxmarks crawl has its own exponential-backoff retries because it walks one very large root.</li>
+<li><b>Transform</b> → <code>src/data/resources-{cisce,community}-&lt;class&gt;.json</code>, and it rewrites <code>curriculum.json</code>'s chapter <code>revisionNotes</code> from the Doxxmarks PDFs.</li>
+<li><b>Split</b> → any dataset past the size threshold becomes a sharded directory instead of one file.</li>
+<li><b>Sort</b> → every <code>manifest.json</code> gets its subjects in Featured-first, then A–Z order.</li>
+<li><b>Count</b> → <code>resource-counts.json</code>, the single source for every number the UI prints.</li>
+</ol>
+
+<p>Any step failing aborts the run. <code>--skip-crawl</code> reuses the last crawl output, which is what makes iterating on the transforms cheap without lying about freshness.</p>
+
+</details>
+
+<details>
+<summary><b>Sharding is a data decision, not a build trick</b></summary>
+
+<br />
+
+<p>A catalogue that loads as one JSON file is fine at 500 entries and painful at 5,000: the whole payload blocks the first render, and a single typo invalidates every cached copy. Step 3 splits by subject once a dataset crosses the threshold, and the manifest keeps the map from subject to shard. The route then fetches only the shard the student opened.</p>
+
+<p>This is why the crawl output, the transformed data and the runtime fetch all agree on one folder shape — the split is upstream of the UI, so nothing at render time has to guess.</p>
+
+</details>
+
+<details>
+<summary><b>Why counters live in Postgres and not in a client</b></summary>
+
+<br />
+
+<p>Views and downloads on a study portal are the only honest signal of which paper is actually useful, and a client-side counter is a counter you cannot trust or aggregate. Each interaction hits a server function that increments one column and returns the new value, so the number a student sees is the number everyone else sees.</p>
+
+<p>Ratings go further: they are stored per visitor, which is what makes Editor's Choice resistant to one enthusiastic classmate clicking five stars repeatedly.</p>
+
+</details>
+
+<details>
+<summary><b>The admin panel is deliberately small</b></summary>
+
+<br />
+
+<p>Passcode in, then three things: attach a Drive folder to a class, read the Cloudflare analytics cache, review submissions. Caching the analytics in Postgres rather than querying Cloudflare on every page load keeps the panel usable when the analytics API is slow — which, in practice, is most of the time.</p>
+
+<p>It is not a CMS. Content still comes from Drive, because that is where the class already keeps it.</p>
+
+</details>
+
+---
+
+<div align="center">
+
+## Project structure
+
+</div>
+
+<pre><code>lambda-prep-test/
+├── src/routes/                 # __root · index · classes.$classId · resources[.cisce|.community]
+│                               # doxxmarks · contribute · admin · sitemap[.]xml
+├── src/lib/                    # db · lambda brand · i18n · theme · utils
+├── src/data/                   # curriculum.json · resources-*.json · manifests · resource-counts.json
 ├── scripts/
-│   ├── drive-crawl/                # crawls the Drive service account → raw folder/file JSON tree
-│   ├── transform-resources.py      # raw Drive tree → per-subject community/CISCE resource datasets
-│   ├── transform-isc11-resources.py
-│   ├── split-resources-dataset.py  # splits oversized datasets (e.g. large community buckets)
-│   ├── sort-manifest-subjects.py   # normalizes manifest subject ordering
-│   ├── count-resources.py          # regenerates resource-counts.json
-│   └── generate-all-resources.js   # orchestrates the full crawl → transform → split → count pipeline
-└── src/
-    ├── routes/                     # file-based TanStack Router routes (one file per route segment)
-    │   ├── __root.tsx               # root layout: providers, header/footer, 404 + error boundaries
-    │   ├── index.tsx                 # homepage
-    │   ├── classes.$classId.tsx      # dynamic class hub (icse-9/10, isc-11/12)
-    │   ├── resources.tsx / resources.index.tsx / resources.cisce.tsx / resources.community.tsx
-    │   ├── doxxmarks.tsx              # notes/reference viewer
-    │   ├── syllabus.tsx                # syllabus pages
-    │   └── admin.tsx                   # passcode-gated admin dashboard
-    ├── components/
-    │   ├── lambda/                  # feature components: class picker, resource grids/cards, search, shell (header/footer), admin UI
-    │   ├── ui/                      # shadcn/ui-style primitives on top of Radix UI
-    │   └── videojs/                 # Video.js React wrapper for any embedded video
-    ├── data/                        # generated resource datasets + manifests (checked in, regenerated by scripts/)
-    │   ├── curriculum.json
-    │   ├── resource-counts.json
-    │   ├── resources-cisce-icse-10.json
-    │   ├── resources-community-icse-10/     # split per-subject community datasets
-    │   └── resources-community-isc-11.json
-    ├── hooks/                        # shared hooks (e.g. fuzzy-search hook)
-    ├── lib/
-    │   ├── *-server.ts               # TanStack server functions (admin auth, ratings, Drive/GitHub integration, DB access)
-    │   ├── i18n.tsx                   # i18n provider + translation keys
-    │   ├── theme.tsx                   # theme provider + bootstrap script (anti-flash)
-    │   ├── brand.ts / lambda.ts        # brand constants, SEO/OG metadata
-    │   └── curriculum.ts / resolve-class-name.ts / resources-data.ts
-    └── test/                          # Vitest setup/utilities
-```
+│   ├── generate-all-resources.js     # the 5-step orchestrator
+│   ├── drive-crawl/generate-drive-json.js
+│   ├── transform-resources.py
+│   ├── split-resources-dataset.py
+│   ├── sort-manifest-subjects.py
+│   └── count-resources.py
+└── tests/                      # vitest</code></pre>
 
-## Architecture
+---
 
-- **Rendering**: [TanStack Start](https://tanstack.com/start) on React 19, built on [TanStack Router](https://tanstack.com/router) for file-based routing with SSR. Routes under `src/routes/` map directly to URL segments (`resources.community.tsx` → `/resources/community`, `classes.$classId.tsx` → `/classes/:classId`, etc.).
-- **Server functions**: data access and privileged operations (admin passcode check, resource ratings, Google Drive folder listing, GitHub integration lookups) live in `src/lib/*-server.ts` as TanStack Start server functions — they run server-side only and are called from route loaders/components like RPCs, keeping secrets off the client.
-- **Data layer**: the resource catalog is **static generated JSON** under `src/data/`, produced offline by the pipeline in `scripts/` (Drive crawl → Python transform → split → manifest sort → count), not queried live from Drive at request time. [Neon](https://neon.tech/) serverless Postgres (`@neondatabase/serverless`, accessed via `src/lib/db.ts`) is used for the dynamic bits: ratings, admin/integration secrets, and the Cloudflare analytics cache.
-- **Search**: Fuse.js runs entirely client-side over the already-loaded JSON datasets via a dedicated hook in `src/hooks/`.
-- **Large-list performance**: `@tanstack/react-virtual` virtualizes community resource groups once a user expands a large group ("View all"), avoiding an unbounded DOM for groups with 100+ files while keeping normal small groups in a plain responsive grid.
-- **Cross-cutting providers** (set up in `src/routes/__root.tsx`): `QueryClientProvider` (TanStack Query), `I18nProvider`, `ThemeProvider` (with an inline bootstrap script to avoid a flash of the wrong theme), plus root-level 404 and error boundaries wired to lightweight error reporting (`lovable-error-reporting.ts`).
-- **Build/deploy target**: Vite 8 build via `@lovable.dev/vite-tanstack-config`, with Nitro targeting Cloudflare by default for the server bundle; the app is deployed to **Vercel** in this project's hosting setup, fronted by Eazo's deployment pipeline.
-- **Analytics**: the admin dashboard reads live Cloudflare Web Analytics (RUM) GraphQL data via `rumPageloadEventsAdaptiveGroups`, backed by a 5-minute Neon cache table (`cloudflare_analytics_cache`) per lookback range, so it doesn't hit Cloudflare's API on every page view.
+<div align="center">
 
-## Tech stack
+## Run it
 
-- **Framework**: TanStack Start (React 19) + TanStack Router (file-based routing, SSR, server functions) + TanStack Query.
-- **Build tool**: Vite 8 with `@tanstack/router-plugin` and `@lovable.dev/vite-tanstack-config`.
-- **Styling/UI**: Tailwind CSS v4, shadcn/ui-style primitives over Radix UI (`accordion`, `dialog`, `dropdown-menu`, `navigation-menu`, `tabs`, `tooltip`, etc.), `tw-animate-css`, `lucide-react` icons.
-- **Search**: Fuse.js (client-side fuzzy search).
-- **Virtualization**: `@tanstack/react-virtual`.
-- **Database**: Neon serverless Postgres (`@neondatabase/serverless`, `@neon/config`, `@neon/env`).
-- **Charts**: Recharts (admin analytics dashboards).
-- **Video**: Video.js via `@videojs/react` / `@videojs/hlsjs-video`.
-- **Forms/validation**: React Hook Form + Zod.
-- **Testing**: Vitest, Testing Library, jsdom.
-- **Linting/formatting**: ESLint (flat config, typescript-eslint), Prettier.
-- **Runtime/package manager**: Bun (Node.js 18+ with npm also supported).
-- **Resource pipeline**: Node.js orchestrator (`generate-all-resources.js`) + Python 3 transform/split/sort/count scripts + a Google Drive service-account crawler.
-- **Deployment**: Vercel (production), Eazo-managed project/environment sync.
+</div>
 
-## Design details
-
-- **Brand mark**: Half-Life-authentic Greek lambda (λ) inside a circular border with an electric-blue gradient; the wordmark is lowercase "lambda".
-- **Palette**: clean white / slate backgrounds, deep navy as the primary dark tone, electric blue as the accent — no gradients-on-everything or generic SaaS clichés.
-- **Tone**: corporate, institutional, refined-editorial. Generous whitespace, confident typography, minimal decorative chrome.
-- **Navigation**: brand logo + "lambda" wordmark on the left; a direct horizontal grade selector on the right (`ICSE: IX  X  |  ISC: XI  XII`) as clickable pills straight to each class hub; quick links for Resources, Syllabus, and Sign In.
-- **Homepage flow**: hero (tagline → headline → description → trust checkmarks → primary CTAs, paired with a minimal illustration) → metrics strip → "Choose Your Class" cards → "How It Works" 3-step community-sharing explainer.
-- **Large resource groups**: collapsed into a normal card grid with a fade overlay and a "View all (N)" affordance by default; expanding switches to a virtualized scroll grid rather than rendering hundreds of DOM nodes up front.
-- **Theming**: light/dark theme support with an inline bootstrap script in the document head to set the theme before first paint and avoid a flash of the wrong theme.
-- **i18n**: all user-facing copy is routed through translation keys (`src/lib/i18n.tsx`) rather than hard-coded strings, even though the current deployment ships a single locale.
-
-## Getting started
-
-Works with either **Bun** (recommended) or **npm**.
-
-```sh
-# clone
-git clone https://github.com/Jivaansh-Yadav/lambda-prep-test.git
+<pre><code>git clone https://github.com/Jivaansh-Yadav/lambda-prep-test.git
 cd lambda-prep-test
-
-# --- with Bun ---
-bun install
-bun run dev          # http://localhost:3000
-
-# --- with npm ---
 npm install
-npm run dev          # http://localhost:3000
-```
+npm run dev            # vite dev on :3000
+npm test               # vitest run</code></pre>
 
-Other scripts (same for both package managers — swap `bun run` ↔ `npm run`):
+<p>Needs <code>DATABASE_URL</code> (Neon) and a Google service account for the crawler. Without a database the catalogue renders but every counter, rating and admin action is inert — that is the intended degraded state, not a crash.</p>
 
-| Script | Purpose |
-|---|---|
-| `dev` | Start the Vite dev server on port 3000 |
-| `build` | Production build |
-| `build:dev` | Development-mode build |
-| `preview` | Preview a production build locally |
-| `lint` | Run ESLint |
-| `format` | Run Prettier (writes changes) |
-| `test` | Run the Vitest suite once |
-| `test:watch` | Run Vitest in watch mode |
+<div align="center">
 
-### Environment variables
+<sub>Proprietary source. No licence is granted for reuse, redistribution or deployment.</sub>
 
-Create a `.env` file (never commit it) with:
+</div>
 
-| Variable | Purpose |
-|---|---|
-| `DATABASE_URL` | Neon Postgres connection string — ratings, admin/integration data, analytics cache |
-| `ADMIN_PASSCODE` | Passcode gating access to `/admin` |
-| `ISC11_SRC_DIR` | Optional override for the ISC Class 11 raw upload source directory used by the resource pipeline |
-| `NEXT_PUBLIC_APP_TITLE` / `NEXT_PUBLIC_APP_DESCRIPTION` | Public app branding metadata |
-
-`DATABASE_URL` and `ADMIN_PASSCODE` are the **only** app secrets kept as environment variables. Every other third-party credential lives in Neon instead, read at request time rather than from `process.env`:
-
-| Neon table | Columns | Purpose |
-|---|---|---|
-| `cloudflare_integration` | `account_id`, `rum_api_token`, `rum_site_tag` | Powers the entire admin "Deep analytics" modal — the traffic chart/KPIs/section breakdown and the top pages/countries/devices/browsers/referrers detail — via Cloudflare's account-scoped **Web Analytics (RUM)** GraphQL dataset. The token needs **Account → Analytics → Read** scope (not Zone → Analytics → Read); the site tag also drives the `data-cf-beacon` script in `src/routes/__root.tsx`. Read via `getCloudflareIntegrationConfig()` in `src/lib/cloudflare-integration-server.ts`. |
-| `drive_integration` | `service_account_json`, `folder_id` (existing) + `oauth_client_id`, `oauth_client_secret`, `oauth_refresh_token` | The OAuth columns hold a real Google account's credentials with Editor access to the resources folder, used for admin Drive **writes** (upload/rename/delete in "Manage resources"); writes fall back to the service account (read-only safe) when they're unset. Read via `getDriveIntegrationConfig()` in `src/lib/drive-integration-server.ts`. |
-
-The standalone `scripts/analytics-cron` archival job (a separate GitHub Actions cron, not the admin dashboard) still reads `CLOUDFLARE_ZONE_ID`/`CLOUDFLARE_API_TOKEN`/`DATABASE_URL` from its own GitHub Actions secrets, since it runs outside the deployed app and has no access to the app's Neon-stored config — see `.github/workflows/analytics-history-sync.yml`.
-
-Eazo-managed deployment/platform variables are synced automatically and should not be set manually.
-
-### Regenerating the resource catalog
-
-The datasets under `src/data/` are generated, not hand-authored. After new files land in the source Google Drive:
-
-```sh
-node scripts/generate-all-resources.js
-```
-
-This runs the full pipeline: Drive crawl → Python transform (CISCE + community, including the ISC-11 variant) → split oversized groups → re-sort manifests → recompute `resource-counts.json`. Requires valid Google Drive service-account credentials configured for `scripts/drive-crawl`.
-
-## Corporate details
-
-- **Legal entity**: Lambda Education Pvt. Ltd.
-- **Product**: Lambda Prep — the public web portal.
-- **Repository**: `Jivaansh-Yadav/lambda-prep-test` (private).
-- **Copyright**: © 2026 Lambda Education Pvt. Ltd. All rights reserved.
-- **License**: Proprietary. This source code and all associated content are not licensed for reuse, redistribution, or derivative works without explicit written permission from Lambda Education Pvt. Ltd.
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:04070f,55:101c33,100:3b82f6&height=110&section=footer&reversal=true" alt="" width="100%">
