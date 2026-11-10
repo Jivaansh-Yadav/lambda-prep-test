@@ -61,6 +61,14 @@
   --rose-ink: oklch(0.53 0.13 10);
   --overlay: oklch(0.18 0.035 260 / 45%);
   --shadow: 0 12px 30px oklch(0.22 0.04 260 / 6%);
+  /* Closing statement band above the footer — the site's only dark surface
+     in light mode, so it keeps its own ink/accent tokens instead of
+     borrowing foreground/primary (which are tuned for the light page). */
+  --statement-bg: oklch(0.19 0.035 265);
+  --statement-ink: oklch(0.93 0.022 265);
+  --statement-accent: oklch(0.83 0.13 80);
+  --statement-glow: oklch(0.55 0.235 261 / 26%);
+  --statement-glow-2: oklch(0.83 0.13 80 / 12%);
   --safe-top: max(env(safe-area-inset-top, 0px), var(--eazo-safe-area-top, 0px));
   --safe-right: max(env(safe-area-inset-right, 0px), var(--eazo-safe-area-right, 0px));
   --safe-bottom: max(env(safe-area-inset-bottom, 0px), var(--eazo-safe-area-bottom, 0px));
@@ -99,6 +107,11 @@
   --rose-ink: oklch(0.78 0.095 10);
   --overlay: oklch(0.05 0.02 260 / 60%);
   --shadow: 0 12px 30px oklch(0 0 0 / 55%), 0 0 0 1px oklch(1 0 0 / 4.5%);
+  --statement-bg: oklch(0.135 0.02 262);
+  --statement-ink: oklch(0.94 0.014 265);
+  --statement-accent: oklch(0.86 0.12 82);
+  --statement-glow: oklch(0.62 0.17 261 / 22%);
+  --statement-glow-2: oklch(0.86 0.12 82 / 10%);
 }
 
 /* =====================================================================
@@ -352,6 +365,34 @@
   .faq-icon::after { transform: rotate(90deg); }
   .faq-item.expanded .faq-icon::after { transform: rotate(0deg); }
   .faq-item.expanded .faq-icon::before { transform: rotate(180deg); }
+
+  /* Closing statement — a full-bleed band that sits flush above the footer
+     on every public page. It's the one dark surface on the light theme, so
+     the brand sentence reads like a sign-off rather than another section:
+     brush script (Kaushan Script), a small gold kicker in the left column,
+     and the payoff phrase picked out in gold. */
+  .footer-statement { position: relative; overflow: hidden; background: var(--statement-bg); color: var(--statement-ink); }
+  .footer-statement::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(62% 120% at 12% 118%, var(--statement-glow), transparent 68%),
+      radial-gradient(48% 110% at 92% -20%, var(--statement-glow-2), transparent 70%); }
+  .footer-statement-inner { position: relative; padding-block: 62px 58px; display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 40px; align-items: start; }
+  .footer-statement-eyebrow { display: inline-flex; align-items: center; gap: 12px; margin-top: 16px; font-size: 11px; font-weight: 600; letter-spacing: 2.8px; text-transform: uppercase; color: var(--statement-accent); white-space: nowrap; }
+  .footer-statement-eyebrow::after { content: ""; width: 46px; height: 1px; background: linear-gradient(90deg, var(--statement-accent), transparent); }
+  .footer-statement-line { margin-top: 0; font-family: 'Kaushan Script', 'Segoe Script', 'Bradley Hand', cursive; font-size: clamp(26px, 4.5vw, 62px); font-weight: 400; line-height: 1.22; letter-spacing: .2px; text-wrap: balance; }
+  /* The one phrase that carries the sentence gets the accent colour plus a
+     soft warm bloom, so it reads as the highlight without an underline that
+     would collide with the script's descenders. */
+  .footer-statement-highlight { color: var(--statement-accent); text-shadow: 0 0 38px oklch(0.83 0.13 80 / 30%); }
+  @media (max-width: 800px) {
+    .footer-statement-inner { padding-block: 44px 40px; grid-template-columns: minmax(0, 1fr); gap: 14px; }
+    .footer-statement-eyebrow { margin-top: 0; }
+  }
+  @media (max-width: 560px) {
+    .footer-statement-inner { padding-block: 36px 32px; }
+    .footer-statement-eyebrow { font-size: 10px; letter-spacing: 2.2px; }
+    .footer-statement-line { font-size: clamp(24px, 7.4vw, 34px); }
+  }
 
   /* Footer */
   .site-footer { background: var(--chrome); }

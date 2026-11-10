@@ -97,7 +97,18 @@ export function Header() {
 export function Footer() {
   const { t } = useI18n();
   const [contactOpen, setContactOpen] = useState(false);
-  return <footer className="site-footer"><div className="container"><div className="footer-top"><div><Brand /></div><div className="footer-links"><div><p>{t('footer.tagline')}<br />{t('footer.tagline2')}</p><button type="button" className="footer-contact-link" onClick={() => setContactOpen(true)}><Mail size={14} />{t('footer.sendMessage')}</button></div></div></div><div className="footer-bottom"><span>{t('footer.copyright')}</span><span className="tiny-lambda"> λ</span></div></div><ContactMessageDialog open={contactOpen} onOpenChange={setContactOpen} /></footer>;
+  // The closing statement is a public-facing sign-off; the admin console is
+  // a working tool, so it skips it and gets the plain footer only.
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const showStatement = !pathname.startsWith('/admin');
+  return <>{showStatement && <section className="footer-statement" aria-label={t('footer.statementEyebrow')}>
+    <div className="container footer-statement-inner">
+      <span className="footer-statement-eyebrow">{t('footer.statementEyebrow')}</span>
+      <p className="footer-statement-line">{t('footer.statementLead')}{' '}
+        <span className="footer-statement-highlight">{t('footer.statementHighlight')}</span>.
+      </p>
+    </div>
+  </section>}<footer className="site-footer"><div className="container"><div className="footer-top"><div><Brand /></div><div className="footer-links"><div><p>{t('footer.tagline')}<br />{t('footer.tagline2')}</p><button type="button" className="footer-contact-link" onClick={() => setContactOpen(true)}><Mail size={14} />{t('footer.sendMessage')}</button></div></div></div><div className="footer-bottom"><span>{t('footer.copyright')}</span><span className="tiny-lambda"> λ</span></div></div><ContactMessageDialog open={contactOpen} onOpenChange={setContactOpen} /></footer></>;
 }
 
 type ContactMessageDialogProps = { open: boolean; onOpenChange: (next: boolean) => void };

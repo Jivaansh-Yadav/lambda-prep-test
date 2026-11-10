@@ -59,6 +59,9 @@ const en: Dict = {
 
   'footer.tagline': 'Better resources. Clearer understanding.',
   'footer.tagline2': 'A stronger foundation for what\u2019s next.',
+  'footer.statementEyebrow': 'Our purpose',
+  'footer.statementLead': 'Our success is measured by',
+  'footer.statementHighlight': 'the ambitions we encourage',
   'footer.copyright': '\u00a9 2026 Lambda Education Pvt. Ltd. All rights reserved.',
   'footer.contribute': 'Contribute a resource',
   'header.contributeShort': 'Contribute',
