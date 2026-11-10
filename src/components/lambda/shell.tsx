@@ -97,10 +97,10 @@ export function Header() {
 export function Footer() {
   const { t } = useI18n();
   const [contactOpen, setContactOpen] = useState(false);
-  // The closing statement is a public-facing sign-off; the admin console is
-  // a working tool, so it skips it and gets the plain footer only.
+  // The closing statement is the landing page's sign-off only — every other
+  // route gets the plain footer.
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const showStatement = !pathname.startsWith('/admin');
+  const showStatement = pathname === '/';
   return <>{showStatement && <section className="footer-statement" aria-label={t('footer.statementEyebrow')}>
     <div className="container footer-statement-inner">
       <span className="footer-statement-eyebrow">{t('footer.statementEyebrow')}</span>

@@ -308,8 +308,15 @@
   .class-card { display: flex; flex-direction: column; height: 100%; padding: 23px 22px 0; border: 1px solid var(--border); border-radius: 7px; transition: transform .2s, box-shadow .2s, border-color .2s; }
   .class-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--primary); }
   .source-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 32px; }
-  .source-card { display: flex; flex-direction: column; align-items: flex-start; text-align: left; height: 100%; padding: 28px 26px 0; border: 1px solid var(--border); border-radius: 10px; background: var(--background); cursor: pointer; font-family: inherit; transition: transform .2s, box-shadow .2s, border-color .2s; }
+  .source-card { position: relative; display: flex; flex-direction: column; align-items: flex-start; text-align: left; height: 100%; padding: 28px 26px 0; border: 1px solid var(--border); border-radius: 10px; background: var(--background); cursor: pointer; font-family: inherit; transition: transform .2s, box-shadow .2s, border-color .2s; }
   .source-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--primary); }
+  /* Whole-card hit target. A stretched overlay link instead of wrapping the
+   * card in an <a>, so the inline outbound links in the copy stay valid HTML
+   * (nested anchors were causing a hydration mismatch). */
+  .source-card-link { position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
+  .source-card-link:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+  /* Inline links sit above the overlay so they still win the click. */
+  .source-card p a { position: relative; z-index: 2; }
   .source-card h3 { font-size: 24px; font-weight: 750; margin-top: 20px; }
   .source-card p { font-size: 16px; line-height: 1.8; color: var(--muted-foreground); margin-top: 11px; margin-bottom: 24px; }
   .source-card p a,.page-intro a { color: var(--primary); font-weight: 600; text-decoration: underline; text-decoration-color: color-mix(in oklch, var(--primary) 40%, transparent); }
