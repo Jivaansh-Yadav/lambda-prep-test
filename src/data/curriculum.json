@@ -2410,47 +2410,317 @@
                         }
                      ]
                   },
-                  {
-                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Computer Applications.",
-                     "name": "Computer Applications",
-                     "chapters": [
-                        {
-                           "name": "",
-                           "topics": [
-                              {
-                                 "name": "",
-                                 "interactiveClasses": [
-                                    {
-                                       "name": "",
-                                       "link": ""
-                                    }
-                                 ],
-                                 "videoLessons": [
-                                    {
-                                       "name": "",
-                                       "link": ""
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "",
-                                 "interactiveClasses": [
-                                    {
-                                       "name": "",
-                                       "link": ""
-                                    }
-                                 ],
-                                 "videoLessons": [
-                                    {
-                                       "name": "",
-                                       "link": ""
-                                    }
-                                 ]
-                              }
-                           ]
-                        }
-                     ]
-                  },
+                                                                        {
+                                       "__comment": "Extramarks ICSE Class X Computer Applications curriculum.",
+                                       "name": "Computer Applications",
+                                       "chapters": [
+                                          {
+                                             "name": "Class as basis of all computation",
+                                             "topics": [
+                                                {
+                                                   "name": "Data types",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Data type",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/08/31/2377380/dir_2377380/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Data type",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2019/08/31/2377385/dir_2377385/index.html"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Objects and Classes",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Objects and Classes",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/08/31/2377410/dir_2377410/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": []
+                                                },
+                                                {
+                                                   "name": "Variables and expressions",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Variables and expressions",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/08/31/2377381/dir_2377381/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Introduction to Java Character Set",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2014/01/29/2091/output/newfile-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Variables and expressions",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2019/08/31/2377387/dir_2377387/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "User-defined Methods",
+                                             "topics": [
+                                                {
+                                                   "name": "Introduction to Function",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Introduction to Function",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/08/31/2376826/dir2_2376826/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Introduction to Function",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2019/08/31/2376827/dir_2376827/index.html"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Accessing A Function",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Accessing A Function",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/08/31/2376831/dir2_2376831/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Accessing A Function",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2019/08/31/2376833/dir2_2376833/index.html"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Returning From A Function",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Returning From A Function",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/08/31/2376836/dir2_2376836/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Returning From A Function",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2019/08/31/2376837/dir_2376837/index.html"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Function Overloading",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Function Overloading",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/08/31/2376816/dir_2376816/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Function Overloading",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2019/08/31/2376818/dir_2376818/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Constructors",
+                                             "topics": [
+                                                {
+                                                   "name": "Constructors",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Constructors",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/08/31/2376845/dir2_2376845/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Constructors",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2019/08/31/2376848/dir_2376848/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Library Classes",
+                                             "topics": [
+                                                {
+                                                   "name": "Class as a data type",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Class as a Data Type",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/08/31/2376684/dir2_2376684/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Class as a data Type",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2019/08/30/2376692/dir_2376692/index.html"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Member function",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Member function",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/08/31/2376705/dir_2376705/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Member function",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2019/08/30/2376712/dir_2376712/index.html"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Wrapper Classes",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Wrapper Classes",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/08/30/2376695/dir_2376695/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Wrapper Classes",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2019/08/30/2376700/dir_2376700/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Arrays",
+                                             "topics": [
+                                                {
+                                                   "name": "Introduction to Arrays",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Introduction to Arrays",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1699920/dir_1699920/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Introduction to Arrays",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/30/1699921/dir_1699921/index.html"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Basic operations on Arrays",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Basic operations on Arrays",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/23/1690312/dir_1690312/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Basic operations on Arrays",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/23/1690314/dir_1690314/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "String Handling",
+                                             "topics": [
+                                                {
+                                                   "name": "Java Functions (character and strings)",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Java Functions (character and strings)",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/07/03/2020216/dir_2020216/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Java Functions (character and strings)",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/30/1700127/dir_1700127/index.html"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Conversions and manipulations",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Conversions and manipulations",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1700118/dir_1700118/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Conversions and manipulations",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/30/1700121/dir_1700121/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Encapsulation",
+                                             "topics": [
+                                                {
+                                                   "name": "Encapsulation",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Encapsulation",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/08/31/2376840/dir_2376840/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Encapsulation",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2019/08/31/2376842/dir_2376842/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          }
+                                       ]
+                                    },
                   {
                      "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for English Language.",
                      "name": "English Language",
