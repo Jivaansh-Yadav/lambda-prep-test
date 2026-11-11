@@ -54,7 +54,7 @@ export function isActivityRecord(record, subjectName) {
   if (
     record.category === "Practice" &&
     record.contentType === "HTML" &&
-    record.contentGroup === "School Map"
+    (record.contentGroup === "School Map" || record.contentGroup === "Hots")
   ) {
     return true;
   }
@@ -63,6 +63,7 @@ export function isActivityRecord(record, subjectName) {
 
 export function mapActivityType(record, subjectName) {
   if (record.contentGroup === "Case Study - EMR") return "Case Study (HOTS)";
+  if (record.contentGroup === "Hots") return "HOTS";
   if (subjectName.toLowerCase() === "mathematics" && record.contentGroup === "Senior") {
     return "Math Lab";
   }
@@ -254,9 +255,7 @@ export function isLessonRecord(record, { subjectName, board, className }) {
       (record.contentType === "Nucleus" && record.contentGroup === "CRS") ||
       (record.contentType === "Animation" &&
         record.contentGroup === "CRS" &&
-        normalizeName(record.tags.Subject ?? "") === normalizeName(subjectName) &&
-        normalizeName(record.tags.Board ?? "") === normalizeName(board) &&
-        normalizeName(record.tags.Class ?? "") === normalizeName(className)))
+        normalizeName(record.tags.Subject ?? "") === normalizeName(subjectName)))
   );
 }
 

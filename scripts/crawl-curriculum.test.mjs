@@ -30,13 +30,21 @@ test("mapActivityType preserves Math Lab records and maps Senior-tagged Maths la
     mapActivityType({ contentGroup: "Case Study - EMR" }, "Mathematics"),
     "Case Study (HOTS)",
   );
+  assert.equal(mapActivityType({ contentGroup: "Hots" }, "Sociology"), "HOTS");
 });
 
-test("isActivityRecord includes Practice HTML School Map content but not Learn PDFs", () => {
+test("isActivityRecord includes Practice HTML School Map and Hots content but not Learn PDFs", () => {
   assert.equal(
     isActivityRecord(
       { category: "Practice", contentType: "HTML", contentGroup: "School Map" },
       "History & Civics",
+    ),
+    true,
+  );
+  assert.equal(
+    isActivityRecord(
+      { category: "Practice", contentType: "HTML", contentGroup: "Hots" },
+      "Sociology",
     ),
     true,
   );
@@ -49,7 +57,7 @@ test("isActivityRecord includes Practice HTML School Map content but not Learn P
   );
 });
 
-test("isLessonRecord includes only matching Animation CRS videos", () => {
+test("isLessonRecord includes matching Animation CRS videos regardless of Board tag", () => {
   const record = {
     category: "Learn",
     contentType: "Animation",
@@ -68,10 +76,10 @@ test("isLessonRecord includes only matching Animation CRS videos", () => {
   );
   assert.equal(
     isLessonRecord(
-      { ...record, tags: { ...record.tags, Board: "CBSE" } },
-      { subjectName: "Computer Applications", board: "ICSE", className: "X" },
+      { ...record, tags: { ...record.tags, Board: "AP" } },
+      { subjectName: "Computer Applications", board: "ISC", className: "XII" },
     ),
-    false,
+    true,
   );
 });
 

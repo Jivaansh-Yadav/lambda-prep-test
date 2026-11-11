@@ -22376,82 +22376,136 @@
                         }
                      ]
                   },
-                                    {
-                     "__comment": "Extramarks ISC Class XII Psychology curriculum.",
-                     "name": "Psychology",
-                     "chapters": [
-                        {
-                           "name": "Intelligence and Ability",
-                           "topics": [
-                              {
-                                 "name": "Intelligence and Ability",
-                                 "interactiveClasses": [],
-                                 "videoLessons": []
-                              }
-                           ]
-                        },
-                        {
-                           "name": "Personality",
-                           "topics": [
-                              {
-                                 "name": "Personality",
-                                 "interactiveClasses": [],
-                                 "videoLessons": []
-                              }
-                           ]
-                        },
-                        {
-                           "name": "Lifespan Development",
-                           "topics": [
-                              {
-                                 "name": "Lifespan Development",
-                                 "interactiveClasses": [],
-                                 "videoLessons": []
-                              }
-                           ]
-                        },
-                        {
-                           "name": "Stress and Stress Management",
-                           "topics": [
-                              {
-                                 "name": "Stress and Stress Management",
-                                 "interactiveClasses": [],
-                                 "videoLessons": []
-                              }
-                           ]
-                        },
-                        {
-                           "name": "Psychological Disorders and Psychotherapy",
-                           "topics": [
-                              {
-                                 "name": "Psychological Disorders and Psychotherapy",
-                                 "interactiveClasses": [],
-                                 "videoLessons": []
-                              }
-                           ]
-                        },
-                        {
-                           "name": "Social Thought and Social Behaviour",
-                           "topics": [
-                              {
-                                 "name": "Social Thought and Social Behaviour",
-                                 "interactiveClasses": [],
-                                 "videoLessons": []
-                              }
-                           ]
-                        },
-                        {
-                           "name": "Attitude",
-                           "topics": [
-                              {
-                                 "name": "Attitude",
-                                 "interactiveClasses": [],
-                                 "videoLessons": []
-                              }
-                           ]
-                        }
-                     ]
-                  },
+                                                                        {
+                                       "__comment": "Extramarks ISC Class XII Psychology curriculum.",
+                                       "name": "Psychology",
+                                       "chapters": [
+                                          {
+                                             "name": "Intelligence and Ability",
+                                             "topics": [
+                                                {
+                                                   "name": "Intelligence and Ability",
+                                                   "interactiveClasses": [],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "HOTS",
+                                                         "title": "Variations in Psychological Attributes \r\n",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2021/05/31/2807628/dir_2807628/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Personality",
+                                             "topics": [
+                                                {
+                                                   "name": "Personality",
+                                                   "interactiveClasses": [],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "HOTS",
+                                                         "title": "Self and Personality",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2021/05/31/2807629/dir_2807629/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Lifespan Development",
+                                             "topics": [
+                                                {
+                                                   "name": "Lifespan Development",
+                                                   "interactiveClasses": [],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "HOTS",
+                                                         "title": "Human Development",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2021/06/14/2813608/dir_2813608/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Stress and Stress Management",
+                                             "topics": [
+                                                {
+                                                   "name": "Stress and Stress Management",
+                                                   "interactiveClasses": [],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "HOTS",
+                                                         "title": "Meeting Life Challenges",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2021/05/31/2807630/dir_2807630/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Psychological Disorders and Psychotherapy",
+                                             "topics": [
+                                                {
+                                                   "name": "Psychological Disorders and Psychotherapy",
+                                                   "interactiveClasses": [],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "HOTS",
+                                                         "title": "Therapeutic Approaches",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2021/06/01/2808478/dir_2808478/index.html"
+                                                      },
+                                                      {
+                                                         "type": "HOTS",
+                                                         "title": "Psychological Disorders",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2021/05/31/2807632/dir_2807632/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Social Thought and Social Behaviour",
+                                             "topics": [
+                                                {
+                                                   "name": "Social Thought and Social Behaviour",
+                                                   "interactiveClasses": [],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "HOTS",
+                                                         "title": "Social Influence and Group Processes",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2021/07/14/2822383/dir_2822383/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Attitude",
+                                             "topics": [
+                                                {
+                                                   "name": "Attitude",
+                                                   "interactiveClasses": [],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "HOTS",
+                                                         "title": "Attitude and Social Cognition",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2021/06/01/2808479/dir_2808479/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          }
+                                       ]
+                                    },
                                     {
                      "__comment": "Extramarks ISC Class XII Business Studies curriculum.",
                      "name": "Business Studies",
@@ -22961,32 +23015,51 @@
                      ],
                      "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Home Science."
                   },
-                                    {
-                     "__comment": "Extramarks ISC Class XII Sociology curriculum.",
-                     "name": "Sociology",
-                     "chapters": [
-                        {
-                           "name": "Social Institutions",
-                           "topics": [
-                              {
-                                 "name": "Social Institutions",
-                                 "interactiveClasses": [],
-                                 "videoLessons": []
-                              }
-                           ]
-                        },
-                        {
-                           "name": "Social Change and Development",
-                           "topics": [
-                              {
-                                 "name": "Social Change and Development",
-                                 "interactiveClasses": [],
-                                 "videoLessons": []
-                              }
-                           ]
-                        }
-                     ]
-                  }
+                                                                        {
+                                       "__comment": "Extramarks ISC Class XII Sociology curriculum.",
+                                       "name": "Sociology",
+                                       "chapters": [
+                                          {
+                                             "name": "Social Institutions",
+                                             "topics": [
+                                                {
+                                                   "name": "Social Institutions",
+                                                   "interactiveClasses": [],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Work and Economic Life",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/26/14973971115171_dir/1/1664185389240/output/newfile-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "HOTS",
+                                                         "title": "Understanding Social Institutions",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/03/09/1535229/dir_1535229/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Social Change and Development",
+                                             "topics": [
+                                                {
+                                                   "name": "Social Change and Development",
+                                                   "interactiveClasses": [],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "HOTS",
+                                                         "title": "Social Change and Social Order in Rural and Urban Society",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/03/09/1535255/dir_1535255/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          }
+                                       ]
+                                    }
                ],
                "__comment": "----------- ISC Class XII subjects -----------"
             }
