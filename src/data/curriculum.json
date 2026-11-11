@@ -489,47 +489,958 @@
             },
             "X": {
                "subjects": [
-                  {
-                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Biology.",
-                     "name": "Biology",
-                     "chapters": [
-                        {
-                           "name": "",
-                           "topics": [
-                              {
-                                 "name": "",
-                                 "interactiveClasses": [
-                                    {
-                                       "name": "",
-                                       "link": ""
-                                    }
-                                 ],
-                                 "videoLessons": [
-                                    {
-                                       "name": "",
-                                       "link": ""
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "",
-                                 "interactiveClasses": [
-                                    {
-                                       "name": "",
-                                       "link": ""
-                                    }
-                                 ],
-                                 "videoLessons": [
-                                    {
-                                       "name": "",
-                                       "link": ""
-                                    }
-                                 ]
-                              }
-                           ]
-                        }
-                     ]
-                  },
+                                                                        {
+                                       "__comment": "Extramarks ICSE Class X Biology curriculum links; Carbon Cycle game requires WebGL verification.",
+                                       "name": "Biology",
+                                       "chapters": [
+                                          {
+                                             "name": "Structure Of Chromosomes, Cell Cycle and Cell Division",
+                                             "topics": [
+                                                {
+                                                   "name": "Cell Cycle",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Cell Cycle",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/26/1692561/dir_1692561/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Chromosomes",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/6/17/171861163366835617_dir_V001/1/1718611616859/output/MA-Chromosomes_Beta-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Structure of DNA and its formation",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/12/19/173460075243176345_dir_V001/1/1734600657505/output/Ppt_Mp4_10_Structure_Of_Chromosomes_Chromosomes_Structure_Of_Dna_And_Its_Formation-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Cell Cycle",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/12/19/173459978085271537_dir_V001/1/1734599686059/output/Ppt_Mp4_Icse_X_Bio_Structure_Of_Chromosomes_Cell_Cycle_And_Cell_Division_Cell_Cycle-hd.m3u8"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Cell Division",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Cell Division",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/11/29/2460008/dir_2460008/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Meiosis",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/1/2/173581909581674786_dir_V001/1/1735818998396/output/Meiosis-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Mitosis",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/10/3/25541791622081_dir/1/1664792175518/output/newfile-hd.m3u8"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Genetics - Some Basic Fundamentals",
+                                             "topics": [
+                                                {
+                                                   "name": "Heredity, Variation and Mutation",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Mendelism",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/11/02/2140600/dir_2140600/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Chromosomes",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/27/175627084657900315_dir_V001/1/1756270824302/output/Icse_Slmppt_X_Biology_Genetics_Heredity_Chromosomes-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Mendel's laws and Mutations",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/29/175646939815260368_dir_V001/1/1756469375477/output/Icse_Slmppt_X_Biology_Genetics_Heredity_Mendals_Laws_And_Mutations-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Heredity and Variation",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/29/175645750503691072_dir_V001/1/1756457482372/output/Icse_Slmppt_X_Biology_Genetics_Heredity_Heredity_And_Variation-hd.m3u8"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Mendel and his Experiments",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Chromosome, its Replication and Inheritance",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/09/04/2378721/dir_2378721/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Mendel's Experiment on Dihybrid Cross",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/1/175672761209862603_dir_V001/1/1756727588649/output/166902047359200625-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Monohybrid Cross",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/1/175672566214303158_dir_V001/1/1756725638621/output/166902006370194700-hd.m3u8"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Sex Determination and Sex-Linked Inheritance",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Patterns of Sex Linked Inheritance",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/11/02/2140606/dir_2140606/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Genes and Alleles",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/3/175687724406319172_dir_V001/1/1756877220591/output/ICSE_SLMPPT_X_Biology_Genetics_Sex_Determinatio_Genes_and_Alleles-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Sex Determination in Humans",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/8/5/165967278468373946_dir/1/output/newfile-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Sex-Linked Inheritance",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/26/175621269575435848_dir_V001/1/1756212673878/output/Icse_Slmppt_X_Biology_Genetics_Sex_Determination_Sex_Linked_Inheritance-hd.m3u8"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Absorption By Roots - The Processes Involved",
+                                             "topics": [
+                                                {
+                                                   "name": "Absorption in Plants",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Absorption in Plants",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/11/02/2140579/dir_2140579/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Experiments on Absorption and Conduction",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/12/31/173563831277688566_dir_V001/1/1735638215862/output/Ppt_Mp4_10_Absorption_By_Roots_Experiments_Experiments_On_Absorption_And_Conduction-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Ascent of Sap",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/12/20/173469375178916143_dir_V001/1/1734693656719/output/Ppt_Mp4_Icse_X_Bio_Absorption_By_Roots_Ascent_Of_Sap-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Absorption by Roots",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/12/19/173460202067884675_dir_V001/1/1734601925975/output/Ppt_Mp4_Icse_X_Bio_Absorption_By_Roots_Absorption_By_Roots-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Virtual Lab",
+                                                         "title": "Experiments indicating diffusion",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2022/12/14/27762241821941_dir/1/1671017374400/content-2776224/index.html",
+                                                         "status": "OK"
+                                                      },
+                                                      {
+                                                         "type": "Virtual Lab",
+                                                         "title": "Absorption in Plants - Experiment indicating absorption",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2022/12/15/27763101822401_dir/1/1671076797790/content-2776310/index.html",
+                                                         "status": "OK"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Osmosis",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Osmosis",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/27/1693688/dir_1693688/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Osmosis",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/5/14/171568684558131562_dir_V001/1/1715686841357/output/Ppt_Mp4_10_Biology_Absorption_Conduction_Osmosis-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Turgidity and flaccidity",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/5/14/171568606571073707_dir_V001/1/1715686061574/output/Ppt_Mp4_10_Biology_Absorption_Conduction_Turgidity_And_Flaccidity-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Osmotic Pressure and Tonicity",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/5/14/171568654667905547_dir_V001/1/1715686542534/output/Ppt_Mp4_10_Biology_Absorption_Conduction_Osmotic_Pressure_And_Tonicity-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Imbibition and Diffusion",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/12/19/173459925524418304_dir_V001/1/1734599160389/output/Ppt_Mp4_Icse_X_Bio_Absorption_By_Roots_Imbibition_And_Diffusion-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Virtual Lab",
+                                                         "title": "Experiments indicating osmosis",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2022/12/16/27666211817641_dir/1/1671165362388/content-2766621/index.html",
+                                                         "status": "OK"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Transpiration",
+                                             "topics": [
+                                                {
+                                                   "name": "Transpiration",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Modes of Transpiration",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/26/1692568/dir_1692568/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Factors Affecting Transpiration",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/8/175731565827550385_dir_V001/1/1757315633973/output/Icse_Slmppt_X_Biology_Transpiration_Modes_Factors_Affecting_Transpiration-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Significance of Transpiration",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/8/175731543493038384_dir_V001/1/1757315410438/output/Icse_Slmppt_X_Biology_Transpiration_Modes_Significance_Of_Transpiration-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Measurement of Transpiration",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/12/175766025558485985_dir_V001/1/1757660230376/output/Icse_X_Slmppt_Biology_Measurement_Of_Transpiration-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Transpiration and its Types",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2023/11/6/169926416515050983_dir_V001/1/1699264260339/output/MA-Transpiration_and_its_types-hd.m3u8"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Experiments on Transpiration",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Experiments on Transpiration",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/27/1693686/dir_1693686/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Experiments on Transpiration",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/10/175749345640527928_dir_V001/1/1757493431525/output/Icse_Slmppt_X_Biology_Transpiration_Experiments_Experiments_On_Transpiration-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Guttation and Bleeding",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/12/175765961544285920_dir_V001/1/1757659590528/output/Icse_X_Slmppt_Biology_Bleeding_And_Guttation-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Virtual Lab",
+                                                         "title": "Experiments on Transpiration",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2022/12/14/27762701822351_dir/1/1671017817936/content-2776270/index.html",
+                                                         "status": "OK"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Photosynthesis - Provider of Food for All",
+                                             "topics": [
+                                                {
+                                                   "name": "Photosynthesis - Provider of Food for All",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Significance of Photosynthesis",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/27/1745792/dir_1745792/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Photosynthesis – Light Reaction",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/30/176181379849459349_dir_V001/1/1761813764175/output/Icse_Slmppt_X_Biology_Photosynthesis_Photosynthesis-Light_Reaction-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Carbon Cycle",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/17/28519631727431_dir_V002/1/1760676831503/output/MA-Carbon_Cycle-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Photosynthesis- Dark Reaction",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/30/176180683057448041_dir_V001/1/1761806796430/output/Icse_Slmppt_X_Biology_Photosynthesis_Photosynthesis-Dark_Reaction-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Factors Affecting Photosynthesis",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/29/176172738930395988_dir_V001/1/1761727355649/output/Icse_Slmppt_X_Biology_Photosynthesis_Factors_Affecting_Photosynthesis-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Regulation of Stomatal Opening",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/30/176181408009178799_dir_V001/1/1761814045782/output/Icse_Slmppt_X_Biology_Photosynthesis_Regulation_Of_Stomatal_Opening-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Experiment on Photosynthesis",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/30/176181353307616552_dir_V001/1/1761813498932/output/Icse_Slmppt_X_Biology_Photosynthesis_Experiment_On_Photosynthesis-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Photosynthesis: Autotrophic Mode of Nutrition",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/24/24736471572801_dir_V002/1/1758703552818/output/Photosynthesis_Autotrophic_Mode_of_Nutrition-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Plastids",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2021/12/02/157820/output/newfile-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Custom Interactive",
+                                                         "title": "Carbon Cycle",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/10/12/166556096030559914_dir/1/1665560859627/THE_CARBON_CYCLE/start.html",
+                                                         "status": "UNVERIFIED",
+                                                         "note": "Browser verification failed because this environment does not support WebGL; platform rendering remains unconfirmed."
+                                                      },
+                                                      {
+                                                         "type": "Virtual Lab",
+                                                         "title": "Carbon dioxide is essential for photosynthesis",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2022/12/15/27762661822311_dir/1/1671079110687/content-2776266/index.html",
+                                                         "status": "OK"
+                                                      },
+                                                      {
+                                                         "type": "Virtual Lab",
+                                                         "title": "Experiments to show release of Oxygen during photosynthesis",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2022/12/14/27762681822331_dir/1/1671017331435/content-2776268/index.html",
+                                                         "status": "OK"
+                                                      },
+                                                      {
+                                                         "type": "Virtual Lab",
+                                                         "title": "Chlorophyll is necessary for photosynthesis",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2022/12/14/27762741822371_dir/1/1671020225166/content-2776274/index.html",
+                                                         "status": "OK"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Chemical Coordination in Plants",
+                                             "topics": [
+                                                {
+                                                   "name": "Chemical Coordination in Plants",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Plant Hormones and Tropic Movements",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/06/20/2319085/dir_2319085/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Plant Hormones",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/22/20539621648971_dir/1/1663840857462/output/newfile-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Growth and Movement in Plants",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/26/20579481491151_dir/1/1664173798943/output/newfile-hd.m3u8"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "The Circulatory System",
+                                             "topics": [
+                                                {
+                                                   "name": "Transportation in Body",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Lymphatic System",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/27/1693696/dir_1693696/index.html"
+                                                      },
+                                                      {
+                                                         "name": "Blood Flow Through Heart",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/26/1692729/dir_1692729/index.html"
+                                                      },
+                                                      {
+                                                         "name": "Blood Vessels",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/26/1692714/dir_1692714/index.html"
+                                                      },
+                                                      {
+                                                         "name": "Blood",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/27/1745427/dir_1745427/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Blood Transfusion and Blood Groups",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176432634573639816_dir_V001/1/1764326305919/output/ICD-221408-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Blood Vessels",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176432615889641084_dir_V001/1/1764326119158/output/ICD-221427-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Lymphatic System",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/9/176527000434297151_dir_V001/1/1765269973638/output/Ppt-Mp4_Icse_X_Bio_The_Circulatory_System_Lymphatic_System-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Blood: Properties, and Functions",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/9/176527092491845696_dir_V001/1/1765270893952/output/Ppt-Mp4_Icse_X_Bio_The_Circulatory_System_Properties_Of_Blood-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Composition of Blood",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/9/176527041408269058_dir_V001/1/1765270383042/output/Ppt-Mp4_Icse_X_Bio_The_Circulatory_System_Composition_Of_Blood-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Blood Clotting",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/9/176527021288503532_dir_V001/1/1765270181829/output/Ppt-Mp4_Icse_X_Bio_The_Circulatory_System_Blood_Clotting-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Transport in the Body",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176432651349175859_dir_V001/1/1764326473665/output/ICD-221332-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Virtual Lab",
+                                                         "title": "The identification of different types of blood cells under a microscope.",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2022/12/16/27666251817651_dir/1/1671165503082/content-2766625/index.html",
+                                                         "status": "OK"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Heart and Blood Pressure",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Blood Pressure",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/26/1692709/dir_1692709/index.html"
+                                                      },
+                                                      {
+                                                         "name": "Structure of Heart",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/26/1692694/dir_1692694/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Heartbeat and Pacemaker",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176432495097430863_dir_V001/1/1764324911202/output/ICD-221465-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Blood Flow through the Heart",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176432527641404997_dir_V001/1/1764325236590/output/ICD-221446-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Blood Circulation",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176432479704217548_dir_V001/1/1764324757278/output/ICD-221484-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Heart",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2021/03/12/156239/output/newfile-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Virtual Lab",
+                                                         "title": "Structure of Heart",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2022/12/14/27762261821961_dir/1/1671017545177/content-2776226/index.html",
+                                                         "status": "OK"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "The Circulatory System",
+                                                   "interactiveClasses": [],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Practice Game",
+                                                         "title": "Transportation in Organisms",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/8/29/166175287916327932_dir/1/1661755648861/REARRANGE_THE_SENTENCES/start.html",
+                                                         "status": "OK"
+                                                      },
+                                                      {
+                                                         "type": "Custom Interactive",
+                                                         "title": "Circulatory Tour",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2024/12/31/168913954521052583_dir_V003/1/1735646596233/CIRCULATORY_TOUR_RFB/start.html",
+                                                         "status": "OK"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "The Excretory System - Elimination of Body Wastes",
+                                             "topics": [
+                                                {
+                                                   "name": "Excretion",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Excretory System",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/26/1692582/dir_1692582/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Excretory Organs",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/28/176165053274007696_dir_V001/1/1761650498701/output/Excretory_Organs-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Introduction to Excretion",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/29/176172829315591071_dir_V001/1/1761728259178/output/Ppt-Mp4_Icse_X_Bio_The_Excretory_Organs_Introduction_To_Excretion-hd.m3u8"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Human Excretory System",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Functions of Human Excretory System",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/11/02/2140587/dir_2140587/index.html"
+                                                      },
+                                                      {
+                                                         "name": "STRUCTURE OF HUMAN EXCRETORY SYSTEM",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/11/02/2140596/dir_2140596/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Regulation of Urine Output",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/30/176180637726531961_dir_V001/1/1761806343164/output/Ppt_Mp4_Icse_X_Bio_The_Excretory_System_Regulation_Of_Urine_Output-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Urine",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/30/176180659325318663_dir_V001/1/1761806558970/output/Ppt_Mp4_Icse_X_Bio_The_Excretory_System_Urine-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Excretion",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/15/176051620241696992_dir_V001/1/1760516171377/output/MA-Excretion-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Virtual Lab",
+                                                         "title": "Human Excretory System",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2022/12/15/27763041822391_dir/1/1671076619829/content-2776304/index.html",
+                                                         "status": "OK"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "The Nervous System",
+                                             "topics": [
+                                                {
+                                                   "name": "The Nervous System",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Components of Nervous System",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/11/02/2140213/dir_2140213/index.html"
+                                                      },
+                                                      {
+                                                         "name": "Neuron",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/26/1692736/dir_1692736/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Reflexes and Reflex arc",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/8/175731501918147868_dir_V001/1/1757314995198/output/Icse_X_Slmppt_Biology_The_Nervous_System_Reflexes_And_Reflex_Arc-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Neuron and Its Types",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/8/175731523326673359_dir_V001/1/1757315209410/output/Icse_X_Slmppt_Biology_The_Nervous_System_Neuron_And_Its_Types-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Peripheral Nervous System",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/26/20562011491141_dir/1/1664183843308/output/newfile-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Central Nervous System",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/22/20539761491131_dir/1/1663836960487/output/newfile-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Practice Game",
+                                                         "title": "Know your reflexes!",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/16/166816551485225329_dir/1/1668578997649/REARRANGE_THE_SENTENCES/start.html",
+                                                         "status": "OK"
+                                                      },
+                                                      {
+                                                         "type": "Virtual Lab",
+                                                         "title": "Structure of brain",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2022/12/14/27761961821821_dir/1/1671016907534/content-2776196/index.html",
+                                                         "status": "OK"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Endocrine Glands - \" The Producers of Chemical Messengers\"",
+                                             "topics": [
+                                                {
+                                                   "name": "Endocrine Glands - \" The Producers of Chemical Messengers\"",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Chemical Coordination in Humans",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/11/02/2140214/dir_2140214/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Pituitary Gland",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/30/176707925106482937_dir_V001/1/1767087405231/output/Icse_X_Slmppt_Biology_Pituitary_Gland-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Adrenal Glands",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/24/176655988669834906_dir_V001/1/1766559868061/output/Icse_X_Slmppt_Biology_Adrenal_Gland-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Endocrine Glands and their Secretions",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/30/176708965383869015_dir_V001/1/1767089640679/output/Icse_Slmppt_X_Biology_The_Endocrine_System_Endocrine_Glands_And_Their_Secretions-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Pancreas",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/24/176656083962776636_dir_V001/1/1766560820946/output/Icse_Slmppt_X_Biology_The_Endocrine_System_Pancreas-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Practice Game",
+                                                         "title": "Glands and Hormones",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/16/166815893717464407_dir/1/1668581726264/REARRANGE_THE_SENTENCES/start.html",
+                                                         "status": "OK"
+                                                      },
+                                                      {
+                                                         "type": "Virtual Lab",
+                                                         "title": "Chemical Coordination",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2022/12/14/27762711822361_dir/1/1671018024423/content-2776271/index.html",
+                                                         "status": "OK"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "The Reproductive System",
+                                             "topics": [
+                                                {
+                                                   "name": "Human Reproductive System",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Female Reproductive System",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/26/1692647/dir_1692647/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Menstrual Cycle",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/4/17/174487189340858940_dir_V001/1/1744871894214/output/Menstrual_cycle-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Male Reproductive System",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/24/176655870776357512_dir_V001/1/1766558689065/output/Icse_X_Slmppt_Biology_Male_Reproductive_System-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Female Reproductive System",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/24/176655787478571074_dir_V001/1/1766557856305/output/Icse_Slmppt_X_Biology_The_Reproductive_System_Human_Reproductive_System_Female_Reproductive_System-hd.m3u8"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Reproduction",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Development of Foetus",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/13/2558773/dir_2558773/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Role of Hormones in Reproduction",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/30/176708917540351928_dir_V001/1/1767089162246/output/Icse_X_Slmppt_Reproductive_System_Role_Of_Hormones-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Twins",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/24/176655702277034720_dir_V001/1/1766557004114/output/Icse_Slmppt_X_Biology_The_Reproductive_System_Reproduction_Twins-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Fertilisation and Implantation",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/24/176655730653628789_dir_V001/1/1766557287964/output/Icse_Slmppt_X_Biology_The_Reproductive_System_Reproduction_Fertilisation_And_Implantation-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Placenta and Parturition",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/24/176655638821990923_dir_V001/1/1766556369673/output/Icse_X_Slmppt_Biology_Placenta_And_Parturition-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Reproduction",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/17/176596802501151085_dir_V001/1/1765973643500/output/Icse_X_Slmppt_Biology_Reproduction-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Practice Game",
+                                                         "title": "Reproduction in Animals",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/8/29/166175279643261291_dir/1/1661752723963/REARRANGE_THE_SENTENCES/start.html",
+                                                         "status": "OK"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "The Reproductive System",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Male Reproductive System",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/26/1693569/dir_1693569/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": []
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Population - The Increasing Numbers And Rising Problems",
+                                             "topics": [
+                                                {
+                                                   "name": "Population - The Increasing Numbers And Rising Problems",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Population Growth in India",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/26/1692888/dir_1692888/index.html"
+                                                      },
+                                                      {
+                                                         "name": "Birth Control Techniques",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/26/1692632/dir_1692632/index.html"
+                                                      },
+                                                      {
+                                                         "name": "Global Population",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/26/1692866/dir_1692866/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Population Control",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/17/176068790022162114_dir_V001/1/1760687868395/output/Ppt_Mp4_Icse_X_Bio_Population_Population_Control-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Population Explosion",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/23/176121621654614522_dir_V001/1/1761216183706/output/Ppt-Mp4_Icse_X_Bio_Population_Population_Explosion-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Population Growth in India",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/28/176165118203818062_dir_V001/1/1761651148090/output/Population_Growth_In_India-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Global Population",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/28/176165141357266936_dir_V001/1/1761651379569/output/Population_Global_Population-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Rising Population Pressure",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/28/176165095068903220_dir_V001/1/1761650916712/output/Ppt_Mp4_Icse_X_Bio_Population_Rising_Population_Pressure_2-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Family Welfare and Contraception",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/29/176172766139032957_dir_V001/1/1761727627537/output/Ppt-Mp4_Icse_X_Bio_Population_Family_Welfare_And_Contraception-hd.m3u8"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Human Evolution",
+                                             "topics": [
+                                                {
+                                                   "name": "Human Evolution",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Human Evolution",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/06/18/2317124/dir_2317124/index.html"
+                                                      },
+                                                      {
+                                                         "name": "Darwinism",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/06/18/2317109/dir2_2317109/index.html"
+                                                      },
+                                                      {
+                                                         "name": "Lamarkism",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/06/18/2317137/dir_2317137/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Darwinism",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/2/176733604768093243_dir_V001/1/1767336036892/output/Icse_Slmppt_X_Biology_Human_Evolution_Darwinism-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Human Evolution",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/2/176733574413205347_dir_V001/1/1767335733367/output/Icse_Slmppt_X_Biology_Human_Evolution_Human_Evolution-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Lamarckism",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/2/176733625037679752_dir_V001/1/1767336239522/output/Icse_Slmppt_X_Biology_Human_Evolution_Lamarckism-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Introduction to Evolution",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/30/176709057150331041_dir_V001/1/1767090558299/output/Icse_Slmppt_X_Biology_Human_Evolution_Introduction_To_Evolution-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Vestigial Organs",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/30/176709032150732518_dir_V001/1/1767090308349/output/Icse_Slmppt_X_Biology_Human_Evolution_Vestigial_Organs-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Practice Game",
+                                                         "title": "Heredity and Evolution",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/15/166816943345856147_dir/1/1668503611035/MAKE_THE_PATTERNS/start.html",
+                                                         "status": "OK"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Pollution - Arising Enviornmental Problem",
+                                             "topics": [
+                                                {
+                                                   "name": "Pollution: Introduction, Effects and Control",
+                                                   "interactiveClasses": [],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Control of Pollution",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/6/176770317496896165_dir_V001/1/1767703226768/output/Icse-Slmppt-X-Biology-Pollution-Pollution-Control-Of-Pollution-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Effects of Pollution",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/2/176733803561651030_dir_V001/1/1767338024836/output/Icse_Slmppt_X_Biology_Pollution_Pollution_Effects_Of_Pollution-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Waste and Pollution",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/17/176597283504734567_dir_V001/1/1765972810957/output/Icse_Slmppt_X_Biology_Pollution_Pollution_Waste_And_Pollution-hd.m3u8"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Types of Pollution",
+                                                   "interactiveClasses": [],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Air Pollution",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/30/176709000528547057_dir_V001/1/1767089992155/output/Icse_Slmppt_X_Biology_Pollution_Types_Of_Pollution_Air_Pollution-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Water Pollution",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/17/176596829154191031_dir_V001/1/1765968267743/output/Icse_Slmppt_X_Biology_Pollution_Types_Of_Pollution_Water_Pollution-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Radiation and Noise Pollution",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/24/176656015767630201_dir_V001/1/1766560139021/output/Icse_Slmppt_X_Biology_Pollution_Types_Of_Pollution_Radiation_And_Noise_Pollution-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Soil Pollution",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/24/176656040519504097_dir_V001/1/1766560386490/output/Icse_Slmppt_X_Biology_Pollution_Types_Of_Pollution_Soil_Pollution-hd.m3u8"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Pollution - Arising Enviornmental Problem",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Effects of various types of Pollution",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/06/18/2317381/dir_2317381/index.html"
+                                                      },
+                                                      {
+                                                         "name": "Water and Soil Pollution",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/02/1702102/dir_1702102/index.html"
+                                                      },
+                                                      {
+                                                         "name": "Air, Noise and Radiation Pollution",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/09/04/2378593/dir_2378593/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Practice Game",
+                                                         "title": "Availability of Water on Earth",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/11/166814760041543796_dir/1/1668147483369/REARRANGE_THE_SENTENCES/start.html",
+                                                         "status": "OK"
+                                                      },
+                                                      {
+                                                         "type": "Practice Game",
+                                                         "title": "Natural Resources",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/14/166840180887914422_dir/1/1668401689823/GRAB_AND_GO/start.html",
+                                                         "status": "OK"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Sense Organs",
+                                             "topics": [
+                                                {
+                                                   "name": "Eye",
+                                                   "interactiveClasses": [],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Working of Eye",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/3/176474715138909039_dir_V001/1/1764747115140/output/Icse_Slmppt_X_Biology_Sense_Organs_Working_Of_Eye_Finalised_Sonika-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Common Defects of Eye",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/3/176474685702882513_dir_V001/1/1764746820895/output/Ppt-Mp4_Icse_Bio_X_Biology_Common_Defects_Of_Vision_Finalised_Sonika-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Structure of Eye",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/2/176466174418785842_dir_V001/1/1764661707371/output/Icse_Slmppt_X_Biology_Sense_Organs_Structure_Of_Eye-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Virtual Lab",
+                                                         "title": "The structure of the Eye",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2022/12/14/27761311821711_dir/1/1671014836618/content-2776131/index.html",
+                                                         "status": "OK"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Ear",
+                                                   "interactiveClasses": [],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Functions of Ear",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176432758224611713_dir_V001/1/1764327542517/output/ICD-221774-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Structure of Ear",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176432123628196283_dir_V001/1/1764321196593/output/ICD-221793-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Virtual Lab",
+                                                         "title": "The structure of the Ear",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2022/12/14/27761441821721_dir/1/1671015391645/content-2776144/index.html",
+                                                         "status": "OK"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Sense Organs",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Sense Organs",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/26/1693544/dir_1693544/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": []
+                                                }
+                                             ]
+                                          }
+                                       ]
+                                    },
                   {
                      "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Chemistry.",
                      "name": "Chemistry",
