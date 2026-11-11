@@ -11352,7 +11352,7 @@
             "XII": {
                "subjects": [
                                     {
-                     "__comment": "Extramarks ICSE Class X Biology curriculum.",
+                     "__comment": "Extramarks ISC Class XII Biology curriculum.",
                      "name": "Biology",
                      "chapters": [
                         {
@@ -12207,7 +12207,7 @@
                      ]
                   },
                                     {
-                     "__comment": "Extramarks ICSE Class X Chemistry curriculum.",
+                     "__comment": "Extramarks ISC Class XII Chemistry curriculum.",
                      "name": "Chemistry",
                      "chapters": [
                         {
@@ -13844,7 +13844,7 @@
                                        "__comment": "Extramarks ISC Class XII English, literature chapters only (short stories, poetry, drama); language-skill chapters split into the separate English Language subject."
                                     },
                                     {
-                     "__comment": "Extramarks ICSE Class X Geography curriculum.",
+                     "__comment": "Extramarks ISC Class XII Geography curriculum.",
                      "name": "Geography",
                      "chapters": [
                         {
@@ -15169,7 +15169,7 @@
                      ]
                   },
                                     {
-                     "__comment": "Extramarks ICSE Class X Mathematics curriculum.",
+                     "__comment": "Extramarks ISC Class XII Mathematics curriculum.",
                      "name": "Mathematics",
                      "chapters": [
                         {
@@ -16517,7 +16517,7 @@
                      ]
                   },
                                     {
-                     "__comment": "Extramarks ICSE Class X Physics curriculum.",
+                     "__comment": "Extramarks ISC Class XII Physics curriculum.",
                      "name": "Physics",
                      "chapters": [
                         {
@@ -17378,7 +17378,7 @@
                      ]
                   },
                                     {
-                     "__comment": "Extramarks ICSE Class X Computer Science curriculum.",
+                     "__comment": "Extramarks ISC Class XII Computer Science curriculum.",
                      "name": "Computer Science",
                      "chapters": [
                         {
@@ -18416,7 +18416,7 @@
                      ]
                   },
                                     {
-                     "__comment": "Extramarks ICSE Class X Accountancy curriculum.",
+                     "__comment": "Extramarks ISC Class XII Accountancy curriculum.",
                      "name": "Accountancy",
                      "chapters": [
                         {
@@ -19122,7 +19122,7 @@
                      ]
                   },
                                     {
-                     "__comment": "Extramarks ICSE Class X Commerce curriculum.",
+                     "__comment": "Extramarks ISC Class XII Commerce curriculum.",
                      "name": "Commerce",
                      "chapters": [
                         {
@@ -20178,7 +20178,7 @@
                      ]
                   },
                                     {
-                     "__comment": "Extramarks ICSE Class X Economics; unresolved HLS videos omitted (1). See crawl report.",
+                     "__comment": "Extramarks ISC Class XII Economics; unresolved HLS videos omitted (1). See crawl report.",
                      "name": "Economics",
                      "chapters": [
                         {
@@ -21153,7 +21153,7 @@
                      ]
                   },
                                     {
-                     "__comment": "Extramarks ICSE Class X History curriculum.",
+                     "__comment": "Extramarks ISC Class XII History curriculum.",
                      "name": "History",
                      "chapters": [
                         {
@@ -21593,7 +21593,7 @@
                      ]
                   },
                                     {
-                     "__comment": "Extramarks ICSE Class X Political Science curriculum.",
+                     "__comment": "Extramarks ISC Class XII Political Science curriculum.",
                      "name": "Political Science",
                      "chapters": [
                         {
@@ -22377,7 +22377,7 @@
                      ]
                   },
                                     {
-                     "__comment": "Extramarks ICSE Class X Psychology curriculum.",
+                     "__comment": "Extramarks ISC Class XII Psychology curriculum.",
                      "name": "Psychology",
                      "chapters": [
                         {
@@ -22411,7 +22411,7 @@
                      ]
                   },
                                     {
-                     "__comment": "Extramarks ICSE Class X Business Studies curriculum.",
+                     "__comment": "Extramarks ISC Class XII Business Studies curriculum.",
                      "name": "Business Studies",
                      "chapters": [
                         {
@@ -22920,7 +22920,7 @@
                      "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Home Science."
                   },
                                     {
-                     "__comment": "Extramarks ICSE Class X Sociology curriculum.",
+                     "__comment": "Extramarks ISC Class XII Sociology curriculum.",
                      "name": "Sociology",
                      "chapters": [
                         {

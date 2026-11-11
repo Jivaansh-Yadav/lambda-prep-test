@@ -332,6 +332,8 @@ export async function collectSubject({
 
   return {
     subjectName,
+    board,
+    className,
     subjectId: subjectNode.syllabus_id,
     structure,
     nodes,
@@ -500,9 +502,11 @@ export function buildCurriculumSubject(crawl, resolvedVideos) {
   }
 
   const unresolved = resolvedVideos.filter((item) => !item.link);
+  const board = crawl.board ?? "ICSE";
+  const className = crawl.className ?? "X";
   const comment = unresolved.length
-    ? `Extramarks ICSE Class X ${crawl.subjectName}; unresolved HLS videos omitted (${unresolved.length}). See crawl report.`
-    : `Extramarks ICSE Class X ${crawl.subjectName} curriculum.`;
+    ? `Extramarks ${board} Class ${className} ${crawl.subjectName}; unresolved HLS videos omitted (${unresolved.length}). See crawl report.`
+    : `Extramarks ${board} Class ${className} ${crawl.subjectName} curriculum.`;
 
   return { __comment: comment, name: crawl.subjectName, chapters };
 }
