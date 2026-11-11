@@ -108,12 +108,15 @@ function SandboxedFrame({ src, title, shareUrl }: { src: string; title: string; 
       <iframe
         src={src}
         title={title}
-        // No allow-same-origin: combined with allow-scripts it would let this
-        // third-party (Extramarks) content strip its own sandbox attribute or
-        // navigate itself, defeating the sandbox entirely (GH issue #10). The
-        // embedded Doxxmarks interactive content is cross-origin from this app
-        // and doesn't need same-origin access to render/animate.
-        sandbox="allow-scripts allow-forms allow-pointer-lock allow-popups"
+        // allow-same-origin is required: Practice Game and 3D Interactive
+        // builds fetch their own assets/workers and render a blank frame
+        // without it. Every embedded source is cross-origin third-party
+        // (mscontent-gcp.extramarks.com, drive.google.com), so the frame keeps
+        // its own origin and still cannot reach this app's DOM, cookies or
+        // storage — but never embed a same-origin link here without dropping
+        // the token, because allow-scripts + allow-same-origin on the app's
+        // own origin can undo the sandbox (GH issue #10).
+        sandbox="allow-scripts allow-forms allow-pointer-lock allow-popups allow-same-origin"
         loading="lazy"
         referrerPolicy="no-referrer"
       />
