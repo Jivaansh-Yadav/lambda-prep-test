@@ -4170,41 +4170,320 @@
                      ]
                   },
                   {
-                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for English Language.",
+                     "__comment": "Extramarks ICSE Class X English (Language component: Reading, Grammar, Vocabulary, Writing Skill).",
                      "name": "English Language",
                      "chapters": [
                         {
-                           "name": "",
+                           "name": "English - Reading",
                            "topics": [
                               {
-                                 "name": "",
+                                 "name": "Reading for Comprehension",
                                  "interactiveClasses": [
                                     {
-                                       "name": "",
-                                       "link": ""
+                                       "name": "Reading for Comprehension II",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1700240/dir_1700240/index.html"
+                                    },
+                                    {
+                                       "name": "Reading for Comprehension I",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1700242/dir_1700242/index.html"
                                     }
                                  ],
-                                 "videoLessons": [
-                                    {
-                                       "name": "",
-                                       "link": ""
-                                    }
-                                 ]
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "English - Grammar",
+                           "topics": [
+                              {
+                                 "name": "The Article",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
                               },
                               {
-                                 "name": "",
+                                 "name": "The Noun",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "The Pronoun",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Relatives",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "The Verb",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Auxiliaries",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "The Adjective",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "The Adverb",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Comparison",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Tenses",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "The Sequence of Tenses",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "The Sentence",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Sentence Structure",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Subject-Verb Agreement",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "The Preposition",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "The Conjunction",
                                  "interactiveClasses": [
                                     {
                                        "name": "",
-                                       "link": ""
-                                    }
-                                 ],
-                                 "videoLessons": [
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/09/19/1773011/dir_1773011/index.html"
+                                    },
                                     {
                                        "name": "",
-                                       "link": ""
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/09/19/1773015/dir_1773015/index.html"
                                     }
-                                 ]
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Connectors",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Determiners",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Condition, Concession and Contrast",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Active and Passive Voice",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Direct and Indirect Speech",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "The Interjection",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Punctuation",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Avoiding Repetition",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Nominalisation",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Transformation of Sentences - I",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Transformation of Sentences - II",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Transformation of Sentences - III",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Synthesis of Sentences",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "English - Vocabulary",
+                           "topics": [
+                              {
+                                 "name": "Word Formation",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Vocabulary",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Literary Devices",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "English - Writing Skill",
+                           "topics": [
+                              {
+                                 "name": "Notice",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Notice",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/07/28/2551845/dir_2551845/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Letters",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Letters: Informal - II",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/07/28/2551858/dir_2551858/index.html"
+                                    },
+                                    {
+                                       "name": "Letters: Informal - I",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/10/2556712/dir_2556712/index.html"
+                                    },
+                                    {
+                                       "name": "Letters: Formal \u2013 II",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/07/28/2551851/dir_2551851/index.html"
+                                    },
+                                    {
+                                       "name": "Letters: Formal - I",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/07/28/2551848/dir_2551848/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Emails",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Emails",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/07/28/2552035/dir_2552035/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Report Writing",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/28/1696679/dir_1696679/index.html"
+                                    },
+                                    {
+                                       "name": "Report Writing II",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/28/1696682/dir_1696682/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Picture Composition",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Picture Composition",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/28/1696712/dir_1696712/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Story Writing",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Descriptive Composition",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Narrative Composition",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/28/1696684/dir_1696684/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Reflective Composition",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Reflective Composition",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/28/1696699/dir_1696699/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Argumentative Composition",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/28/1696697/dir_1696697/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Note Making",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
                               }
                            ]
                         }
@@ -6984,6 +7263,700 @@
                                           }
                                        ]
                                     },
+                  {
+                     "__comment": "Extramarks ICSE Class X English (Literature component: Treasure Trove + Treasure Chest short stories/poetry, Julius Caesar, The Merchant of Venice).",
+                     "name": "Literature in English",
+                     "chapters": [
+                        {
+                           "name": "English Literature : Short Stories (Treasure Trove)",
+                           "topics": [
+                              {
+                                 "name": "Chief Seattle's Speech",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Chief Seattle's Speech",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/02/1702781/dir_1702781/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Old Man at the Bridge",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Old Man at the Bridge",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/08/08/1749461/dir_1749461/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Old Man at the Bridge",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/29/16840711141651_dir/1/1664442443308/output/newfile-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "A Horse and Two Goats",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "A Horse and Two Goats",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/20/1739855/dir_1739855/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Hearts and Hands",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Hearts and Hands",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/08/19/1758367/dir_1758367/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "A Face in the Dark",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "A Face in the Dark",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/01/1701150/dir_1701150/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "An Angel in Disguise",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "An Angel in Disguise",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/01/1700909/dir_1700909/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "The Little Match Girl",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "The Little Match Girl",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/08/22/2367649/dir_2367649/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "The Blue Bead",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "The Blue Bead",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/08/21/1761087/dir_1761087/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "My Greatest Olympic Prize",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "My Greatest Olympic Prize",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/08/22/2367613/dir_2367613/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "All Summer in a Day",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "All Summer in a Day",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/08/19/1758365/dir_1758365/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "English Literature : Poetry (Treasure Trove)",
+                           "topics": [
+                              {
+                                 "name": "The Heart of the Tree",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "The Heart of the Tree",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/08/22/2367543/dir2_2367543/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "The Cold Within",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "The Cold Within",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/20/1739931/dir_1739931/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "The Bangle Sellers",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "The Bangle Sellers",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/01/1700994/dir_1700994/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "After Blenheim",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "After Blenheim",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/08/22/2367572/dir_2367572/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Television",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Television",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/01/1701057/dir_1701057/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Daffodils",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Daffodils",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/08/22/2367541/dir_2367541/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "I Know Why the Caged Bird Sings",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "I Know Why the Caged Bird Sings",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/01/1701172/dir_1701172/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "The Patriot",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "The Patriot",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/09/25/1776734/dir_1776734/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Abou Ben Adhem",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Abou Ben Adhem",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/08/19/1758372/dir_1758372/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Nine Gold Medals",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Nine Gold Medals",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/08/19/1758370/dir_1758370/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "English Literature : Drama (The Merchant of Venice)",
+                           "topics": [
+                              {
+                                 "name": "The Merchant of Venice",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "English Literature - Drama: Julius Caesar Year 2025",
+                           "topics": [
+                              {
+                                 "name": "Julius Caesar Act III, Scene I",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Julius Caesar Act III, Scene I - Character Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/19/170834593342998155_dir_V001/1/1708346146060/output/Julius_Caesar_Act_3_Scene_1_Character_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act III, Scene I - Critical Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/16/170808525655829375_dir_V001/1/1708085468905/output/Julius_Caesar_Act-3_Scene-1-Critical_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act III - Scene I - Introduction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/16/170808500698921656_dir_V001/1/1708085219371/output/Julius_Caesar_Act-3_Scene-1-Introduction-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Julius Caesar Act III, Scene II",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Julius Caesar Act III, Scene II - Character Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/19/170833480790692156_dir_V001/1/1708335020455/output/Julius_Caesar_Act_3_Scene_2_Character_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act III, Scene II - Critical Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/17/170815913141724149_dir_V001/1/1708159343819/output/Julius_Caesa_Act_3_Scene_2_Critical_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act III, Scene II - Introduction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/16/170808543597032601_dir_V001/1/1708085648270/output/Julius_Caesar_Act-3_Scene-2-Introduction-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Julius Caesar Act III, Scene III",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Julius Caesar Act III, Scene III - Critical Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/15/170799498909726478_dir_V001/1/1707995201395/output/Julius_Caesar_Act_3_Scene_3_Critical_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act III Scene III - Introduction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/15/170799510325382342_dir_V001/1/1707995315526/output/Julius_Caesar_Act_3_Scene_3_Introduction-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act III Scene III - Character Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/15/170799487081023366_dir_V001/1/1707995083179/output/Julius_Caesar_Act3_Scene3_Character_Analysis-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Julius Caesar Act IV, Scene I",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Julius Caesar Act IV, Scene I - Critical Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/17/170815474046859416_dir_V001/1/1708154952850/output/Icse_X_Julius_Caesar_Act_4_Scene_1_Critical_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act IV, Scene I - Character Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/19/170833438755580942_dir_V001/1/1708334600113/output/Icse_X_Julius_Caesar_Act_4_Scene_1_Character_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act IV, Scene I - Introduction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/17/170815449119094423_dir_V001/1/1708154703844/output/Icse_X_Julius_Caesar_Act_4_Scene_1_Introduction_Shivani-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Julius Caesar Act IV, Scene II",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Julius Caesar Act IV, Scene II - Introduction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/19/170834613909853853_dir_V001/1/1708346351684/output/Icse_X_Julius_Caesar_Act_4_Scene_2_Introduction-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act IV, Scene II - Character Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/17/170815865247799531_dir_V001/1/1708158864859/output/Icse_X_Julius_Caesar_Act_4_Scene_2_Character_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act IV, Scene 2 - Critical Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/19/170833414128233764_dir_V001/1/1708334353917/output/Icse_X_Julius_Caesar_Act_4_Scene_2_Critical_Analysis-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Julius Caesar Act IV, Scene III",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Julius Caesar Act IV Scene III - Critical Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/3/7/170981263624150093_dir_V001/1/1709812595965/output/X_Julius_Caesar_Act_4_Scene_3_Critical_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act IV Scene III - Character Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/3/7/170981221884258268_dir_V001/1/1709812178716/output/X_Julius_Caesar_Act_4_Scene_3_Character_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act IV Scene III - Introduction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/3/6/170972379309061201_dir_V001/1/1709723753017/output/Icse_X_Julius_Caesar_Act_4_Scene_3_Introduction-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Julius Caesar Act V, Scene I",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Julius Caesar Act V, Scene 1 - Character Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/4/1/171197307842356252_dir_V001/1/1711973089761/output/Icse_X_Julius_Caesar_Act_5_Scene_1_Character_Analysis_Shivani-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act V Scene I - Critical Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/3/7/170981250124902351_dir_V001/1/1709813342782/output/X_Julius_Caesar_Act_5_Scene_1_Critical_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act V Scene I - Introduction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/3/7/170981412844937585_dir_V001/1/1709814088187/output/X_Julius_Caesar_Act_5_Scene_1_Introduction-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Julius Caesar Act V, Scene II",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Julius Caesar Act V Scene II - Critical Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/4/2/171205978463067727_dir_V001/1/1712059795702/output/Icse_X_Julius_Caesar_Act_5_Scene_2_Critical_Analysis_Shivani-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act V Scene II - Character Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/3/18/171076310336056187_dir_V001/1/1710763064074/output/X_Julius_Caesar_Act_5_Scene_2_Character_Analysis_Shivani-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act V Scene II - Introduction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/3/18/171076165564013912_dir_V001/1/1710761616470/output/X_Julius_Caesar_Act_5_Scene_2_Introduction-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Julius Caesar Act V, Scene III",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Julius Caesar Act V Scene III - Character Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/4/1/171197234970806888_dir_V001/1/1711972361525/output/Icse_X_Julius_Caesar_Act_5_Scene_3_Character_Analysis_Shivani-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act V Scene III - Critical Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/4/1/171197270760332351_dir_V001/1/1711972718939/output/Icse_X_Julius_Caesar_Act_5_Scene_3_Critical_Analysis_Shivani-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act V Scene III - Introduction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/3/18/171076340841227831_dir_V001/1/1710763369090/output/X_Julius_Caesar_Act_5_Scene_3_Introduction-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Julius Caesar Act V, Scene IV",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Julius Caesar Act V Scene I - Introduction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/4/4/171223224854371311_dir_V001/1/1712232258808/output/ICSE_X_Julius_Caesar_Act_5_Scene_4_Introduction_Shivani-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act V Scene IV - Character Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/4/4/171223202399329775_dir_V001/1/1712232034856/output/ICSE_X_Julius_Caesar_Act_5_Scene_4_Character_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act V, Scene IV - Critical Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/4/1/171197680958484609_dir_V001/1/1711976820894/output/Icse_X_Julius_Caesar_Act_5_Scene_4_Critical_Analysis_Shivani-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Julius Caesar Act V, Scene V",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Julius Caesar Act V Scene 5 - Critical Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/4/18/171343653124710820_dir_V001/1/1713436536703/output/ICSE_X_Julius_Caesar_Act_5_Scene_5_Critical_Analysis_Shivani-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act V Scene V - Character Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/4/5/171231158157371980_dir_V001/1/1712311591685/output/ICSE_X_Julius_Caesar_Act_5_Scene_5_Character_Analysis_Shivani-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act V Scene V - Introduction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/4/5/171230278627456236_dir_V001/1/1712302796398/output/ICSE_X_Julius_Caesar_Act_5_Scene_5_Introduction_Shi-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Julius Caesar: Act-wise Summary",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Julius Caesar Act II",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/6/12/174972349950586463_dir_V001/1/1749723499848/output/Ppt_Icse_X_English_Drama_Julius_Caesar_Act_Ii_Ajith-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act V",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/5/30/174859945111372457_dir_V001/1/1748599447479/output/Ppt_Icse_X_English_Drama_Juliuscaesar_Actv_Ak-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act IV",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/5/30/174859927872440154_dir_V001/1/1748599275174/output/Ppt_Icse_X_English_Drama_Juliuscaesar_Activ_Ak-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act III",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/5/28/174842641601421361_dir_V001/1/1748426414060/output/Ppt_Icse_X_Englishdrama_Juliuscaesar_Actiii_Ak-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Julius Caesar Act I",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/5/28/174842621981488930_dir_V001/1/1748426217985/output/Ppt_Icse_X_English_Drama_Julius_Caesar_Act_I_Ajith-hd.m3u8"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "English Literature - Short Stories: Treasure Chest Year 2025",
+                           "topics": [
+                              {
+                                 "name": "With the Photographer",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "With The Photographer - Critical Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/9/170746074659469465_dir_V001/1/1707460897672/output/Icse_10_Eng_With_The_Photographer_Amita_Critical_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "With The Photographer - Character Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/9/170746047200193337_dir_V001/1/1707460623062/output/Icse_10_Eng_With_The_Photographer_Character_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "With The Photographer - Summary",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/9/170746022835867209_dir_V001/1/1707460379419/output/Icse_10_Eng_With_The_Photographe_Summary-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "With The Photographer - Introduction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/9/170745989665822776_dir_V001/1/1707460047740/output/Icse_10_Eng_Ss_With_The_Photographer_Amita_Introduction-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "With The Photographer - About The Author",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/9/170745958234153877_dir_V001/1/1707459733520/output/10_Eng_With_The_Photographer_Amita_About_The_Author-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "The Elevator",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "The Elevator - Critical Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/9/170746215705251278_dir_V001/1/1707462308096/output/Icse_10_Eng_The_Elevator_Amita_Critical_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The Elevator - Character Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/9/170746195483724049_dir_V001/1/1707462105889/output/Icse_10_Eng_The_Elevator_Amita_Character_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The Elevator - Summary",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/9/170746176294971100_dir_V001/1/1707461914001/output/Icse_10_Eng_The_Elevator_Amita_Summary-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The Elevator - Introduction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/9/170746159167706291_dir_V001/1/1707461742723/output/Icse_10_Eng_The_Elevator_Amita_Introduction-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The Elevator - About The Author",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/9/170746126921646816_dir_V001/1/1707461420294/output/Icse_10_Eng_The_Elevator_About_The_Author-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "The Girl Who Can",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "The Girl Who Can - Critical Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/14/170792916600452541_dir_V001/1/1707929377314/output/Icse_10_Eng_The_Girl_Who_Can_Amita_Critical_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The Girl Who Can - Character Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/14/170792892992921825_dir_V001/1/1707929141264/output/Icse_10_The_Girl_Who_Can_Amita_Character_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The Girl Who Can - Summary",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/14/170792790454329253_dir_V001/1/1707928116181/output/Icse_10_Eng_Ss_The_Girl_Who_Can_Amita_Summary-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The Girl Who Can - About the Author",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/14/170792860228339045_dir_V001/1/1707928813602/output/Icse_10_EngThe_Girl_Who_Can_Amita_About_The_Author-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The Girl Who Can - Introduction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/14/170792826834436089_dir_V001/1/1707928479797/output/Icse_10_Eng_The_Girl_Who_Can_Amita_Introduction-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "The Pedestrian",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "The Pedestrian - Critical Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/24/170877826894409011_dir_V001/1/1708778482542/output/Icse_10_Eng_The_Pedestrian_Amita_Critical_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The Pedestrian - Character Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/15/170799446698579559_dir_V001/1/1707994679264/output/Icse_10_Eng_The_Pedestrian_Amita_Character_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The Pedestrian - Summary",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/15/170799467758667691_dir_V001/1/1707994889860/output/Icse_10_Eng_The_Pedestrian_Amita_Summary-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The Pedestrian - Introduction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/15/170799455868245278_dir_V001/1/1707994770953/output/Icse_10_Eng_The_Pedestrian_Amita_Introduction-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The Pedestrian - About the Author",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/15/170799435614403291_dir_V001/1/1707994568479/output/Icse_10_Eng_The_Pedestrian_Amita_About_The_Author-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "The Last Lesson",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "The Last Lesson - Critical Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/4/17/171334961679789306_dir_V001/1/1713349622826/output/Icse_10_Eng_Ss_The_Last_Lesson_Amita_Critical_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The Last Lesson - Character Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/4/11/171285500099394489_dir_V001/1/1712855008937/output/ICSE_10_Eng_SS_The_Last_Lesson_Amita_Character_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The Last Lesson - Summary",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/4/11/171285519570776436_dir_V001/1/1712855203155/output/ICSE_10_Eng_SS_The_Last_Lesson_Amita_Summary-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The Last Lesson - Introduction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/3/30/171177890662036115_dir_V001/1/1711778918767/output/Icse_10_Eng_Ss_The_Last_Lesson_Amita_Introduction-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The Last Lesson - About the Author",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/3/30/171177860897093343_dir_V001/1/1711780421041/output/Icse_10_Eng_The_Last_Lesson__About_The_Author-hd.m3u8"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "English Literature - Poetry: Treasure Chest Year 2025",
+                           "topics": [
+                              {
+                                 "name": "Haunted Houses",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Haunted Houses - Literary Devices",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/29/170920713201652853_dir_V001/1/1709207091156/output/Icse10_Eng_Po_Haunted_Houses_Amita_Literary_Devices-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Haunted Houses - Critical Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/29/170920699062710704_dir_V001/1/1709206949792/output/Icse_10_Eng_Po_Haunted_Houses_Amita_Critical_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Haunted Houses - Introduction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/29/170920679335844378_dir_V001/1/1709206752519/output/Icse_10_Eng_Po_Haunted_Houses_Amita_Introduction-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Haunted Houses - About the Author",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/29/170920661384572546_dir_V001/1/1709206573109/output/Icse_10_Eng_Po_Haunted_Houses_Amita_About_The_Author-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "The Glove and the Lions",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "The Glove and the Lions - Literary Devices",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/3/12/171022409390968618_dir_V001/1/1710224054187/output/Icse_10_Eng_Po_The_Glove_And_The_Lions_Amita_Literary_Devices-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The Glove and the Lions - Critical Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/3/12/171022365095357560_dir_V001/1/1710223611140/output/Ics_10_Eng_Po_The_Glove_And_The_Lions_Amita_Critical_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The Glove and the Lions - Introduction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/3/12/171022331183871724_dir_V001/1/1710223272165/output/Icse_10_Eng_Po_The_Glove_And_The_Lions_Amita_Introduction-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The Glove and the Lions - About the Author",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/29/170921052824846736_dir_V001/1/1709210487617/output/Icse10_Eng_Po_The_Glove_And_The_Lions_Amita_About_The_Author-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "When Great Trees fall",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "When Great Trees Fall - Critical Analysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/3/30/171177813392481983_dir_V001/1/1711778146052/output/Icse_10_Eng_Po_When_Great_Trees_Fall_Amita_Critical_Analysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "When Great Trees Fall - Introduction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/3/30/171177788369519872_dir_V001/1/1711777895859/output/Icse_10_Eng_When_Great_Trees_Fall_Amita_Introduction-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "When Great Trees fall - About the Author",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/3/30/171177753904655200_dir_V001/1/1711777551804/output/Icse_10_Eng_When_Great_Trees_Fall_Amita_About_The_Author-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "A Considerable Speck",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "A Considerable Speck - Literary Devices",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/7/30/172231426627624400_dir_V001/1/1722314199643/output/Icse_X_Eng_A_Considerable_Speck_Shreeya_Literary_Devices-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "A Considerable Speck - Introduction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/7/28/172217364384871794_dir_V001/1/1722173578919/output/Icse_X_Eng_A_Considerable_Speck_Shreeya_Introduction-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "A Considerable Speck - About the Author",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/7/28/172217348011229828_dir_V001/1/1722173739357/output/Icse_X_Eng_A_Considerable_Speck_Shreeya_About_The_Author-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "The Power of Music",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "The Power of Music: Introduction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/7/23/172172638425518817_dir_V001/1/1721726318999/output/Icse_X_Eng_Ss_The_Power_Of_Music_Ajith_Introduction-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The Power of Music: About the Author",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/7/23/172172672429140158_dir_V001/1/1721726659116/output/Icse_X_Eng_Ss_The_Power_Of_Music_Ajith_About_The_Author-hd.m3u8"
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
                                     {
                      "__comment": "Extramarks ICSE Class X Mathematics curriculum; four video records omitted because HLS manifests returned 404.",
                      "name": "Mathematics",
