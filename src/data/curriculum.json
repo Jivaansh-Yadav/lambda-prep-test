@@ -1300,7 +1300,7 @@
                                  "videoLessons": [
                                     {
                                        "name": "Electromagnetic Radiations and Spectrum",
-                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/2/176465487943612622_dir_V001/1/1764654822879/output/Electromagnetic_Spectrum-hd.m3u"
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/2/176465487943612622_dir_V001/1/1764654822879/output/Electromagnetic_Spectrum-hd.m3u8"
                                     }
                                  ]
                               }
@@ -1309,6 +1309,106 @@
                               {
                                  "name": "InstaRevision Notes",
                                  "link": "https://drive.google.com/file/d/1ywyTbUYqplmD8jszPJV5mZ6V3MRxiTjt/view"
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Sound",
+                           "topics": [
+                              {
+                                 "name": "Reflection of Sound",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Reflection of Sound",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/04/19/1959710/dir_1959710/index.html#"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Sound waves",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/2/177001165702330619_dir_V001/1/1770011671644/output/Sound_Waves-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Reflection of Sound",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/8/4/165961093918721317_dir/1/1659610881543/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Characteristics of Sound waves",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/2/176907794878941200_dir_V001/1/1770008839842/output/Characteristics_Of_Sound_Waves-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Echo",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/21/176897288994780350_dir_V001/1/1768972894433/output/Ppt_X_Sound_Echo_And_Reverberation-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Uses of Echoes",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/4/7/177011899298643258_dir_V001/1/1775554681486/output/Uses-Of-Echo-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Natural, Damped and Forced Vibrations",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Natural, Forced Vibrations and Resonance",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/11/09/1824728/dir_1824728/index.html#"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Natural Vibrations",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/5/177027286158551164_dir_V001/1/1770272853616/output/Ppt_X_Sound_Natural_Vibrations-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Damped Vibration",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/3/177011879350249738_dir_V001/1/1770118840841/output/Ppt-X-Sound-Damped-Vibrations-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Forced Vibration",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/7/176776306798154405_dir_V001/1/1767763060849/output/Ppt_X_Sound_Forced_Vibrations-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Resonance",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/5/177026903562197912_dir_V001/1/1770269027424/output/Ppt_X_Sound_Resonance-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Examples of Resonance",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/30/176974915885833584_dir_V001/1/1769749170636/output/Ppt_X_Sound_Example_Of_Resonance-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Characteristics of Sound",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Characteristics of Sound ",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/08/31/2377311/dir_2377311/index.html#"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Loudness",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/13/176827938216551981_dir_V001/1/1768279380603/output/Ppt_X_Sound_Loudness-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Intensity and its relation with the Loudness",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/4/177020190745864206_dir_V001/1/1770201923481/output/Ppt_X_Sound_Intensity_And_Its_Relation_With_Loudness-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Pitch and Frequency",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/5/177026955327401967_dir_V001/1/1770269545117/output/Ppt_X_Sound_Pitch-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Quality, Music and Noise",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/4/7/177018256584306027_dir_V001/1/1775561532732/output/X-Sound-Quality-hd.m3u8"
+                                    }
+                                 ]
+                              }
+                           ],
+                           "revisionNotes": [
+                              {
+                                 "name": "InstaRevision Notes",
+                                 "link": ""
                               }
                            ]
                         }
