@@ -2851,6 +2851,279 @@
                         }
                      ]
                   },
+                  {
+                     "__comment": "Extramarks ICSE Class X Commercial Studies curriculum.",
+                     "name": "Commercial Studies",
+                     "chapters": [
+                        {
+                           "name": "Stakeholders in Commercial Organisations",
+                           "topics": [
+                              {
+                                 "name": "Stakeholders in Commercial Organisations",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Stakeholders in Commercial Organisations",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2021/08/28/2834496/dir_2834496/index.html"
+                                    },
+                                    {
+                                       "name": "Expectations of Stakeholders\r\n",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2021/08/30/2834517/dir_2834517/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Stakeholders in Commercial Organisations",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2021/08/28/2834502/dir_2834502/index.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Marketing: Meaning and Objectives",
+                           "topics": [
+                              {
+                                 "name": "Marketing: Meaning and Objectives",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Marketing: Meaning and Objectives",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2021/08/30/2834503/dir_2834503/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Marketing: Meaning and Objectives",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2021/08/25/2833851/dir_2833851/index.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Product and Services",
+                           "topics": [
+                              {
+                                 "name": "Product and Services",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Product and Services",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2021/08/28/2834499/dir_2834499/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Product and Services",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2021/08/25/2833853/dir_2833853/index.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Pricing",
+                           "topics": [
+                              {
+                                 "name": "Pricing",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Pricing",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2021/08/27/2834443/dir_2834443/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Pricing",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2021/08/25/2833855/dir_2833855/index.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Advertising",
+                           "topics": [
+                              {
+                                 "name": "Advertising",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Advertising",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2021/08/25/2833858/dir_2833858/index.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Sales Promotion",
+                           "topics": [
+                              {
+                                 "name": "Sales Promotion",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Sales Promotion",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2021/08/27/2834447/dir_2834447/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Sales Promotion",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2021/08/25/2833864/dir_2833864/index.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Consumer Protection",
+                           "topics": [
+                              {
+                                 "name": "Consumer Protection",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Consumer Protection",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2021/08/30/2834519/dir_2834519/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Consumer Protection",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2021/08/25/2833871/dir_2833871/index.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "E-Commerce",
+                           "topics": [
+                              {
+                                 "name": "E-Commerce",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "E-Commerce",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2021/08/28/2834500/dir_2834500/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "E-Commerce",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2021/08/25/2833876/dir_2833876/index.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Capital and Revenue",
+                           "topics": [
+                              {
+                                 "name": "Capital and Revenue",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Capital and Revenue",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2021/08/27/2834449/dir_2834449/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Capital and Revenue",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2021/08/30/2834522/dir_2834522/index.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Sources of Finace",
+                           "topics": [
+                              {
+                                 "name": "Sources of Finace",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Sources of Finace",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2021/08/27/2834451/dir_2834451/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Sources of Finace",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2021/08/30/2834508/dir_2834508/index.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Recruitment and Selection",
+                           "topics": [
+                              {
+                                 "name": "Recruitment and Selection",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Selection",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2021/08/27/2834453/dir_2834453/index.html"
+                                    },
+                                    {
+                                       "name": "Recruitment",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2021/08/27/2834452/dir_2834452/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Recruitment and Selection",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2021/08/30/2834509/dir_2834509/index.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Logistic: An Overview",
+                           "topics": [
+                              {
+                                 "name": "Logistic: An Overview",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Logistic: An Overview",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2021/08/27/2834459/dir_2834459/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Logistic",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2021/08/27/2834442/dir_2834442/index.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
                                                                         {
                                        "__comment": "Extramarks ICSE Class X Computer Applications curriculum.",
                                        "name": "Computer Applications",
@@ -3162,6 +3435,740 @@
                                           }
                                        ]
                                     },
+                  {
+                     "__comment": "Extramarks ICSE Class X Economic Applications; unresolved HLS videos omitted (1). See crawl report.",
+                     "name": "Economic Applications",
+                     "chapters": [
+                        {
+                           "name": "Theory of Demand",
+                           "topics": [
+                              {
+                                 "name": "Concept of Demand",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Concept of Demand",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/19/1679841/dir_1679841/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Determinants of Market Demand",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/22/175852637724976125_dir_V001/1/1758526350004/output/Icse_Ppt_Mp4_Economics_X_Theory_Of_Demand_Determinants_Of_Market_Demand-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Meaning of law of demand",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/22/175852617958118761_dir_V001/1/1758526152318/output/Icse_Ppt_Mp4_Economics_X_Theory_Of_Demand_Meaning_Of_Law_Of_Demand-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Exceptions of Law of Demand",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/22/175852565019777083_dir_V001/1/1758525622973/output/Icse_Ppt_Mp4_Economics_X_Theory_Of_Demand_Exceptions_Of_Law_Of_Demand-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Movement along the Demand Curve",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/24/175871686082750595_dir_V001/1/1758716833282/output/Icse_Ppt_Mp4_Economics_X_Theory_Of_Demand_Movement_Along_The_Demand_Curve-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Shift of the Demand curve",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/1/175931718832453106_dir_V001/1/1759317159079/output/Icse_Ppt_Mp4_Economics_X_Theory_Of_Demand_Shifts_In_The_Demand_Curve-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Individual and Market demand",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/22/175852671130360920_dir_V001/1/1758526683992/output/Icse_Ppt_Mp4_Economics_X_Theory_Of_Demand_Indvidual_And_Market_Demand-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Determinants of Individual Demand",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/22/175852637724976125_dir_V001/1/1758526350004/output/Icse_Ppt_Mp4_Economics_X_Theory_Of_Demand_Determinants_Of_Market_Demand-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Types of Demand",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/18/175818065047233831_dir_V001/1/1758180624166/output/Icse_Ppt_Mp4_Economics_X_Theory_Of_Demand_Types_Of_Demand-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Meaning and Features of Demand",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/18/175818082425721213_dir_V001/1/1758180797798/output/Icse_Ppt_Mp4_Econ_X_Theory_Of_Demand_Meaning_And_Features_Of_Demand-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Reasons for the operation of law of demand",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/22/175852581755083951_dir_V001/1/1758525790343/output/Icse_Ppt_Mp4_Economics_X_Theory_Of_Demand_Reasons_For_The_Operation_Of_Law_Of_Demand-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Elasticity of Demand",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Elasticity of Demand",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/19/1679844/dir_1679844/index.html"
+                                    },
+                                    {
+                                       "name": "Elasticity of Demand",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/15/1674808/dir_1674808/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Meaning and Types of Price Elasticity of Demand",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/28/176165025051177951_dir_V001/1/1761650216620/output/Meaning_And_Types_Of_Price_Elasticity_of_Demand-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Meaning and Types of Elasticity of Demand",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/30/176180606938780201_dir_V001/1/1761806035086/output/Icse_Ppt_Mp4_Economics_X_Elasticity_Of_Demand_Meaning_And_Types_Of_Elasticity-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Factors Affecting Price Elasticity of Demand",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/30/176180581050876353_dir_V001/1/1761805776269/output/Icse_Ppt_Mp4_Economics_X_Elasticity_Of_Demand_Factors_Affecting_Price_Elasticity_Of_Demand-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Cross Elasticity of Demand",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/30/176180552854449004_dir_V001/1/1761805494400/output/Icse_Ppt_Mp4_Economics_X_Elasticity_Of_Demand_Cross_Elasticity_Of_Demand-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Income Elasticity of Demand",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/28/176165029941327173_dir_V001/1/1761650265392/output/Icse_Ppt_Mp4_Economics_X_Elasticity_Of_Demand_Income_Elasticity-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Method of Measurement of Price Elasticity of Demand",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/5/176231949107052139_dir_V001/1/1762319455779/output/Icse_Ppt_Mp4_Economics_X_Elasticity_Of_Demand_Methods_Of_Measurement_Of_Price_Elasticity_Of_Demand-hd.m3u8"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Theory of Supply",
+                           "topics": [
+                              {
+                                 "name": "Concept of Supply",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Concept of Supply",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/19/1679851/dir_1679851/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Reasons for the Operation of Law of Supply",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176431383729488786_dir_V001/1/1764313797507/output/Icse_Ppt_Mp4_Economics_X_Theory_Of_Supply_Reasons_For_The_Operation_Of_The_Law_Of_Supply-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Determinants of supply",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/2/176467077622374660_dir_V001/1/1764674778608/output/Icse_Voscript_X_Eco_Theory_Of_Supply_Determinants_Of_Individual_And_Market_Supply1-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Individual and Market Supply: Schedules and Curves",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/30/176482389640985269_dir_V001/1/1767084090171/output/Icse_Ppt_Mp4_Economics_X_Theory_Of_Supply_Individual_And_Market_Supply_Schedules_And_Curves-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Law of Supply",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/1/176457095555863965_dir_V001/1/1764570917801/output/Icse_Ppt_Mp4_Economics_X_Theory_Of_Supply_The_Law_Of_Supply-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Exceptions to the Law of Supply",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176431353339952993_dir_V001/1/1764313493851/output/Icse_Ppt_Mp4_Economics_X_Theory_Of_Supply_Exceptions_To_The_Law_Of_Supply-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Movement along the Supply Curve",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/1/176457038871449382_dir_V001/1/1764570351032/output/Icse_Ppt_Mp4_Economics_X_Theory_Of_Supply_Movement_Along_The_Supply_Curve-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Shift of the Supply Curve",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/2/176467023115567976_dir_V001/1/1764670195765/output/Icse_Ppt_Mp4_Economics_X_Theory_Of_Supply_Shift_Of_The_Supply_Curve-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Meaning and Types of Supply",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176432282495569739_dir_V001/1/1764322785222/output/Icse_Ppt_X_Eco_Theory_Of_Supply_Meaning_And_Types_Of_Supply-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Elasticity of Supply",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Elasticity of Supply",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/19/1679856/dir_1679856/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Measurement of Price Elasticity of Supply",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/1/176457014978858100_dir_V001/1/1764570112076/output/Icse_Ppt_Mp4_Economics_X_Theory_Of_Supply_Measurement_Of_Elasticity_Of_Supply-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Meaning and Types of Price Elasticity of Supply",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/3/176476716897517754_dir_V001/1/1764767133190/output/Icse_Voscript_X_Eco_Theory_Of_Supply_Meaning_And_Types_Of_Elasticity_Of_Supply_Final-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Time Period and Price Elasticity of Supply",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/3/176476779942213651_dir_V001/1/1764767763558/output/Icse_Slmppt_X_Economics_Theory_Of_Supply_Elasticity_Of_Supply_Time-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Factors Determining Elasticity of Supply",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/3/176476799231450951_dir_V001/1/1764767956397/output/Icse_Slmppt_X_Economics_Theory_Of_Supply_Elasticity_Of_Supply_Factors_Determining_Elasticity_Of_Supply-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Importance of Elasticity of Supply",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/1/176456986482061344_dir_V001/1/1764569827174/output/Icse_Slmppt_X_Economics_Theory_Of_Supply_Elasticity_Of_Supply_Importance_Of_Elasticity_Of_Supply-hd.m3u8"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Factors of Production",
+                           "topics": [
+                              {
+                                 "name": "Meaning and Characterstics of Factors of Production",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Meaning and Characterstics of Factors of Production",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/19/1679862/dir_1679862/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Classification of Factors of Production",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/29/175646767970253056_dir_V001/1/1756467656971/output/Icse_Eco_X_Factors_Of_Production_Characteristics_Of_Factors_Of_Production-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Productive Mechanism",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/22/175584798202955040_dir_V001/1/1755847960843/output/Icse_Eco_X_Factors_Of_Production_Prodcutive_Mechanism-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Meaning and Characteristics of Factors of Production",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/29/175646804181312520_dir_V001/1/1756468019107/output/Icse_Eco_X_Factors_Of_Production_Meaning_Of_Factors_Of_Production-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Meaning and Characterstics of Land",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Meaning and Characterstics of Land",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1699866/dir_1699866/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Productivity of land",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/3/175688059214151634_dir_V001/1/1756880568492/output/Icse_Eco_X_Factors_Of_Production_Productivity_Of_Land-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Functions and Importance of Land",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/29/175645629370065004_dir_V001/1/1756457069239/output/Icse_Eco_X_Factors_Of_Production_Functions_And_Importance_Of_Land-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Meaning and Characteristics of Land",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/29/175645681762046393_dir_V001/1/1756456794842/output/Icse_Eco_X_Factors_Of_Production_Meaning_And_Characteristics_Of_Land-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Destruction of Ecosystem",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Destruction of Ecosystem",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/19/1679858/dir_1679858/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Destruction of Ecosystem Part - 2",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/7/27/178514339173071724_dir_V001/1/1785143824133/output/Icse_Slmppt_X_Eco_Appli_Production_Destruction_Of_Ecosystem_Part2-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Destruction of Ecosystem Part - 1",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/7/27/178514375100157434_dir_V001/1/1785144224509/output/Icse_Voscript_Destruction_Of_Ecosystem-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Meaning and Characterstics of Labour",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Meaning and Characterstics of Labour",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1699850/dir_1699850/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Meaning and Classification of Labour",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/22/175854062014470685_dir_V001/1/1758540592898/output/Icse_Eco_X_Factors_Of_Production_Meaning_And_Classification_Of_Labour-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Characteristics of Labour",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/29/175646713344264028_dir_V001/1/1756467110763/output/Icse_Eco_X_Factors_Of_Production_Meaning_And_Characteristics_Of_Labour-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Difference between land and labour and importance",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/3/175688031553927788_dir_V001/1/1756880291961/output/Icse_Eco_X_Factors_Of_Production_Difference_Between_Land_And_Labour_And_Importance_Of_Labour-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Efficiency of Labour",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Efficiency of Labour",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/01/1701506/dir_1701506/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Efficiency of Labour",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/22/175854044334501856_dir_V001/1/1758540416259/output/Icse_Eco_X_Factors_Of_Production_Meaning_Of_Efficency_Of_Labour-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Causes of the Low Efficiency of Labour in India",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/6/175948076248408854_dir_V002/1/1759746900118/output/m-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Division of Labour",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Division of Labour",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/01/1701486/dir_1701486/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Advantages of division of labour to consumers and socie",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/3/176155046167435967_dir_V002/1/1762147306919/output/Icse_Ppt_Mp4_Economics_X_Factors_Of_Production_Advantages_Of_Division_Of_Labour_To_Consumers_And_Society-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Division of labour: meaning and type",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/3/175688035338332226_dir_V001/1/1756880329649/output/Icse_Eco_X_Factors_Of_Production_Division_Of_Labour-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Advantages of division of labour- to producers and work",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/1/175930816921599279_dir_V001/1/1759308140374/output/Icse_Ppt_Mp4_Eco_X_Factors_Of_Production_Advantages_Of_Division_Of_Labour-To_Workers_And_Producers-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Disadvantages and Limitations of Division of Labour",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/13/176033355716355973_dir_V001/1/1760333525985/output/Icse_Slmppt_X_Eco_Factors_Of_Production_Division_Of_Labour_Disadvantages_Of_Division_Of_Labour-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Meaning and Characterstics of Captial",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Meaning and Characterstics of Captial",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/19/1679860/dir_1679860/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Characteristics and Importance of Capital",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/3/175947979598672657_dir_V001/1/1759479766585/output/Characteristics_and_importance_of_Capital-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Meaning and Types of capital",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/3/175948036513452000_dir_V001/1/1759480335750/output/Meaning_and_types_of_capital-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Differences between capital and other related concepts",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/3/176216889021387875_dir_V001/1/1762168855167/output/206288-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Capital Formation",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Capital Formation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/19/1679864/dir_1679864/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Causes of Low Rate of Capital Formation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/29/175912985901249429_dir_V001/1/1759129830659/output/Icse_Eco_X_Factors_Of_Production_Capital_Formation-Reasons_For_Slow_Growth_Rate_Of_Capital_Formation-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Suggestions to Increase the Rate of Capital Formation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/1/175931562266925866_dir_V001/1/1759315593661/output/Icse_Eco_X_Factors_Of_Production_Capital_Formation-Suggestions_To_Raise_Rate_Of_Capital_Formation-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Meaning and Process of Capital Formation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/3/175947908066031845_dir_V001/1/1759479051803/output/Icse_Eco_X_Factors_Of_Production_Capital_Formation_Meaning_And_Process_Of_Capital_Formation-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Importance of Capital Formation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/7/22/178471263626197359_dir_V001/1/1784712694171/output/Icse_Voscript_Importance_Of_Capital_Formation-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Entrepreneur or Organisation",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Entrepreneur or Organisation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/19/1679867/dir_1679867/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Meaning of Entrepreneur",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/3/175947694139173727_dir_V001/1/1759476912176/output/Icse_Eco_X_Factors_Of_Production_Entrepreneur_Or_Organisation_Meaning_And_Characteristics_Of_Entrepreneur-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Functions and Essential Qualities of an Entrepreneur",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/3/175948069892485076_dir_V001/1/1759480669708/output/123-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Differences between Entrepreneur & Organisation, Labour",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/4/176224615796986777_dir_V001/1/1762246122950/output/different-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Role of Entrepreneur in Economic Development",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/1/175931479217504228_dir_V001/1/1759314763140/output/Icse_Eco_X_Factors_Of_Production_Entrepreneur_Role_Of_Entrepreneur_In_Economic_Development-hd.m3u8"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Alternative Market Structure",
+                           "topics": [
+                              {
+                                 "name": "Forms of the Market",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Forms of the Market",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/01/1701542/dir_1701542/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Forms of the Market",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/01/1701545/dir_1701545/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Forms of the Market- Perfect competition",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Market-Meaning & Factors Determining Market Structure",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/30/176180520909724063_dir_V001/1/1761805174943/output/Icse_Eco_X_Market_Forms_Of_The_Market_Meaning_Of_Market_And_Factors_Determining_Market_Structures-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Meaning and Characteristics of Perfect Competition",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/30/176180483855798997_dir_V001/1/1761815516961/output/Icse_Eco_X_Market_Forms_Of_The_Market-Meaning_And_Features_Of_Perfect_Competition-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Forms of the Market- Imperfect Competition",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Meaning and Features of Monopolistic Competition",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/30/176181066939394121_dir_V001/1/1761810635131/output/Icse_Eco_X_Market_Forms_Of_The_Market-Imperfect_Competition_Meaning_And_Features_Of_Monopolistic_Competition-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Monopsony-Meaning and its Features",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/3/176217299956546965_dir_V001/1/1762172964503/output/210478-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Meaning and Features of Monopoly",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/5/176231922812887498_dir_V001/1/1762319192674/output/Icse_Eco_X_Market_Forms_Of_The_Market-Monopoly_Meaning_And_Features-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Oligopoly: Meaning, Types, and Features",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/5/176231891943492650_dir_V001/1/1762318884199/output/Icse_Eco_X_Market_Forms_Of_The_Market-Imperfect_Competition_Oligopoly_Meaning_types_and_features-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Causes behind the Emergence of Monopoly",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/4/176224754100483474_dir_V001/1/1762247505751/output/Icse_Eco_X_Market_Forms_Of_The_Market-Imperfect_Competition_Causes_Behind_Emergence_Of_Monopoly-hd.m3u8"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "The State and Economic Development",
+                           "topics": [
+                              {
+                                 "name": "Role of State in Economic Development",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Role of State in Economic Development",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1699817/dir_1699817/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Meaning and Role of State in Economic Development",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/7/29/178530779664169873_dir_V001/1/1785307797362/output/Icse_X_Eco_Appli_State_Role_Meaning_And_Role_Of_State_In_Eco_Devel-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Instruments of State Intervention",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Instruments of State Intervention",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/01/1701558/dir_1701558/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Other Kinds of Taxes",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/31/176717541026964596_dir_V001/1/1767175397689/output/Icse_Ppt_Mp4_Economics_X_Public_Revenue_Other_Kinds_Of_Taxes-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Goods and Service Tax",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/29/176698558564741182_dir_V001/1/1766985571762/output/Icse_Ppt_Mp4_Economics_X_Public_Revenue_Gst-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Indirect Taxes",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/2/176734432316440176_dir_V001/1/1767344312391/output/Icse_Ppt_Mp4_Economics_X_Public_Revenue_Indirect_Taxes-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Direct Taxes",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/30/176707886235641699_dir_V001/1/1767078849212/output/Icse_Ppt_Mp4_Economics_X_Public_Revenue_Direct_Taxes-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Instruments of Fiscal Policy",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/7/23/178479922969424993_dir_V001/1/1784799288164/output/Icse_Slmppt_X_Eco_Applica_The_State_And_Economic_Devel_Instru_Of_Fiscal_Policy-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Meaning and Objectives of Fiscal Policy",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/7/22/178472075866017711_dir_V001/1/1784720816585/output/Icse_Voscript_Fiscal_Policy-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Importance of Taxation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/7/22/178472144336548094_dir_V001/1/1784721501260/output/Icse_X_Ecoapp_Importance_Of_Taxation-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Monetary Policy",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/7/23/178479894073937585_dir_V001/1/1784798999193/output/Icse_Slmppt_X_Eco_Applic_State_Instru_Of_State_Intervention_Monetary_Policy-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Public Sector Enterprises - Role and Problems",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Public Sector Enterprises - Role and Problems",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/01/1701548/dir_1701548/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Suggestions to Improve PSEs in India",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/7/22/178472123571541053_dir_V001/1/1784721293665/output/Suggestions_To_Improve_Pses-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Role of Public Sector Enterprises",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/7/22/178472099118842238_dir_V001/1/1784721049119/output/Icse_X_Ecoapp_Role_Of_Public_Sector_Enterprises-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Meaning and Types of Public Sector Enterprises",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/7/22/178471281423997488_dir_V001/1/1784712872152/output/Meaning_And_Types_Of_Public_Enterprises-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Problems of Public Sector Enterprises in India",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/7/23/178479871260085252_dir_V001/1/1784798771099/output/Problems_Of_Public_Sector_Enterprises-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Privatisation of Public Enterprises",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Privatisation of Public Enterprises",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/05/24/2002176/dir_2002176/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Privatisation in India",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/7/27/178513880454404699_dir_V001/1/1785138804855/output/Icse_Voscript_Privatisation_In_India-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Arguements in Favour and Against Privatisation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/7/22/178471244550099393_dir_V001/1/1784712503447/output/Icse_Slmppt_X_Economic_App_Arguements_In_Favour_And_Against_Privatisati-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Privatisation, Denationalisation and DIsinvestment",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/7/27/178513859336423092_dir_V001/1/1785138593643/output/Icse_Privatisation_Denationalisation_And_Disinvestment-hd.m3u8"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Money and Banking",
+                           "topics": [
+                              {
+                                 "name": "Money",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Money",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/19/1680451/dir_1680451/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Barter system- Meaning, and Inconveniences",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/17/176338002076854490_dir_V001/1/1763379983265/output/Icse_Eco_X_Market_Meaning_And_Functions_Of_Money_Money_Barter_System-Meaning_And_Inconveniences-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Evolution of money",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/17/176338035570925438_dir_V001/1/1763380318176/output/Icse_Eco_X_Meaning_And_Functions_Of_Money_Money_Evolution_Of_Money-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Forms of Money",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/3/176476736499833624_dir_V001/1/1764767329184/output/Icse_Eco_X_Meaning_And_Functions_Of_Money_Money_Forms_Of_Money-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Money- Meaning, Definitions and Characteristics",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/3/176476819755950211_dir_V001/1/1764768161660/output/Icse_Slmppt_X_Economics_Meaning_And_Functions_Of_Money-Meaning_Definitions_And_Characteristics-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Functions of Money",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/28/176432253306438501_dir_V001/1/1764322493334/output/Icse_Slmppt_X_Economics_Meaning_And_Functions_Of_Money-Function_Of_Money-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Inflation-Types and Causes",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Inflation-Types and Causes",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/19/1680413/dir_1680413/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Meaning and Features of Inflation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/20/175568035065560612_dir_V001/1/1755680329629/output/Icse_Ppt_Mp4_Economics_X_Inflation_Meaning_An_dFeatures-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Stages of Inflation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/20/175567994637052787_dir_V001/1/1755679925478/output/Icse_Ppt_Mp4_Economics_X_Inflation_Stages_Of_Inflation-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Demand pull inflation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/26/175621185638430343_dir_V001/1/1756211834416/output/Icse_Ppt_Mp4_Economics_X_Inflation_Demand_Pull_Inflation-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Cost-Push Inflation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/29/175646897372929311_dir_V001/1/1756468951131/output/Icse_Ppt_Mp4_Economics_X_Inflation_Cost-Push_Inflation-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Effects, Trends and Control of Inflation",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Effects, Trends and Control of Inflation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/19/1680349/dir_1680349/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Effects of Inflation on Production",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/29/175646849377102303_dir_V001/1/1756468471122/output/Icse_Ppt_Mp4_Economics_X_Inflation_Effects_Of_Inflation_On_Production-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Effects of inflation on distribution and other effects",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/3/175687991131597850_dir_V001/1/1756879887664/output/Icse_Ppt_Mp4_Economics_X_Inflation_Effects_Of_Inflation_On_Distribution_And_Other_Effects-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Control of Inflation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/3/175688086587716686_dir_V001/1/1756880842265/output/Icse_Ppt_Mp4_Economics_X_Inflation_Control_Of_Inflation-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Banking - Commercial banks",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Banking - Commercial Banks",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/19/1680079/dir_1680079/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Functions of Commercial Bank Accepting Deposits",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/3/177012298411605739_dir_V001/1/1770122975241/output/Icse_X_Economics_Commercial_Bank_Primary_Function_Accepting_Deposit-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Functions of Commercial Banks \u2013 Advancing of Loans",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/4/177019988828803465_dir_V001/1/1770199933555/output/Icse-X-Economics-Commercial-Bank-Primary-Function-Advances-On-Loan-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Agency and General Utility Functions of commercial bank",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/29/176967669364039496_dir_V001/1/1769676705404/output/Icse_Ppt_Mp4_Economics_X_Commercial_Banking_Agency_And_General_Utility_Functions-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Meaning and Role of Commercial Bank",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/29/176967690928441836_dir_V001/1/1769676920917/output/Icse_Ppt_Mp4_Economics_X_Commercial_Banking_Meaning_And_Role_Of_Commercial_Banks-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Credit Creation",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Credit Creation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/19/1680159/dir_1680159/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Limitations of Credit Creation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/9/176967619906651030_dir_V002/1/1770631595544/output/Icse-Ppt-Mp4-Economics-X-Commercial-Banking-Limitations-Of-Credit-Creation-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Meaning and Process of Credit creation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/29/176967644511210438_dir_V001/1/1769676456767/output/Icse_Ppt_Mp4_Economics_X_Commercial_Banking_Meaning_And_Process_Of_Credit_Creation-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Central Bank and Credit Control",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Central Bank & Credit Control",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1699884/dir_1699884/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Demonetisation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/25/177200135341823404_dir_V001/1/1772001386868/output/Icse_Ppt_Mp4_Economics_X_Central_Bank_Demonetisation-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Quantitative Credit control measure",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/25/177200172729528214_dir_V001/1/1772001760511/output/Icse_Ppt_Mp4_Economics_X_Central_Bank_Quantitative_Measures_Of_Credit_Control-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Qualitative Credit control measures",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/27/177217662393457809_dir_V001/1/1772176564577/output/Icse_Ppt_Mp4_Economics_X_Central_Bank_Qualitative_Measures_Of_Credit_Control-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Meaning and Functions of Central Bank",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/25/177200243679413166_dir_V001/1/1772002469961/output/Icse_Ppt_Mp4_Economics_X_Central_Bank_Meaning_And_Functions_Of_Central_Banks-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Difference between Central and Commercial Bank",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/27/177217683381568489_dir_V001/1/1772176775717/output/Icse_PptMp4_Economics_X_Central_Difference_Between_Central_And_Commercial_Bank-hd.m3u8"
+                                    }
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  },
                   {
                      "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for English Language.",
                      "name": "English Language",
