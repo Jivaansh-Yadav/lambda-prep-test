@@ -1,10 +1,11 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { ArrowLeft, ArrowUpRight, BookOpen, ChevronRight, MonitorPlay, PlayCircle, FileText, Search } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, BookOpen, ChevronRight, PlayCircle, FileText, Search } from 'lucide-react';
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import type { DoxxLesson } from '@/components/lambda/doxx-watch';
 import { ResourceWatch } from '@/components/lambda/resource-watch';
 import { curriculumClasses } from '@/lib/curriculum';
-import { classes, findSubjectMeta, pageHead, getSiteOrigin } from '@/lib/lambda';
+import { classes, findSubjectMeta, pageHead, getSiteOrigin, sortBySubjectOrder } from '@/lib/lambda';
+import { DOXX_CATEGORIES, categoryForActivity, categoryMeta } from '@/lib/doxx-categories';
 import { type ResourceItem } from '@/lib/resources-data';
 import { useI18n } from '@/lib/i18n';
 import { useFuseSearch } from '@/hooks/use-fuse-search';
@@ -68,18 +69,29 @@ function Doxxmarks() {
   const subject = currentClass?.subjects.find(s => s.name === subjectName);
   const chapter = subject && chapterIdx !== undefined ? subject.chapters[chapterIdx] : undefined;
   const topic = chapter && topicIdx !== undefined ? chapter.topics[topicIdx] : undefined;
+  /** "1 chapter" / "12 chapters" — every count line on this page goes
+   * through here so a single-item list never reads "1 activities". */
+  const plural = (n: number, one: string, many: string) => `${n} ${t(n === 1 ? one : many)}`;
   const [subjectQuery, setSubjectQuery] = useState('');
   const [chapterQuery, setChapterQuery] = useState('');
 
-  // Combined lesson list in the same order DoxxWatch renders them — the
-  // `lesson` search param is this array's index, so both must agree on
-  // ordering for a deep link to resolve to the right lesson.
-  const combinedLessons = useMemo((): DoxxLesson[] => topic
-    ? [
-        ...topic.interactiveClasses.map(ic => ({ ...ic, kind: 'interactive' as const })),
-        ...topic.videoLessons.map(v => ({ ...v, kind: 'video' as const })),
-      ]
-    : [], [topic]);
+  // Every playable item in the topic, in the order the topic page's sections
+  // and DoxxWatch's playlist read it. Classes and videos come first, in their
+  // historical order, so the `?lesson=<index>` deep links shared before
+  // activities existed still resolve to the same lesson; activities follow.
+  const combinedLessons = useMemo((): DoxxLesson[] => {
+    if (!topic) return [];
+    const classLessons: DoxxLesson[] = topic.interactiveClasses.map(ic => ({
+      name: ic.name, link: ic.link, kind: 'interactive', category: 'interactive', typeLabel: t('doxx.type.interactiveClass'),
+    }));
+    const videos: DoxxLesson[] = topic.videoLessons.map(v => ({
+      name: v.name, link: v.link, kind: 'video', category: 'videos', typeLabel: t('doxx.type.video'),
+    }));
+    const activities: DoxxLesson[] = topic.activities.map(a => ({
+      name: a.title, link: a.link, kind: 'interactive', category: categoryForActivity(a.type), typeLabel: a.type,
+    }));
+    return [...classLessons, ...videos, ...activities];
+  }, [topic, t]);
   const playing = lessonIdx !== undefined ? combinedLessons[lessonIdx] ?? null : null;
 
   const playLesson = (lesson: DoxxLesson) => {
@@ -124,7 +136,8 @@ function Doxxmarks() {
     () => (subject?.chapters ?? []).map((ch, index) => ({ chapter: ch, index })),
     [subject]
   );
-  const filteredSubjects = useFuseSearch(currentClass?.subjects ?? [], SUBJECT_SEARCH_KEYS, subjectQuery);
+  const orderedSubjects = useMemo(() => sortBySubjectOrder(currentClass?.subjects ?? []), [currentClass]);
+  const filteredSubjects = useFuseSearch(orderedSubjects, SUBJECT_SEARCH_KEYS, subjectQuery);
   const filteredChapterEntries = useFuseSearch(chapterEntries, CHAPTER_ENTRY_SEARCH_KEYS, chapterQuery);
 
   const backSearch = (() => {
@@ -183,7 +196,7 @@ function Doxxmarks() {
               <Link key={`${c.board}-${c.roman}`} to="/doxxmarks" search={{ class: meta?.slug }} className={`class-card${meta ? ` tone-${meta.tone}` : ''}`}>
                 <div className="class-card-top"><span className="subject-icon"><Icon size={24} strokeWidth={1.6} /></span><span className="class-board">{c.board}</span></div>
                 <h3>Class {c.roman}</h3>
-                <p>{subjectCount} {t('doxx.subjectsLabel')} · {chapterCount} {t('doxx.chaptersLabel')}</p>
+                <p>{plural(subjectCount, 'doxx.one.subject', 'doxx.many.subjects')} · {plural(chapterCount, 'doxx.one.chapter', 'doxx.many.chapters')}</p>
                 <div className="card-bottom"><span>{t('doxx.browseChapters')}</span><ArrowUpRight size={18} /></div>
               </Link>
             );
@@ -212,7 +225,7 @@ function Doxxmarks() {
                 <Link key={s.name} to="/doxxmarks" search={{ class: classSlug, subject: s.name }} className={`doxx-card${meta ? ` tone-${meta.tone}` : ''}`}>
                   <span className="subject-icon doxx-subject-icon"><Icon size={22} strokeWidth={1.6} /></span>
                   <span className="doxx-card-title">{s.name}</span>
-                  <span className="doxx-card-meta">{s.chapters.length} {t('doxx.chapterCount')} <ChevronRight size={14} /></span>
+                  <span className="doxx-card-meta">{plural(s.chapters.length, 'doxx.one.chapter', 'doxx.many.chapters')} <ChevronRight size={14} /></span>
                 </Link>
               );
             })}
@@ -238,7 +251,7 @@ function Doxxmarks() {
             {filteredChapterEntries.map(({ chapter: c, index: i }) => (
               <Link key={c.name} to="/doxxmarks" search={{ class: classSlug, subject: subjectName, chapter: i }} className="doxx-card">
                 <span className="doxx-card-title">{c.name}</span>
-                <span className="doxx-card-meta">{c.topics.length} {t('doxx.topicCount')} <ChevronRight size={14} /></span>
+                <span className="doxx-card-meta">{plural(c.topics.length, 'doxx.one.topic', 'doxx.many.topics')} <ChevronRight size={14} /></span>
               </Link>
             ))}
             {!subject.chapters.length && <EmptyState text={t('doxx.empty.chapters')} />}
@@ -254,7 +267,17 @@ function Doxxmarks() {
             {chapter.topics.map((top, i) => (
               <Link key={top.name} to="/doxxmarks" search={{ class: classSlug, subject: subjectName, chapter: chapterIdx, topic: i }} className="doxx-card">
                 <span className="doxx-card-title">{top.name}</span>
-                <span className="doxx-card-meta">{top.videoLessons.length} {t('doxx.videosCount')} · {top.interactiveClasses.length} {t('doxx.interactiveCount')} <ChevronRight size={14} /></span>
+                <span className="doxx-card-meta">
+                  {/* Zero counts are dropped rather than printed — a card
+                      reading "0 videos · 0 interactive · 1 activity" wraps
+                      onto three lines in a narrow grid column. */}
+                  {[
+                    { n: top.videoLessons.length, one: 'doxx.one.video', many: 'doxx.many.videos' },
+                    { n: top.interactiveClasses.length, one: 'doxx.one.interactive', many: 'doxx.many.interactive' },
+                    { n: top.activities.length, one: 'doxx.one.activity', many: 'doxx.many.activities' },
+                  ].filter(c => c.n > 0).map(c => plural(c.n, c.one, c.many)).join(' · ')}
+                  <ChevronRight size={14} />
+                </span>
               </Link>
             ))}
             {!chapter.topics.length && <EmptyState text={t('doxx.empty.topics')} />}
@@ -306,37 +329,44 @@ function Doxxmarks() {
         )}
 
         {!playing && <>
-        <section className="doxx-notes">
-          <h2><MonitorPlay size={18} /> {t('doxx.interactiveClasses')}</h2>
-          {topic.interactiveClasses.length ? (
-            <div className="doxx-cards">
-              {topic.interactiveClasses.map(ic => (
-                <button key={ic.link} type="button" className="doxx-card" onClick={() => playLesson({ ...ic, kind: 'interactive' })}>
-                  <span className="doxx-card-title">{ic.name}</span>
-                  <span className="doxx-card-meta">{t('doxx.playInteractive')} <PlayCircle size={14} /></span>
-                </button>
-              ))}
-            </div>
-          ) : (
-            <EmptyState text={t('doxx.empty.interactive')} />
-          )}
-        </section>
-
-        <section className="doxx-notes">
-          <h2><PlayCircle size={18} /> {t('doxx.conceptVideos')}</h2>
-          {topic.videoLessons.length ? (
-            <div className="doxx-cards">
-              {topic.videoLessons.map(v => (
-                <button key={v.link} type="button" className="doxx-card" onClick={() => playLesson({ ...v, kind: 'video' })}>
-                  <span className="doxx-card-title">{v.name}</span>
-                  <span className="doxx-card-meta">{t('doxx.watchVideo')} <PlayCircle size={14} /></span>
-                </button>
-              ))}
-            </div>
-          ) : (
-            <EmptyState text={t('doxx.empty.videos')} />
-          )}
-        </section>
+        {/* One section per material category, in DOXX_CATEGORIES order, each
+            with its own accent colour, icon and card treatment so a game is
+            distinguishable from a video or a HOTS case study at a glance.
+            Categories a topic has nothing in are skipped — except the two
+            core ones, which keep their "being prepared" note. */}
+        {DOXX_CATEGORIES.map(cat => {
+          const items = combinedLessons.filter(l => l.category === cat.id);
+          if (!items.length && cat.id !== 'interactive' && cat.id !== 'videos') return null;
+          const meta = categoryMeta(cat.id);
+          const Icon = meta.icon;
+          return (
+            <section key={cat.id} className={`doxx-notes doxx-cat tone-${meta.tone}`}>
+              <div className="doxx-cat-head">
+                <span className="doxx-cat-chip"><Icon size={20} strokeWidth={1.9} /></span>
+                <div className="doxx-cat-titles">
+                  <h2>{t(meta.labelKey)}<span className="doxx-cat-count">{items.length}</span></h2>
+                  <p className="doxx-cat-hint">{t(meta.hintKey)}</p>
+                </div>
+              </div>
+              {items.length ? (
+                <div className="doxx-cards doxx-cards-lessons">
+                  {items.map(lesson => (
+                    <button key={lesson.link} type="button" className="doxx-card doxx-card-lesson" onClick={() => playLesson(lesson)}>
+                      <span className="doxx-card-icon"><Icon size={20} strokeWidth={1.9} /></span>
+                      <span className="doxx-card-title">{lesson.name}</span>
+                      <span className="doxx-card-meta">
+                        <span className="doxx-card-type">{lesson.typeLabel}</span>
+                        <PlayCircle size={14} />
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <EmptyState text={t(cat.id === 'videos' ? 'doxx.empty.videos' : 'doxx.empty.interactive')} />
+              )}
+            </section>
+          );
+        })}
         </>}
       </>}
 

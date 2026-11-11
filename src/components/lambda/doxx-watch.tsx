@@ -1,16 +1,25 @@
 import { useEffect, useRef, useState } from 'react';
-import { Maximize, Minimize, MonitorPlay, PlayCircle } from 'lucide-react';
+import { Maximize, Minimize } from 'lucide-react';
 import { HlsJsVideo } from '@videojs/react/media/hlsjs-video';
 import { VideoPlayer } from '@videojs/react/video';
 import { VideoSkin } from '@/components/videojs/video/skin';
 import { useFullscreen } from '@/hooks/use-fullscreen';
 import { useI18n } from '@/lib/i18n';
 import { ShareWidget } from '@/components/lambda/share-widget';
+import { DOXX_CATEGORIES, categoryMeta, type DoxxCategory } from '@/lib/doxx-categories';
 
 export interface DoxxLesson {
   name: string;
   link: string;
+  /** How the lesson is played: interactive content renders in the sandboxed
+   * frame, videos go through the Video.js/HLS player. Practice games, labs
+   * and HOTS case studies are all interactive HTML, so they share `kind`
+   * with interactive classes and are told apart by `category`. */
   kind: 'video' | 'interactive';
+  category: DoxxCategory;
+  /** Short badge on the card — the specific Extramarks type for activities
+   * ("Virtual Lab", "Practice Game"), or a generic class/video label. */
+  typeLabel: string;
 }
 
 interface DoxxWatchProps {
@@ -26,8 +35,7 @@ interface DoxxWatchProps {
 
 export function DoxxWatch({ lessons, active, topicName, onSelect, shareUrl }: DoxxWatchProps) {
   const { t } = useI18n();
-  const videoLessons = lessons.filter(l => l.kind === 'video');
-  const interactiveLessons = lessons.filter(l => l.kind === 'interactive');
+  const activeCategory = categoryMeta(active.category);
 
   return (
     <div className="doxx-watch">
@@ -39,36 +47,34 @@ export function DoxxWatch({ lessons, active, topicName, onSelect, shareUrl }: Do
         )}
         <h2 className="doxx-watch-title">{active.name}</h2>
         <p className="doxx-watch-kind">
-          {active.kind === 'interactive' ? t('doxx.interactiveClasses') : t('doxx.conceptVideos')}
+          {t(activeCategory.labelKey)} · {active.typeLabel}
           {' · '}{topicName}
         </p>
       </div>
 
       <aside className="doxx-watch-side" aria-label={t('doxx.moreInTopic')}>
-        <PlaylistSection
-          icon={<MonitorPlay size={15} />}
-          title={t('doxx.interactiveClasses')}
-          lessons={interactiveLessons}
-          active={active}
-          onSelect={onSelect}
-        />
-        <PlaylistSection
-          icon={<PlayCircle size={15} />}
-          title={t('doxx.conceptVideos')}
-          lessons={videoLessons}
-          active={active}
-          onSelect={onSelect}
-        />
+        {DOXX_CATEGORIES.map(cat => (
+          <PlaylistSection
+            key={cat.id}
+            category={cat.id}
+            lessons={lessons.filter(l => l.category === cat.id)}
+            active={active}
+            onSelect={onSelect}
+          />
+        ))}
       </aside>
     </div>
   );
 }
 
-function PlaylistSection({ icon, title, lessons, active, onSelect }: { icon: React.ReactNode; title: string; lessons: DoxxLesson[]; active: DoxxLesson; onSelect: (l: DoxxLesson) => void }) {
+function PlaylistSection({ category, lessons, active, onSelect }: { category: DoxxCategory; lessons: DoxxLesson[]; active: DoxxLesson; onSelect: (l: DoxxLesson) => void }) {
+  const { t } = useI18n();
   if (!lessons.length) return null;
+  const meta = categoryMeta(category);
+  const Icon = meta.icon;
   return (
-    <div className="doxx-playlist-section">
-      <h3><span className="doxx-playlist-icon">{icon}</span>{title}</h3>
+    <div className={`doxx-playlist-section tone-${meta.tone}`}>
+      <h3><span className="doxx-playlist-icon"><Icon size={15} /></span>{t(meta.labelKey)}</h3>
       <ul className="doxx-playlist-list">
         {lessons.map(lesson => {
           const isActive = active.link === lesson.link && active.kind === lesson.kind;
@@ -81,7 +87,7 @@ function PlaylistSection({ icon, title, lessons, active, onSelect }: { icon: Rea
                 onClick={() => onSelect(lesson)}
               >
                 <span className="doxx-side-thumb">
-                  {lesson.kind === 'interactive' ? <MonitorPlay size={16} /> : <PlayCircle size={16} />}
+                  <Icon size={16} />
                 </span>
                 <span className="doxx-side-name">{lesson.name}</span>
               </button>

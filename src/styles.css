@@ -1146,6 +1146,44 @@ body.pseudo-fullscreen-open { overflow: hidden; }
 .doxx-card-meta { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; color: var(--muted-foreground); }
 .doxx-card-meta svg { flex-shrink: 0; }
 .doxx-card-skeleton { height: 108px; cursor: default; background: linear-gradient(100deg, var(--card) 30%, color-mix(in oklch, var(--card) 60%, var(--muted)) 50%, var(--card) 70%); background-size: 200% 100%; animation: skeleton-shimmer 1.3s ease-in-out infinite; }
+
+/* Doxxmarks category sections. Every material category (Interactive, Videos,
+   Playables, HOTS) borrows one of the subject tones, applied to its header
+   chip and to each card's icon tile — so the category is readable from the
+   colour before the label is even read, in both light and dark mode. */
+.doxx-cat-head { display: flex; align-items: flex-start; gap: 14px; }
+.doxx-cat-chip { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 13px; background: var(--subject-fill); color: var(--subject-ink); flex-shrink: 0; }
+.doxx-cat-titles h2 { gap: 10px; line-height: 1.2; }
+.doxx-cat-count { padding: 2px 9px; border-radius: 999px; background: var(--subject-fill); color: var(--subject-ink); font-size: 12px; font-weight: 700; }
+.doxx-cat-hint { margin-top: 4px; font-size: 13.5px; color: var(--muted-foreground); }
+.doxx-cat .doxx-cards { margin-top: 18px; }
+
+/* Lesson cards run a size up from the subject/chapter cards: an icon tile
+   carrying the category colour, the title, and a type badge naming the exact
+   material ("Virtual Lab", "Practice Game", "Video"). */
+.doxx-cards-lessons { grid-template-columns: repeat(auto-fill, minmax(268px, 1fr)); gap: 16px; }
+.doxx-card-lesson { gap: 12px; padding: 20px 20px 18px; font-size: 15.5px; line-height: 1.35; border-radius: 16px; }
+.doxx-card-lesson:hover { border-color: var(--subject-ink); box-shadow: 0 6px 18px color-mix(in oklch, var(--subject-ink) 15%, transparent); }
+.doxx-card-icon { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 13px; background: var(--subject-fill); color: var(--subject-ink); flex-shrink: 0; }
+.doxx-card-lesson .doxx-card-title { font-size: 15.5px; font-weight: 650; }
+.doxx-card-lesson .doxx-card-meta { margin-top: auto; }
+.doxx-card-type { font-size: 11px; font-weight: 700; letter-spacing: .5px; text-transform: uppercase; color: var(--subject-ink); }
+/* Falls back to the plain muted treatment: ResourceWatch reuses these
+   playlist primitives without a tone class, and an undefined custom property
+   would otherwise drop the declaration entirely. */
+.doxx-playlist-section .doxx-playlist-icon { color: var(--subject-ink, var(--primary)); }
+.doxx-playlist-section .doxx-side-thumb { background: var(--subject-fill, var(--muted)); color: var(--subject-ink, var(--muted-foreground)); }
+
+@media (max-width: 860px) {
+  .doxx-cards.doxx-cards-lessons { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  /* A section with a single item would otherwise leave a lonely half-width
+     card next to an empty column — let it use the full row instead. */
+  .doxx-cards.doxx-cards-lessons:has(> :only-child) { grid-template-columns: 1fr; }
+  .doxx-card.doxx-card-lesson { padding: 14px; gap: 8px; }
+  .doxx-card-icon { width: 36px; height: 36px; border-radius: 10px; }
+  .doxx-cat-chip { width: 36px; height: 36px; border-radius: 11px; }
+  .doxx-cat .doxx-cards { margin-top: 14px; }
+}
 @keyframes skeleton-shimmer { 0% { background-position: 150% 0; } 100% { background-position: -50% 0; } }
 
 /* Resource file cards (PDF/DOCX/XLSX/PPTX/image icons) */

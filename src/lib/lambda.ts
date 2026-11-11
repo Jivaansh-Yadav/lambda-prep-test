@@ -51,6 +51,20 @@ export function findSubjectMeta(name: string) {
     ?? subjects.find(s => normalized.startsWith(s.name.toLowerCase()) || s.name.toLowerCase().startsWith(normalized));
 }
 
+/** Sorts subject names into the registry's own order (the sequence the class
+ * hub already uses), so ICSE X lists Commercial Applications before
+ * Computer Applications and keeps Literature in English next to English
+ * Language instead of falling back to plain alphabetical. Names outside the
+ * registry — anything the curriculum crawler adds before it gets metadata —
+ * go last, alphabetically. */
+export function sortBySubjectOrder<T extends { name: string }>(items: T[]): T[] {
+  const rank = (name: string) => {
+    const index = subjects.findIndex(s => s.name.toLowerCase() === name.toLowerCase());
+    return index === -1 ? Number.MAX_SAFE_INTEGER : index;
+  };
+  return [...items].sort((a, b) => rank(a.name) - rank(b.name) || a.name.localeCompare(b.name));
+}
+
 /** Whether a raw subject name (as it appears in a resource dataset, e.g.
  * "Accountancy") belongs to the given ISC stream — used to filter the
  * subject-card grid on the resources pages by Science/Commerce/Humanities,
