@@ -1032,6 +1032,11 @@
 .doxx-sandbox-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: var(--muted); border: 1px solid var(--border); }
 .doxx-sandbox-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .doxx-sandbox-frame:fullscreen { border-radius: 0; aspect-ratio: auto; }
+/* Overlay controls sit bottom-right: the Extramarks players draw their own
+ * mute/fullscreen icons in a header strip at the top-right of the frame, and
+ * keeping ours there stacks two button pairs on top of each other. */
+.doxx-sandbox-frame.doxx-player-frame > .resource-pdf-toolbar { top: auto; bottom: 10px; }
+.doxx-sandbox-frame.doxx-player-frame.pseudo-fullscreen > .resource-pdf-toolbar { bottom: 16px; right: 16px; }
 .doxx-sandbox-fullscreen { position: absolute; top: 10px; right: 10px; z-index: 5; display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border: none; border-radius: 8px; background: oklch(0 0 0 / 0.55); color: #fff; cursor: pointer; transition: background .15s; }
 .doxx-sandbox-fullscreen:hover { background: oklch(0 0 0 / 0.75); }
 

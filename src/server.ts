@@ -95,9 +95,17 @@ const SECURITY_HEADERS: ReadonlyArray<readonly [string, string]> = [
   // needs the IE/old-Safari-only fallback.
   ["X-Content-Type-Options", "nosniff"],
   ["Referrer-Policy", "strict-origin-when-cross-origin"],
-  // `fullscreen=(self)` is deliberate: the resource viewer requests fullscreen
-  // on its own document, and leaving `fullscreen=()` in place would block that.
-  ["Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(self)"],
+  // `fullscreen=(self ...)` is deliberate: the resource viewer requests
+  // fullscreen on its own document, and leaving `fullscreen=()` in place would
+  // block that. The two embedded third-party origins are listed as well
+  // because the Extramarks player header and the Drive PDF viewer each carry
+  // their own fullscreen button inside the frame — `allow="fullscreen"` on
+  // the <iframe> can only narrow this header policy, never widen it, so
+  // without them those buttons are dead controls.
+  [
+    "Permissions-Policy",
+    'camera=(), microphone=(), geolocation=(), payment=(), usb=(), fullscreen=(self "https://mscontent-gcp.extramarks.com" "https://drive.google.com")',
+  ],
   ["Cross-Origin-Opener-Policy", "same-origin"],
 ];
 

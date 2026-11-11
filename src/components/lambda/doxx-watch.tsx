@@ -104,8 +104,16 @@ function SandboxedFrame({ src, title, shareUrl }: { src: string; title: string; 
   const { isFullscreen, toggleFullscreen } = useFullscreen(wrapRef);
 
   return (
-    <div className="doxx-sandbox-frame" ref={wrapRef}>
+    <div className="doxx-sandbox-frame doxx-player-frame" ref={wrapRef}>
       <iframe
+        // The Extramarks players measure the viewport once, at load, and never
+        // re-lay-out on resize: growing the frame leaves the game drawing its
+        // old, small stage in the corner (a "full screen" that shows the mini
+        // screen). Remounting on every size change makes the player
+        // initialise against the new viewport, so it fills the screen at
+        // native resolution. It does restart the activity, which is why this
+        // only happens on an explicit fullscreen toggle.
+        key={isFullscreen ? 'fullscreen' : 'inline'}
         src={src}
         title={title}
         // allow-same-origin is required: Practice Game and 3D Interactive
@@ -117,6 +125,12 @@ function SandboxedFrame({ src, title, shareUrl }: { src: string; title: string; 
         // the token, because allow-scripts + allow-same-origin on the app's
         // own origin can undo the sandbox (GH issue #10).
         sandbox="allow-scripts allow-forms allow-pointer-lock allow-popups allow-same-origin"
+        // The Extramarks players carry their own fullscreen button in their
+        // header. Without `allow`/`allowFullScreen` the frame's Permissions
+        // Policy denies `requestFullscreen` inside it, so that button is a
+        // dead control that silently does nothing.
+        allow="fullscreen; autoplay; encrypted-media; picture-in-picture"
+        allowFullScreen
         loading="lazy"
         referrerPolicy="no-referrer"
       />
