@@ -2615,40 +2615,1225 @@
                         }
                      ]
                   },
-                  {
-                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Mathematics.",
+                                    {
+                     "__comment": "Extramarks ICSE Class X Mathematics curriculum; four video records omitted because HLS manifests returned 404.",
                      "name": "Mathematics",
                      "chapters": [
                         {
-                           "name": "",
+                           "name": "Commercial Mathematics",
                            "topics": [
                               {
-                                 "name": "",
+                                 "name": "Value Added Tax",
                                  "interactiveClasses": [
                                     {
-                                       "name": "",
-                                       "link": ""
+                                       "name": "Value Added Tax",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1700312/dir_1700312/index.html"
                                     }
                                  ],
                                  "videoLessons": [
                                     {
-                                       "name": "",
-                                       "link": ""
+                                       "name": "Sales Tax or Value Added Tax",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2022/03/30/160569/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Value Added Tax",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/30/1700333/dir_1700333/index.html"
                                     }
                                  ]
                               },
                               {
-                                 "name": "",
+                                 "name": "Banking and GST",
                                  "interactiveClasses": [
                                     {
-                                       "name": "",
-                                       "link": ""
+                                       "name": "Banking and GST",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/08/31/2377352/dir_2377352/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Banking and GST",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2019/08/20/2366549/dir_2366549/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Shares and Dividends",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Shares and Dividends",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1700474/dir_1700474/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Shares and Dividends",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/30/1700495/dir_1700495/index.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Algebra",
+                           "topics": [
+                              {
+                                 "name": "Linear Inequations",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Linear Inequations",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/02/1702103/dir_1702103/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Linear Inequations",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/02/1702100/dir_1702100/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Solution of Quadratic Equations",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Solution of Quadratic Equations",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/02/1702599/dir_1702599/index.html"
                                     }
                                  ],
                                  "videoLessons": [
                                     {
-                                       "name": "",
-                                       "link": ""
+                                       "name": "Solution by Quadratic Formula",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/26/21907941489561_dir/1/1664189912138/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Solution by Factorisation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2018/08/30/141571/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Solution of Quadratic Equations",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/02/1702593/dir_1702593/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Nature of Roots of Quadratic Equations",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Nature of Roots of Quadratic Equations",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/02/1702686/dir_1702686/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Nature of Roots",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2018/12/28/142236/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Nature of Roots of Quadratic Equations",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/02/1702604/dir_1702604/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Ratio and Proportion",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Ratios and Proportions",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/02/1702108/dir_1702108/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Ratio",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/29/28166811695621_dir/1/1664441537682/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Ratios and Proportions",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/02/1702107/dir_1702107/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Remainder and Factor Theorem",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Remainder and Factor Theorem",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/02/1702587/dir_1702587/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Remainder Theorem",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2022/03/08/159051/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Remainder And Factor Theorem",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/02/1702584/dir_1702584/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Matrices",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Matrices",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/04/27/1983192/dir_1983192/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Time and Work Problems",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2023/8/25/169295412588500296_dir_V001/1/1692954169187/output/RatioandProportion_Timeandworkproblems_v5-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Introduction to Matrices",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2023/10/19/169771120452531623_dir_V001/1/1697711302931/output/2D_3D_ICSE_X_Mat_Matrices_Introduction_to_Matrices-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Matrices",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/03/1705183/dir_1705183/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Arithmetic Progressions",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Arithmetic Progressions",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/02/1702205/dir_1702205/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Arithmetic Progression",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/26/22027711489581_dir/1/1664194165994/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Arithmetic Progressions",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/02/1702109/dir_1702109/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Geometric Progressions",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Geometric Progressions",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/02/1702658/dir_1702658/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Geometric Progressions",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/02/1702656/dir_1702656/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Algebra",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Sum of n Terms",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/8/31/166193857575157623_dir/1/1661945176328/MCQ_TYPE_1/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Arithmetic Progression",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/7/166193859405994098_dir/1/1667817820081/TARGET_TD/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Solution of a Quadratic Equation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/18/166357854763436443_dir/1/1668766835382/TARGET_TD/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Nature of Roots",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/8/31/166193860841809086_dir/1/1661941350832/SCHMOOZE/start.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Co-ordinate Geometry",
+                           "topics": [
+                              {
+                                 "name": "Reflection",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Reflection",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/02/1702651/dir_1702651/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Reflection",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/02/1702646/dir_1702646/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Section and Mid-Point Formula",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Section and Mid-Point Formula",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/02/1702053/dir_1702053/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Section Formula and Midpoint Formula",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2020/11/06/152888/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Section And Mid-point Formula",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/02/1702034/dir_1702034/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Equation of a Straight Line",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Equation of a Straight Line",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/02/1701990/dir_1701990/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Equation of a Straight Line",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/02/1701972/dir_1701972/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Co-ordinate Geometry",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Distance Formula",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/3/166747523111113223_dir/1/1667475118515/DND_DROP_TO_FILL_IN_BLANK_1/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Section Formula",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/11/166814199007215311_dir/1/1668141873052/MCQ_TYPE_2/start.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Geometry",
+                           "topics": [
+                              {
+                                 "name": "Similarity",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Similarity ",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/02/1702280/dir_1702280/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Converse of BPT",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/10/26/22512241489741_dir/1/1666779066081/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Basic Proportionality Theorem",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2019/02/27/143811/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "AAA Similarity Criterion",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2018/12/27/142234/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Similarity vs Congruency",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/10/3/20565581489641_dir/1/1664785982693/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "SAS Similarity Criterion",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2018/12/18/142224/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "SSS Similarity Criterion",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2018/11/27/142139/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Similar Polygons",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/26/21822771489651_dir/1/1664185489289/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Perimeters and Areas of Similar Triangles",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/23/27146971685611_dir/1/1663917164630/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "More on BPT",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/10/3/22396421489731_dir/1/1664783056836/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Similarity",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/02/1702210/dir_1702210/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Loci",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Loci",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/02/1702299/dir_1702299/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Loci",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/02/1702296/dir_1702296/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Tangent Properties",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Tangent Properties\r\n",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/02/1702091/dir_1702091/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Tangent to a Circle",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/26/21808351489821_dir/1/1664185006608/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Number of Tangents from a Point on a Circle",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/10/26/27226901688921_dir/1/1666782859695/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Tangent - Perpendicular to Radius",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2019/04/09/142112/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Tangent Properties",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/02/1702070/dir_1702070/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Construction of Tangents, Circumscribed and Inscribed Circles",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Construction of Tangents, Circumscribed and Inscribed",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/02/1702581/dir_1702581/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Construction of Tangents to a Circle",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/26/20562791489861_dir/1/1664179927352/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Construction Of Tangents, Circumscribed And Inscribed Circles",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/02/1702579/dir_1702579/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Arc, Chord and Cyclic Properties",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Arc, Chord and Cyclic Properties",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/02/1702407/dir_1702407/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Converse of Cyclic Quadrilateral",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/7/20/cf2e2dc4_6ff7_4a8f_a73b_45f7cc512cb5_dir/1/1658291926214/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Angle Subtended by an Arc of a Circle I",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/7/20/780a6ad2_5db1_4e95_a45b_f8365c3054f9_dir/1/1658301019147/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Angle Subtended by a Chord at a Point",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/7/20/4e3db40f_e340_45cd_8835_71e412ba7e8b_dir/1/1658296379975/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Cyclic Quadrilateral",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2020/11/06/152890/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Circle and its Related Terms",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/7/20/7292d8d9_627b_44be_86d9_dfdcc3f62d7f_dir/1/1658296861262/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Angle Subtended by an Arc of a Circle II",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/7/20/84e5f231_3fc8_4cc9_928a_e403890e3273_dir/1/1658300204494/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Arc, Chord and Cyclic Properties",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/02/1702402/dir_1702402/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Geometry",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Cyclic Quadrilaterals",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/18/166840780008256428_dir/1/1668765742831/TICK_AND_CROSS_TEXT_TYPE/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Construction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/11/166814023979081257_dir/1/1668140122808/SINGLE_CHOICE_MCQ_TYPE_1/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Some More Properties of Chords and Arcs",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/14/166840845387160680_dir/1/1668408334720/FLASH_CARD/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Area of Similar Triangles",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/3/166744939550710940_dir/1/1667449283476/SINGLE_CHOICE_MCQ_TYPE_1/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Pythagoras Theorem and its Converse",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/3/166744996547714900_dir/1/1667449853058/MCQ_TYPE_2/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Construction of a Similar Triangle and Tangent to a Cir",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/15/166814076094756272_dir/1/1668507144363/DND_DROP_TO_FILL_IMAGE/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Circles",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/11/166814131649770822_dir/1/1668141199514/TICK_AND_CROSS_TEXT_TYPE/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Number of Tangents from a Point on a Circle",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/2/166736520825193600_dir/1/1667365096463/MCQ_TYPE_3/start.html"
+                                    },
+                                    {
+                                       "type": "Math Lab",
+                                       "title": "Mathlab_Angle in the Same Segment",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2024/8/28/27902071836731_dir_V007/1/1724839912539/content-2790207/index.html"
+                                    },
+                                    {
+                                       "type": "Math Lab",
+                                       "title": "Mathlab_Circumcentre of a Triangle",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2024/8/28/27902331836761_dir_V006/1/1724840015833/content-2790233/index.html"
+                                    },
+                                    {
+                                       "type": "Math Lab",
+                                       "title": "Mathlab_Orthocentre of a Triangle",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2024/8/28/27901991836711_dir_V006/1/1724837749415/content-2790199/index.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Mensuration",
+                           "topics": [
+                              {
+                                 "name": "Surface Areas of Cylinder, Cone and Sphere",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Surface Areas of Cylinder, Cone and Sphere",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1699891/dir_1699891/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Surface Area of a Cone",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/24/26507501670761_dir/1/1663996243878/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Surface Area of a Cylinder",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/10/11/23485801643981_dir/1/1665492181966/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Surface Areas of Cylinder, Cone and Sphere",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/30/1699887/dir_1699887/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Volumes of Cylinder, Cone and Sphere",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Volumes of Cylinder, Cone and Sphere",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1699899/dir_1699899/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Volume of a Sphere",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2022/03/30/160664/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Volume of a Cylinder",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/22/23823381564711_dir/1/1663842771594/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Volumes of Cylinder, Cone and Sphere",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/30/1699896/dir_1699896/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Surface Area and Volume of Combination of Solids",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Surface Area and Volume of Combination of Solids\r\n",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/01/1701739/dir_1701739/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Problems on Surface Area and Volume",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/29/26027611702671_dir/1/1664443675444/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Volume of Combination of Solids",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/10/20/22417471489881_dir/1/1666256371710/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Surface Area of Combinations of Solids",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/23/21754841489871_dir/1/1663913452238/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Surface Area and Volume of Combination of Solids",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/30/1700289/dir_1700289/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Mensuration",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Surface Areas and Volumes",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/8/31/166193862748073796_dir/1/1661940731616/FILL_IN_THE_BLANKS_Template_1/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Surface Area and Volume of A Cone",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/9/1/166193855735788241_dir/1/1662004242842/MCQ_TYPE_2/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Surface Area of Sphere and Hemisphere",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/9/1/166193853765474252_dir/1/1662004875763/FILL_IN_THE_BLANKS_Template_1/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Volume of a Cone and a Sphere",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/8/31/166193864702066928_dir/1/1661938573257/MCQ_TYPE_2/start.html"
+                                    },
+                                    {
+                                       "type": "Math Lab",
+                                       "title": "ML_Comparison of Volumes of Right Circular Cylinders",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2024/8/28/27902161836741_dir_V006/1/1724839968778/content-2790216/index.html"
+                                    },
+                                    {
+                                       "type": "Math Lab",
+                                       "title": "Mathlab_Volume of a Sphere",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2024/8/28/28020681839711_dir_V006/1/1724841199995/content-2802068/index.html"
+                                    },
+                                    {
+                                       "type": "Math Lab",
+                                       "title": "Mathlab_Formation of a Right Circular Cylinder",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2024/8/28/28020721839741_dir_V006/1/1724841336228/content-2802072/index.html"
+                                    },
+                                    {
+                                       "type": "Math Lab",
+                                       "title": "Mathlab_Surface Area of Cone",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2024/8/28/28291001872001_dir_V006/1/1724844853395/content-2829100/index.html"
+                                    },
+                                    {
+                                       "type": "Math Lab",
+                                       "title": "Mathlab_Formation of Cone",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2024/8/28/28020671839701_dir_V006/1/1724841133875/content-2802067/index.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Trigonometry",
+                           "topics": [
+                              {
+                                 "name": "Trigonometric Identities",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Trigonometric Identities",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1700303/dir_1700303/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Trigonometric Identities",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/29/26027571702711_dir/1/1664439302494/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Trigonometric Identities",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/30/1700308/dir_1700308/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Heights and Distances",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Heights and Distances",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1700291/dir_1700291/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Problems Based on Heights and Distances",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2020/11/11/152941/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Angle of Elevation and Angle of Depression",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/23/26040611702421_dir/1/1663916540015/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Height and Distances",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/30/1700293/dir_1700293/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Trigonometry",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Angle of Elevation and Depression",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/15/166744767018773181_dir/1/1668490154000/SINGLE_CHOICE_MCQ_TYPE_1/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Some Applications of Trigonometry",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/2/166736397044025465_dir/1/1667363858672/TICK_AND_CROSS_TEXT_TYPE/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Introduction to Trigonometry",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/2/166738798854023469_dir/1/1667387876552/DND_DROP_TO_FILL_IMAGE/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Introduction to Trigonometry",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/2/166738866520741071_dir/1/1667388553206/GRAB_AND_GO/start.html"
+                                    },
+                                    {
+                                       "type": "Interactive Simulation",
+                                       "title": "Some Applications of Trigonometry",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2023/8/11/167101912049083135_dir_V002/1/1691756961529/HEIGHTS_AND_DISTANCES/start.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Statistics",
+                           "topics": [
+                              {
+                                 "name": "Histogram and Ogive",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Histogram And Ogive",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/02/1702666/dir_1702666/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Histogram",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2020/11/06/152904/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Histogram And Ogive",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/02/1702662/dir_1702662/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Mean",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Mean",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1699851/dir_1699851/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Step Deviation Method",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/28/28151881695541_dir/1/1664359924433/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Direct Method",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/28/28172951695671_dir/1/1664360504413/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Mean",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/30/1699828/dir_1699828/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Median",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Median",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1699864/dir_1699864/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Median of Grouped Data (Part 2)",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/29/26027661702631_dir/1/1664445240062/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Median of Grouped Data (Part 1)",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2020/11/06/152894/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Median",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/30/1699853/dir_1699853/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Mode",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Mode",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1699883/dir_1699883/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Mode of Grouped Data",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/23/26040561702431_dir/1/1663916306766/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Mode",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/30/1699877/dir_1699877/index.html"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Statistics",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Measures of Central Tendency",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/10/18/166607462380210445_dir/1/1666074520098/MCQ_TYPE_1/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Measures of Central Tendency",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/10/18/166607404065015239_dir/1/1666073936970/TARGET_TD/start.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Probability",
+                           "topics": [
+                              {
+                                 "name": "Probability",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Probability",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/05/05/1990807/dir_1990807/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Probability of an Event",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2021/12/30/157959/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Probability - An Experimental Approach",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2022/02/11/158139/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Probability",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2018/05/05/1990810/dir_1990810/index.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Probability - An Experimental Approach",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/14/166840118951593361_dir/1/1668401070438/SCHMOOZE/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Probability - An Experimental Approach",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/10/166808321851180986_dir/1/1668083102038/MATCH_FOLLOWING_IMAGES_TO_IMAGES/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Probability - A Theoretical Approach",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/11/166813904601863348_dir/1/1668138929240/MATCH_FOLLOWING_TEXT_ADVERBS/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Probability - A Theoretical Approach",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/11/166813953092170838_dir/1/1668139413925/MCQ_TYPE_2/start.html"
+                                    },
+                                    {
+                                       "type": "Interactive Simulation",
+                                       "title": "Probability",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/10/12/166555521238041299_dir/1/1665555111714/PROBABILITY_IN_FLIPPING_1_2_3_COIN/start.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "GST (New)",
+                           "topics": []
+                        },
+                        {
+                           "name": "Banking (New)",
+                           "topics": [
+                              {
+                                 "name": "Banking",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Shares and Dividends",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Linear Inequations (New)",
+                           "topics": []
+                        },
+                        {
+                           "name": "Quadratic Equations (New)",
+                           "topics": [
+                              {
+                                 "name": "Quadratic Equations (New)",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Solution by Completing the Square",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/10/21/20565811489551_dir/1/1666349249442/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Quadratic Equations",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/21/20565871489531_dir/1/1663759391541/output/newfile-hd.m3u8"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Ratio and Proportion (New)",
+                           "topics": [
+                              {
+                                 "name": "Ratio",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Proportion",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Polynomials (New)",
+                           "topics": []
+                        },
+                        {
+                           "name": "Matrices (New)",
+                           "topics": []
+                        },
+                        {
+                           "name": "Arithmetic and Geometric Progressions (New)",
+                           "topics": [
+                              {
+                                 "name": "Arithmetic Progressions",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Sum of First n Terms of an AP",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/26/22005681489621_dir/1/1664192914532/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "General Term of an AP",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2019/01/29/142681/output/newfile-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Geometric Progressions",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Coordinate Geometry (New)",
+                           "topics": [
+                              {
+                                 "name": "Reflection",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Section and Mid-Point Formula",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Straight Lines (New)",
+                           "topics": []
+                        },
+                        {
+                           "name": "Similarity (New)",
+                           "topics": [
+                              {
+                                 "name": "Basic Proportionality Theorem",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Criteria of Similarity",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Loci (New)",
+                           "topics": []
+                        },
+                        {
+                           "name": "Circles (New)",
+                           "topics": [
+                              {
+                                 "name": "Angle Properties",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Cyclic Properties",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Tangents and Intersecting Chords (New)",
+                           "topics": [
+                              {
+                                 "name": "Properties of Tangents",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Properties of Intersecting Chords",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Constructions (New)",
+                           "topics": []
+                        },
+                        {
+                           "name": "Mensuration (New)",
+                           "topics": [
+                              {
+                                 "name": "Surface Area",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Volume",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Trigonometry (New)",
+                           "topics": [
+                              {
+                                 "name": "Trigonometric Ratios and Identities",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Trigonometric Ratios",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2019/03/02/143931/output/newfile-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Application of Trigonometry",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Graphical Representation (New)",
+                           "topics": [
+                              {
+                                 "name": "Graphical Representation (New)",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Cumulative Frequency Curve",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/28/27621581689551_dir/1/1664350736946/output/newfile-hd.m3u8"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Measures of Central Tendency (New)",
+                           "topics": [
+                              {
+                                 "name": "Mean",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "Median and Mode",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Probability (New)",
+                           "topics": [
+                              {
+                                 "name": "Probability (New)",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Experimental Probability vs Theoretical Probability",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2018/11/26/142135/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Probability of an Event",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/29/26027681702611_dir/1/1664446599622/output/newfile-hd.m3u8"
                                     }
                                  ]
                               }
