@@ -22382,31 +22382,73 @@
                      "chapters": [
                         {
                            "name": "Intelligence and Ability",
-                           "topics": []
+                           "topics": [
+                              {
+                                 "name": "Intelligence and Ability",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              }
+                           ]
                         },
                         {
                            "name": "Personality",
-                           "topics": []
+                           "topics": [
+                              {
+                                 "name": "Personality",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              }
+                           ]
                         },
                         {
                            "name": "Lifespan Development",
-                           "topics": []
+                           "topics": [
+                              {
+                                 "name": "Lifespan Development",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              }
+                           ]
                         },
                         {
                            "name": "Stress and Stress Management",
-                           "topics": []
+                           "topics": [
+                              {
+                                 "name": "Stress and Stress Management",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              }
+                           ]
                         },
                         {
                            "name": "Psychological Disorders and Psychotherapy",
-                           "topics": []
+                           "topics": [
+                              {
+                                 "name": "Psychological Disorders and Psychotherapy",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              }
+                           ]
                         },
                         {
                            "name": "Social Thought and Social Behaviour",
-                           "topics": []
+                           "topics": [
+                              {
+                                 "name": "Social Thought and Social Behaviour",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              }
+                           ]
                         },
                         {
                            "name": "Attitude",
-                           "topics": []
+                           "topics": [
+                              {
+                                 "name": "Attitude",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              }
+                           ]
                         }
                      ]
                   },
@@ -22925,11 +22967,23 @@
                      "chapters": [
                         {
                            "name": "Social Institutions",
-                           "topics": []
+                           "topics": [
+                              {
+                                 "name": "Social Institutions",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              }
+                           ]
                         },
                         {
                            "name": "Social Change and Development",
-                           "topics": []
+                           "topics": [
+                              {
+                                 "name": "Social Change and Development",
+                                 "interactiveClasses": [],
+                                 "videoLessons": []
+                              }
+                           ]
                         }
                      ]
                   }
