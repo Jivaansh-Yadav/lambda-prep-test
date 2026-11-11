@@ -3423,47 +3423,809 @@
                         }
                      ]
                   },
-                  {
-                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for History & Civics.",
-                     "name": "History & Civics",
-                     "chapters": [
-                        {
-                           "name": "",
-                           "topics": [
-                              {
-                                 "name": "",
-                                 "interactiveClasses": [
-                                    {
-                                       "name": "",
-                                       "link": ""
-                                    }
-                                 ],
-                                 "videoLessons": [
-                                    {
-                                       "name": "",
-                                       "link": ""
-                                    }
-                                 ]
-                              },
-                              {
-                                 "name": "",
-                                 "interactiveClasses": [
-                                    {
-                                       "name": "",
-                                       "link": ""
-                                    }
-                                 ],
-                                 "videoLessons": [
-                                    {
-                                       "name": "",
-                                       "link": ""
-                                    }
-                                 ]
-                              }
-                           ]
-                        }
-                     ]
-                  },
+                                                                        {
+                                       "__comment": "Extramarks ICSE Class X History & Civics curriculum.",
+                                       "name": "History & Civics",
+                                       "chapters": [
+                                          {
+                                             "name": "The Union Legislature (2025)",
+                                             "topics": [
+                                                {
+                                                   "name": "The Union Legislature (2025)",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Powers and Functions of the Union Parliament",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/10/29/2597606/dir_2597606/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Powers and Functions of Union Parliament",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/2/15/173963740659171136_dir_V001/1/1739637303940/output/Icse_X_The_Union_Legislature_Slm_Ppt_Yuvraj_160125-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Rajya Sabha",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/2/19/173994320790909745_dir_V001/1/1739943102425/output/Icse_X_His_The_Union_Legislature_Slm_Ppt_Yuvraj_060225-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Lok Sabha",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/2/15/173963781600816226_dir_V001/1/1739637713183/output/Icse_X_His_The_Union_Legislature_Slm_Ppt_Yuvraj_170125-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Powers and Functions of the Union Parliament",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/08/19/1757897/dir_1757897/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "The Union Executive (2025)",
+                                             "topics": [
+                                                {
+                                                   "name": "The Union Executive (2025)",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "The Cabinet and Council of Ministers",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/08/19/1757926/dir_1757926/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Prime Minister and the Cabinet",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/1/29/173812630963665983_dir_V001/1/1738126207897/output/Icse_X_History_Civics_The_Union_Executive_The_Prime_Minister_And_Com_Ppt-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "The Vice President of India",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/1/15/173676002722070860_dir_V001/1/1736921785009/output/ICSE_X_History_Civics_The_Union_Executive_The_Vice_President-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "The Union Executive: President and Vice President",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/08/19/1757843/dir_1757843/index.html"
+                                                      },
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "The Cabinet and Council of Ministers",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/08/19/1757928/dir_1757928/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "The Judiciary (2025)",
+                                             "topics": [
+                                                {
+                                                   "name": "The Judiciary (2025)",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "The High Court and Subordinate Courts",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/08/19/1757959/dir_1757959/index.html"
+                                                      },
+                                                      {
+                                                         "name": "The Subordinate Courts",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/08/30/1767625/dir_1767625/index.html"
+                                                      },
+                                                      {
+                                                         "name": "Supreme Court",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/03/04/2511925/dir_2511925/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "The Subordinate Courts",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/3/6/174125256143832031_dir_V001/1/1741252453515/output/X_Icse_The_Judiciary_The_Subordinate_Courts_Ppt-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "The High Court",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/3/6/174125273840631698_dir_V001/1/1741252630363/output/X_Icse_The_Union_Judiciary_The_High_Court_Ppt-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "The Supreme Court",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/3/4/174107773480445108_dir_V001/1/1741077627493/output/X_Icse_The_Union_Judiciary_The_Supreme_Court_Ppt-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "The Subordinate Courts",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/08/30/1767658/dir_1767658/index.html"
+                                                      },
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Supreme Court",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/08/19/1757935/dir_1757935/index.html"
+                                                      },
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "The State Judiciary: The High Court",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/08/19/1757968/dir_1757968/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "The Indian National Movement (1857 - 1917) (2025)",
+                                             "topics": [
+                                                {
+                                                   "name": "The Indian National Movement (1857 - 1917) (2025)",
+                                                   "interactiveClasses": [],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "The First War of Independence, 1857",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/1/13/173675871936029865_dir_V001/1/1736758620463/output/Ppt_Icse_X_His_The_Indian_The_First_War_Of_Independence_Vishal-hd.m3u8"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "The Indian National Movement (1915- 1947) (2025)",
+                                             "topics": [
+                                                {
+                                                   "name": "The Indian National Movement (1915- 1947) (2025)",
+                                                   "interactiveClasses": [],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Quit India and Partition",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/6/20/2cf765ab_d15c_496c_9710_933c379e373c_dir/1/output/newfile-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Post Non-Cooperation Movement Phase",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/1/2/173581362911490971_dir_V001/1/1735813531851/output/Class_X_The_Indian_National_Movement_1915_1947_Post_Non_Cooperation_Movement_Phase_Ppt-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Mahatma Gandhi, Satyagraha and the Non-Cooperation Move",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/1/3/173591132570576162_dir_V001/1/1735911228237/output/Class_X_The_Indian_National_Movement_1915_1947_T1s1_Mahatma_Gandhi_Satyagraha_And_The_Non_Cooperation_Movement-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Practice Game",
+                                                         "title": "Forward Bloc",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Nucleus/2025/1/17/173710328072472143_dir_V001/1/1737103180637/ICSE_X_Forward_Bloc-173659005184705209/data.json"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "The First World War (1914-1918) (2025)",
+                                             "topics": [
+                                                {
+                                                   "name": "The First World War (1914-1918) (2025)",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "The First World War (1914-1918)",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/18/1735689/dir_1735689/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Events of the First World War",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/6/9/174946294371843778_dir_V001/1/1749462944499/output/Slm_Ppt_The_First_World_War_Events_Of_The_First_World_War-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Result of the First World War",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/6/10/174953918473783380_dir_V001/1/1749539185307/output/Slm_Ppt_The_First_World_War_Results_Of_The_First_World_War_Tarun_140525-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "End of the First World War",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/6/9/174945891475857053_dir_V001/1/1749458915589/output/Slm_Ppt_The_First_World_War_End_Of_The_First_World_War_Tarun_130525-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Causes of the First World War",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/6/12/174972988699716275_dir_V001/1/1749729887252/output/Slm_Ppt_The_First_World_War_Causes_Of_The_First_World_War_Tarun_02052025-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "The Reformation",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/03/1706283/dir_1706283/index.html"
+                                                      },
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "The Renaissance",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/09/14/1771112/dir_1771112/index.html"
+                                                      },
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "The First World War (1914-1918)",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/18/1735705/dir_1735705/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Rise of Fascism and Nazism (2025)",
+                                             "topics": [
+                                                {
+                                                   "name": "Rise of Fascism and Nazism (2025)",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Rise of Fascism and Nazism",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1704822/dir_1704822/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Aims and Impact of Nazism",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/1/175404122109068646_dir_V001/1/1754041203746/output/Icse_X_His_Civ_Fascism_And_Nazism_T6_Aims_And_Impact_Of_Nazism_Ppt-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Causes for the Rise of Nazism",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/1/175404169293523739_dir_V001/1/1754041675524/output/Icse_X_HisCiv_Fascism_And_Nazism_T5_Causes_For_The_Rise_Of_Nazism_Ppt-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Nazism: Background and the Rise of Hitler",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/1/175404186374129657_dir_V001/1/1754041846320/output/Icse_X_HisCiv_Nazism_And_Fascism_Background_Rise_Of_Hitler_Ppt-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Impact of Fascism",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/4/175428600072310178_dir_V001/1/1754285982719/output/Slmppt_X_Icse_The_Rise_Of_Fascism_And_Nazism__Impact_Of_Fascism_Ppt-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Fascism in Italy",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/4/175428575926349443_dir_V001/1/1754285741272/output/Slmppt_X_Icse_The_Rise_Of_Fascism_And_Nazism__Fascism_In_Italy_Ppt-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Fascism: Causes and Aims",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/29/175378598787584014_dir_V001/1/1753785971064/output/Slmppt_X_Icse_The_Rise_Of_Fascism_And_Nazism_Fascism_Causes_And_Aims_Ppt-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Practice Game",
+                                                         "title": "The Nazi Crimes Against Humanity",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2024/5/15/166176851517160312_dir_V002/1/1715755614907/FILL_IN_THE_BLANKS_Template_1_PI/start.html"
+                                                      },
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Rise of Fasicsm and Nazism",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/03/1704826/dir_1704826/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "The Second World War (1939-1945) (2025)",
+                                             "topics": [
+                                                {
+                                                   "name": "The Second World War (1939-1945) (2025)",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "The Second World War (1939-1945)",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1700233/dir_1700233/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Course of the Second World War - Part II",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/4/23/174540463339356799_dir_V001/1/1745404633100/output/Ppt_Tn_X_World_War_2_Course_Of_The_Second_World_War_Part_Ii_Ppt-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Course of the Second World War - Part I",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/4/17/174488199081290076_dir_V001/1/1744881991614/output/Ppt_Tn_X_World_War_2_Course_Of_The_Second_World_War_Part_I_Ppt-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Causes of the Second World War",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/4/21/174521858169485683_dir_V001/1/1745218581810/output/Tn-X-World-War-2-Causes-Of-The-Second-World-War-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Practice Game",
+                                                         "title": "Nazi Germany",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2024/6/3/166176792810923602_dir_V002/1/1717394470107/MARK_THE_WORD_2_PI/start.html"
+                                                      },
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "The Second World War (1939-1945)",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2019/08/31/2377312/dir_2377312/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "The United Nation Organization (2025)",
+                                             "topics": [
+                                                {
+                                                   "name": "The United Nation Organization (2025)",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Origin of United Nations",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1700135/dir_1700135/index.html"
+                                                      },
+                                                      {
+                                                         "name": "Organs of the UN",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2021/08/25/2833685/dir_2833685/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Important Organs of the UN",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/10/175213306900325915_dir_V001/1/1752133055807/output/Icse_X_The_United_Nations_Slm_Ppt_Important_Organs_Of_The_Un-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Organs of the UN",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2021/08/25/2833684/dir_2833684/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Major Agencies of The United Nations (2025)",
+                                             "topics": [
+                                                {
+                                                   "name": "Major Agencies of The United Nations (2025)",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Major Agencies of The United Nations",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1702897/dir_1702897/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "UNESCO",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/10/175213750057559133_dir_V001/1/1752137487259/output/Slmppt_X_Icse_Major_Agencies_Of_The_Un_Unesco_Ppt-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "UNICEF and WHO",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/10/175213799915180327_dir_V001/1/1752137985840/output/Slmppt_X_Icse_History_Civics_Major_Agencies_Of_The_Un_Unicef_And_Who_Ppt-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Major Agencies of The United Nations",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/30/1700144/dir_1700144/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "The Non-Aligned Movement (2025)",
+                                             "topics": [
+                                                {
+                                                   "name": "The Non-Aligned Movement (2025)",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Non-Aligned Movement",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1700147/dir_1700147/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Achievements and the Future of NAM",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/1/175402669544369830_dir_V001/1/1754026678071/output/Icse_X_His&Civ_Nam_T3_Achievements_And_Future_Ppt-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Architects and Objectives of NAM and the Role of Nehru",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/4/175428585548389658_dir_V001/1/1754285837651/output/Icse_X_His&Civ_Nam_T2_Architects_Objectives_And_Nehru_Ppt-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Meaning of Non-alignment and Factors Responsible for It",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/1/175402696149914598_dir_V001/1/1754026944260/output/Icse_X_His&Civ_Nam_T1_Factors_And_Panchsheel_Ppt-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Non-Aligned Movement",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/30/1700150/dir_1700150/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "The Cripps Mission and the Quit India Movement",
+                                             "topics": [
+                                                {
+                                                   "name": "The Cripps Mission and the Quit India Movement",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "The Cripps Mission and The Quit India Movement",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1700401/dir_1700401/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "School Map",
+                                                         "title": "School Map",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_mapwork/2020/08/10/2557020/dir_2557020/index.html"
+                                                      },
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "The Cripps Mission and Quit India Movement",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/30/1700402/dir_1700402/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Growth of Nationalism",
+                                             "topics": [
+                                                {
+                                                   "name": "Growth of the Indian Nationalism",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Growth of Indian Nationalism",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1700193/dir_1700193/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Rise of Nationalism in Late 19th Century",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/6/27/4c2e34b5_0ebb_48b8_87f6_cd2e2b77827f_dir/1/output/newfile-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Growth of The Indian Nationalism",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/30/1700199/dir_1700199/index.html"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Prelude to the Revolt",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Prelude to the Revolt",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1699923/dir_1699923/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Effect of British Policies on Different People",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/28/166435901629589748_dir/1/1664359061930/output/newfile-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "People's Views on British Policies and Reforms",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/17/e6ae67e8_f044_4a03_93fe_d77c6920a305_dir/1/1663398634073/output/newfile-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Prelude to the Revolt",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/30/1699925/dir_1699925/index.html"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Emergence of Indian National Congress",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Emergence of Indian National Congress",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1700187/dir_1700187/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Emergence of Indian National Congress",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/30/1700190/dir_1700190/index.html"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "The Revolt: Events, Nature and consequences",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "The Revolt: Events, Nature and Consequences",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1704855/dir_1704855/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Outbreak and Leaders of the 1857 Revolt",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/8/12/166029631975820388_dir/1/1660296257561/output/newfile-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Spread of the 1857 Revolt",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/6/20/d5d714e3_0a9b_4510_82e3_b8c577ddc1d8_dir/1/output/newfile-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "The Company Fights Back and Aftermath",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/5/fa61c0b3_f5f0_4d1d_b521_90cdf621dbb6_dir/1/1662359499323/output/newfile-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "The Revolt: Events, Nature and Consequences",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/03/1704867/dir_1704867/index.html"
+                                                      },
+                                                      {
+                                                         "type": "Practice Game",
+                                                         "title": "Leaders of the 1857 Revolt",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2024/5/3/166807110726986511_dir_V003/1/1714732739099/MMCQ_Type_2_PI/start.html"
+                                                      },
+                                                      {
+                                                         "type": "Practice Game",
+                                                         "title": "Uprising of the 1857",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2024/6/7/166807050174854851_dir_V003/1/1717738950430/FIND_THE_HOT_SPOT_TYPE_TWO_PI/start.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "The Programme and the Achievements of the Moderates",
+                                             "topics": [
+                                                {
+                                                   "name": "The Programme and the Achievements of the Moderates",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "The Programme and the Achievements of the Moderates",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1704922/dir_1704922/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Moderate Phase of Indian National Congress",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/6/28/f215741f_7135_4696_b578_daed5907441e_dir/1/output/newfile-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "The Programme and The Achievements of the Moderates",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2019/08/31/2377291/dir_2377291/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "The Indian National Movement: Phase II",
+                                             "topics": [
+                                                {
+                                                   "name": "Growth of Dissatisfaction",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Growth of Dissatisfaction",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1704876/dir_1704876/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Growth of Dissatisfaction",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/03/1704880/dir_1704880/index.html"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "The Radical Nationalists",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "The Radical Nationalists",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/23/1690402/dir_1690402/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "The Radical Nationalists",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/23/1690415/dir_1690415/index.html"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Partition of Bengal",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Partition of Bengal",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/13/1722807/dir_1722807/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Partition of Bengal",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/13/1722808/dir_1722808/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "The Formation of the Muslim League",
+                                             "topics": [
+                                                {
+                                                   "name": "The Formation of the Muslim League",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "The Formation of the Muslim League",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1707448/dir_1707448/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "The Formation of the Muslim League",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/03/1707449/dir_1707449/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Lucknow Pact and the Home Rule League",
+                                             "topics": [
+                                                {
+                                                   "name": "Lucknow Pact and the Home Rule League",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Lucknow Pact and the Home Rule League",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1700423/dir_1700423/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Lucknow Pact and the Home Rule League",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/30/1700426/dir_1700426/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "National Movement: 1919-1934",
+                                             "topics": [
+                                                {
+                                                   "name": "Khilafat and Non Cooperation Movement",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Khilafat and Non Cooperation Movement",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2021/04/06/2764238/dir_2764238/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "Swaraj in the Plantations",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/17/166340770120420968_dir/1/1663407616292/output/newfile-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Rebellion in the Countryside",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/8/8/71c4d358_f991_463b_9b9c_ad437b5487f2_dir/1/1659950066908/output/newfile-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Rowlatt Satyagraha – Jallianwala Bagh Massacre",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2022/03/23/159814/output/newfile-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "The Movement in the Towns",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/6/14/0d3b77f8_5097_4e05_826a_cd49bac8c1f6_dir/1/output/newfile-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Launch of Non-cooperation Khilafat Movement",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2022/03/31/160347/output/newfile-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Practice Game",
+                                                         "title": "Nationalism in India I",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2024/5/6/166176607035652615_dir_V003/1/1714977392076/MMCQ_Type_2_PI/start.html"
+                                                      },
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Khilafat and Non Cooperation Movement",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2020/08/13/2558329/dir_2558329/index.html"
+                                                      }
+                                                   ]
+                                                },
+                                                {
+                                                   "name": "Civil Disobedience Movement",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Civil Disobedience Movement",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1700157/dir_1700157/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [
+                                                      {
+                                                         "name": "National Events: 1922-1929",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/7/8/435190f2_5642_4c8f_8c61_5751eb296f67_dir/1/1657257178630/output/newfile-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "Civil Disobedience Movement",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2022/03/29/160243/output/newfile-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "The Limits of Civil Disobedience",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/6/20/448e1b3f_d577_4681_8bd0_56c5b7c945a2_dir/1/output/newfile-hd.m3u8"
+                                                      },
+                                                      {
+                                                         "name": "How Participants Saw the Movement",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/7/19/76225e2b_1ed7_4642_9bb7_bab1f0345aad_dir/1/1658232739659/output/newfile-hd.m3u8"
+                                                      }
+                                                   ],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Civil Disobedience Movement",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/30/1700164/dir_1700164/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Subhash Chandra Bose and the Indian National Army",
+                                             "topics": [
+                                                {
+                                                   "name": "Subhash Chandra Bose and the Indian National Army",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Subhash Chandra Bose and the Indian National Army",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/30/1700166/dir_1700166/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "Subhash Chandra Bose and the Indian National Army",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/30/1700168/dir_1700168/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "name": "Independence and the Partition of India",
+                                             "topics": [
+                                                {
+                                                   "name": "Indian Independence and Partition of India",
+                                                   "interactiveClasses": [
+                                                      {
+                                                         "name": "Indian Independence and Partition of India",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/08/21/1760570/dir_1760570/index.html"
+                                                      }
+                                                   ],
+                                                   "videoLessons": [],
+                                                   "activities": [
+                                                      {
+                                                         "type": "Case Study (HOTS)",
+                                                         "title": "India Independence and Partition of India",
+                                                         "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/08/21/1760572/dir_1760572/index.html"
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          }
+                                       ]
+                                    },
                                     {
                      "__comment": "Extramarks ICSE Class X Mathematics curriculum; four video records omitted because HLS manifests returned 404.",
                      "name": "Mathematics",
