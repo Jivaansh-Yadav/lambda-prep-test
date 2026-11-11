@@ -2492,40 +2492,889 @@
                         }
                      ]
                   },
-                  {
-                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Geography.",
+                                    {
+                     "__comment": "Extramarks ICSE Class X Geography; unresolved HLS videos omitted (1). See crawl report.",
                      "name": "Geography",
                      "chapters": [
                         {
-                           "name": "",
+                           "name": "Interpretation of Topographical Maps (2025)",
                            "topics": [
                               {
-                                 "name": "",
+                                 "name": "Interpretation of Topographical Maps (2025)",
                                  "interactiveClasses": [
                                     {
-                                       "name": "",
-                                       "link": ""
+                                       "name": "Sample Studies",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1704265/dir_1704265/index.html"
+                                    },
+                                    {
+                                       "name": "Relief Through Contours",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1704411/dir_1704411/index.html"
+                                    },
+                                    {
+                                       "name": "Gradient and Slopes",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/11/07/1822623/dir_1822623/index.html"
+                                    },
+                                    {
+                                       "name": "Map Interpretation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1704148/dir_1704148/index.html"
+                                    },
+                                    {
+                                       "name": "Grid Reference",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1704268/dir_1704268/index.html"
+                                    },
+                                    {
+                                       "name": "Understanding Topographical Maps",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1704262/dir_1704262/index.html"
+                                    },
+                                    {
+                                       "name": "Direction and Bearings",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1704271/dir_1704271/index.html"
+                                    },
+                                    {
+                                       "name": "Scale",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/15/1674701/dir_1674701/index.html"
+                                    },
+                                    {
+                                       "name": "Understanding Maps",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/15/1674622/dir_1674622/index.html"
                                     }
                                  ],
-                                 "videoLessons": [
+                                 "videoLessons": [],
+                                 "activities": [
                                     {
-                                       "name": "",
-                                       "link": ""
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Understanding Topographical Maps",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/03/1704263/dir_1704263/index.html"
+                                    },
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Grid Reference",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/03/1704269/dir_1704269/index.html"
+                                    },
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Map Interpretation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/03/1704150/dir_1704150/index.html"
+                                    },
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Gradient and Slopes",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/03/1704346/dir_1704346/index.html"
+                                    },
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Relief Through Contours",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/03/1704365/dir_1704365/index.html"
+                                    },
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Sample Studies",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/03/1704266/dir_1704266/index.html"
+                                    },
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Direction and Bearings",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/03/1704282/dir_1704282/index.html"
+                                    },
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Scale",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/15/1674702/dir_1674702/index.html"
                                     }
                                  ]
-                              },
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Contours (2025)",
+                           "topics": [
                               {
-                                 "name": "",
+                                 "name": "Contours (2025)",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Conventional Signs and Symbols",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/28/175369328735854667_dir_V001/1/1753693270779/output/Icse_Geo_X_Contours_Conventional_Signs_And_Symbols_Tarun-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Identifying Landforms Marked by Contours and Contours",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/28/175369422189285137_dir_V001/1/1753694205265/output/Icse_Geo_X_Contours_Identification_Of_Landforms_Marked_By_Contours_And_Contour_Diagrams_Tarun-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Representation of Relief Features and Contours",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/29/175376103643311412_dir_V001/1/1753761019756/output/Icse_Geo_X_Contours_Representation_Of_Relief_Features_And_Contours_Tarun-hd.m3u8"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Scales and Directions (2025)",
+                           "topics": [
+                              {
+                                 "name": "Scales and Directions (2025)",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Measurements of Distances on a Map",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/4/175428809129222741_dir_V001/1/1754288073362/output/Icse_X_Geo_Scales_And_Directions_Measurement_Of_Distances_Ppt_Aditya_29725-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Directions",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/3/175687978892785581_dir_V001/1/1756879765184/output/Icse_X_Geo_Scales_And_Directions_Directions_Ppt_Aditya_29725-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Scales",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/6/175447183358133166_dir_V001/1/1754471815332/output/Icse_X_Geo_Scales_And_Directions_Scales_Aditya_29725-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Read the Map",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2024/2/13/166598438365940449_dir_V002/1/1707818985773/DND_DROP_TO_FILL_TEXT_MAP_PI/start.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Map Reading and Interpretation (2025)",
+                           "topics": [
+                              {
+                                 "name": "Map Reading and Interpretation (2025)",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Analysis of Topo-Sheet No. G43S7",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/6/12/174971841986167052_dir_V001/1/1749718420219/output/Icse_X_Slm_Ppt_Map_Reading_And_Interpretation_G43s7-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Relationship between Physical Features and Human",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/6/9/174945919671706919_dir_V001/1/1749459197620/output/Icse_X_Slm_Ppt_Map_Reading_Interpr_Relationship_Between_Physical_Feature_Hum_Activiti_Tarun-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Primary Information or Marginal Information",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/6/9/174946264869629559_dir_V001/1/1749462649614/output/Icse_X_Slm_Ppt_Map_Reading_And_Interpretation_Marginal_Information_Tarun-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Analysis of Topo-Sheet No. G43S10",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/6/12/174971821457428945_dir_V001/1/1749718214920/output/Icse_X_Slm_Ppt_Map_Reading_And_Interpretation-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Relief Features",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/6/6/174920328708001545_dir_V001/1/1749203286494/output/Icse_X_Slm_Ppt_Map_Reading_And_Interpretation_Relief_Features_Tarun-hd.m3u8"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Map of India (2025)",
+                           "topics": [
+                              {
+                                 "name": "Map of India (2025)",
                                  "interactiveClasses": [
                                     {
-                                       "name": "",
-                                       "link": ""
+                                       "name": "Map of India",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/02/11/2231565/dir_2231565/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Map of India",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2018/01/18/1873141/dir_1873141/index.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Climate of India (2025)",
+                           "topics": [
+                              {
+                                 "name": "Climate of India (2025)",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Factors Affecting Climate of India",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1704183/dir_1704183/index.html"
+                                    },
+                                    {
+                                       "name": "Monsoon and Seasons of India: June to November",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1705825/dir_1705825/index.html"
+                                    },
+                                    {
+                                       "name": "Monsoon and Seasons of India: December to May",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1704203/dir_1704203/index.html"
                                     }
                                  ],
                                  "videoLessons": [
                                     {
-                                       "name": "",
-                                       "link": ""
+                                       "name": "Monsoon and Its Mechanism",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/10/175217000398138611_dir_V001/1/1752169990492/output/IcseXGeo_Climate_Monsoon_And_Its_Mechanism_Ppt_Madh_shree-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Temperate Cyclones and Distribution of Rainfall",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/10/175215151503898684_dir_V001/1/1752151501804/output/Icse_X_Geo_ClimateTemperateCyclonesAndDistributionOfRainfallPptMadhu_Shree-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The Retreating Monsoon",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/10/175215203841090813_dir_V001/1/1752152025065/output/icseXGeo_Climate_The_Retreating_Monsoon_Madhu_Shree-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The South-West Monsoon",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/21/175309782585049622_dir_V001/1/1753097810520/output/Climate-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "The Hot and Dry Summer",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/10/175215236758529695_dir_V001/1/1752152354363/output/IcseXGeoClimateTheHotAndDrySummerPptMadhuShree-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Distribution of Temperature and Factors Affecting Clima",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/14/175248376274313068_dir_V001/1/1752483748965/output/Icse_X_Geo_Climate_Distribution_Of_Temperature_And_Factors_Affecting_Climate_Shree-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Monsoon and Seasons of India: June to November",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/03/1705830/dir_1705830/index.html"
+                                    },
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Monsoon and Seasons of India: December to May",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/03/1704217/dir_1704217/index.html"
+                                    },
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Factors Affecting Climate of India",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/03/1704180/dir_1704180/index.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Climate and Indian Monsoon",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/11/166815458394606629_dir/1/1668154466796/MATCH_THE_CORRECT_ANSWER/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "The Seasons",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/11/166815526256393990_dir/1/1668155145402/TRAIN_THE_BRAIN_TEXT_BASED/start.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Soil Resources (2025)",
+                           "topics": [
+                              {
+                                 "name": "Soil Resources (2025)",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Soil Erosion and Conservation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/15/1674511/dir_1674511/index.html"
+                                    },
+                                    {
+                                       "name": "Types of Soils",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/15/1674358/dir_1674358/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Soil Erosion and Its Conservation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/6/20/175041519372557341_dir_V001/1/1750415183878/output/Icse_Slmppt_X_Geography_Soil_Resources_Soil_Erosion_And_Its_Conservation-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Laterite Soil",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/6/12/174971976876445824_dir_V001/1/1749719769064/output/Icse_Slmppt_X_Geography_Soil_Resources_Laterite_Soil-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Black and Red Soil",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/6/17/175014382287192450_dir_V001/1/1750143813496/output/Icse_Slmppt_X_Geography_Soil_Resources_Black_And_Red_Soil-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Alluvial Soil",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/6/12/174972018654675654_dir_V001/1/1749720186870/output/Icse_Slmppt_X_Geography_Soil_Resources_Alluvial_Soil-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Types of Soils",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/15/1674360/dir_1674360/index.html"
+                                    },
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Soil Erosion and Conservation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/15/1674540/dir_1674540/index.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Natural Vegetation (2025)",
+                           "topics": [
+                              {
+                                 "name": "Natural Vegetation (2025)",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Types of Vegetation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/15/1674547/dir_1674547/index.html"
+                                    },
+                                    {
+                                       "name": "Need for Conservation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/15/1674676/dir_1674676/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Agroforestry and Sustainable Agroforestry",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/16/175265214450448347_dir_V001/1/1752652130258/output/Icse_Slmppt_X_Geography_Natural_Vegetation_AgroAnd_Sustainable_Agro_Forestry-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Draft National Forest Policy 2018 and Social Forestry",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/17/175274052172469032_dir_V001/1/1752740507509/output/Icse_Slmppt_X_Geography_Natural_Vegetation_Draft_National_Forest_Policy_2018_Social_Forestry-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Correlation of the Forests with the Environment",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/16/175265560424483819_dir_V001/1/1752655590000/output/Icse_Slmppt_X_Geography_Natural_Vegetation_Correlation_Of_The_Forests_Conservation-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Tropical Desert, Tidal and Mountain Forest",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/16/175265576419254070_dir_V001/1/1752655749783/output/Icse_Slmppt_X_Geography_Natural_Vegetation_Tropical_Desert_Tidal_And_Mountain_Forest-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Tropical Evergreen and Tropical Deciduous Forest",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/16/175265593545786295_dir_V001/1/1752655921019/output/Icse_Slmppt_X_Geography_Natural_Vegetation_Tropical_Evergreen_And_Tropical_Deciduous_Forest-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Importance of Forests",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/16/175265608532482447_dir_V001/1/1752656070916/output/Icse_Slmppt_X_Geography_Natural_Vegetation_Importance_Of_Forests-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Types of Forests",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/12/166822498365384200_dir/1/1668224866324/DND_SORTABLE_TEXT/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Natural Vegetation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/11/166816645014552418_dir/1/1668166332910/DND_DROP_TO_FILL_TEXT_MAP/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Wildlife in India",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/12/166822684706221298_dir/1/1668226729379/DND_DROP_TO_FILL_TEXT_MAP/start.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Water Resources (2025)",
+                           "topics": [
+                              {
+                                 "name": "Water Resources (2025)",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Water Management",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/15/1674688/dir_1674688/index.html"
+                                    },
+                                    {
+                                       "name": "Means of Irrigation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/15/1674354/dir_1674354/index.html"
+                                    },
+                                    {
+                                       "name": "Rain Water Harvesting",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/15/1674485/dir_1674485/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Irrigation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/29/175644606603486749_dir_V001/1/1756446043267/output/Icse_X_Geo_Water_Resources_Irrigation_Ppt_Aditya_120825-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Means of Irrigation - II",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/29/175646590925745103_dir_V001/1/1756465886575/output/Icse_X_Geo_Water_Resources_Means_Of_Irrigation_Ii_Ppt_Aditya_120825-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Conservation of Water and Need for Conservation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/29/175644636508833031_dir_V001/1/1756446342398/output/Icse_X_Geo_Water_Resources_Need_For_Conservation_Ppt_Aditya_120825-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Sources of Water",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/29/175644667710461974_dir_V001/1/1756446654358/output/Icse_X_Geo_Water_Resources_Sources_Of_Water_Ppt_Aditya_050825-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Means of Irrigation – I",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/29/175644585992623667_dir_V001/1/1756445837252/output/Icse_X_Geo_Water_Resources_Means_Of_Irrigation_I_Ppt_Aditya_120825-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Water Management",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/15/1674690/dir_1674690/index.html"
+                                    },
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Rain Water Harvesting",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/15/1674496/dir_1674496/index.html"
+                                    },
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Means of Irrigation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/15/1674355/dir_1674355/index.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Mineral and Energy Resources (2025)",
+                           "topics": [
+                              {
+                                 "name": "Mineral and Energy Resources (2025)",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Energy Resources",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/09/20/1773800/dir_1773800/index.html"
+                                    },
+                                    {
+                                       "name": "Minerals in India",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/15/1674458/dir_1674458/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Iron ore and Manganese",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/3/175687957396569105_dir_V001/1/1756879550374/output/Slmppt_X_Icse_Mineral_And_Energy_Resources_Iron_Ore_And_Manganese_Ppt-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Non-conventional Sources: Nuclear Power and Bio-gas",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/3/175687905773541593_dir_V001/1/1756879034125/output/Slmppt_Icse_X_Mineral_And_Energy_Resources_Non-Conventional_Sources_Nuclear_Power_And_Bio-Gas_Ppt-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Non-conventional Sources: Tidal and geo-thermal energy",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/8/175731615451823855_dir_V001/1/1757316130266/output/Slmppt_Icse_X_Mineral_And_Energy_Reso_Tidal_And_Geo_Thermal_Energy_Ppt-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Solar and Wind",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/3/175687932748712517_dir_V001/1/1756879303720/output/Slmppt_Icse_X_Mineral_And_Energy_Resources_Non-conventional_Sources_Solar_And_Wind_Ppt-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Hydel power",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/1/175670774799666352_dir_V001/1/1756707724741/output/Slmppt_Icse_X_Mineral_And_Energy_Resources_Hydel_Power_Ppt-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Conventional Sources_Petroleum and Natural gas",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/29/175646561257669933_dir_V001/1/1756465589940/output/Icse_X_Geo_Petroleum_And_Natural_Gas_Ppt-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Conventional Sources: Coal",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/1/175670808825338949_dir_V001/1/1756708065247/output/Slmppt_Icse_X_Mineral_And_Energy_Resources_Conventional_Sources_Coal_Ppt-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Copper & Bauxite",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/1/175670834423092963_dir_V001/1/1756708320940/output/Slmppt_X_Icse_Mineral_And_Energy_Resources_Copper_&_Bauxite_Ppt-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Energy Resources",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/09/20/1773804/dir_1773804/index.html"
+                                    },
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Minerals in India",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/15/1674461/dir_1674461/index.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Mineral and Energy Resources",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/8/30/166186293510300469_dir/1/1661862861875/PG_CBSE_10_SST_Geo_Minerals_and_Energy_Resources_2/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Minerals - A Gift of Nature",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/9/6/166177730811707395_dir/1/1662444497353/DND_DROP_TO_FILL_IMAGE/start.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Agriculture in India (2025)",
+                           "topics": [
+                              {
+                                 "name": "Agriculture in India (2025)",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Fibre and Other Source Crops",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1704094/dir_1704094/index.html"
+                                    },
+                                    {
+                                       "name": "Methods of Farming",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1704288/dir_1704288/index.html"
+                                    },
+                                    {
+                                       "name": "Types of Agriculture",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1704241/dir_1704241/index.html"
+                                    },
+                                    {
+                                       "name": "Cash Crops: Oil Seeds and Beverages",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1704084/dir_1704084/index.html"
+                                    },
+                                    {
+                                       "name": "Food Crops",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1704185/dir_1704185/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Agricultural seasons",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/30/175386678793788517_dir_V001/1/1753866770428/output/Icse_X_Geo_Agriculture_Agriculture_Seasons_Ppt_Aditya_220725-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Types of agriculture- II",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/28/175369549723579348_dir_V001/1/1753695480582/output/Icse_X_Geo_Agriculture_Types_Of_Agriculture_Ii_Ppt_Aditya_220725-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Indian Agriculture: Its importances, problems and refor",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/28/175369570911838987_dir_V001/1/1753695692504/output/Icse_X_Geo_Agriculture_Its_Importance_Problems_And_Reforms_Ppt_Aditya_220725-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Types of Farming",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2024/5/7/166823690642321861_dir_V003/1/1715065807694/MCQ_Type_3_PI/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Important Crops",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2024/4/22/166823522711081248_dir_V004/1/1713788374157/FLASH_CARD_PI/start.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Agriculture: Food Crops (2025)",
+                           "topics": [
+                              {
+                                 "name": "Agriculture: Food Crops (2025)",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Cultivation of Millets and Pulses",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/4/175428616368359476_dir_V001/1/1754286145899/output/Icse_X_Geo_Agriculture_Food_Crops_Millets_And_Pulses_Ppt-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Wheat Cultivation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/4/175428762165739374_dir_V001/1/1754287603702/output/Icse_X_Geo_Agriculture_Food_Crops_Wheat_Ppt-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Rice Cultivation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/4/175428776981472172_dir_V001/1/1754287751837/output/Icse_X_Geo_Agriculture_Food_Crops_Rice_Ppt-hd.m3u8"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Agriculture: Cash Crops (2025)",
+                           "topics": [
+                              {
+                                 "name": "Agriculture: Cash Crops (2025)",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Sugarcane",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/4/175428640976268783_dir_V001/1/1754286392325/output/Icse_X_Geo_Agriculture-Cashcrops_Sugarcane_Ppt_Aditya_280725-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Tea and Coffee",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/5/175438619861387022_dir_V001/1/1754386180457/output/Icse_X_Agriculture_Cash_Crops_Slm_Ppt_Tea_And_Coffee-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Cotton and Jute",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/28/175369514256332588_dir_V001/1/1753695125923/output/Icse_X_Geo_Slm_Ppt_Agriculture_Cash_Crops_Cotton_And_Jute_Tarun-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Cash Crops: Oilseeds",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/29/175378530176319031_dir_V001/1/1753785284952/output/Slmppt_X_Icse_Agricultre_Cash_Crops_Oilseeds_Ppt-hd.m3u8"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Industries (2025)",
+                           "topics": [
+                              {
+                                 "name": "Industries (2025)",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Iron and Steel Industry",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1704327/dir_1704327/index.html"
+                                    },
+                                    {
+                                       "name": "Heavy Engineering",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1704285/dir_1704285/index.html"
+                                    },
+                                    {
+                                       "name": "Agro Based Industries",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1704246/dir_1704246/index.html"
+                                    },
+                                    {
+                                       "name": "Electronics and Petro Chemicals Industry",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1704325/dir_1704325/index.html"
+                                    },
+                                    {
+                                       "name": "Classification and Factors Affecting Industries",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/03/1704258/dir_1704258/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Mineral-Based Industries-I",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/31/176190865850052469_dir_V001/1/1761908624294/output/Icse_X_Geo_Industries_Mineral_Based_Industries-I_Ppt_Madhu_Shree-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Factors Affecting the Location of Industries",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/14/175516268772619457_dir_V001/1/1755162667943/output/Icse_X_Geo_Industries_Factors_Affecting_The_Location_Of_Industries_Shree-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Mineral Based Industries II",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/16/175799821977581350_dir_V001/1/1757998193808/output/_Icse_X_Geo_Industries_Mineral_Based_Industries_Ii_Madhu_Shree-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Importance and Classification of Industries",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/16/175799903066597289_dir_V001/1/1757999004620/output/Icse_X_Geo_Industries_Importance_And_Classification_Of_Industries_Madhu_Shree-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Agro-based Industries I",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/16/175799878595246946_dir_V001/1/1757998759990/output/Icse_X_Geo_Industries_Agro_Based_Industries_I_Ppt_Madhu_Shree-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Agro-based Industries II",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/16/175799851413994290_dir_V001/1/1757998488240/output/Icse_X_Geo_Industries_Agro_Based_Industries_Ii_Ppt_Madhu_Shree-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Locate the Industry",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/12/1/166815753410318602_dir/1/1669876316258/FIND_THE_HOT_SPOT_TYPE_TWO/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Plants and Industries",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/11/166815819489230073_dir/1/1668158077724/TRAIN_THE_BRAIN_TEXT_BASED/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Industries",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/12/166823128517258329_dir/1/1668231167488/CBSE_SST_Geo_10_Manufacturing_Industries_Game_1/start.html"
+                                    },
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Electronics and Petro Chemicals Industry",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/03/1704326/dir_1704326/index.html"
+                                    },
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Iron and Steel Industry",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/03/1704344/dir_1704344/index.html"
+                                    },
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Heavy Engineering",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/03/1704287/dir_1704287/index.html"
+                                    },
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Agro Based Industries",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/03/1704253/dir_1704253/index.html"
+                                    },
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Classification and Factors Affecting Industries",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/03/1704255/dir_1704255/index.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "India’s Industries",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/11/166815680901354524_dir/1/1668156691845/DND_DROP_TO_FILL_TEXT_MAP/start.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Transport (2025)",
+                           "topics": [
+                              {
+                                 "name": "Transport (2025)",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Airways",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/15/1674696/dir_1674696/index.html"
+                                    },
+                                    {
+                                       "name": "Roads",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/15/1674500/dir_1674500/index.html"
+                                    },
+                                    {
+                                       "name": "Ports",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/15/1674693/dir_1674693/index.html"
+                                    },
+                                    {
+                                       "name": "Railways",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/15/1674464/dir_1674464/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Waterways",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/29/175644143273928748_dir_V001/1/1756441410214/output/Icse_X_Geo_Transport_Waterways_Ppt_Aditya_120825-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Airways",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/28/175638760646406599_dir_V001/1/1756387583957/output/Icse_X_Geo_Transport_Airways_Ppt_Aditya_120825-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Railways",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/28/175638727898004028_dir_V001/1/1756387256562/output/Icse_X_Geo_Transport_Railways_Ppt_Aditya_120825-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Roadways II",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/21/175576903409540124_dir_V001/1/1755769012913/output/Icse_Slmppt_X_Geography_Transport_Roadways_Ii-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Roadways I",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/1/175670710701333579_dir_V001/1/1756707083859/output/Icse_Slmppt_X_Geography_Transport_Roadways_I-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Railways",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/15/1674466/dir_1674466/index.html"
+                                    },
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Roads",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/15/1674507/dir_1674507/index.html"
+                                    },
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Ports",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/15/1674694/dir_1674694/index.html"
+                                    },
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Airways",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/15/1674699/dir_1674699/index.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Roads in India",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/11/166815899666892661_dir/1/1668158879489/FILL_IN_THE_BLANKS_Template_1/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Major Ports of India",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/11/166816673025866191_dir/1/1668166613034/MCQ_TYPE_1/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "National Highways",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2023/5/8/168301039638812048_dir_V001/1/1683550167360/NATIONAL_HIGHWAY/start.html"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Waste Generation and Management (2025)",
+                           "topics": [
+                              {
+                                 "name": "Waste Generation and Management (2025)",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Safe Disposal of Waste",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/15/1674636/dir_1674636/index.html"
+                                    },
+                                    {
+                                       "name": "Reduce-Reuse-Recycle",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/15/1674628/dir_1674628/index.html"
+                                    },
+                                    {
+                                       "name": "Need for Management of Waste",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/15/1674643/dir_1674643/index.html"
+                                    },
+                                    {
+                                       "name": "Sources of Waste",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/15/1674679/dir_1674679/index.html"
+                                    },
+                                    {
+                                       "name": "Impact of Waste Accumulation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/15/1674684/dir_1674684/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Need for Waste Management",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/29/175912853318170706_dir_V001/1/1759128504882/output/Icse_Slmppt_X_Geography_Waste_Management_Need_For_Waste_Management-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Impact of Waste Accumulation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/1/175932279047408358_dir_V001/1/1759322761468/output/Icse_X_Waste_Management_Impact_Of_Waste_Accumulation-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Reduce, Reuse and Recycle",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/1/175932221290185532_dir_V001/1/1759322183905/output/Icse_Slmppt_X_Geography_Waste_Management_Reduce_Reuse_And_Recycle-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Reduce-Reuse-Recycle",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/15/1674630/dir_1674630/index.html"
+                                    },
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Need for Management of Waste",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/15/1674646/dir_1674646/index.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Waste management",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/17/166867847872267054_dir/1/1668678357706/CBSE_06_Sci_B_Garbage_In_Garbage_Out/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Dealing with Garbage!",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/11/166814077829897091_dir/1/1668140661309/DND_SORTABLE_IMAGE/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Air Pollution",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/16/166857699992258887_dir/1/1668576879517/CHOOSE_THE_WORD/start.html"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Air Pollutants",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/14/166842081292940993_dir/1/1668420693727/TICK_AND_CROSS_TEXT_TYPE/start.html"
                                     }
                                  ]
                               }
