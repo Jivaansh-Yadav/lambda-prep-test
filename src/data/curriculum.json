@@ -1441,40 +1441,933 @@
                                           }
                                        ]
                                     },
-                  {
-                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Chemistry.",
+                                    {
+                     "__comment": "Extramarks ICSE Class X Chemistry curriculum. Seven video records were omitted because metadata or HLS sources could not be resolved; three canvas activities remain unverified.",
                      "name": "Chemistry",
                      "chapters": [
                         {
-                           "name": "",
+                           "name": "Periodic Table, Periodic Properties and Variations of Properties",
                            "topics": [
                               {
-                                 "name": "",
+                                 "name": "Modern Periodic Table",
                                  "interactiveClasses": [
                                     {
-                                       "name": "",
-                                       "link": ""
+                                       "name": "Modern Periodic Table",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/27/1694363/dir_1694363/index.html"
                                     }
                                  ],
                                  "videoLessons": [
                                     {
-                                       "name": "",
-                                       "link": ""
+                                       "name": "Periodic Trends in Properties",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/1/175402533140035838_dir_V001/1/1754025313937/output/Pptmp4_Icse_X_Chemistry_Periodic_Table_Periodic_Trends_In_Ionisation_Enthalpy-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Periodicity",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/1/175402549900946572_dir_V001/1/1754025481516/output/Pptmp4_Icse_X_Chemistry_Periodic_Table_Periodicity_Radhika-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Trends in Modern Periodic Table",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/29/20895811489501_dir/1/1664447742598/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Modern Periodic Table",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/22/20895821423981_dir/1/1663829667615/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Rearrange the Elements",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/16/166858224361605169_dir/1/1668582123192/REARRANGE_THE_SENTENCES/start.html",
+                                       "status": "OK"
                                     }
                                  ]
                               },
                               {
-                                 "name": "",
+                                 "name": "Study of Alkali Metals and Halogens",
                                  "interactiveClasses": [
                                     {
-                                       "name": "",
-                                       "link": ""
+                                       "name": "Study of Alkali Metals and Halogens",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/11/27/2181199/dir_2181199/index.html"
                                     }
                                  ],
                                  "videoLessons": [
                                     {
-                                       "name": "",
-                                       "link": ""
+                                       "name": "Study of Halogens",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/1/175402746445671934_dir_V001/1/1754027447164/output/Pptmp4_Icse_X_Chemistry_Periodic_Properties_Study_Of_Study_Of_Halogens-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Study of Alkali Metals",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/1/175402805590323109_dir_V001/1/1754028038438/output/Pptmp4_Icse_X_Cemistry_Periodic_Properties_Study_Of_Study_Of_Alka_i_Metals-hd.m3u8"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Chemical Bonding",
+                           "topics": [
+                              {
+                                 "name": "Electrovalent Bond",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Factors Responsible for the Formation of Ionic Compound",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/1/175403314423459181_dir_V001/1/1754033126818/output/Ppt_Icse_X_Chemical_Bonding_Factors_Resp_For_The_Formation_Of_Ionic_Bond_Manisha_Emb-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Ionic Compounds",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/21/175310337165027770_dir_V001/1/1753103356682/output/Ionic_compounds-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Interactive Simulation",
+                                       "title": "Formation of Ionic Bonds",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2023/3/31/167653818810415058_dir_V006/1/1680259020904/IONICBOND_V3/start.html",
+                                       "status": "UNVERIFIED",
+                                       "note": "Browser render remained on a loader screen; WebGL support is unavailable in the verification environment."
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Covalent and Coordinate Bond",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Comparison between Electrovalent and Covalent Compounds",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/1/175404973899625515_dir_V001/1/1754049721721/output/Ppt_Icse_X_Chemical_Bonding_Electrovalent_And_Covalent_Compounds_Manisha-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Polar and Non-Polar Compounds",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/1/175403345414166155_dir_V001/1/1754033436755/output/Ppt_Icse_X_Che_Chemical_Bonding_Polar_And_Compounds_Manisha-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Covalent Bonding in Carbon and Some Other Molecules I",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/21/166375372797916004_dir/1/1663753640389/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Electron Dot Structure of Covalent Compounds",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/1/175404914983805006_dir_V001/1/1754049132429/output/Ppt_Icse_X_Chemical_Bonding_Electron_Dot_Structure_Of_Covalent_Molecules_Manisha_Final-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Covalent Bonding in Carbon and Some Other Molecules II",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/10/18/166607306830755365_dir/1/1666072964674/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Coordinate Bond",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/1/175403287423917812_dir_V001/1/1754032856914/output/Ppt_IcseX_Chemical_Bonding_Coordinate_Bond_Manisha_Emb-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Covalent Bond",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/6/7/171776387766210343_dir_V001/1/1717763864541/output/Covalent-Bond-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Factors Responsible for the Formation of Covalent Bond",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/29/175379388135813790_dir_V001/1/1753793864617/output/Icse_Slmppt_X_Chemistry_Chemical_Bonding_Factors_Responsible_Covalent_Bond_Manisha-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Covalent Bond",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2018/11/26/2180778/dir_2180778/index.html",
+                                       "status": "OK"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Acids, Bases and Salts",
+                           "topics": [
+                              {
+                                 "name": "Acids",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Properties of Acids",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/1/175402633917291357_dir_V001/1/1754026321768/output/Pptmp4_Icse_X_Chemistry_Acids__Bases_Acids_Properties_Of_Acids-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Preparation and Uses of Acids",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/1/175402688033303300_dir_V001/1/1754026862927/output/Pptmp4_Icse_X_Chemistry_Acids_Bases_Acids_Preparation_Of_Acids-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Acids and their Classification",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/29/175378462509889812_dir_V001/1/1753784609184/output/Pptmp4_Icse_X_Chemistry_Acids_Bases_Acids_Acids_And_Their_Classification_Radhika_1-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Acids and Their Sources",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/14/166842708110335806_dir/1/1668426961828/MATCH_FOLLOWING_IMAGES_TO_TEXT/start.html",
+                                       "status": "OK"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Indicators",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/9/2/166185001185085668_dir/1/1662113196045/TICK_AND_CROSS_TEXT_TYPE/start.html",
+                                       "status": "OK"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Bases",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Importance of pH in Daily Life",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/crsemr/public/resources/video/2022/03/29/160171/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "pH and Universal Indicators",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/24/27459281689291_dir/1/1664006615277/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Properties of Bases",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/1/175402565596242396_dir_V001/1/1754025638576/output/Pptmp4_Icse_X_Chemistry_Acids_Bases_Bases_Properties_Of_Bases_Radhika_1-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Preparation and Uses of Bases",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/29/175378230554951077_dir_V001/1/1753782288709/output/Pptmp4_Icse_X_Chemistry_Acids_Bases_Acids_Preparation_Of_Bases_Radhika-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Bases and their Classification",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/7/29/175378496277316337_dir_V001/1/1753784945877/output/Pptmp4_Icse_X_Chemistry_Acids_Bases_Bases_Bases_And_Their_Classification_Radhika_1-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Acids and Bases",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/8/30/166185005598594715_dir/1/1661850550783/DND_SORTABLE_IMAGE/start.html",
+                                       "status": "OK"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Salts",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Methods of Preparation of Specific Salts-I",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/1/175671117518199429_dir_V001/1/1756711151888/output/Pptmp4_Icse_X_Chemistry_Acids_Bases_And_Salts_Salts_Preparation_Of_Specific_Salts-I_Radhika-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Methods of Preparation of Insoluble Salts",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/1/175671142448672558_dir_V001/1/1756711401158/output/Pptmp4_Icse_X_Chemistry_Acids_Bases_And_Salts_Salts_Methods_Of_Preparation_Of_Insoluble_Salts_Radhika-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Methods of Preparation of Specific Salts-II",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/3/175688332564770683_dir_V001/1/1756883301916/output/Pptmp4_Icse_X_Chemistry_Acids_Bases_Salts_Preparation_Of_Specific_Salts_2_Radhika-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Methods of Preparation of Soluble Salts",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/1/175673067338012829_dir_V001/1/1756730650191/output/Pptmp4_Icse_X_Chemistry_Acids_Bases_And_Salts_Salts_Preparation_Of_Soluble_Salts_Radhika-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Salts and their Classification",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/8/1/175402485181729210_dir_V001/1/1754024834308/output/Pptmp4_Icse_X_Chemistry_Acids_Salts_Salts_And_Their_Classificationradhika-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Acids, Bases and Salts",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Salt – Preparation\r\n",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557247/dir_2557247/index.html"
+                                    },
+                                    {
+                                       "name": "Indicators\r\n",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557218/dir_2557218/index.html"
+                                    },
+                                    {
+                                       "name": "Properties of Salts",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/06/14/2313775/dir_2313775/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Acids, Bases, and Salts",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/15/166849459237650443_dir/1/1668494472564/PG_CBSE_Chem_10_AcidsBasesAndSalts/start.html",
+                                       "status": "OK"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Analytical Chemistry",
+                           "topics": [
+                              {
+                                 "name": "Analytical Chemistry",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Use of Ammonium Hydroxide and Sodium Hydroxide",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/12/01/2183253/dir_2183253/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Amphoteric Nature of Metals oxides and hydroxides",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/3/175930663880204917_dir_V002/1/1759465880643/output/PPT_ICSE_X_Chemistry_Analytical_Amphoteric_Nature_of_Metal_oxides_and_hydroxides_Radhika-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Action of Alkalis on Certain Metals",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/1/175930752719103676_dir_V001/1/1759307498274/output/Ppt_Icse_X_Chemistry_Analytical_Action_Of_Alkalis_On_Certain_Metals_Radhika-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Action of Ammonium hydroxide on Certain Salts Solutions",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/1/175930781204421561_dir_V001/1/1759307783072/output/Ppt_Icse_X_Chemistry_Analytical_Action_Of_Ammonium_Hydroxide_On_Certain_Salt_Solutions_Radhika-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Action of Sodium Hydroxide on Metal Salt Solution",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/18/175818024147348801_dir_V001/1/1758180215195/output/Ppt_Icse_X_Chemistry_Analytical_Action_Of_Sodium_Hydroxide_On_Metal_Salt_Solution_Radhika-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Colour of Salts and their Solution",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/18/175818041618680191_dir_V001/1/1758180389762/output/Ppt_Icse_X_Chemistry_Analytical_Colour_Of_Salt_And_Their_Solution_Radhika-hd.m3u8"
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Mole Concept and Stoichiometry",
+                           "topics": [
+                              {
+                                 "name": "Gas Laws and Avogadro's Law",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Avogadro's Law",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/1/175672473710070102_dir_V001/1/1756724713836/output/Pptmp4_Icse_10_Chemistry_Mole_Concept_And_Stiochiometry_Avogadros_Law_Radhika-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Gas Laws",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/1/175672451692933012_dir_V001/1/1756724493804/output/Pptmp4_Icse_10_Chemistry_Mole_Concept_And_Stoichiometry_Gay_Lussacs_Law_Radhika-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Mole Concept",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Mole Concept",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/18/2561323/dir_2561323/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Vapour Density and its Relation to Relative Mol. Mass",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/3/175688308648137617_dir_V001/1/1756883062804/output/Pptmp4_Icse_10_Chemistry_Mole_Concept_Vapour_Density_Radhika-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Mole Concept and Applications of Avogadro \\'s Law",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/27/1693865/dir_1693865/index.html",
+                                       "status": "OK"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Percentage Composition, Empirical Formula and Molecular Formula of Compounds",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Percentage Composition, Empirical Formula and Molecular Formula of Compounds",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/12/01/2183222/dir_2183222/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Chemical Equations",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/1/175670970920531948_dir_V001/1/1756709686072/output/Pptmp4_Icse_X_Chemistry_Mole_Concept_Percent_Composition_Chemical_Equations_Radhika-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Percentage Composition",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/3/175688209158364963_dir_V001/1/1756882068137/output/Pptmp4_Icse_10_Chemistry_Mole_Concept_Percentage_Composition_Radhika1-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Empirical Formula and Molecular Formula",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/3/175688056711919995_dir_V001/1/1756880543479/output/Ppt_Icse_X_Chemistry_Mole_Concept_And_Stoichiometry_Empirical_Formula_And_Molecular_Formula-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Different Types of Problems based on Chemical Equations",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/1/175671008088246816_dir_V001/1/1756710057611/output/Pptmp4_Icse_X_Chemistry_Different_Types_Of_Problems_Based_On_Chemical_Equations_Radhika-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Mole Concept and Stoichiometry",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Gay Lussac's Law and Avogadro's Law",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/29/1699017/dir_1699017/index.html"
+                                    },
+                                    {
+                                       "name": "Chemical Equations and problems based on chemical equations",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/12/01/2183220/dir_2183220/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Electrolysis",
+                           "topics": [
+                              {
+                                 "name": "Electrolysis: An Introduction",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Electrolysis of Aqueous Copper (II) sulphate",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/1/175673013456587154_dir_V001/1/1756730111555/output/Ppt_Icse_X_Electrolysis_Electrolysis_Introduction_Electrolysis_Of_Aqueous_Copper_Ii_Sulphate-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Electrolysis of Molten Lead bromide and Acidified Water",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/1/175673175028860549_dir_V001/1/1756731726981/output/PPT_ICSE_X_Electrolysis_Electrolysis_of_molten_lead_bromide_Jyoti_Gupta-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Electrolytes and Non-electrolytes",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/1/175673035711075654_dir_V001/1/1756730333823/output/Ppt_Icse_X_Electrolysis_Electrolytes_And_Non_Electrolytes_Manisha-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Basic Introduction to Electrolysis",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/2/175679604061369952_dir_V001/1/1756796017208/output/Pptmp4_Icse_X_Chemistry-Electrolysis_Electrolysis_Introductions_Basic_Introduction_To_Electrolysis-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Electrolytic Dissociation and Ionisation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/3/175688071897517263_dir_V001/1/1756880695280/output/Ppt_Icse_X_Electrolysis_Electrolysis_An_Introduction_Electrolytic_Dissociation_And_Ionisation-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Types of Conductors",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/3/175688595505093675_dir_V001/1/1756885931317/output/Pptmp4_Icse_X_Chemistry_Eleectrolysis_Electrolyisis_Applications_Types_Of_Conductors-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Electrolysis: Applications",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Electrolysis:Applications",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/12/01/2183233/dir_2183233/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Electrometallurgy",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/3/175688266057995320_dir_V001/1/1756882636961/output/Ppt_Icse_X_Electrolysis_Electrometallurgy_Jyoti_Gupta-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Electrorefining",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2023/8/29/169330577033975410_dir_V001/1/1693305812619/output/Electrorefining-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Electroplating",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2023/9/4/169382302653670190_dir_V001/1/1693823067457/output/Electroplating-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Selective Discharge of Ions",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/22/175854122865459960_dir_V001/1/1758541201391/output/PPT_ICSE_X_Chemistry_Electrolysis__Electrolysis_Application_Preferential_discharge_of_Ions_Radhika-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Electrochemical Series",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/3/175688288995171511_dir_V001/1/1756882866260/output/Ppt_Icse_X_Chemistry_Electrolysis_Electrolysis_Applications_Electrochemical_Series-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Electrolysis",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Electrolytes and non-electrolytes",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/12/01/2183181/dir_2183181/index.html"
+                                    },
+                                    {
+                                       "name": "Electrolysis of some common electrolytes",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/12/01/2183185/dir_2183185/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Metallurgy",
+                           "topics": [
+                              {
+                                 "name": "General Methods of Extraction of Metals",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Extraction of Highly Reactive Metals",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/6/24/28308281702951_dir/1/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Froth Floatation Method",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/22/25898421630081_dir/1/1663840989840/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Some Basic Concepts of Metallurgy",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/22/175852524683264336_dir_V001/1/1758525219809/output/Ppt_Icse_X_Chemistry_Metallurgy_General_Methods_Some_Basic_Concepts_Of_Metallurgy_Radhika-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Occurrence of Metals in Nature",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/1/175931452925659934_dir_V001/1/1759314500235/output/Ppt_Icse_X_Chemistry_Metallurgy_General_Methods_Occurrence_Of_Metals_Radhika-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Conversion of Concentrated Ore to its Oxide",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/1/175930483606626091_dir_V001/1/1759304807374/output/Pptmp4_Icse_X_Chemistry_Electrometallurgy_Extraction_Conversion_Of_Concentrated_Ore_To_Its_Oxide-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Minerals and Ores",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/18/175818006880930159_dir_V001/1/1758180042564/output/Ppt_Icse_X_Chemistry_Metallurgy_General_Methods_Minerals_And_Ores_Radhika-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Extraction of Aluminium and Alloys",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Extraction of Aluminium",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/22/25991071631971_dir/1/1663834337483/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Alloys",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/28/27906161692241_dir/1/1664353051742/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Distillation and Liquation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/3/175946863820845704_dir_V001/1/1759468608854/output/Pptmp4_Icse_X_Chemistry_Metallurgy_Extraction_Distillation_And_Liquation_Bharati-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Refining of Metals",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/22/25893961630061_dir/1/1663841117308/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Alloys and their Importance",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/3/175946839863760696_dir_V001/1/1759468369405/output/Ppt_Icse_X_Metallurgy_Alloys_And_Their_Importance-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Extraction of Aluminium",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2018/12/01/2183225/dir_2183225/index.html",
+                                       "status": "OK"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Metallurgy",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Alloys",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/06/14/2313800/dir_2313800/index.html"
+                                    },
+                                    {
+                                       "name": "Alloys and Uses of Metals",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557446/dir_2557446/index.html"
+                                    },
+                                    {
+                                       "name": "Extraction of Aluminium",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/12/01/2183195/dir_2183195/index.html"
+                                    },
+                                    {
+                                       "name": "General Methods of Extraction of Metals-I",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/12/01/2183238/dir_2183238/index.html"
+                                    },
+                                    {
+                                       "name": "Activity Series of Metals",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/12/01/2183278/dir_2183278/index.html"
+                                    },
+                                    {
+                                       "name": "General Methods of Extraction of Metals-II",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/12/01/2183241/dir_2183241/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Reactivity of Metals",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/10/20/166184461839960510_dir/1/1666260388811/ALPHABETICAL_ORDER/start.html",
+                                       "status": "OK"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Reactivity: Metals and Non-Metals",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/9/30/166185315695797146_dir/1/1664517261627/CHASE_THE_TARGET_TD/start.html",
+                                       "status": "UNVERIFIED",
+                                       "note": "Browser render remained blank after an extended wait; marked unverified rather than treating HTTP 200 as proof."
+                                    }
+                                 ]
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Study of Compounds",
+                           "topics": [
+                              {
+                                 "name": "Hydrogen Chloride",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Chemical Properties of Hydrogen Chloride Gas",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/3/175946892179056900_dir_V001/1/1759468892491/output/Pptmp4_Icse_X_Chemistry_Chemical_Properties_Of_Hydrogen_Chloride_Gas_Bharati-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "General Preparation of Hydrogen Chloride Gas",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/1/175931431444406894_dir_V001/1/1759314285362/output/Pptmp4_Icse_X_Chemistry_General_Preparation_Of_Hcl_Gas_Bharti-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Laboratory Preparation of Hydrogen Chloride Gas",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/3/175946809948477626_dir_V001/1/1759468070257/output/Pptmp4_Icse_X_Chemistry_Laboratory_Preparation_Of_Hydrogen_Chloride_Gas_Bharati-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Physical Properties of Hydrogen Chloride Gas",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/3/175946912023658437_dir_V001/1/1759469090875/output/Pptmp4_Icse_X_Chemistry_Physical_Properties_Of_Hydrogen_Chloride_Gas_Bharati-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Preparation of Hydrochloric Acid",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/13/176033330615328311_dir_V001/1/1760333275078/output/Pptmp4_Icse_X_Chemistry_Preparation_Of_Hydrochloric_Acid_Bharati-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Uses of Hydrochloric Acid",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/1/175930509444351796_dir_V001/1/1759305065672/output/Ppt_Icse_X_Study_Of_Compounds_Hydrochloric_Acid_Uses_Of_Hydrochloric_Acid_Bharati-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Properties of Hydrochloric acid-I",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/1/175930540257981316_dir_V001/1/1759305373680/output/Pptmp4_Icse_X_Chemistry_Properties_Of_Hydrochloric_Acid-I-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Properties of Hydrochloric acid-II",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/1/175932397231891578_dir_V001/1/1759323943341/output/Pptmp4_Icse_X_Chemistry_Properties_Of_Hydrochloric_Acid_Ii_Bharati-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Ammonia",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Uses of Ammonia Gas",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/5/176231846882703406_dir_V001/1/1762318433425/output/Pptmp4_Icse_X_Chemistry_Study_Of_Compounds_Uses_Of_Ammonia_Jyoti-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Physical Properties of Ammonia",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/4/176224801657150837_dir_V001/1/1762247981267/output/Pptmp4_Icse_X_Chemistry_Study_Of_Compounds_Properties_Of_Ammonia-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Chemical Properties  of Ammonia-II",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/5/176231820880010151_dir_V001/1/1762318173401/output/Pptmp4_Icse_X_Chemistry_Study_Of_Compounds_Chemical_Properties_Of_Ammonia_II_Jyoti-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Chemical Properties  of Ammonia-I",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/4/176224777438604837_dir_V001/1/1762247739138/output/Pptmp4_Icse_X_Chemistry_Study_Of_Compounds_Chemical_Properties_Of_Ammonia-I_Jyoti-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Laboratory Preparation of Ammonia Gas",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/4/176224822583732736_dir_V001/1/1762248190574/output/Pptmp4_Icse_X_Chemistry_Study_Of_Compounds_Laboratory_Method_Of_Preparation_Of_Ammonia_Jyoti-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "General Methods of Preparation of Ammonia",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/3/176217280093307463_dir_V001/1/1762172765840/output/209813-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Industrial Preparation of Ammonia",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2023/10/18/169761149386543450_dir_V001/1/1697611592802/output/Industrial_Preparation_of_Ammonia-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Nitric Acid",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Properties of Nitric Acid-II",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/28/176165210338082780_dir_V001/1/1761652069345/output/Nitric_Acid-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Effect of Heat on Nitrates",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/3/175947618259657365_dir_V001/1/1759476153238/output/Pptmp4_Icse_X_Chem_Study_Of_Com_Nitric_Acid_Effects_Of_Heat_On_Nitrates_Swati-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Industrial Preparation of Nitric Acid",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/2/8/170738118155047986_dir_V001/1/1707381333234/output/Nitric_Acid-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Uses and Tests of Nitric Acid",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/1/175930563400648887_dir_V001/1/1759305605105/output/Pptmp4_Icse_X_Che_Study_Of_Compounds_Uses_And_Test_Of_Nitric_Acid_Jyoti-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Properties of Nitric Acid-I",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/13/176033149250503183_dir_V001/1/1760331461409/output/Pptmp4_Icse_X_Che_Study_Of_Compounds_Properties_Of_Nitric_Acid-I-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Laboratory Preparation of Nitric Acid",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/16/176060989294800388_dir_V001/1/1760609860034/output/Pptmp4_Icse_X_Study_Of_Compounds_Laboratory_Preparation_Of_Nitric_Acid_Jyoti-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Sulphuric Acid",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Chemical Properties of Dilute Sulphuric Acid",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/1/176457164224598458_dir_V001/1/1764571604599/output/Pptmp4_Icse_X_Che_Study_Of_Compounds_Chemical_Properties_Of_Dilute_Sulphuric_Acid-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Uses and Tests of Sulphuric Acid",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/5/176231974467058785_dir_V001/1/1762319709298/output/Pptmp4_Icse_X_Che_Study_Of_Compounds_Uses_And_Test_Of_Sulphuric_Acid-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Physical Properties of Sulphuric Acid",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/9/29/175912926865621676_dir_V001/1/1759129240263/output/Pptmp4_Icse_X_Chemistry_Study_Of_Compounds_Physical_Properties_Of_Sulphuric_Acid_Swati-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Contact Process",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/1/25/170616624121693120_dir_V001/1/1706166395551/output/Prepar_sulphuric_acid-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Laboratory Preparation of Sulphuric Acid",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/3/175947634847016565_dir_V001/1/1759476319049/output/Pptmp4_Icse_X_Chemistry_Study_Of_Compounds_Ritika-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Study of Compounds",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Properties of Sulphuric acid",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557266/dir_2557266/index.html"
+                                    },
+                                    {
+                                       "name": "Preparation of Sulphuric acid",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557208/dir_2557208/index.html"
+                                    },
+                                    {
+                                       "name": "Properties of Nitric acid",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/12/01/2183187/dir_2183187/index.html"
+                                    },
+                                    {
+                                       "name": "Properties of Ammonia",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557433/dir_2557433/index.html"
+                                    },
+                                    {
+                                       "name": "Preparation of Ammonia",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557192/dir_2557192/index.html"
+                                    },
+                                    {
+                                       "name": "Properties Of Hydrogen chloride",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557216/dir_2557216/index.html"
+                                    },
+                                    {
+                                       "name": "Preparation of Nitric acid",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557298/dir_2557298/index.html"
+                                    },
+                                    {
+                                       "name": "Preparation of Hydrogen chloride",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/14/2559466/dir_2559466/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "Organic Chemistry",
+                           "topics": [
+                              {
+                                 "name": "Introduction to Organic Chemistry",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Writing Structural Formula of Compounds",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/3/176217086648807216_dir_V001/1/1762170831365/output/209509-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Nomenclature of Organic Compounds",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/3/176217053130865582_dir_V001/1/1762170496273/output/209471-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Rules for Writing Nomenclature of Compounds",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/31/176191059703001073_dir_V001/1/1761910563082/output/Pptmp4_Icse_X_Organic_Chemistry_Rules_For_Writing_Nomenclature_Of_Compounds_Radhika-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Versatile Nature of Carbon",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/23/176120335234029594_dir_V001/1/1761203319160/output/Pptmp4_Icse_X_Organic_Chemistry_Versatile_Nature_Of_Carbon_Radhika-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Classification of Hydrocarbons",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/23/176120310013529449_dir_V001/1/1761203066931/output/Pptmp4_Icse_X_Organic_Chemistry_Classification_Of_Hydrocarbons_Radhika-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Functional Groups",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/10/3/22407671489331_dir/1/1664783500715/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Homologous Series",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/23/22336571489321_dir/1/1663927410343/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Organic vs Inorganic Compounds",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/30/176182662032067604_dir_V001/1/1761826586022/output/Pptmp4_Icse_X_Organic_Chemistry_Organicvsinorganic_Compounds_Radhika-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Isomerism",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/23/176120281479273833_dir_V001/1/1761202781780/output/Pptmp4_Icse_X_Organic_Chemistry_Isomerism_Radhika-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Alkanes",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Preparation, Properties and Uses of Ethane Gas",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/5/176231875534470495_dir_V001/1/1762318719934/output/Pptmp4_Icse_X_Organic_Chemistry__Preparation_Properties_And_Use__Of_Ethane_Gas_Bharati-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Properties and Uses of Methane Gas",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/1/176457209884657047_dir_V001/1/1764572061126/output/Pptmp4_Icse_X_Organic_Chemistry_Properties_And_Uses_Of_Methane_Radhika-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Preparation of Methane Gas",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/3/176217255661034440_dir_V001/1/1762172521597/output/209566-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Alkenes and Alkynes",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Properties and Uses of Ethyne Gas",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/4/176224894517262921_dir_V001/1/1762248909925/output/Pptmp4_Icse_X_Organic_Chemistry_Properties_And_Uses_Of_Ethyne-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Preparation of Ethyne Gas",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/4/176224917794608808_dir_V001/1/1762249142979/output/Pptmp4_Icse_X_Organic_Chemistry_Preparation_Of_Ethyne-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Preparation of Ethene Gas",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/2/176467622690156653_dir_V001/1/1764676192042/output/Pptmp4_Icse_X_Organic_Chemistry__Preparation_Of_Ethene_Gas_Bharati-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Properties and Uses of Ethene",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/1/176457240854500684_dir_V001/1/1764572370308/output/Icse_X_Organic_Chemistry_Properties_And_Use_Of_Ethene_Gas-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "General Introduction to Alkynes",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/1/176457190931751402_dir_V001/1/1764571871755/output/Pptmp4_Icse_X_Organic_Chemistry_General_Introduction_Of_Alkynes_Bharati-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Alcohols and Carboxylic acids",
+                                 "interactiveClasses": [],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Preparation of Ethanol",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/4/176224850528336282_dir_V001/1/1762248470559/output/Pptmp4_Icse_X_Organic_Chemistry_Preparation_Of_Ethanol-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Alcohols",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/4/176224871542605230_dir_V001/1/1762248680107/output/Pptmp4_Icse_X_Organic_Chemistry_Alcohols-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Ethanoic Acid",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/26/22032291427891_dir/1/1664194342108/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Properties and Uses of Alcohol",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/30/176182683307100369_dir_V001/1/1761826798682/output/ICSE_SLMPPT_X_Chemistry_Organic_Chemistry_Alcohols_&_Carboxylic_Acids_Properties_and_Uses_of_Ethanol-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Carboxylic acid",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/28/176165163084491927_dir_V001/1/1761651596946/output/Organic_Chemistry_Carboxylic_Acids-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Organic Chemistry",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Isomerism",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/12/06/1851704/dir_1851704/index.html"
+                                    },
+                                    {
+                                       "name": "Nomenclature of Organic Compounds",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/26/1692202/dir_1692202/index.html"
+                                    },
+                                    {
+                                       "name": "Homologous Series and Functional Groups",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557438/dir_2557438/index.html"
+                                    },
+                                    {
+                                       "name": "Hydrocarbons",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/12/01/2183208/dir_2183208/index.html"
+                                    },
+                                    {
+                                       "name": "Organic Chemistry- An Introduction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557442/dir_2557442/index.html"
+                                    },
+                                    {
+                                       "name": "Alcohols",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557162/dir_2557162/index.html"
+                                    },
+                                    {
+                                       "name": "Alkynes",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557206/dir_2557206/index.html"
+                                    },
+                                    {
+                                       "name": "Methane - An Alkane",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557180/dir_2557180/index.html"
+                                    },
+                                    {
+                                       "name": "Ethane - An Alkane\r\n",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557171/dir_2557171/index.html"
+                                    },
+                                    {
+                                       "name": "Alkenes",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557200/dir_2557200/index.html"
+                                    },
+                                    {
+                                       "name": "Carboxylic Acids\r\n",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557186/dir_2557186/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Interactive Simulation",
+                                       "title": "Build a Molecule",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2023/11/30/168025976286771640_dir_V001/1/1701346081896/BUILD_A_MOLECULE/start.html",
+                                       "status": "UNVERIFIED",
+                                       "note": "Browser render remained on a loader screen with WebGL initialization errors."
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Carbon and its Compounds",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/15/166849496478707005_dir/1/1668494844966/PG_CBSE_Sci_C_10_Carbon_and_its_Compounds/start.html",
+                                       "status": "OK"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Rearrange the Compounds",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/14/166842789776117701_dir/1/1668427778477/ALPHABETICAL_ORDER/start.html",
+                                       "status": "OK"
                                     }
                                  ]
                               }
