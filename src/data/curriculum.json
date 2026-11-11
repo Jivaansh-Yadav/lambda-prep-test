@@ -3652,42 +3652,1082 @@
                         }
                      ]
                   },
-                  {
-                     "__comment": "TEMPLATE -- fill in chapter/topic names and resource links for Hindi.",
+                                    {
+                     "__comment": "Extramarks ICSE Class X Hindi, combining Hindi Grammar and Hindi Literature syllabus streams.",
                      "name": "Hindi",
                      "chapters": [
                         {
-                           "name": "",
+                           "name": "भाषा,लिपि एवं व्याकरण",
                            "topics": [
                               {
-                                 "name": "",
+                                 "name": "भाषा,लिपि एवं व्याकरण",
                                  "interactiveClasses": [
                                     {
-                                       "name": "",
-                                       "link": ""
+                                       "name": "भाषा, लिपि तथा व्याकरण",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/05/15/1994390/dir_1994390/index.html"
                                     }
                                  ],
-                                 "videoLessons": [
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "वर्तनी",
+                           "topics": [
+                              {
+                                 "name": "वर्तनी",
+                                 "interactiveClasses": [
                                     {
-                                       "name": "",
-                                       "link": ""
+                                       "name": "वर्तनी",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/05/15/1994395/dir_1994395/index.html"
                                     }
-                                 ]
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "तत्सम और तद्भव शब्द",
+                           "topics": [
+                              {
+                                 "name": "तत्सम और तद्भव शब्द",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "तत्सम और तद्भव शब्द",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/06/01/2004354/dir_2004354/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "पर्यायवाची शब्द",
+                           "topics": [
+                              {
+                                 "name": "पर्यायवाची शब्द",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "पर्यायवाची शब्द",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/08/17/2052659/dir_2052659/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "विलोम शब्द",
+                           "topics": [
+                              {
+                                 "name": "विलोम शब्द",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "विलोम शब्द",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/08/17/2052600/dir_2052600/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "अनेकार्थी शब्द",
+                           "topics": [
+                              {
+                                 "name": "अनेकार्थी शब्द",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अनेकार्थी शब्द",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/08/17/2052625/dir_2052625/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "समरूपी भिन्नार्थी शब्द",
+                           "topics": [
+                              {
+                                 "name": "समरूपी भिन्नार्थी शब्द",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "समरूपी भिन्नार्थक शब्द",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/05/15/1994386/dir_1994386/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "अनेक शब्दों के लिए एक शब्द",
+                           "topics": [
+                              {
+                                 "name": "अनेक शब्दों के लिए एक शब्द",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अनेक शब्दों के लिए एक शब्द",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/05/15/1994376/dir_1994376/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "उपसर्ग",
+                           "topics": [
+                              {
+                                 "name": "उपसर्ग",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "उपसर्ग",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/05/31/2004149/dir_2004149/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "प्रत्यय",
+                           "topics": [
+                              {
+                                 "name": "प्रत्यय",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "प्रत्यय",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/05/15/1994379/dir_1994379/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "मुहावरे एवं लोकोक्तियाँ",
+                           "topics": [
+                              {
+                                 "name": "मुहावरे एवं लोकोक्तियाँ",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "मुहावरे एवं लोकोक्तियाँ",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/05/31/2004142/dir_2004142/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "अशुद्ध-शुद्ध शब्द",
+                           "topics": [
+                              {
+                                 "name": "अशुद्ध-शुद्ध शब्द",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अशुद्ध-शुद्ध शब्द",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/08/17/2052660/dir_2052660/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "संज्ञा",
+                           "topics": [
+                              {
+                                 "name": "संज्ञा",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "संज्ञा",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/05/15/1994413/dir_1994413/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "सर्वनाम",
+                           "topics": [
+                              {
+                                 "name": "सर्वनाम",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "सर्वनाम",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/05/15/1994416/dir_1994416/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "विशेषण",
+                           "topics": [
+                              {
+                                 "name": "विशेषण",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "विशेषण",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/05/15/1994420/dir_1994420/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "क्रिया",
+                           "topics": [
+                              {
+                                 "name": "क्रिया",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "क्रिया",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/05/31/2004152/dir_2004152/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "क्रिया विशेषण",
+                           "topics": [
+                              {
+                                 "name": "क्रिया विशेषण",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "क्रिया विशेषण",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/05/31/2004159/dir_2004159/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "समुच्चयबोधक",
+                           "topics": [
+                              {
+                                 "name": "समुच्चयबोधक",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "समुच्चयबोधक शब्द",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/06/01/2004886/dir_2004886/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "संबंधबोधक",
+                           "topics": [
+                              {
+                                 "name": "संबंधबोधक",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "संबंधबोधक",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/08/17/2052624/dir_2052624/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "विस्मयादिबोधक",
+                           "topics": [
+                              {
+                                 "name": "विस्मयादिबोधक",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "विस्मयादिबोधक",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/08/17/2052614/dir_2052614/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "निपात",
+                           "topics": [
+                              {
+                                 "name": "निपात",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "निपात",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/05/15/1994426/dir_1994426/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "वाक्य",
+                           "topics": [
+                              {
+                                 "name": "वाक्य",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "वाक्य",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/05/15/1994430/dir_1994430/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "वाक्य रूपांतरण",
+                           "topics": [
+                              {
+                                 "name": "वाक्य रूपांतरण",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "वाक्य रूपांतरण",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/05/15/1994437/dir_1994437/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "वाच्य",
+                           "topics": [
+                              {
+                                 "name": "वाच्य",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "वाच्य",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/05/15/1994433/dir_1994433/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "विराम चिह्न",
+                           "topics": [
+                              {
+                                 "name": "विराम चिह्न",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "विराम चिह्न",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/09/04/2076669/dir_2076669/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "लोकोक्ति/सूक्ति पर कहानी लेखन",
+                           "topics": [
+                              {
+                                 "name": "लोकोक्ति/सूक्ति पर कहानी लेखन",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "लोकोक्ति/सूक्ति पर कहानी लेखन",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/08/17/2052657/dir_2052657/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "चित्र वर्णन",
+                           "topics": [
+                              {
+                                 "name": "चित्र वर्णन",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "चित्र वर्णन",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/12/10/2185109/dir_2185109/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "पत्र-लेखन",
+                           "topics": [
+                              {
+                                 "name": "पत्र-लेखन",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "पत्र-लेखन",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/08/17/2052658/dir_2052658/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "अपठित-गद्यांशों का भावबोधन",
+                           "topics": [
+                              {
+                                 "name": "अपठित-गद्यांशों का भावबोधन",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अपठित-गद्यांशों का भावबोधन",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/08/17/2052656/dir_2052656/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "अपठित गद्यांश",
+                           "topics": [
+                              {
+                                 "name": "अपठित गद्यांश",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अपठित गद्यांश",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/06/13/2009027/dir_2009027/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "अपठित काव्यांश",
+                           "topics": [
+                              {
+                                 "name": "अपठित काव्यांश",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अपठित काव्यांश",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/03/16/2514048/dir_2514048/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "लेखन-औपचारिक पत्र",
+                           "topics": [
+                              {
+                                 "name": "लेखन-औपचारिक पत्र",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "लेखन-औपचारिक पत्र",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/07/07/2026847/dir_2026847/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "लेखन-अनौपचारिक पत्र",
+                           "topics": [
+                              {
+                                 "name": "लेखन-अनौपचारिक पत्र",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "लेखन-अनौपचारिक पत्र",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/07/06/2026703/dir_2026703/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "लेखन- प्रतिवेदन",
+                           "topics": [
+                              {
+                                 "name": "लेखन- प्रतिवेदन",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "लेखन- प्रतिवेदन",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/19/1738868/dir_1738868/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "लेखन-संवाद लेखन",
+                           "topics": [
+                              {
+                                 "name": "लेखन-संवाद लेखन",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "लेखन-संवाद लेखन",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/07/07/2026825/dir_2026825/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "निबंध लेखन",
+                           "topics": [
+                              {
+                                 "name": "निबंध लेखन",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "निबंध लेखन",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/05/31/2004145/dir_2004145/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "एकांकी संचय",
+                           "topics": [
+                              {
+                                 "name": "दीपदान",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "दीपदान",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557156/dir_2557156/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
                               },
                               {
-                                 "name": "",
+                                 "name": "बहु की विदा",
                                  "interactiveClasses": [
                                     {
-                                       "name": "",
-                                       "link": ""
+                                       "name": "बहु की विदा",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557532/dir_2557532/index.html"
                                     }
                                  ],
-                                 "videoLessons": [
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "महाभारत की एक सांझ",
+                                 "interactiveClasses": [
                                     {
-                                       "name": "",
-                                       "link": ""
+                                       "name": "महाभारत की एक सांझ",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2557653/dir_2557653/index.html"
                                     }
-                                 ]
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "मातृभूमि का मान",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "मातृभूमि का मान",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2557633/dir_2557633/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "सूखी डाली",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "सूखी डाली",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557513/dir_2557513/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "संस्कार और भावना",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "संस्कार और भावना",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2557533/dir_2557533/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "नया रास्ता",
+                           "topics": [
+                              {
+                                 "name": "अध्याय-1",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-1",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2557674/dir_2557674/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-2",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-2",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2557677/dir_2557677/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-3",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-3",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2557679/dir_2557679/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-4",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-4",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2557684/dir_2557684/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-5",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-5",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2557687/dir_2557687/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-6",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-6",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2557697/dir_2557697/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-7",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-7",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557157/dir_2557157/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-8",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-8",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557531/dir_2557531/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-9",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-9",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557514/dir_2557514/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-10",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-10",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557516/dir_2557516/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-11",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-11",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557521/dir_2557521/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-12",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-12",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557523/dir_2557523/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-13",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-13",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557524/dir_2557524/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-14",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-14",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557525/dir_2557525/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-15",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-15",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557526/dir_2557526/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-16",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-16",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557527/dir_2557527/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-17",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-17",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557528/dir_2557528/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-18",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-18",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557529/dir_2557529/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-19",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-19",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557534/dir_2557534/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-20",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-20",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557535/dir_2557535/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-21",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-21",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557536/dir_2557536/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-22",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-22",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557112/dir_2557112/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-23",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-23",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557121/dir_2557121/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-24",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-24",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557537/dir_2557537/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-25",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-25",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557538/dir_2557538/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "अध्याय-26",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "अध्याय-26",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557539/dir_2557539/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              }
+                           ]
+                        },
+                        {
+                           "name": "साहित्य सागर",
+                           "topics": [
+                              {
+                                 "name": "पद्य-गिरधर की कुण्डलियाँ",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "गिरधर की कुण्डलियाँ",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557154/dir_2557154/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "पद्य-चलना हमारा काम है",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "चलना हमारा काम है",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557530/dir_2557530/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "पद्य-भिक्षुक",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "पद्य-भिक्षुक",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2558069/dir_2558069/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "पद्य- मातृ मंदिर की ओर",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "पद्य- मातृ मंदिर की ओर",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2558083/dir_2558083/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "पद्य-मेघ आए",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "पद्य-मेघ आए",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2557990/dir_2557990/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "पद्य-वह जन्मभूमि मेरी",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "पद्य-वह जन्मभूमि मेरी",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2558089/dir_2558089/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "पद्य-विनय के पद",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "विनय के पद",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557508/dir_2557508/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "पद्य-साखी",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "साखी",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557132/dir_2557132/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "पद्य-सूर के पद",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "पद्य-सूर के पद",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2557981/dir_2557981/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "पद्य-स्वर्ग बना सकते हैं",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "स्वर्ग बना सकते हैं",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/11/2557155/dir_2557155/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "संक्षिप्त कहानियाँ-अपना-अपना भाग्य",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "संक्षिप्त कहानियाँ-अपना-अपना भाग्य",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2557967/dir_2557967/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "संक्षिप्त कहानियाँ-काकी",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "संक्षिप्त कहानियाँ-काकी",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2557987/dir_2557987/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "संक्षिप्त कहानियाँ-जामुन का पेड़",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "संक्षिप्त कहानियाँ-जामुन का पेड़",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2557959/dir_2557959/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "संक्षिप्त कहानियाँ-दो कलाकार",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "संक्षिप्त कहानियाँ-दो कलाकार",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2558075/dir_2558075/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "संक्षिप्त कहानियाँ-नेताजी का चश्मा",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "संक्षिप्त कहानियाँ-नेताजी का चश्मा",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2557974/dir_2557974/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "संक्षिप्त कहानियाँ-बड़े घर की बेटी",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "संक्षिप्त कहानियाँ-बड़े घर की बेटी",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2557971/dir_2557971/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "संक्षिप्त कहानियाँ-बात अठन्नी की",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "संक्षिप्त कहानियाँ-बात अठन्नी की",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2557985/dir_2557985/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "संक्षिप्त कहानियाँ-भेड़ और भेड़िये",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "संक्षिप्त कहानियाँ-भेड़ और भेड़िये",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2557952/dir_2557952/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "संक्षिप्त कहानियाँ-महायज्ञ का पुरस्कार",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "संक्षिप्त कहानियाँ-महायज्ञ का पुरस्कार",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2558079/dir_2558079/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
+                              },
+                              {
+                                 "name": "संक्षिप्त कहानियाँ-संदेह",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "संक्षिप्त कहानियाँ-संदेह",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2020/08/12/2557979/dir_2557979/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": []
                               }
                            ]
                         }
