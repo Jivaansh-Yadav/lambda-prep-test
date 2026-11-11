@@ -916,6 +916,26 @@
                                        "name": "Centripetal and Centrifugal Force",
                                        "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/3/176217632678447948_dir_V001/1/1762176291913/output/Pptmp4_Icse_X_Centripetal_And_Centrifugal_Force-hd.m3u8"
                                     }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Uniform Circular Motion",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/8/30/166185285915827149_dir/1/1661857617183/MATCH_THE_CORRECT_ANSWER/start.html",
+                                       "status": "OK"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Mass and Weight",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/14/166841886049345319_dir/1/1668418741273/DND_DROP_TO_FILL_IN_BLANK_1/start.html",
+                                       "status": "OK"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Gravitation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/14/166840681895945919_dir/1/1668406699920/PG_CBSE_Sci_P_IX_Floatation_Thrust_and_Pressure/start.html",
+                                       "status": "OK"
+                                    }
                                  ]
                               }
                            ],
@@ -954,6 +974,20 @@
                                        "name": "Energy and its Units",
                                        "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/31/176165186525254919_dir_V001/1/1761908473806/output/Energy_And_Its_Units-hd.m3u8"
                                     }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Work and Energy",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/8/30/166185281091766640_dir/1/1661858200402/QUIZIKLE_TD/start.html",
+                                       "status": "OK"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Work",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/8/30/166185283836787206_dir/1/1661857888449/PG_CBSE_9_Sci_P__WorkAndEnergy_Work/start.html",
+                                       "status": "OK"
+                                    }
                                  ]
                               },
                               {
@@ -985,6 +1019,14 @@
                                        "name": "Transformation of Energy",
                                        "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/5/176232812985663969_dir_V001/1/1762333383872/output/ICSE_SLMPPT_X_Physics_Work_Energy_and_Power_Different_Forms_of_Energy_Transformation_of_Energy-hd.m3u8"
                                     }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Transfer of Energy",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/8/30/166185293635467543_dir/1/1661858468980/REARRANGE_THE_SENTENCES/start.html",
+                                       "status": "OK"
+                                    }
                                  ]
                               },
                               {
@@ -1003,6 +1045,14 @@
                                     {
                                        "name": "Energy Profile for a Simple Pendulum",
                                        "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/10/3/175947672315783025_dir_V001/1/1759480962048/output/Energy_Profile_For_A_Simple_Pendulum-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Transfer of Energy",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/8/30/166185293635467543_dir/1/1661858468980/REARRANGE_THE_SENTENCES/start.html",
+                                       "status": "OK"
                                     }
                                  ]
                               },
@@ -1130,6 +1180,14 @@
                                        "name": "",
                                        "link": ""
                                     }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Virtual Lab",
+                                       "title": "Refraction of Light Through a Rectangular Glass Slab",
+                                       "link": "https://mscontent-gcp.extramarks.com/template/154/dir24_154/index.html?contentPath=https://mscontent-gcp.extramarks.com/content_data/school_virtual_lab/2021/02/06/2681553/dir_2681553/&isAllowFS=true",
+                                       "status": "OK"
+                                    }
                                  ]
                               },
                               {
@@ -1152,6 +1210,14 @@
                                     {
                                        "name": "Refraction through Prism",
                                        "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/12/1/176457266367697914_dir_V001/1/1764572626065/output/Slm-Ppt_Refraction_Through_Prism-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Virtual Lab",
+                                       "title": "Path of Light Through Prism",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2022/11/19/27225201809531_dir/1/1668842661738/content-2722520/index.html",
+                                       "status": "OK"
                                     }
                                  ]
                               },
@@ -1234,6 +1300,20 @@
                                        "name": "Power of a Lens",
                                        "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/11/28290641700821_dir/1/1662885965880/output/newfile-hd.m3u8"
                                     }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Spherical Lenses",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/8/29/166177169512603779_dir/1/1661773029440/MATCH_THE_CORRECT_ANSWER/start.html",
+                                       "status": "OK"
+                                    },
+                                    {
+                                       "type": "Virtual Lab",
+                                       "title": "Focal length of Convex Lens",
+                                       "link": "https://mscontent-gcp.extramarks.com/template/154/dir24_154/index.html?contentPath=https://mscontent-gcp.extramarks.com/content_data/school_virtual_lab/2021/02/06/2681547/dir_2681547/&isAllowFS=true",
+                                       "status": "OK"
+                                    }
                                  ]
                               },
                               {
@@ -1252,6 +1332,14 @@
                                     {
                                        "name": "Application of lenses",
                                        "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2025/11/25/176405274189711646_dir_V001/1/1764052702766/output/Application_Of_Lenses-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Virtual Lab",
+                                       "title": "Image Formation by Convex Lens",
+                                       "link": "https://mscontent-gcp.extramarks.com/template/154/dir24_154/index.html?contentPath=https://mscontent-gcp.extramarks.com/content_data/school_virtual_lab/2021/02/10/2681763/dir_2681763/&isAllowFS=true",
+                                       "status": "OK"
                                     }
                                  ]
                               }
@@ -1286,6 +1374,14 @@
                                     {
                                        "name": "Scattering of Light",
                                        "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/22/28138201700851_dir/1/1663831880461/output/newfile-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Rainbow",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/17/166868589774639101_dir/1/1668685776698/DND_DROP_TO_FILL_TEXT_MAP/start.html",
+                                       "status": "OK"
                                     }
                                  ]
                               },
@@ -1344,6 +1440,20 @@
                                        "name": "Uses of Echoes",
                                        "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/4/7/177011899298643258_dir_V001/1/1775554681486/output/Uses-Of-Echo-hd.m3u8"
                                     }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Reflection of Sound",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/29/1699203/dir_1699203/index.html",
+                                       "status": "OK"
+                                    },
+                                    {
+                                       "type": "Virtual Lab",
+                                       "title": "Reflection of Sound",
+                                       "link": "https://mscontent-gcp.extramarks.com/template/154/dir24_154/index.html?contentPath=https://mscontent-gcp.extramarks.com/content_data/school_virtual_lab/2021/03/10/2721675/dir_2721675/&isAllowFS=true",
+                                       "status": "OK"
+                                    }
                                  ]
                               },
                               {
@@ -1375,6 +1485,14 @@
                                        "name": "Examples of Resonance",
                                        "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/30/176974915885833584_dir_V001/1/1769749170636/output/Ppt_X_Sound_Example_Of_Resonance-hd.m3u8"
                                     }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Natural, Forced Vibrations and Resonance",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/19/1738517/dir_1738517/index.html",
+                                       "status": "OK"
+                                    }
                                  ]
                               },
                               {
@@ -1402,6 +1520,26 @@
                                        "name": "Quality, Music and Noise",
                                        "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/4/7/177018256584306027_dir_V001/1/1775561532732/output/X-Sound-Quality-hd.m3u8"
                                     }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Noise and Music",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/10/1717559/dir_1717559/index.html",
+                                       "status": "OK"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Application of Ultrasound",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/14/166840144701850369_dir/1/1668401327877/REARRANGE_THE_SENTENCES/start.html",
+                                       "status": "OK"
+                                    },
+                                    {
+                                       "type": "Virtual Lab",
+                                       "title": "Effect of Amplitude on Time Period",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2022/11/27/27218441809431_dir/1/1669528040279/content-2721844/index.html",
+                                       "status": "OK"
+                                    }
                                  ]
                               }
                            ],
@@ -1411,9 +1549,658 @@
                                  "link": ""
                               }
                            ]
+                        },
+                        {
+                           "name": "Current Electricity",
+                           "topics": [
+                              {
+                                 "name": "Resistance and Ohm's Law",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Electric Potential",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/08/21/1760211/dir_1760211/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Specific Resistance",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/4/177018244282382225_dir_V001/1/1770182486482/output/Specific-Resistance-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Choice of Material of a Wire",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/4/177018204051299302_dir_V001/1/1770182084169/output/Choice-Of-Material-Of-A-Wire-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Factors Affecting Resistance",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/3/177011863824424660_dir_V001/1/1770118685676/output/Factors_Affecting_Resistance-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Potential and Potential Difference",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/6/176769757090372956_dir_V001/1/1767697563319/output/Potential_And_Potential_Difference-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Ohm's Law",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/5/176760819679201295_dir_V001/1/1767608188774/output/Ohms_Law-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Concept of Resistance",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/5/176760798876700323_dir_V001/1/1767607980779/output/Concept_Of_Resistance-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Concept of Charge and Current",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/2/176733644578652453_dir_V001/1/1767336435147/output/Concept_Of_Charge_And_Current-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Ohmic and Non-Ohmic Resistors",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/5/176760841321327565_dir_V001/1/1767608405202/output/Ohmic_And_Non-Ohmic_Resistors-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Experimental Verification of Ohm's Law",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/5/176760779441583210_dir_V001/1/1767607786476/output/Experimental_Verification_Of_Ohms_Law-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Electric Current and Potential",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/08/19/1758574/dir_1758574/index.html",
+                                       "status": "OK"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "EMF and Combination of Resistance",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Electromotive Force",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/08/08/1749373/dir_1749373/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Combination of resistance",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/6/176768184473771327_dir_V001/1/1767681836640/output/Combination_Of_Resistance-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Simple Network of Resistance",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/6/176768032611808968_dir_V001/1/1767680318120/output/Simple_Network_Of_Resistance-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Terminal Voltage of a Cell",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/3/177011917878742106_dir_V001/1/1770119226183/output/Terminal-Voltage-Of-A-Cell-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Internal Resistance of a Cell",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/3/177011910262278153_dir_V001/1/1770119149974/output/Internal-Resistance-Of-A-Cell-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "E.M.F. of a Cell",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/2/177001919631390448_dir_V001/1/1770019242658/output/E.M.F.-Of-A-Cell-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Electromotive Force",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/08/08/1749375/dir_1749375/index.html",
+                                       "status": "OK"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Electrical Energy and Power",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Electric Energy and Power",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/07/10/1717553/dir_1717553/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Consumption of Electrical Energy",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/2/177001202635623291_dir_V001/1/1770012041130/output/Consumption_Of_Electrical_Energy-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Power Rating of Electrical Appliances",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/2/177001899365638274_dir_V001/1/1770019040033/output/Power-Rating-Of-Electrical-Appliances-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Electrical Power and Commercial Units of Electrical Ene",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/15/176845299805021056_dir_V001/1/1768452997513/output/Electrical_Power_And_Commercial_Unit_Of_Electrical_Energy-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Measuring Electrical Energy",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/6/176768008869134581_dir_V001/1/1767680080637/output/Measuring_Electrical_Energy_And_Heat-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Electrical Energy",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/1/5/176759522581138865_dir_V001/1/1767595183153/output/Electrical_Energy-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Electric Energy and Power",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/10/1717555/dir_1717555/index.html",
+                                       "status": "OK"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Electricity",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/14/166840421592102395_dir/1/1668404096812/PG_CBSE_Sci_P_X_Electricity_Electric_Power/start.html",
+                                       "status": "OK"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Ohm's Law",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Ohm's Law",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/08/17/1755887/dir_1755887/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Ohm's Law",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/29/1698468/dir_1698468/index.html",
+                                       "status": "OK"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Equivalent Resistance",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/15/166849590542192464_dir/1/1668495785583/MAKE_THE_PATTERNS/start.html",
+                                       "status": "OK"
+                                    },
+                                    {
+                                       "type": "Virtual Lab",
+                                       "title": "Ohm's Law",
+                                       "link": "https://mscontent-gcp.extramarks.com/template/154/dir24_154/index.html?contentPath=https://mscontent-gcp.extramarks.com/content_data/school_virtual_lab/2021/02/08/2679021/dir_2679021/&isAllowFS=true",
+                                       "status": "BROKEN",
+                                       "note": "CDN assets (em_at_vls_data.js, images) return 404 NoSuchKey; confirmed black screen via live teacher UI, not just direct URL"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Combination of Resistors",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Combination of Resistors",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/02/20/2236133/dir_2236133/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Combination of Resistors",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2019/02/20/2236939/dir_2236939/index.html",
+                                       "status": "OK"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Combining Resistors",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/11/15/166849665415399062_dir/1/1668496534386/FIND_THE_HOT_SPOT_TYPE_TWO/start.html",
+                                       "status": "OK"
+                                    },
+                                    {
+                                       "type": "Virtual Lab",
+                                       "title": "Resistances in Parallel",
+                                       "link": "https://mscontent-gcp.extramarks.com/template/154/dir24_154/index.html?contentPath=https://mscontent-gcp.extramarks.com/content_data/school_virtual_lab/2021/02/06/2681559/dir_2681559/&isAllowFS=true",
+                                       "status": "OK"
+                                    },
+                                    {
+                                       "type": "Virtual Lab",
+                                       "title": "Resistances in Series",
+                                       "link": "https://mscontent-gcp.extramarks.com/template/154/dir24_154/index.html?contentPath=https://mscontent-gcp.extramarks.com/content_data/school_virtual_lab/2021/03/10/2722483/dir_2722483/&isAllowFS=true",
+                                       "status": "OK"
+                                    }
+                                 ]
+                              }
+                           ],
+                           "revisionNotes": []
+                        },
+                        {
+                           "name": "Household Circuits",
+                           "topics": [
+                              {
+                                 "name": "House Wiring System",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "House Wiring System",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/08/21/1760609/dir_1760609/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Ring System",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/3/30/177485378500100806_dir_V001/1/1774853794186/output/Ppt_Mp4_Icse_X_Physics_Household_Circuits_Hose_Wiring-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Power Distribution to a House",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/3/3/177252230143378124_dir_V001/1/1772522301675/output/Ppt-Mp4_Icse_X_Physics_Household_Circuit_Power_Distribution_To_A_House-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Transmission of power",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/26/177209794218415108_dir_V001/1/1772098016890/output/Ppt-Mp4_Icse_X_Physics_Household_Circuits_Transmission_Of_Power-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "House Wiring System",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/08/21/1760613/dir_1760613/index.html",
+                                       "status": "OK"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Components of House Wiring System",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Components of House Wiring System",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/08/21/1761351/dir_1761351/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Staircase wiring",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/4/3/177521350181713882_dir_V001/1/1775213470647/output/Ppt-Mp4_Icse_X_Physics_Household_Circuits_Staircase_Wiring-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Switch",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/4/3/177521410447808161_dir_V001/1/1775214073409/output/Ppt-Mp4_Icse_X_Physics_Household_Circuits_Switch-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Fuse",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/4/177018217249718007_dir_V001/1/1770182216141/output/Fuse-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Construction of fuse",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/3/23/177426188472954357_dir_V001/1/1774261897345/output/Construction_Of_Fuse-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Earthing and Three-Pin Plug",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2024/3/18/171076860333141509_dir_V001/1/1710768564056/output/ICD-10213-SLMVFX_ICSE_X_Household_circuits_Earthing_and_3_pin_plug-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Components of House Wiring System",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/08/21/1760621/dir_1760621/index.html",
+                                       "status": "OK"
+                                    }
+                                 ]
+                              }
+                           ],
+                           "revisionNotes": []
+                        },
+                        {
+                           "name": "Electromagnetism",
+                           "topics": [
+                              {
+                                 "name": "Magnetic Effect of Electric Current",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Magnetic effect of electric current",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2018/04/19/1959696/dir_1959696/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Solenoid",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/3/26/177450429778827084_dir_V001/1/1774504264076/output/Solenoid-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Magnetic Field due to Circular loop",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/26/177209161437374397_dir_V001/1/1772091654004/output/Ppt-Mp4-Cbse-Xi-Physics-Electro-Magnetism-Magnetic-Field-Due-To-Circular-Loop-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Direction of Magnetic Field",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/26/177209033510433083_dir_V001/1/1772090374724/output/Ppt-Mp4-Cbse-Xi-Physics-Electro-Magnetism-Right-Hand-Thumb-Rule-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Magnetic Field due to a Current Carrying Conductor",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/26/177209226562531403_dir_V001/1/1772092305150/output/Ppt-Mp4-Cbse-Xi-Physics-Electro-Magnetism-Magnetic-Field-Lines-Around-A-Straight-Conductor-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Oersted's Experiment",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/26/177209718048977286_dir_V001/1/1772097219923/output/Ppt-Mp4-Cbse-Xi-Physics-Electro-Magnetism-Oersteds-Experiment-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Magnetic Effects of Current",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/29/1698457/dir_1698457/index.html",
+                                       "status": "OK"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Magnetic Field and Field Lines",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/8/30/166183443064223493_dir/1/1661836371358/MAKE_THE_PATTERNS/start.html",
+                                       "status": "OK"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Electromagnet",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Electromagnet",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/06/29/1698449/dir_1698449/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Electromagnet",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/06/29/1698448/dir_1698448/index.html",
+                                       "status": "OK"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Force on Current carrying Conductor",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Force on Current carrying Conductor",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/11/27/1837022/dir_1837022/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Electric Motor",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/8/23/166125271861416642_dir/1/1661256811264/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Electric Bell",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/26/177209095645339545_dir_V001/1/1772090996063/output/Ppt-Mp4-Cbse-X-Physics-Electro-Magnetism-Electric-Bell-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Electromagnets",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/8/4/165961155722715338_dir/1/1659611499606/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Force on a Current Carrying Conductor in a Magnetic Field",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/23/20536771490371_dir/1/1663915586965/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Permanent Magnets and Electromagnets",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/3/30/177450350024321832_dir_V001/1/1774843204445/output/Permanent_Magnets_And_Electromagnets-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Force on Current carrying Conductor",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/10/1717552/dir_1717552/index.html",
+                                       "status": "OK"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Force on a Current Carrying Conductor in a Magnetic Field",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/8/29/166177164391317835_dir/1/1661771571332/TICK_AND_CROSS_TEXT_TYPE/start.html",
+                                       "status": "OK"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Electromagnetic Induction",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "EMI",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/11/09/1824725/dir_1824725/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Comparison of AC Generator and DC Motor",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/3/26/177450253167189781_dir_V001/1/1774502497985/output/Anim_Icse_X_Electromagnetism_Electromagnetic_Induction_Comparison_Between_Ac_Generator_And_Dc_Motor-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Electric Generator",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/23/20538241506821_dir/1/1663914023366/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Electromagnetic Induction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2022/9/22/20538871506811_dir/1/1663842422341/output/newfile-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Induced EMF in AC Generator",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/3/3/177251901337544959_dir_V001/1/1772519013295/output/ICSE_X_Phy_Electromagnetism_Electromagnetic_Induction_Induced_Emf_In_Ac_Generator-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Lenz's Law and Fleming's Right Hand Rule",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/3/3/177252162977858019_dir_V001/1/1772521629936/output/Icse_X_Phy_Electromagnetism_Lenzs_Law_And_Flemings_Right_Hand_Rule-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Faraday's Laws of Electromagnetic Induction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/26/177210494798554181_dir_V001/1/1772105022501/output/Cbse_X_Electromagnetism_Electromagnetic_Induction_Faradays_Law-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Frequency of A.C. in Household Supply",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/3/3/177252136379868059_dir_V001/1/1772521363977/output/Icse_X-Electromagnetism_Electromagnetic_Induction_Frequency_Of_AC_In_Household_Supplies-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Transformer",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/26/177210470741136222_dir_V001/1/1772104781883/output/Transformer_And_Its_Types-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "EMI",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/13/1719784/dir_1719784/index.html",
+                                       "status": "OK"
+                                    },
+                                    {
+                                       "type": "3D Interactive",
+                                       "title": "AC Generator",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2024/10/11/167488605452994024_dir_V003/1/1728647836635/AC_Generator/index.html",
+                                       "status": "OK"
+                                    },
+                                    {
+                                       "type": "3D Interactive",
+                                       "title": "DC Generator",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2024/10/11/167488689480189747_dir_V002/1/1728646666172/DC_Generator/index.html",
+                                       "status": "OK"
+                                    },
+                                    {
+                                       "type": "3D Interactive",
+                                       "title": "Electric Motor",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/HTML/2024/10/11/167488767270419216_dir_V002/1/1728646818771/Electric_Motor/index.html",
+                                       "status": "OK"
+                                    },
+                                    {
+                                       "type": "Practice Game",
+                                       "title": "Electromagnetic Induction",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Games/2022/8/30/166183440051106975_dir/1/1661835007546/FIND_THE_HOT_SPOT_TYPE_ONE/start.html",
+                                       "status": "OK"
+                                    }
+                                 ]
+                              }
+                           ],
+                           "revisionNotes": []
+                        },
+                        {
+                           "name": "Heat (Calorimetry)",
+                           "topics": [
+                              {
+                                 "name": "Heat Capacity and Specific Heat",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Heat Capacity and Specific Heat",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/11/17/1834672/dir_1834672/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Specific Heat Capacity of Water",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/24/177191086317816585_dir_V001/1/1771910896193/output/Ppt-Mp4_Icse_X_Physics_Calorimetry_Specific_Heat_Capacity_Of_Water-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Principle of Calorimetry",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/17/177132122053225029_dir_V001/1/1771321263793/output/Icse-Slmppt-X-Physics-Calorimetry-Specific-Heat-Capacity--Principle-Of-Calorimetry-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Specific Heat Capacity",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/3/3/177252353961916095_dir_V001/1/1772523539891/output/Ppt-Mp4_Icse_X_Physics_Calorimetry_Specific_Heat_Capacity-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Heat Capacity",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/3/2/177242978062083996_dir_V001/1/1772429779714/output/Icse_Slmppt_X_Physics_Calorimetry_Specific_Heat_Capacity__Specific_Heat_Capacity-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Heat and Temperature",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/25/177200277118280059_dir_V001/1/1772002804383/output/Ppt-Mp4_Icse_X_Physics_Calorimetry_Heat_And_Temperature-hd.m3u8"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Latent Heat and Change of State",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Latent Heat and Change of State",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/11/17/1834677/dir_1834677/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Consequences of High Specific Latent Heat of Fusion",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/3/23/177426449684812314_dir_V001/1/1774264508886/output/Ppt_Mp4_Cbse_X_Phy_Calorimetry_Conse_Of_High_Specific_Latent_Heat_Of_Ice-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Specific Latent Heat of Fusion of Ice",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/3/11/177323111081578141_dir_V001/1/1773231148972/output/Ppt-Mp4-Cbse-X-Physics-Calorimetry-Specific-Latent-Heat-Of-Fusion-Of-Ice-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Latent Heat and Specific Latent Heat",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/3/3/177252235566927814_dir_V001/1/1772522320899/output/Icse_X_Latent_Heat_And_Specific_Latent_Heat-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Melting and Freezing",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/27/177218253305486730_dir_V001/1/1772182572632/output/Ppt-Mp4-Cbse-X-Physics-Calorimetry-Melting-And-Fusion-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Vaporisation or Boiling",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/2/27/177218184201380950_dir_V001/1/1772181806243/output/Icse_X_Boiling_And_Vapourisation-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Latent Heat and Change of State",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/07/10/1717525/dir_1717525/index.html",
+                                       "status": "OK"
+                                    }
+                                 ]
+                              }
+                           ],
+                           "revisionNotes": []
+                        },
+                        {
+                           "name": "Radioactivity",
+                           "topics": [
+                              {
+                                 "name": "Atomic Structure and Radioactivity",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Atomic Structure",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2019/07/25/2347735/dir_2347735/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Radioactivity",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/3/30/177485350500909532_dir_V001/1/1774853514168/output/Ppt_Mp4_Icse_X_Physics_Radioactivity_Radioactivity-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Isotopes, Isobars and Isotones",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/3/30/177485358600162455_dir_V001/1/1774853595209/output/Ppt_Mp4_Icse_X_Physics_Radioactivity_Isotopes-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Atomic model",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/3/26/177450439531269147_dir_V001/1/1774504402910/output/Ppt_Mp4_Icse_X_Physics_Radioactivity_Atomic_Model-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Structure of Atom and Nucleus",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/3/26/177450166532825940_dir_V001/1/1774501631682/output/Structure_Of_Atom-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Uses of Radioactivity",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/4/3/177521494434855267_dir_V001/1/1775214952935/output/PptMp4_Icse_X_Physics_Radioactivity_Uses_Of_Radioactivity-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Properties of Alpha Particles",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/4/3/177521418875304905_dir_V001/1/1775214197770/output/Ppt_Mp4_Icse_X_Physics_Radioactivity_Properties_Of_Alpha_Particles-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Harmful Radiation and its Effects",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/4/3/177521380453392356_dir_V001/1/1775213813203/output/Ppt_Mp4_Icse_X_Physics_Radioactivity_Harmful_Radiations_And_Its_Effects-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Properties of Beta Particles",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/4/3/177521446292472986_dir_V001/1/1775214471517/output/Ppt_Mp4_Icse_X_Physics_Radioactivity_Properties_Of_Beta_Particles-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Safety and Radiation in Nuclear Energy",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/4/3/177521378910852512_dir_V001/1/1775213757983/output/Ppt-Mp4_Icse_X_Physics_Radioactivity_Safety_And_Radiation_In_Nuclear_Energy-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Properties of Gamma Radiation",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/4/3/177521468351782262_dir_V001/1/1775214692162/output/PptMp4_Icse_X_Physics_Radioactivity_Properties_Of_Gamma_Particles-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Atomic Structure",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2017/10/09/1789011/dir_1789011/index.html",
+                                       "status": "OK"
+                                    }
+                                 ]
+                              },
+                              {
+                                 "name": "Nuclear Fission and Fusion",
+                                 "interactiveClasses": [
+                                    {
+                                       "name": "Nuclear Fusion and Fission",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_slm/2017/10/09/1789037/dir_1789037/index.html"
+                                    }
+                                 ],
+                                 "videoLessons": [
+                                    {
+                                       "name": "Nuclear Energy",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/4/3/177521300298901835_dir_V001/1/1775212971893/output/Nuclear_Energy-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Nuclear Fission",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2026/4/3/177521433706437361_dir_V001/1/1775214305988/output/Ppt-Mp4_Icse_Radioactivity_Nuclear_Fission-hd.m3u8"
+                                    },
+                                    {
+                                       "name": "Nuclear Fusion",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/Animation/2023/12/20/170305663708282855_dir_V001/1/1703056798238/output/2DVFX_ICSE_X_Physics_Nuclear_Fusion-hd.m3u8"
+                                    }
+                                 ],
+                                 "activities": [
+                                    {
+                                       "type": "Case Study (HOTS)",
+                                       "title": "Nuclear Fusion and Fission",
+                                       "link": "https://mscontent-gcp.extramarks.com/content_data/school_hot/2019/08/30/2376390/dir_2376390/index.html",
+                                       "status": "OK"
+                                    }
+                                 ]
+                              }
+                           ],
+                           "revisionNotes": []
                         }
                      ],
-                     "__comment": "Existing content for Physics."
+                     "__comment": "Existing content for Physics. Extended 2026-11-11 with full 12-chapter ICSE X Physics syllabus (added Current Electricity, Household Circuits, Electromagnetism, Heat (Calorimetry), Radioactivity) and verified Games/Case-Study(HOTS)/3D-Interactive/Virtual-Lab activities for all chapters, crawled and screenshot-verified against the live Extramarks teacher platform."
                   }
                ],
                "__comment": "----------- ICSE Class X subjects -----------"
