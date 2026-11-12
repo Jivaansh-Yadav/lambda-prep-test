@@ -13,7 +13,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:scripts": "node --test scripts/crawl-curriculum.test.mjs"
   },
   "overrides": {
     "rolldown": "1.2.1"
