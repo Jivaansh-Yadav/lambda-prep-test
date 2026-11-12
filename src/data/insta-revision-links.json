@@ -1,0 +1,350 @@
+{
+  "generatedAt": "2026-11-12T10:50:41.568Z",
+  "expiresAt": "2026-11-19T10:50:41.569Z",
+  "sourcesGeneratedAt": "2026-11-12T10:44:50.190Z",
+  "classes": {
+    "ICSE - IX": {},
+    "ICSE - X": {
+      "Physics": {
+        "Refraction of Light at Plane Surfaces": [
+          {
+            "name": "Refraction of Light at a plane surface",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175687853339216542_dir_V001/1/1756878509909/RevisionNotes_Refraction_of_light_at_a_plane_surfaces_signoff.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105042Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=cf6cfda424e55c8620342de6885ede106332b852de0e49d4bf602a70c8f7b2bcd6b8ea0037bcca02b99b66a06e89ef76a41ca7521e0ec38f605fbe2277fe2a526e2d66b20188299f7ea52cbc8789a0622b68b8e2f4e219eec9084f4350f146eaa02ed6b57fe51f41441d0f9b03d1ab48048c680e761c464185da6d7e6e56c9c745fedc6eb6a79857c49475c30f910710c1f0032d749592e5fad6dc558baae1826fe2bac95156619d1c1b1eb0f381bbed3b1453a68df6aa8febdba1764a4817a091e8ce029a0edac5cfbedff723126ee1503f1dbc480067d48ff348fffb014212aeac661634368ccee4731ed0bc1375286bd529700bbd42f90b7680386817e85d"
+          }
+        ],
+        "Work, Energy and Power": [
+          {
+            "name": "Work, Power and Energy",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/7/9/175203948623535102_dir_V001/1/1752039472746/Revision_notes_Work_Energy_Power_version2.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105042Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=e613c1f4ddc11340d35321d6a2f03648e5e64046c2818a6070b35a5166b73d4a84bcff70da313917fa3d445406ab12ba313bbd5b05e7d07bb561a8d60e1564971e187caf569812b611cc6699739bf4df6ccfe41ff6d87bcfd3d1dee28195039cc01241deecf2b5fe24e4a6526ea171d861035f7d05e328b2cf85ab7d014fe010cabaa96b039fbcf3e1de6ef8cb72ff63978eed8d9bfa16de44d328f9de7c7f18c34284a3550485ebd3a50b9df803a39a2fb99174238b361eefbc35db203dd4490111cb7ab2ff80adee6461e4b45d5b671f60db15b2d832ae1db198fc1aff80332157161b076d780e6476f0079e83bea432f1a4aa470322e0b4669a034ee9f88d"
+          }
+        ],
+        "Spectrum": [
+          {
+            "name": "Spectrum",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175688013945964767_dir_V001/1/1756880115986/RevisionNotes_Spectrum_Signoff.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105042Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=79d3951bb12edfaa3cbc43333c9a7b91c82df1fdc81ba966e07ae968cb94a095fe3d1af195e29cb084bdbdeb33e445726e6cbb5938c3e20183f26204e0ab1282962a8e171d62fa3e9b595d9478bc26881955482ab856e6c892f8a81b0feb28d41ca55f3b99afa48c732680734b6c4068e21d5a6a9bd431af6b43f6e0c9ba8f0513ddcce39b1f6a5f1bc67af1faa07d72fa1f79c6795589096ac7309b9f3701bdb60935f6486c2bc5cb5aed1edf4fdb717b6b45a03deec14e7ede816031136917bb281c70611b12e178b6bc361fcf7f00930f46cce0f14ecc5a163e7efa56bf479e1a1ef321393cf435b6eee66154459a891bf2201495b47d8343449907266d6f"
+          }
+        ],
+        "Sound": [
+          {
+            "name": "Sound",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175687913200019797_dir_V001/1/1756879108385/Sound_signoff.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105043Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=21566752d849ae22766b75a06204b9fb4c929d8a91cc933ab9b0db5c63c48b4b1e517cf9753d3345d45ebc8e7954c30737ab8908f7cc09a95fc279deb410ee44c9f72434ec02bb81424d38bcbb2c9c5ac7c330aa580cbaf9d35809c7252c3bea114be2dd237803f06f434803f06c1b4b7c2299a22dbf68a55443f9be8cf5521086e4feadbd1449df8dd25953d45702b1d54e036ebbb802d6121deb3a65d4bfa182041abf10f25bf8cfc820fa75632c53bfdde80fbfd42732b85814b1766bcf751fd6565cd38621ea3f00f6b008701f8796fdfd7f8158942ec208b4de878c9e876bdc56c3c252069cae5c7b38c45aae46503bd814a22397c9295d316081d4920c"
+          }
+        ],
+        "Machines": [
+          {
+            "name": "Machines",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/7/10/175215250977898194_dir_V001/1/1752152496376/Revision_notes_Machines_version_1.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105044Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=e1b60ae6e69a8b0e707fd15f48a92d7ef6bc2063df5268a544641d7ec51983a6308b067aa31f4efa563c4fd45ee254cafa7cdc04bae8e43ce6654da268b28cd3b3566834198547711384f66fa88cf36d833717c8dde0281e76580993503e45003e969be8c7142582027f369aeee8032843059a84c616af0b5395fa916a81889b3f0c56d877c7163cf7d1f97eddfd366ddd1c76e365d5fe1e0cd07a1c93420ff880f2df4ab2d8903448d9365b18b1b7dbb936ad0cec421686b85485cfb17acb289a90c6cbe0d2a28080b57c36ffeb2dad63a8da2e12010f4fdc5f0c7e4c1a481798cb2e995b0da821957a0a65cb5260b1576f9e461fdaf85e5be366c60feb718b"
+          }
+        ],
+        "Refraction through a Lens": [
+          {
+            "name": "Refraction through Lens",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/8/1/175405221639797412_dir_V001/1/1754052198948/Refraction_Through_a_Lens_Signoff_Final.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105044Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=98e362c63c020e3a1c03b48d9cce327f31267c3435b352df6bc4365cc4d265d85dbb06a03b1d558b0e4d574d35707d8c56a886f3e973c4eecd5c1fea4272bdf00e73903eab0b137df74499fa124bf6b1b279538cacf4cbbe7f8ec45e66dfc297baf72da26addc95b7b1655fcdac64594cb634414c056478f571478f1490f8696db323d4caaf34ce253eda28ca46daf6e343d1ebacb786fc8c6968a8685f84eed9f419314c3ec84339648b99f3b39b61e20389ac9d8b29e9b119a24cc0b167b9f9f38d7f6eb3b928bf96df14b486ae47a8b4b14660ee43a7fb78108d1d35d855f7300ed3fe1ed5a6232025785a6e28ebcdc2f06c3659f6ed3bf5ab456431736db"
+          }
+        ],
+        "Current Electricity": [
+          {
+            "name": "Current Electricity",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175687787856836137_dir_V001/1/1756877855114/Current_Electricity_signoff.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105044Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=2a545cac9f2d8be164455ed7ca3764c99990f0b4b3497d122af2c2c54e33ad2610910f5afffbc417d823a6a0daf531bebbdea4123b98cb67e26c40b2c44adc34fff520e007dbcba08e6e79c1b626132d20f67e0b809cfbba083ab563d2ed52a440e52b93c0a6074ac38e36aabbbcd7a8f707074f073f65853f1893adbea44589eed15fe8947c77b4203ee1b786645ee69d1e2c46c5770d79a765ba602d7d540ad03e7825fba36c165d55f9df6911b2cab8494afb8ec5467266f75394ea5d2da5874988ad226f68787f0f04009eecf942469516eff4956749adf1c258d719982e2b6d4972732444a15edc335ca0f5f9e95a0a2d4ce6336f4cd512591291b0efda"
+          }
+        ],
+        "Electromagnetism": [
+          {
+            "name": "Electromagnetism",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/4/175688602658784135_dir_V001/1/1756980272661/Electromagnetism_SignOff.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105045Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=93608aefd3b340ac26fa4df1f68cd352c312e646d0d7718eeac0550e4f4d507e9c65db9077e8b33e75817775f1754a59bfe82b4da58c42d6109ae25d5763ee98741e77a1e155cd8ee78554fa2fe9e3dacac93ad298d614eca223c95e12b6c337f63b9e99664e108177ed662832da5c6fe992c96b9d2f41c276d4d73f8357dd2e6e648c9c3aa0d4ae08a42004871656bf61cdff3b0c5ea0740655fe6d788e162dfc95aa532b5d0000357abe1a838f8b5d5b9399635e0ae59fd3dfbb55bbaf4bc962f72f0bac0026953c07ea51d10d645d425fd99cb133a0256ea22a59e64aa18c00993dbbd43326f5006ec55285a7216dda1dd279ddbee17263dec8baac7a6803"
+          }
+        ],
+        "Heat (Calorimetry)": [
+          {
+            "name": "Calorimetry",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/8/1/175405211880469285_dir_V001/1/1754052101346/RevisionNotes_Calorimetry_Signoff_Final.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105046Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=05b7e0e40a7778f83c8dfbb32afb807b17d26c0bb394acbaa5d14cb717fcf9b6b102bfeba253f8d47c803271235ce7d1118525405f71807220476219f35056d7cbcbc853adbb7fe2a7de5cb496c631b0401bfc2ea2a6d41068505b6fe5b3fb72d50bdf14767442e465d814ec765591bb54368658d6f864a1afa4268148d29b5fedcb63004d09a88321533f2ff0a8c389513162e294f0388e36c14ab3e00022a503d8ba65af4446dc6c2bb5f00e637fcc585867cd5c27770c9c3c871beed356ffda8cb509c028f4855d87eac81758c6040841d94d0c9a2a04d2073fc3afcb067dc24e435e4c7731768c1128485701d8acec57cc7d4086d101a2a39accae6c6964"
+          }
+        ],
+        "Force": [
+          {
+            "name": "Force",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/6/12/174973131653153925_dir_V001/1/1749731316660/Revision_Notes_ICSE_X_Force.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105046Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=9c91fc968236dddf1e412b8f787c458bb4a101c370ad4fdd58b5e384ce621a945835fb344799703e52d00206e033579fa36eb80310349e6077a0027eff58ad46a1649b983d9b142ea8c23cade1308a98b3aa1c7047fa8affb1036dca2ea065f8237f1c63d93ef2b4a9d6ccb15e0e08a574da4aaece62a92122832f414adca84cb93021c1aa64722aa521b2d41a2b0d4a6dc3533e6643918d404902bf4dac4ccc5a6a5f3318c3f7d4e7814bd00f8543b50a864d932be7b1245babba0380da37ab49421c8825a3e3c71f24981b779858a8350c63394fd2bc370caa5c1a865de005392f4facf9673d13ab82105b6a377094f902f69a46ec792c5c0d806af9275766"
+          }
+        ],
+        "Radioactivity": [
+          {
+            "name": "Radioactivity",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175687882802113943_dir_V001/1/1756878804383/Radioactivity_Signoff.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105047Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=c4303b50f9f89cddcd971246d08e45c06acd959c68da4c93a78478c9600d7bc469a2d39bf22b48b239f49ec1e016eaf94ea3fc0ef91dac58e006d4b60e04dec6eee1e3a36af82ddf578312a1e61e0ae78474685d4f01c11683ebb257effe12777dc2a21645632088da7c4ccc2c6ce5240c383d116f7baf87504549090d3534b5699474e705dd0b9e428a8c5483b86d1be6403d3e4421cf6874053ebe72bfc5e9206d0f7998860c3001a4e142334082e69a24b116bde71eefbac516102c7f4704ff069801dd9d4daa3450f619c467ed4484581794be1cde8d8d9a4de989ab7be11c1b2e412ab8b4dd43e3ffc4b7a8657d6421424f80f0a5dccdd838435abfd11b"
+          }
+        ],
+        "Household Circuits": [
+          {
+            "name": "Household Circuits",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175688585430047502_dir_V001/1/1756885830843/Household_Circuits_signoff.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105049Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=e4f26026482295c70d335117a0ff37d353bef45725344b088a63202fc9b8dd16cc248c5a5cd68e7e8399a853a321e08de93626ad151569e6311b8cc1c12e2e96563b67484375235dba03b04e26ebf68d534156f8b0f189767f32c96cca523e1b27a5007d7620e18b4beda0384eb314f9945fc747bb8fb317762626539fd6d4f13a159c73567040e4f8daa757f7704d595cbd0421284f3c56e1b3811a6efcd098af0acdc73c09c77fbde13cb821dbdaf97b66f185fee5333bbce915290a6650e38006c66429afbfe86305e6a94dd6157ad17e157800f2dcf9d9ea73bc2e670e02836381b7f08fa95e1481da085f3475b5c90466c9af424a4f8c6516cec8fa0f7a"
+          }
+        ]
+      },
+      "Chemistry": {
+        "Chemical Bonding": [
+          {
+            "name": "Chemical Bonding",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/6/12/174973106807930047_dir_V001/1/1749731068291/Revision_Notes_ICSE_X_Chemical_Bonding.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105049Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=d9ce3be601c81a7459fde9cf697c06426a3026ee62d3325574fb4da527e4f0ded3bd7ab41604147757dc81084676d466a9fcedc8be374a3167739a6920730e2a7cb7b5d44d6a3b4004c4a640518012bff6c959a333dcd7560f4453d65bd513a7fe28df5662046102827c7a55a8fc940134afce098d96fbbabbc0acd5fafb9396a5fce99e02fbc89ddf15589cf6198074314a1f77209d8921ae18b403dab36f15a5580ac2076aef82ba41b8c47cd318479a31cffa4920c89669e902525e07618849969f493dbf1c0d4d9ff78913bfa72440fdaebe01445e739764f5a539fb6a86daf335de5f8e7a59a99885f925cd26cc67d3ef14187586e39b92beba3e817845"
+          }
+        ],
+        "Analytical Chemistry": [
+          {
+            "name": "Analytical Chemistry",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175688079019598540_dir_V001/1/1756880766683/Revision_Notes_Analytical_Chemistry_Singed_off.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105049Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=435990924ee45a6223612904548e626b554bbfe50f73347c80aacbb98279e5591dc19ba699f25ea5a8aaaf4c5b3236fd07b52d7a43be64b61fdb54f5819216627042f4aa4451b09241a0bc5aa93963c08bfeb65d5c62b128fd29f05ac5f720d36ae95f35d609605442779cf459641aebfb3c4cb6eafa961cc0b1e21c112985924cd8fc4f1b2c5cf88c09825da46ba49688b048de1a35815d7102115c0de1b3ec211562ecc94efb94e09510ec2da2bd38c4d0194751675e29585b099c750efff007955cc6861f5ef9d6c7ce8b392813f1cddef6744b658c1c9e069a7fe96f816b1398451cfe1ba140e94f98bc968e0a0ccd80038f25d86196e8eec9168449e1c1"
+          }
+        ],
+        "Periodic Table, Periodic Properties and Variations of Properties": [
+          {
+            "name": "Periodic Table: Periodic Properties and Variations",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/7/9/175203860559121769_dir_V001/1/1752038592028/Revision_notes_periodic_table_periodic_properties_and_variations_of_properties_off.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105049Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=31648bee36eb5b0bf37ea9f789d16387b5c43a041fc2d29a3757b976914c8408a97ddf44d863d765eb58250e7812cdc1539a656b7b35925fc2b3d33233ba21ce13ebecac5f64429de36afb2df78ddf3be2abc830df659623c78d267b1eec16fef32d1c34fd049d9d7244f05e02c50510ecca526b625f542335c3c031f5f5e00a088f72d4193600a4b2549016eb5c8d62c9d807e1b7bd805239f3a61216af4ed9ea48acf297b59722cc17e04e41286d62bbbe446605e6fb16f028772c87a7f0bddb54f26565141fee843efa388ee814975648e30500c146629cccea9b19d9418494fd33d868fc1b496d851d3ea591a39c5f5be7f876b4f321d69e554d2dcd4dca"
+          }
+        ],
+        "Acids, Bases and Salts": [
+          {
+            "name": "Acids, Bases and Salts",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/8/1/175405202095619384_dir_V001/1/1754052003519/Revision_notes_Acids_bases_and_salts_Signed_off.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105049Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=287b747ab810655f68237d11a20f035404352fdf3dc34cf3aa1d5e59c7ff10b57c0b405978f26f215c48a5208d3f1f15ef1b01ee223f494ca3b34c4471449fb4876d9f2eb0a5b3ccd4950de1186c8c3c6b19d83ce9dc783b5521222827595bd49c83beed83d26831c5953e805b30cdb3e9a4360401d47e6d1c4cf43f46af0b2545ff9f958966bc28347fb6e8c166fe561791af9d95787b907d9e8e81df85e1dc45eea683dbf31bec967e4f3fbfd1b43ea8b3e4ff0d32652bce86a9801ed38861e6a21e9fed15857b8d90e8abe03b77c243699282e9ceef6aea6abec401c2f2f4f82e461eabbb3389a5d552083e49622a4e7f9df92793025aaaedd3d55312b9ab"
+          }
+        ],
+        "Mole Concept and Stoichiometry": [
+          {
+            "name": "Mole Concept and Stoichiometry",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/7/9/175203873020840829_dir_V001/1/1752038716561/Revision_notes_Mole_concept_and_stoichiometry_Signed_off.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105050Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=615bc497002ff1ee6a15118f2fb13a8ea0ba4cb6b8cb64608db77e0b6a0d2b275a24974032971e2337b9f3fca8c17416d7282b84f40877c8c31c41625694999cfa8d701b12bd9a5bc58dbdbbb96d33f5c6abacf638220eb30cc0890ef36741f9cc5e3f939562fff7fc4c9ab1cf2ef7dccd6732b94ce1d833b4f9e51bc0dd6682711620cd83cc3f61d75d3277d40b42e1277d4f5d91bd940b5b986fe9c0b491626793ed56559942e5290f08a5794a2e18bc4d1fd951430160118996874fce8c79d7b21b159d8d8aef020f42db3b79405dc691359b6f61f59a702137027c43975fe1ccddf2d578b04793f79d7def91321cf2bd1d3e3522dd5b13cf679ab3b12bfa"
+          }
+        ],
+        "Metallurgy": [
+          {
+            "name": "Metallurgy",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175688127443713956_dir_V001/1/1756881250812/Revision_notes_Metallurgy_V2_Signed_off.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105054Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=deb7d119b4c2f0aefc2f8e72fbb61f5c1fdd8685df071899f468f43d8285d8cc3fa50906cc682821550d81d692776198c7b244b28a84625e434331167293fd5a6eda974eef99c95a3e4e97e52acabbc21ca96f93df69757ffd84f40512589c0a48e765605f34e99d441053348435e353637c4a47b2a7b9da6ea8f416fb4580464d3a27948d40a032ae0b15ed6ab013d6e3802c65ca277f03242e9ab410677ab3e3e377cf851beaaaf3570183a11b8cd0193532b33bbf32e7fe2f82ec8d825fabb367f417b570ccf3bcc857284b7f3ee8974ab5951e9fb679946b1bb123c40482f3c8f2adfef224743762ad114eaa8322b8d050e93d33e59a9e425b5cb3cbe65a"
+          }
+        ],
+        "Electrolysis": [
+          {
+            "name": "Electrolysis",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175688041786193586_dir_V001/1/1756880394301/Revision_notes_Electrolysis_V2_Signed_off.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105054Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=28c5ffd2b0a391e85ce21dc7d189f4e074f841b8f0c7eecb5ba4ac900564187db9db0b9a845a85a183695dc7b3bd89c80b00447a92315187058e537742640d67c137545d3fd3b54f3df94feb61c9f9b468b79d14fd2112e44cd85259525ee5f9de595f346c6c49fbfba44e15554b8c06bc5d6c82ea892bd02d9287f922b2b1ccac31070e92226c532ff2a4621f28f841d06a63d7c68669fe0ac253d1255c963e50b8c9253e553921601ca640aecfca46b7f5be6dad2404167bccc0995b30d8678f7c65a33c74970016d2c8b22633c4ae39027c7e2e1c157466c2496a20a8a022553c409a3a2268f806ddb7f3cea804fa864e2d34f213165c7e79578691ef637e"
+          }
+        ],
+        "Organic Chemistry": [
+          {
+            "name": "Organic Chemistry",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175688062662581311_dir_V001/1/1756880603077/Revision_notes_Organic_Chemistry_Signed_off.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105054Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=10f052cfe5fe2e8bedfd2eeddc9bf4defa059a8ca4c1da617204f20623cb7870aab497c3a267b4d00b1eea494ef097d0718ff64caa74efeb10b24132f871e2d474c71834ff49e53df1d9c9a34ee3a8614a0c8e032f302d2ffb3f803e348525807c735618915f678159aa0e6e4c6aea373850b87cfeed1da72b6c18f6e257dedb4dec16bb6e80f205738b8eeaf89bbc5faad9358d410025c869537d33554d0f9e4513ab50ae771637df98d01ce835d442a22293da94b1021ec39da96f98d7a8a5a2fd6b6d4f8dcdd525737bd96eafc48770763582be8471b668b9c6694eedef57be4c54255e04feb63ef01f43d5ad28dcb3d806d8272dd10fa310893777b9b863"
+          }
+        ],
+        "Study of Compounds": [
+          {
+            "name": "Study of Compounds",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175688101351693835_dir_V001/1/1756880989952/Revision_Notes_Study_of_Compounds_Singed_off.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105055Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=b358f431cb62382274937071e1049fc108bd3cee2755542623db018c4cbb9fe9b33c4942ace9a0a4ea5305b324905575d544d04296dee63e44e6d6d92ce4b169a1ba9a2b35438835ad2c8b1663852c81c3fef23559fe43acc7fa0a7a01391d5c57234e445996497067725152a660adb2607f8fdb47ca03bf4b69d92442093c3a800bb60f38c5efb9c78abfdca2dac5d7adb9217ff0713a153fc7e2d5e3b1f8ae420597de788643d345b95b71808a5217d9ddefe89175eb4aba1d7a08aa39cc77399fab00ab5bec857e84d3de2ac580d6f6568aa6efa59e668990a101ea345b268196498c1ba5a79d36ee0ad055ca77a1db5353403dadbb4e133d3ec432794400"
+          }
+        ]
+      },
+      "Mathematics": {
+        "GST (New)": [
+          {
+            "name": "GST (Goods and Services Tax)",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/7/10/175215202147842859_dir_V001/1/1752152008189/ICSE_Revision_Notes_GST.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105055Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=c8414b15b60b9d1cc3bbd4bbe764ebeb46e3974c5c4ed907a17e771161d665b07b9f2e07248ada12159942c7bfdf7437f20856ed1a971c41bd3406c043aa8479c04eb70d73b78a43ffa0e47fb7aa665c71cbca03719068405dd72a5db352d96948a5de5a5ee6296538cbf4d77e9ca30c9dafecd70ffd452727fd5b009783121ea75cfa9850608b329ae6ff5cc421c173886e4934a21ff7607601d6a5f8f759d16e7ca91522478b352f2ee9c4548f2d0b9b27cb0cc393ca19bce83882908d82ccea80c280a7d492dc1e291a89dd231c5ad7638918567adac5106c5fedb77ebe8207f58ed2ba769af18f2cce9dfb35c471a34bb10c5ce4b1151af66885caf3db04"
+          }
+        ],
+        "Banking (New)": [
+          {
+            "name": "Banking (Recurring Deposit Accounts)",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/8/1/175405160973793727_dir_V001/1/1754051592376/ICSE_Revision_Notes_Banking.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105055Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=94dfe40ba2936f92d86a28cf6c32c043f4e5476cc1e787cded17173b62eba2abdf3821b8c985f3e545d43573878f228c25842a2eb919cd7b96f290cbdceae067c83ed43c68586873957886f0160b882804162d5568911025b20287584d9c1d4ea466a0fd3c5faefb8cd3c2838bb863cf7e5df8d26c288b4fa23d389215349a204a89c2358bcb8e624e4aa8951b6b781a1f6fdb56afaae2701a04ef2c059f4758340b28fc1e4eabeece688fefe3f5d54d9e11a5e4f50898da9f0943a84273bcc7036f7601b249f91242ec1bde34bc3dbc19c523f18a391cb6f7a0b2a49894d374e07c5621e0eaeb3935fd0678808f3a255e0df0e431b369b5f65f543e6a77f040"
+          }
+        ],
+        "Linear Inequations (New)": [
+          {
+            "name": "Linear Equations In One Variable",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/6/16/174979882080011594_dir_V001/1/1750066039465/Revision_Notes_ICSE_X_Linear_Inequations_in_One_Variables.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105056Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=704a7e5919068fcb7fec22a8ac783dace3665d49a796919aaeba775dac2df10f98ccc0c740a23a8e6b6d9b4f31d1e5c51cd7f77f49bc8bd6f76757c3e144e26fc667bb84b840f01371c9070010f305eb19beef410a25dc3b470ef7b7769a3194d4ec7c2812d2af56361a87edd470970d9bd9d1f15c5557c36fb6eaf39bab527e265d498d6e7467cd470f4d4df3480edb71df001fbc09f584e0669cfef7421d12569fb14490e5583483f06d9bbe541e104fd5d0479a002b195f28e24675ad9d29ef400b96b7cb48b5f5fc2c0466de54e1132b27c2b9cced3ffd4e0323cd13b00ba9d526d74da8aa09ad9a567850cb013d31cd11e4fad68edc3fb299d0ca09a271"
+          }
+        ],
+        "Quadratic Equations (New)": [
+          {
+            "name": "Quadratic Equations",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/7/8/175198161875173661_dir_V001/1/1751981604859/ICSE_Revision_Notes_Quadratic_Equations_V2_Final.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105056Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=0b0a76ae3182871240603ec62121cb178827e0014e69ded02708671c837dfe3013944769cf3c7fb8b1d0126aae70200be00c0992118d528da10723f5666d10a7a3fec9866cb7e5c2f7ea7ac7d3fc451f3ba09d3c5248494622f6761d3d6c2d6f47f7fb79fc47a65b11af1eb4d0bd3490086f2dcdb780911d6726b33b211401ee79da4c7969ceecbf75141295c569b056fc3a12e4248d3cf3bd83ecbdfc4690b1296edfe76c0817fec1f07a485d5f47a5915a01a6432e9fd38ed6fa7cf1cade51674af8dc07f4629ba29930e304d1d6238709ffd7dc9e7bb0e3a0973f23b873d9c4c823d8ea25d03404ec4bed399672078d39c3f0fecd0a94860e1c494f661f61"
+          }
+        ],
+        "Matrices (New)": [
+          {
+            "name": "Matrices",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/10/3/175947177261188791_dir_V001/1/1759471571204/Matrices.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105057Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=1fae1ed19357270ffec806958d5093f81da1801496141088780eb82b97acda61bb21ba34c71832d0fb29ae7f649241377c796739019a05c44125d4aabc2e481ffde70db433cda3db0f87d3d9cafeb2f7ceb723759ef50095c1145f52d2753bf06b12946c11abc0a34c346e36a4537cab5f9ad82b33e70411c527737a267aa85b7a4bc074b137f0ff18f60d4aaee84a6534446b6ee657faa593bf2425c652c7e67e69f6fa5168964ab045c79f65e66e4a73c4b8e9b801d11952bb664c1881bd9082e4bd2c1247cb3f983a66e60d8f2812fe13feb112e1b2141531cebc36cdfec3e8ea6c1a5c630bce0b5537414df311b02fcc39c2414feaecad6fa3a8a83ce843"
+          }
+        ],
+        "Arithmetic and Geometric Progressions (New)": [
+          {
+            "name": "Arithmetic and Geometric Progressions",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/10/3/175947189851568041_dir_V001/1/1759471697142/Arithmatic_and_Geometric_Progressions.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105058Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=5a7d079950c9eddd5d8f46ad49f149b7df78a0cf4b328974487f06bcbdc5da1fc8a8d72d7fe6f363ad696a7a6d4cef53a8f51a25147e1d6f072779b679faa129524fe3174af09a8258bf76cbcae4d045162c13227d21199dcdc331dc0ec3f82a7b1687c647c5f9546a6098c95996c4c27db0d36b60a74200fbfa9ffb78714a50ebb95beaa258479169404b29ecee4e1cabfecaa62e3350b474868b6be571cebb2bc318e1aca7f836cdc0f8ede38151d18fc6b687836e5c9adc8c2c6706f593e3151c5a4245b023a2b378a020bf2fff065eeeee545fe4888a5b25557fe14798551b4e0be1058f24b6973f55f2251da7b9ea4338db180b9a6d548175005698463b"
+          }
+        ],
+        "Coordinate Geometry (New)": [
+          {
+            "name": "Coordinate Geometry",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175688431044096606_dir_V001/1/1756884286907/ICSE_Revision_Notes_Coordinate_Geometry_V2.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105059Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=85ab294e791c31e06ac2ef2f5682b2c3ba112b2b36d5763a482052f29665ee458fda6d6fca364d4d6fa7798bbe6b7b8b46aa7ca00abb81aee12cfe466cd79ee1526df9f11de252a9602e95484276d575dfd5e372acb0b091b119c268b588d837ba8cb39cfacf47dd146f47ad6710522add1fcffc6b86fed34543f2ed4a16304616c5a5ead57b5f9b822725f5e6833cb36f162417bc78b09518798169801ccc617c2cfdb5463dc457017b99e22eb48b961556eb922310c2fb043f70ad7090570065deda7a8d2f642bf36fe0449885e3ef2c487e04e01eb5a03ed547335afacacc6f2c7c912e6e03f1051cc7590e43708ce3c5b235052278d73631fd10393bd876"
+          }
+        ],
+        "Polynomials (New)": [
+          {
+            "name": "Polynomials",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175688536189894550_dir_V001/1/1756885338341/ICSE_Revision_Notes_Polynomials_Final.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105100Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=2c67335b2d636caa9ec9f9bb7ac49e91b19adc5ca29f4fa4a712f57def6a743153f81980565df0aae54c30b811c7a111288b66dec51fbb87e58a69fd27db3e5ae46cca971d29ef506a72d91dda4790f42e3d6d9a18ab86bee524ab175f382a81f2c87a191dc15c1d2df0681850d0276ef1f25e0ad24b7e8f0bbf5da09a13a19430af7bf9ae774b02ffc72cfd85926bafe3e6f7ad546401577ce4ae16b4d029e912069e88598fea8ccb4198c9dd8c7f4cf99b5b0e7a2b7f311b3678128d2e04d91a0e4a94f2688e601c027650a63b5b0c91515f7fb5b7e756f132f61e33c831cd1b46193ace19cdf971e4ef5928a24b9a9ad0ac37b2242607ecb4967d0e720036"
+          }
+        ],
+        "Similarity (New)": [
+          {
+            "name": "Similarity",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/4/175688863513402922_dir_V001/1/1756977627755/ICSE_Revision_Notes_Similarity_Final.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105100Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=a57361ef8eb34489c44f6fdc95193f1e2ed7c8e3294736b35f6d6d445698e62254a565252c27e99e7b80274f42d51e4c21bba924e1d3ff0565a0177f0251ea0a4936e46d49b5e762908ba13b4021db7373d53cf64d5f0c99926312239563e80a7d9fca807fa81e864ad66da6e91ece2c78f32509ebf502550c2165ece6a5dc46d46d715c7317cf002011cdb6e46ef0c794c9cec9b8661d5ddf8b3265ba3a05d7e69d12df2c3ab6e099225d6e336ffaa5f52f1143b1f3399988c2caec51fb20dfe55c8a622ee331d7201129e0fa9dd0da0eb7e2c5a35dba6c06cbadf16ba8705b5f796b4ca22827735beadc4dc6d81a163e9340995df015b4b4daddfcef6373a5"
+          }
+        ],
+        "Straight Lines (New)": [
+          {
+            "name": "Straight Lines",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/8/4/175428853291179300_dir_V001/1/1754288514986/ICSE_Revision_Notes_Straight_Lines_V3_Final.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105100Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=4ac999d0ee4a95fc5d9ea9cdf271eec18f6dab5924648d37af81e25eaf52316e0f2ce0be55a7e74ad2de52e4e7172a9e6fd4272cbea44704f1425f5e848788b2afe4eb01a5cd937b5a24b0cb0b6aef37c83fb1203811ddce3443c3dea82b58091773a5fd389f2abe18ad23db896a037fc20960c4b71db8b2df0709bdc30484f61127b869ea312e24a8bc780992ed9afd7314270a7001423185ebb83f5a62439fea00e7952a2f095a36ecbe606f21b5c65a5f2db767eed7562c7c2a7ec119e71d59ee6c349633f3acbf7b7994657d015a7ec73c918a75ff4e63c9650eb0aecf9ef477d29ba92d25e99bcfaf878a9cd51d87e40187fc6da5956bd3cdb257533460"
+          }
+        ],
+        "Loci (New)": [
+          {
+            "name": "Loci",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175688402795905922_dir_V001/1/1756884004363/Revision_Notes_Loci.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105100Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=44e926fc1ed8c21a73bd8b552f5f45e455ddb79fe00d522841aa9c352eb08c9cd915c19e4e19f217d367cccbcd20a6b9c2288482e60774e3963c3c4227b776eccf1115590f1ba31b107f8865a219d79d4311b31883d71204ec50bfaf1d5b149bf5b05f337408a14c43f570d6dcc9c013aca9685e2ffa468d0fd9e33270b845fd464a2797ef7cc69682a1a56454c160c56c986d2a0978e41f081f45913a9493cb7fd01be4fcd644a66936a5fff4782d8dfac2d6c8713dcbc1356b2990fd687764f5c56af71276f11b315a5f934dd6782c6d9a9279dadabeb2f5b3b71a02f6f524288e8c69c05d46e2e3da9c8770940ef67c2868a9539a3511bb1d0629e90b5b99"
+          }
+        ],
+        "Circles (New)": [
+          {
+            "name": "Circles",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/4/175688887924167147_dir_V001/1/1756977414971/ICSE_Revision_Notes_Circles_Final.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105101Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=06ab4ffa47a9ae724825ded544e35676076ade35fde5ecafd316aac9388263c1a15acd041dd43cd537c9296eedc1e7a164a78f85ff97dd16aeb94d441d72c34d5a18be4befe89ebb7ce099677f28cdc4851a8f5b973515b56b25e6100e1bc44e622a2c3ef59fbb4c4e720e95c80a9389896e1b67cae298ac28cf733dfbe8367d077dcfc2b9b1d0033d91ed191f3bd63cab388f5b7b8868214c497a8065198e2bfb32c560f73d2e08ce84c372b701ff95b6c7d21a87b2847aabb0b6d4050a932b56b4b8682cb7bb8a6d1f01bad53eeaf1faff331ff5068d87eea31f691905db2d20cd1502444f7f46357294bd2f9b413f7e2b20a2c357b200e5c732ea97a8bc4d"
+          }
+        ],
+        "Constructions (New)": [
+          {
+            "name": "Constructions",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175688464131717787_dir_V001/1/1756884617761/ICSE_Revision_Notes_Constructions_Final.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105101Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=bfeba7c97bf36acf1fc1abb1d26d948bba49d4dcee8dca20ba14e2447d1841bccf2d5d460fab93908df1ea11be83b10ab84055926516841bafe00ea841687d9728ab079cd34bc484e83783ee8474652694f6eb58130688efb104137ecf25dee70d2790ec0e68b3ba881cf794bae77636ffedc8aba01469cdda1a8eab2bd324eab60c7db48a0b609f5e6ceb99088066cf55d70a9278575ea610ae2a6764fe31cbb6b7790f18cdabb567ff226c6f5f09392c4ec842aa71b2860b68054889c5388609df9bb5171d3b9981720bd0dc485691e3fa442ece296d9c989e7d594570bd2d382bd06ac69ee808976c760eb39849c4b1c58355de89137ebfab9b08c4f84696"
+          }
+        ],
+        "Tangents and Intersecting Chords (New)": [
+          {
+            "name": "Tangents and Intersecting Chords",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/10/3/175947135534517528_dir_V001/1/1759471154252/Tangents_and_Intersecting_Chords.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105102Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=39ec700ab448b91253c4330db793190ad7f989607c4c62f408829eb6726138361643fb13d1c5791af7a84440bed6569bfe2f17c6a0e232ef1cd3e76d2e687dbfcf4522c8e04bef64b0d9a37f871d43c59bdddd2136f4fd051b20916aaabb983d2c9123988e58610981fd534787f14da13fef92950cd60d19eb682a5eeb1dcd6f8ac4027ec4240b7cd88babf4d89054f01c2b44554b3d9a6ffefd9a9372ed338878e44089c76b53df9224797262f7b9fb74d2eb3fa0390cd7fa15e991a8f39f7690a49738ecbc796a5a67e5cbe7ebccb1c4272b7e048bcc125562907eb4d229276a317e476bca640ed73677cd5ba69a68bea6ccb49fafe627e708ad6a82d93219"
+          }
+        ],
+        "Mensuration (New)": [
+          {
+            "name": "Mensuration",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175688481139012328_dir_V001/1/1756884787840/ICSE_Revision_Notes_Mensuration_Final.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105102Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=2ccd4f583fb11718cc7a87b72f5c3e8dd0f4558236c627ea369bc699c7d318919a3518dfd8602423d33549b9a29156d87ed276ccdfe38d81c0ba181fa15ad22b607ff277b227e132849af2842c17520a4d6cd3ba72cf365f6e3eed8e93cd83e831827f926dfc24c798c8c2cdba7fce948596962352fb2f6e5ca01399970913213c966f758dd00fd3b389ec5bfbadade0012020dc3a5de00fcd4e24d41eee25956626b365e23e8cfbf76d38cd8bd2e3a3b07e599f70d7d38eabf56a86715eb92c38fa0ad857c90c73950521ddb14876f455b98d4846b896a06d5549ab4086570a9d34a99fb10fa2774a5e1d66ab46eac04c7c060f603b48e437d6a47f019bb035"
+          }
+        ],
+        "Graphical Representation (New)": [
+          {
+            "name": "Graphical Representation",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/10/3/175947152119861334_dir_V001/1/1759471319871/Graphical_Representation.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105102Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=8f5b8e03718be1efdf0ce3040810f23007b5d004219c1256d39f653b20ee2d7a79e5b62eff0fec57d9226e2d8267c5c81724bc2c9a1e7d8b14cddaf57fd9ddd0fb26290e6af69fa1aa3bacaac8a683017509b439f772def92e42a57f6e9a9dd7e907cf66003e97dfc68354fea078ea4e12fe6668e5bbc987d15ddd4dadded2b675df9b072a26040f7d89dba9d43f8759f76b33846cde5c0aab5fdcf1fc94decc1c7bdcc96923fff1f7edbbed7d47b74194d2e50d9938b244fde823949387ea7eaddb07f0a7484bbfc8e5c8d1c27fc9735f534500ddf2faa36b8b867bf010c3e6147780ac7f12c8620aa11572a6ede4bafe2e7724a01af5b82ad984f8cfbaf0cd"
+          }
+        ],
+        "Trigonometry (New)": [
+          {
+            "name": "Trigonometry",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175688500193817173_dir_V001/1/1756884978429/ICSE_Revision_Notes_Trigonometry_Final.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105103Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=f22d6d73edc64d2c1f243184ed011e5059d14169772fdc7d535d4a7002ca567648ed21a5316c76ed7f65a0b52c23c26dc86645e3de7b8c248415cdcaf93e6abc325d5cafbd96a1d582b6f4de546c004755461a7e43a81df8f73d132e11c725ea57e6e97eac719fa9344cf0cde2eb9702b5ab6b236b3f72705153b859f1d7479310e2bc81f05657e748891a01911ae7c79f06d53be78ff2652b5b01b061884338750d4b0f13f6a9c30ea46340ffac6154d58ec93e8b0e48bfafcc9615ee3f91b35b5743e6978d0f7b7df9944232611a002fd33c2eab46553d16efdd2f7b9896600da868febb7a39b44c17e00b5a0a0892df9447432bb73f78481f253e5f068432"
+          }
+        ],
+        "Measures of Central Tendency (New)": [
+          {
+            "name": "Measures of Central Tendency",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/10/3/175947165379284440_dir_V001/1/1759471452446/Measures_of_Central_Tendency.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105103Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=09a1d4e119ef4d58f7df61de89d94795f28d8d6a6184f6c341bb644be0a8b883c2c7d63ba4c95d0e3431d01d608e1b462dae06a43a89fc0756e23ae895008f88c205ce1410734f43b2e3728f7cad45f4f0841fcc35f2dc4768b302cc269cd41079d8207193f1538a4515ae49885bac0b1c424f3982be60753ec7ca8b37b6e9f4d98ec0c7a2aa652401778a2fd588f64ec473054de65ba16628ca31e219130c620330b2ced1f5f7071637cc3678cfe2d3fcdcebc5336c3fddd4286181beef582582c11744482306601e52b1a7638c85493fb7ce3666996cc60fecefe23044b60dcec9507d17519cfe362920e798cc9e58ad15d00882c43d3f2332ea3f3a4e27bf"
+          }
+        ],
+        "Probability (New)": [
+          {
+            "name": "Probability",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175688515998573623_dir_V001/1/1756885136437/ICSE_Revision_Notes_Probability_Final.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105104Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=9f2a3d8ea8497ced9e166d76c930c1128d1b637da474e692dd421340edaacff7474b8cea9401115322cde99a0985e23ff7a36da0275c3c67aef03e400dbcc95a226555d95779ee750504d2a296ce709ad49e2463bcbb7dc688e9f20a799a2d3560c6af7d0d0941cd77a30c1c0548a12cf99de0ee2f1476cc603a3f39dd43bf3d59f6201dc90146731046d515cfa07e97f085197166c53dd107795c926b6ba303226289aa5738406c70b09474fb3fe90e58ff0711ad0677d23bd1c9562adeeda13f4f3cb49e05b5ba98318158745cbb18214b5b9785b4af92086f9bef2c79edbed3b6f5b89efcaf98aea444baa30bcb2d51486c95c4834a2ae149d67500b015ef"
+          }
+        ],
+        "Ratio and Proportion (New)": [
+          {
+            "name": "Ratio and Proportion",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/7/8/175198178956340715_dir_V001/1/1751981775882/ICSE_Revision_Notes_Ratio_Proportions_V2_Final.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105105Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=24a79270b5efea9a5ea8305d8963cb3728e505d0bb502a7d176ed30a85f05883b49a475fc353a2bb365a0368cc0e2e995be0b6394f82689626841b86c7a81e51547fab37abcb291900f4878fa0511da1753436ffdcee98fea1ed20e674d03389ef8e2d8ea14ccb776b3b1c493aa431414446c8622d453ac44b13d8a24e477b5e359fe573700a2a3bbacfd00a01a3187f5307645950f0af13ea6e62b717287d56fab2552ce9feaaaac71f59eacc042b538854e7bafd22848273663740de0910e322cc721f9337bc256df1b58d238617a7a0701d26b213d5623f2d97c007fd398ce4d67bbf88b0ffeff5d8dfae99ee63cbe8322b4aa10fb1827a5a32ea3a35420d"
+          }
+        ]
+      },
+      "Biology": {
+        "Absorption By Roots - The Processes Involved": [
+          {
+            "name": "Absorption by Roots - The Processes Involved",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/7/9/175203844541257861_dir_V001/1/1752038431753/Revision_notes_X_Absorption_by_Roots_The_Process_Involved_Sign_Off.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105105Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=4f9da7585e9e11ae3baa774b0cb1db4aa38e361e19c54445a04343d9ab16174c209eb75e4c401e0d5e402366164b0c3c9a475bd2d7fdb07de6389618dd5cf37ee752265191d06c2780252559eb6a44ed9b76a0e77ed9aa859a5216b60b352254869e1825826251b6d28d8de529cbd4d4319809591c59f3e7f719d2234fb8bc5813fde4cbbbed0ba542b795eb5da155ca2e8355eef23b203b31ca8f6de48dbd7330aefc46a23b79a8cc556c28604903f7dfa63132f19043614fefc8ab7bd55567d718ac815568f80c7f252981bfb86e5d6ad7dfb5b6d52283fe41e904f531c75890e5cee3440b3dc5e54f2ce8e9cb8b2b350a3d29eac6b10c9157c5c2520e5ed3"
+          }
+        ],
+        "Structure Of Chromosomes, Cell Cycle and Cell Division": [
+          {
+            "name": "Structure of Chromosome, Cell Cycle and Cell Division",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/6/13/174979908100235224_dir_V001/1/1749799080600/Revision_Notes_ICSE_X_Structure_of_Chromosome_Cell_cycle_and_cell_division.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105105Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=6d47330997caa4dafe789d95e772abb44a84a711395c5d3079926993ac522880dea4f681cf9a00bc4700c136865d4133af324caecf4f08d37bce94ac3b901f9df4284d7ac8b03d804100528b5425272334d77fd355913cf37bf1eb8dec0af7e032cfdf75e4584a9af3b570d602dd45e507dd3604b4db80a8dc9fe4bfdf0eb30378f72a46efed4b77f15997d9abfbef0f83902ba3e8f8dc37f5fbfb49ab017dec81b0af7953818587a464cb7778995eb20f3c9c22ff16b8aa3dc67016bdf0fdc2c0e3a3576523091597000f6cf1d812eca073b9429e2d3f649b56bfe4097419a51b877c3f8f84d058ed6d4106e2292cde9afbeaecdb50f1b93ee4832d64e3e4bf"
+          }
+        ],
+        "Genetics - Some Basic Fundamentals": [
+          {
+            "name": "Genetics - Some Basic Fundamentals",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/7/9/175203820858616611_dir_V001/1/1752038195511/Revision_Notes_ICSE_X_Genetics_Some_basic_fundamentals_V2_FB2.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105106Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=0a5b979bd804414736371e865081440bc91bb93650719a51ca20e0c2c93f8096fe1495e29c5c6fde1c7ebd89e51be5a13ac4566c2aeb31824230c70afeab915cc8925afc4fbc5c34c41e02d5cdfaf05418e4c14b77e30a69f136884c9d9ce04c321ec5f60f79a2af9a85f134bc2214c842bb53b84bde8d81644a627a8006914e3afc0e3efb57b575d19a7cb746d5278395e8f4b35da3e1c020b047b03fc513879098464824e0c306df3693dc4c85d63456c05fdce304f61b166b15047cd6a9bf9b92d98354146f9f24a4146b14f002325d702a5aa0e4cc7e9877d05e2b1feb2fa6175cd550c9e59063672baf4e52e6961c07981adbae10b3613c07181e8204e6"
+          }
+        ],
+        "Transpiration": [
+          {
+            "name": "Transpiration",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/8/1/175405185216662129_dir_V001/1/1754051834725/Revision_Notes_X_Bio_Transpiration_V2_FB2.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105106Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=8606724ae0fd8d5359ac33b7a350ab05672d92aa1e7d3ccf8b1e73ad0eaa845394a9f9e76c4fb9915a7d0378b113c107c3f2bb0199cadff30c60462458f83ed3c967f29305482f4179edc4faa65ea14b8af7d7dd4c38f464ea381bc430a382168735969fca81ae2bafcca964d4fe9d7a22da6944a6b142495717b0be140ecc967f0ee33954e6c5259bc216b4e662a478c1e5f46ffbe8155505637d247f31e47dbf3b871063b2673678eb5f9f75030c7bc283ee66dd3d892fa2cecbc43a67f68173d8ec18413b7898d63e34422496c25c0296e7ff0180518ee9a090bf08b1ea289df8ec00590b146f5c21b938c8e81863ab33d729100962287cbe369336878142"
+          }
+        ],
+        "Photosynthesis - Provider of Food for All": [
+          {
+            "name": "Photosynthesis",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175688316922814650_dir_V001/1/1756883145563/Photosynthesis_V2_Sign_off_Sonika.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105107Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=9e51a7f6a62f580090f59ca56f59c35e2a8947a40ff3636574016c031fb76c102db6fe1ab410fd198bf8824778b051ff82e61b523eecaed5236ef8e79fe5488802c6e5e3b593734999a3d1da7f9da592202693d9303f255e06514ebcf9ac438623ddb30f301f079d7bfb6401b6f6d03854492eefb60e1584fb0808ded99c7fa2d7586303c7e9098adc862233f73ce3b055c0a97d4b0347eedb58c126008a830496eecc548ae18a32d3fc9265bced75127ce799402dbae29bf90531f3524a48323512d8050bc677e1529078fb38b0ae2811a01faf3f3bc64fef75559da1247be7ea086b7c474d211073186f46cce5b51c9fc3505031b4bdb283ff2b37dd4b1231"
+          }
+        ],
+        "The Excretory System - Elimination of Body Wastes": [
+          {
+            "name": "The Excretory System",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/10/29/175688384350097697_dir_V003/1/1761722276410/765.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105108Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=0d9a0f5339ae8f5712fa5c6cfdc19cc3b80047386c7d745bb437c5323809ec0ee3b8827aa01ffb2f379f85e2d67672be234ce076a189d7b12ff903abf0cae76186a73174ae98870f720e0fd83b86d7f6bb80b2912be3440b9cac6205b56f4233c8e7374f4328b1a89a1bd7ddbb0def6d3ef993035374b7e99286361525fd8b812dbe0f1f16b781cc582bc111047f3c28b397e9f8c168320392069fa6251f3d7ecb2629df03d94d43b6a970dbb5ae151471fc2b1b682356162ed1cabc6baeadd4e4a664b48b42ff8ae893e3cea9defc1e1cfdb04db408b1e26ba72c9b5bb3cb786761b482ec60f3e3527818ac2cfeed25a4cdf4223644af28f04f9326cbb1216e"
+          }
+        ],
+        "The Nervous System": [
+          {
+            "name": "The Nervous System",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175688367868551136_dir_V001/1/1756883655035/ICSE_X_Revision_note_The_nervous_system_Sign_off.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105108Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=e2916e7a6371c7e34f58575b107f09c632cd17915b6adff7e319cc4ef8a9458b61fec84c660a034e490749068656bcc5cfb99728d3e45649e7170d5245ad22e1d7a28554561977f08d87ba6290cccb3d1230c6c3eb5e78ea17ffea6522e7b15f2c5a0ad20303ca474efb34c634bbbe0e77121b6d1908556f10623accbac5d4ed694ab16838ca25721f1e0d77a6aa21f6f085f9bcc3e15657ce0871f39aeb44efaa5aed92b94f8e09bb6bed42e07d52ed6febe761ca242e75c785579809a308bbeaec0f3867ad5095a822583325e304b8517dc059ef99e6d2bb37c0b711dec0cc223ee578b49c6759690e74a2490b96e7b136f32d627c49113e072c3fc1af4dad"
+          }
+        ],
+        "Chemical Coordination in Plants": [
+          {
+            "name": "Chemical Coordination in Plants",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175688301294260705_dir_V001/1/1756882989293/Chemical_coordination_in_plants_V2_Sign_off_Sonika.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105110Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=6143bbf5bd8d7be3eb5ae5033f9cc2b029eab90666a24029ce97d884f3d277f7806f99a16b4ca3aba69645ede89c90d69f4bfac13bccf7cb097feeec8b611452b9fea6b79e2bb0c9080d0549beaa61e457c6fabd3d4b8e08b9eddc91d55d3293d014037464e223ad93519eb14f9d0bbc041376f811824ae0b1e48aa5809aab818a3c9b4050b7c4f394ea7ce663ec98013abb5fe71eee0ef49731b3cfd2d56768583d0ed22ab0f1a7bf9ab317435bee5217eed3331d1d95cba1b45fddd845ecd561ec06cc8863a6bc9b36948124ffbc50981612ffec228a649d9ff16326e13f8c4b731de1f593ecdfdfdae837b2544cc484c77ffdeb3477e0bb612e89b8d02bde"
+          }
+        ],
+        "The Reproductive System": [
+          {
+            "name": "The Reproductive System",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175688260595240060_dir_V001/1/1756882582332/Revision_Notes_ICSE_X_Reproductive_System.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105110Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=d8839a201c193053519333d9e2837c04ce3c691c7b9c18926cd652e23d0cc238847d35cc28f0ae92de1b4cc74fb85098ac3b6278eb790602714a7baa3236ecffad7dc860250e29cba6f2c86d87525029edafc22915b1c871ab53d85d81430d08dc5ddf72bdc99a50f648c237b9319c2c15b1f22f6b71198cd68808a0846dc52e34ee746c537501903718e935b628c8ac268d354b0084d29519b049ad66be11d94daedd40ee43f9228369963411648f321727aa196a0177dc222caf5eac3d063cdc92eee845c18f0e8d1fd24b243cca96bfe50802971aa560f8a904afcc96ad2256fce4b9d42c2e79c511e447963af3a5c78971e38a40fed2a762f54e73951337"
+          }
+        ],
+        "Population - The Increasing Numbers And Rising Problems": [
+          {
+            "name": "Population - The Increasing Numbers and Rising Problems",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175688558690625393_dir_V001/1/1756885563417/Reviewed_ICSE_Revision_note_X_Population_Signoff.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105110Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=c012565abe11bd3c1c8d29d51cd1fa324c6f7d441f36e7e451201d2cca3d19404f63f2044135b72a593887dad0e4f04ad11acb20a4527e5958df127158c200d57881a6bd4bf3c9f13f535ef7ba91e75128a7c69c242be9a1b75503d89a7a261212c24ae954ffccd4b9694ed468832666dd050ecf0c931f6e23ba7b5303817e2755cb782466f55bf41c694c799170c0c4b99dd7ffa29ab08b9caf37f836d814a80bb8c1c72c51a7e4bb898962645acd01af12d5e8d09913a0586b252b35af689c4e85752b28d96ddf447cd4ae9b789a2a97e9535b6e40d2482ac3aaf73ae762f12411a002b11f3bc45e9632e89f50d744f2f6fe82d0efbf04b980ada5d35a4346"
+          }
+        ],
+        "Human Evolution": [
+          {
+            "name": "Human Evolution",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175688235160032764_dir_V001/1/1756882327986/ICSE_Revision_note_X_Human_Evolution.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105111Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=8874cbec921462f1b90ef4783ca4b1f236dc30261a52b1c5e91cb4602ffc3a5865d7ab1d974579b9bd272afe656933615239b6b7d93a169a69257ac14b571032674bc9285b49bc64c9ea60244c382cf3df753746ae05e828204aac1ecad60337675e37e8180f312fa32174806c6f13009220e4e045d629eb61b448842507844bc46540a652afdb1d7a49eaa3639f0a6e79fad6236f58cdde217e888fb96f7362dcc469f309e223bce4d2cd460ab93ef3dfacc712f13c8bbfaa87352d44cf7f0d691550bb232804d59277a5db4c329a5fab2ec94d494d5f598da2257bb70808c0eb56dcc90a02d97d92526ec159950ae3153086889115ebb768ae24060bf4381b"
+          }
+        ],
+        "Sense Organs": [
+          {
+            "name": "Sense Organs",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175688353055078160_dir_V001/1/1756883506998/ICSE_Revision_Note_X_Sense_Organs_Signoff.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105112Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=1611a50e5578e896e9b43d44b726ca8e41abc87e4398f1e99089be0e88727ca77b00eb26a31e7e2c5370e04e7025c7c4adb6d01e4f393135588ec69483d6c816b9ef3a7b1f2d50a03ca1339ee168fdd5f74bc61427e812c920af963a2002f63ce6fcd597c55acf8a8e187a4c9fc1b4bf2d78250e910436bec624366190aa12467759c7e31e4a1cbb1c58c86f98faf721c75600920a2fd9a60e205614b6ecfff1681e5f481c41b0054c4e582401bbbaea660f9e826731ed189780de95f1e31fd4d3c1fe17d9a4f295dca26bdd997ec29c7b57cde9ce454ae576f847a88ba49c2825941d0855628062901305e42b5c034645ec21e96731860f03007575195f35ad"
+          }
+        ],
+        "Endocrine Glands - \" The Producers of Chemical Messengers\"": [
+          {
+            "name": "Endocrine Glands - The Producers of Chemical messengers",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/10/29/175688334114425844_dir_V002/1/1761722346951/987654321.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105113Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=16461b53413ef47502cfe3795203532e544dbad2ebbf216bba3ecce58088fb2537404bb0d641916f70258217d5529d152bcd8594a94f4bc749a7109932dcd6f52b29346b9584a1ba073b8ce88a9206eceea6163c08f462a4c73dd521ad6eaf043f4fd9e8a64b41aa6970bfffb72bb7027687810967cac98e5d1d8ab4a9fcd35980f2b53ed8a8b0b7cc949246cb82f1ccbd97be451755cf130d021675060ee75956cbb2babaeacf3fe6c3f43ef6f19b82ee8efb59e59485cc756fea4c3b2158c48a48f804f3b84ddaa48d90aad8b38fac8b1755d6508eb2f5892afbd68addd0e2f9209acfdd652d6b1738c2a38fb2cb2760b849581b20377d9befca5c030753e7"
+          }
+        ],
+        "The Circulatory System": [
+          {
+            "name": "The Circulatory System",
+            "link": "https://storage.googleapis.com/em_content_private/content_data_private/PDF/2025/9/3/175688277936652014_dir_V001/1/1756882755696/The_Circulatory_System_V2_Sign_off.pdf?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=em-content-private%40em-production-341708.iam.gserviceaccount.com%2F20261112%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20261112T105115Z&X-Goog-Expires=604800&X-Goog-SignedHeaders=host&X-Goog-Signature=cf298a1faa0cf4a8995d2fc825cbbbfc6e65f118bcd38daa42aba7a854ed0b15bd4c99820f981e2eaf414c7c67df2a76ca188e6b906d64a7862ed52d00f391379abc7ee10a33dcf5b0ced4a6524d2ee24bf39e1597e90ad00f177ec517f88c8833a0674553af6541c16942356c66dd206cda5044c4c4b73b76cd02f852c0e779595b155b661dc2e9624301b20825ec67b0a263efdfabe997e77be1d647fa21dcfc07b43925167aef681b235620ed9b58dc8a69bcc8f5076afc9aac88a16bc4b3caa05db5ad6cfbb6d99aa82a68338b4121f34b1e294054b7d50cf9d9cf48dbb7ee6fafad459fa45e147cf3470409f7c9b06de7e7300adad82f24c6cdaab13c96"
+          }
+        ]
+      }
+    },
+    "ISC - XI": {},
+    "ISC - XII": {}
+  }
+}
