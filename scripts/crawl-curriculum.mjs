@@ -745,6 +745,7 @@ function parseArgs(args) {
     else if (argument === "--curriculum") options.curriculumPath = args[++index];
     else if (argument === "--screenshots-dir") options.screenshotsDir = args[++index];
     else if (argument === "--settle-ms") options.settleMs = Number(args[++index]);
+    else if (argument === "--target-subject") options.targetSubjectName = args[++index];
     else throw new Error(`Unknown option: ${argument}`);
   }
 
@@ -799,6 +800,9 @@ export async function runCli(options, token) {
     verifyVideo,
   );
   const subject = buildCurriculumSubject(crawl, videoResults);
+  if (options.targetSubjectName) {
+    subject.name = options.targetSubjectName;
+  }
   const linkItems = [
     ...subject.chapters.flatMap((chapter) =>
       chapter.topics.flatMap((topic) => [
@@ -841,7 +845,7 @@ export async function runCli(options, token) {
       {
         board: options.board,
         className: options.className,
-        subjectName: options.subjectName,
+        subjectName: options.targetSubjectName ?? options.subjectName,
       },
       subject,
     );
