@@ -1,11 +1,17 @@
 name: Update resource datasets
 
-# Re-crawls the Google Drive CISCE/Study-Materials folders, re-runs the full
-# transform/split/sort/count pipeline, refreshes the InstaRevision PDF
+# Re-crawls the Google Drive CISCE/Study-Materials folders, rebuilds the
+# transform/split/sort/count datasets, refreshes the InstaRevision PDF
 # signed-link manifest (GCS signed URLs expire after 7 days — the max GCS
 # allows — so this must run at least weekly), and commits the regenerated
 # JSON datasets back to the repo. Run on a schedule, or manually via
-# workflow_dispatch for an on-demand refresh.
+# workflow_dispatch (the admin panel's "Update resource datasets" button).
+#
+# Every step name starts with a "[Category]" tag. The admin panel groups
+# steps by that tag and shows live per-category progress while a run is in
+# flight (GitHub's REST API exposes step status live, job logs only after
+# the run finishes), so keep the tag when adding or renaming steps — an
+# untagged step still shows up, under "Other".
 on:
   schedule:
     # 03:00 UTC every Monday — adjust as needed.
@@ -15,49 +21,94 @@ on:
 permissions:
   contents: write
 
+# Never let two dataset refreshes overlap: two crawls racing to push the
+# same generated files would conflict, and the second commit would be
+# rejected after wasting a full run.
+concurrency:
+  group: update-resource-datasets
+  cancel-in-progress: false
+
 jobs:
   update-resources:
     runs-on: ubuntu-latest
+    # A hung Drive crawl used to be able to burn GitHub's 6h default.
+    timeout-minutes: 30
+
     steps:
-      - name: Checkout
+      # ------------------------------------------------------------------
+      # [Setup] — checkout + toolchains + Drive credentials
+      # ------------------------------------------------------------------
+      - name: "[Setup] Checkout repository"
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Set up Node.js
+      - name: "[Setup] Set up Node.js"
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Set up Python
+      - name: "[Setup] Set up Python"
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Write Google Drive service-account credentials
+      - name: "[Setup] Write Google Drive service-account credentials"
         run: |
           mkdir -p scripts/drive-crawl
           cat <<'EOF' > scripts/drive-crawl/service-account.json
           ${{ secrets.SERVICE_ACCOUNT }}
           EOF
 
-      - name: Install Drive crawl dependencies
+      - name: "[Setup] Install Drive crawl dependencies"
         working-directory: scripts/drive-crawl
         run: npm install
 
-      - name: Run full resource pipeline (crawl + transform + split + sort + count)
-        run: node scripts/generate-all-resources.js
+      # ------------------------------------------------------------------
+      # [Crawl] — the slowest phase; own step so its progress is visible
+      # ------------------------------------------------------------------
+      - name: "[Crawl] Crawl Google Drive folder tree"
+        working-directory: scripts/drive-crawl
+        run: node generate-drive-json.js
 
-      - name: Refresh InstaRevision PDF signed links (7-day GCS URLs)
+      # ------------------------------------------------------------------
+      # [Datasets] — transform the crawl output into the committed JSON
+      # ------------------------------------------------------------------
+      - name: "[Datasets] Transform CISCE + Community resources"
+        run: python3 scripts/transform-resources.py
+
+      - name: "[Datasets] Split oversized datasets per subject"
+        run: python3 scripts/split-resources-dataset.py
+
+      - name: "[Datasets] Sort manifest subject order (Featured first, then A-Z)"
+        run: python3 scripts/sort-manifest-subjects.py
+
+      - name: "[Datasets] Count resources across all datasets"
+        run: python3 scripts/count-resources.py
+
+      # ------------------------------------------------------------------
+      # [InstaRevision] — re-sign the GCS PDF URLs (7-day expiry)
+      # ------------------------------------------------------------------
+      - name: "[InstaRevision] Refresh signed PDF links"
         run: node scripts/drive-crawl/generate-insta-revision-links.mjs
 
-      - name: Apply InstaRevision signed links to curriculum.json
+      - name: "[InstaRevision] Apply signed links to curriculum.json"
         run: node scripts/drive-crawl/apply-insta-revision-links.mjs
 
-      - name: Remove service-account credentials before diffing/committing
+      # ------------------------------------------------------------------
+      # [Commit] — clean up the secret, then commit whatever changed
+      # ------------------------------------------------------------------
+      - name: "[Commit] Remove service-account credentials"
         run: rm -f scripts/drive-crawl/service-account.json
 
-      - name: Commit regenerated datasets
+      - name: "[Commit] Summarize dataset diff"
+        run: |
+          echo "### Dataset diff" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          git diff --stat -- src/data | tail -40 >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: "[Commit] Commit regenerated datasets"
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
