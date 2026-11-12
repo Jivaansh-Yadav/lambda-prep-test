@@ -1,11 +1,10 @@
 name: Update resource datasets
 
 # Re-crawls the Google Drive CISCE/Study-Materials folders, re-runs the full
-# transform/split/sort/count pipeline, refreshes the InstaRevision PDF
-# signed-link manifest (GCS signed URLs expire after 7 days — the max GCS
-# allows — so this must run at least weekly), and commits the regenerated
-# JSON datasets back to the repo. Run on a schedule, or manually via
-# workflow_dispatch for an on-demand refresh.
+# transform/split/sort/count pipeline (which also rewrites curriculum.json's
+# chapter-level revisionNotes from the Doxxmarks InstaRevision PDFs folder in
+# Drive), and commits the regenerated JSON datasets back to the repo. Run on
+# a schedule, or manually via workflow_dispatch for an on-demand refresh.
 on:
   schedule:
     # 03:00 UTC every Monday — adjust as needed.
@@ -47,9 +46,6 @@ jobs:
 
       - name: Run full resource pipeline (crawl + transform + split + sort + count)
         run: node scripts/generate-all-resources.js
-
-      - name: Refresh InstaRevision PDF signed links (7-day GCS URLs)
-        run: node scripts/drive-crawl/generate-insta-revision-links.mjs
 
       - name: Remove service-account credentials before diffing/committing
         run: rm -f scripts/drive-crawl/service-account.json
