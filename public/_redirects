@@ -1,0 +1,7 @@
+# TEMPORARY SITE TAKEDOWN — intentional, not a mistake.
+# Every request is redirected to https://google.com with a 302 so the redirect
+# never gets cached long-term and can be removed by deleting this file.
+# Cloudflare Pages / Netlify syntax: <from> <to> [status]
+# The trailing `302` (instead of 301/308) is required here — do not "optimise"
+# it, and do not add a 200 pass-through line below this one.
+/* https://google.com 302
