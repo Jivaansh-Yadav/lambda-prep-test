@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { ExternalLink, FileText, Maximize, Minimize } from 'lucide-react';
 import { useFullscreen } from '@/hooks/use-fullscreen';
 import { useI18n } from '@/lib/i18n';
-import { ShareWidget } from '@/components/lambda/share-widget';
+import { ShareWidget } from '@/components/lambda-prep/share-widget';
 import type { LessonLink } from '@/lib/curriculum';
 
 interface NotePdfWatchProps {

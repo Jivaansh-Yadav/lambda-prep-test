@@ -3,10 +3,10 @@ import { ArrowRight, ArrowUpRight, Check, BookOpen, ShieldCheck } from 'lucide-r
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { BRAND_MARK, HERO_IMAGE } from '@/lib/brand';
-import { classes, pageHead } from '@/lib/lambda';
+import { classes, pageHead } from '@/lib/lambda-prep';
 import { useI18n } from '@/lib/i18n';
 
-export const Route = createFileRoute('/')({ head: () => pageHead('Lambda Prep — Your school resource hub', 'Discover curated ICSE and ISC study materials, revision notes and exam practice papers for Classes 9–12.', '/'), component: Index });
+export const Route = createFileRoute('/')({ head: () => pageHead('Your school resource hub', 'Discover curated ICSE and ISC study materials, revision notes and exam practice papers for Classes 9–12.', '/'), component: Index });
 function Index() {
   const { t } = useI18n();
   const [expanded, setExpanded] = useState<number | null>(0);

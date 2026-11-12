@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { SITE_URL } from '@/lib/lambda';
+import { SITE_URL } from '@/lib/lambda-prep';
 
 /** Every crawlable route, independent of the domain it's served from. Only
  * the path, priority and lastmod live here — the actual `<loc>` is built at

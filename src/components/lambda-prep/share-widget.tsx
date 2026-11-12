@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Check, Copy, Mail, MessageSquareText, Share2, X } from 'lucide-react';
 import { useI18n } from '@/lib/i18n';
-import { DiscordIcon, RedditIcon, TelegramIcon, WhatsAppIcon } from '@/components/lambda/brand-icons';
+import { DiscordIcon, RedditIcon, TelegramIcon, WhatsAppIcon } from '@/components/lambda-prep/brand-icons';
 
 interface ShareWidgetProps {
   /** Fully-qualified, directly-shareable URL for this specific resource. */

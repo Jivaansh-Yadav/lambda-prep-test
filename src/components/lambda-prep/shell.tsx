@@ -13,7 +13,7 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { BRAND_MARK } from '@/lib/brand';
-import { classes } from '@/lib/lambda';
+import { classes } from '@/lib/lambda-prep';
 import { useI18n } from '@/lib/i18n';
 import { useTheme } from '@/lib/theme';
 import { submitContactMessage } from '@/lib/contact-server';

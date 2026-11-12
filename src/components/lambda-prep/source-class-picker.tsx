@@ -1,14 +1,14 @@
 import { Link } from '@tanstack/react-router';
 import { ArrowLeft, ArrowUpRight, BookOpen, ChevronDown, ChevronUp, File, FileImage, FileSpreadsheet, FileText, Folder, MessageCircle, RefreshCw, Search, Sparkles } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { classes, findSubjectMeta, getSiteOrigin, subjectMatchesStream } from '@/lib/lambda';
+import { classes, findSubjectMeta, getSiteOrigin, subjectMatchesStream } from '@/lib/lambda-prep';
 import { useI18n } from '@/lib/i18n';
 import { useFuseSearch } from '@/hooks/use-fuse-search';
 import { useGoBack } from '@/hooks/use-go-back';
 import { flattenFolderFiles, findItemInSubject, getFileKind, getGroupBadge, getGroupLabel, groupItems, hasResourceDataset, isFolderNode, isPremiumGroup, loadAllClassFiles, loadAllSourceFiles, loadResourceManifest, loadResourceMisc, loadResourceSubject, type FileKind, type ResourceFolderNode, type ResourceItem, type ResourceManifest, type ResourceNode, type ResourceSearchHit, type ResourceSubject } from '@/lib/resources-data';
-import { ResourceWatch } from '@/components/lambda/resource-watch';
-import { VirtualFileGrid } from '@/components/lambda/virtual-file-grid';
-import { StreamTabs } from '@/components/lambda/stream-tabs';
+import { ResourceWatch } from '@/components/lambda-prep/resource-watch';
+import { VirtualFileGrid } from '@/components/lambda-prep/virtual-file-grid';
+import { StreamTabs } from '@/components/lambda-prep/stream-tabs';
 import { Button } from '@/components/ui/button';
 
 export type SourceId = 'cisce' | 'community';
@@ -35,6 +35,10 @@ interface SourceClassPickerProps {
   onFileChange?: (fileId: string | undefined) => void;
   title: string;
   desc: React.ReactNode;
+  /** Optional provenance line appended to the community disclaimer, for a
+   * class whose index was compiled from a third-party community directory
+   * (the files themselves stay hosted by whoever shared them). */
+  sourceCredit?: React.ReactNode;
 }
 
 const MISC_LABEL = 'Miscellaneous';
@@ -280,7 +284,7 @@ function GroupSection({ group, items, editorFolders, onPick }: {
   );
 }
 
-export function SourceClassPicker({ source, classSlug, subject, file, stream, onStreamChange, onFileChange, title, desc }: SourceClassPickerProps) {
+export function SourceClassPicker({ source, classSlug, subject, file, stream, onStreamChange, onFileChange, title, desc, sourceCredit }: SourceClassPickerProps) {
   const { t } = useI18n();
   const { canGoBack, goBack } = useGoBack();
   const [query, setQuery] = useState('');
@@ -480,7 +484,10 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
   const displayGroups = useMemo(() => {
     if (!editorFolders?.length) return groups;
     const hasMatch = groups.some(g => g.group.toLowerCase() === editorFoldersGroup.toLowerCase());
-    return hasMatch ? groups : [...groups, { group: editorFoldersGroup, items: [] }];
+    // A folder-nav group whose files all live inside the tree has no loose
+    // items, so it can't be ordered by getGroupPriority. Lead with it: it is
+    // the primary content of the subject ("Chapter Notes" / "CISCE Resources").
+    return hasMatch ? groups : [{ group: editorFoldersGroup, items: [] }, ...groups];
   }, [groups, editorFolders, editorFoldersGroup]);
   const subjectDataReady = subject === MISC_LABEL ? miscItems !== undefined : subjectEntry !== undefined || (!subjectLoading && subject !== undefined);
 
@@ -520,6 +527,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
     <div className="doxx-disclaimer">
       <div className="doxx-disclaimer-title"><MessageCircle size={15} style={{ display: 'inline', marginRight: 6, verticalAlign: -2 }} />About community resources</div>
       <p>{t('resources.community.disclaimerPrefix')} <a href="https://www.reddit.com/r/icse/" target="_blank" rel="noreferrer">r/ICSE</a> and <a href="https://www.reddit.com/r/ISCNERDS/" target="_blank" rel="noreferrer">r/ISCNERDS</a> {t('resources.community.disclaimerMid')} <a href="https://discord.gg/7daJugjUA3" target="_blank" rel="noreferrer">ICSEcord</a> and <a href="https://discord.gg/7daJugjUA3" target="_blank" rel="noreferrer">ISCcord</a> {t('resources.community.disclaimerSuffix')}</p>
+      {sourceCredit && <p style={{ marginTop: 8 }}>{sourceCredit}</p>}
     </div>
   ) : <p className="library-note">{t('resources.note')}</p>;
 

@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { pageHead } from '@/lib/lambda';
+import { pageHead } from '@/lib/lambda-prep';
 import { useI18n } from '@/lib/i18n';
-import { SourceClassPicker } from '@/components/lambda/source-class-picker';
+import { SourceClassPicker } from '@/components/lambda-prep/source-class-picker';
 
 interface ResourcesSearch { class?: string | undefined; subject?: string | undefined; file?: string | undefined; stream?: string | undefined }
 

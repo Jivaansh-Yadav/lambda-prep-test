@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// STEP 2 (automated — runs weekly via GitHub Actions, no token needed):
+// STEP 2 (automated — runs weekly via GitHub Actions, no Drive token needed):
 // reads the committed insta-revision-sources.json (produced by
 // discover-insta-revision-sources.mjs) and generates a fresh 7-day Google
 // Cloud Storage signed URL for every chapter's Revision Notes PDF — the
@@ -8,8 +8,14 @@
 // then folds it into src/data/doxxmarks_resources.json, the single
 // committed place those signed links live.
 //
+// The upload credential is NOT in this file: em_content_private is a private GCS
+// bucket, so the Authorization header is effectively read access to it, and this
+// repository is public. It is read from Neon's insta_revision_integration row
+// (or from INSTA_REVISION_AUTH for a local run) — see neon-config.mjs.
+//
 // Usage:
-//   node generate-insta-revision-links.mjs
+//   DATABASE_URL=postgres://... node generate-insta-revision-links.mjs
+//   INSTA_REVISION_AUTH="Basic ..." node generate-insta-revision-links.mjs
 //     [--sources ../../src/data/insta-revision-sources.json]
 //     [--out ./output/insta-revision-links.json]
 
@@ -17,9 +23,10 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { resolveInstaRevisionAuth } from "./neon-config.mjs";
+
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const UPLOAD_BASE = "https://upload.extramarks.com";
-const BASIC_AUTH = "Basic ZGViekAyMTIzMzpzMDBwZXJzM2NyZXQ=";
 const MAX_EXPIRY_SECONDS = 604800; // GCS V4 signed URL hard limit: 7 days
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -38,7 +45,7 @@ function parseArgs(argv) {
   return args;
 }
 
-async function getSignedUrl(folderPath, expirySeconds, retries = 8) {
+async function getSignedUrl(authHeader, folderPath, expirySeconds, retries = 8) {
   for (let attempt = 0; attempt <= retries; attempt += 1) {
     const form = new FormData();
     form.append("folderPath", folderPath);
@@ -46,7 +53,7 @@ async function getSignedUrl(folderPath, expirySeconds, retries = 8) {
     form.append("expiry", String(expirySeconds));
     const res = await fetch(`${UPLOAD_BASE}/getSignedUrl`, {
       method: "POST",
-      headers: { Authorization: BASIC_AUTH },
+      headers: { Authorization: authHeader },
       body: form,
       signal: AbortSignal.timeout(20_000),
     });
@@ -78,6 +85,9 @@ async function mapLimit(items, limit, worker) {
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
+  const authHeader = await resolveInstaRevisionAuth();
+  // Mask the header in Actions logs: it is a credential, not configuration.
+  if (process.env.GITHUB_ACTIONS) console.log('::add-mask::' + authHeader);
   const sources = JSON.parse(await fs.readFile(args.sources, "utf8"));
 
   const manifest = {
@@ -101,7 +111,7 @@ async function main() {
         const links = [];
         for (const note of notes) {
           try {
-            const signedUrl = await getSignedUrl(note.folderPath, MAX_EXPIRY_SECONDS);
+            const signedUrl = await getSignedUrl(authHeader, note.folderPath, MAX_EXPIRY_SECONDS);
             links.push({ name: note.title || chapterName, link: signedUrl });
             linkCount += 1;
           } catch (err) {

@@ -10,7 +10,7 @@
  * Steps:
  *   1. scripts/drive-crawl/generate-drive-json.js -> scripts/drive-crawl/output/
  *      <class>/{cisce,community}.json for each of icse-9, icse-10, isc-11,
- *      isc-12, plus output/doxxmarks.json (crawls the single unified Lambda
+ *      isc-12, plus output/doxxmarks.json (crawls the single unified Lambda Prep
  *      Prep Drive root; has its own exponential-backoff retries)
  *   2. scripts/transform-resources.py        -> src/data/resources-{cisce,
  *                                               community}-<class>.json for

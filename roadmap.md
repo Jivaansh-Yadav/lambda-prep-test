@@ -6,3 +6,4 @@
 - [x] Mobile spacing (15–20px sides), font sizes, logo image, class/subject cards.
 - [x] Remove sign-in page and button.
 - [x] Consistent card sizes/fonts; collapse secondary text on mobile.
+- [x] ISC Class 12 community collection: 794 files indexed from the ISC.exe 2.0 community directory, renamed to the ICSE-10 convention (`Subject - Topic - Doc type - Detail.pdf`), bucket-sorted into chapter folders plus document-type groups.

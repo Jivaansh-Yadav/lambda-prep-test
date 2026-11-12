@@ -83,17 +83,57 @@ export async function dispatchWorkflow(config: GithubIntegrationConfig): Promise
   throw new Error("Workflow was dispatched, but no matching run appeared within 10 seconds.");
 }
 
-export type WorkflowStep = { name: string; status: string; conclusion: string | null };
-export type WorkflowRunStatus = {
-  runId: number;
-  htmlUrl: string;
-  status: string; // queued | in_progress | completed
-  conclusion: string | null; // success | failure | cancelled | ... | null while running
-  steps: WorkflowStep[];
+// The run/job/step shapes are shared with the client-side progress
+// helpers, so the admin panel and this server module can't drift apart.
+export type {
+  WorkflowJob,
+  WorkflowRunStatus,
+  WorkflowRunSummary,
+  WorkflowStep,
+} from "./workflow-progress";
+import type { WorkflowJob, WorkflowRunStatus, WorkflowRunSummary } from "./workflow-progress";
+
+
+type RawStep = {
+  number?: number;
+  name: string;
+  status: string;
+  conclusion: string | null;
+  started_at?: string | null;
+  completed_at?: string | null;
 };
+
+type RawJob = {
+  id: number;
+  name: string;
+  status: string;
+  conclusion: string | null;
+  started_at?: string | null;
+  completed_at?: string | null;
+  html_url?: string;
+  steps?: RawStep[];
+};
+
+type RawRun = {
+  id: number;
+  run_number?: number;
+  html_url: string;
+  event?: string;
+  head_branch?: string;
+  head_sha?: string;
+  status: string;
+  conclusion: string | null;
+  created_at: string;
+  run_started_at?: string | null;
+  updated_at?: string;
+};
+
+
 /**
- * Fetches the current status + per-step progress of a previously
- * dispatched run, for the UI to poll.
+ * Fetches a run's current status plus every job and its steps. Jobs are
+ * kept separate (not flattened) because the admin panel groups the steps
+ * into task categories and needs each job's own timing to show where the
+ * run currently is.
  */
 export async function getWorkflowRunStatus(
   config: GithubIntegrationConfig,
@@ -105,24 +145,108 @@ export async function getWorkflowRunStatus(
     const bodyText = await runRes.text().catch(() => "<unreadable>");
     throw new Error(`Could not fetch run status (HTTP ${runRes.status}): ${bodyText.slice(0, 300)}`);
   }
-  const run = (await runRes.json()) as { status: string; conclusion: string | null; html_url: string };
+  const run = (await runRes.json()) as RawRun;
 
-  const jobsUrl = `${GITHUB_API}/repos/${config.owner}/${config.repo}/actions/runs/${runId}/jobs`;
+  const jobsUrl = `${GITHUB_API}/repos/${config.owner}/${config.repo}/actions/runs/${runId}/jobs?per_page=100`;
   const jobsRes = await fetch(jobsUrl, { headers: authHeaders(config.pat) });
-  const steps: WorkflowStep[] = [];
+  const jobs: WorkflowJob[] = [];
   if (jobsRes.ok) {
-    const jobsJson = (await jobsRes.json()) as {
-      jobs: Array<{ steps: Array<{ name: string; status: string; conclusion: string | null }> }>;
-    };
-    for (const job of jobsJson.jobs) {
-      for (const step of job.steps) {
-        steps.push({ name: step.name, status: step.status, conclusion: step.conclusion });
-      }
+    const jobsJson = (await jobsRes.json()) as { jobs?: RawJob[] };
+    for (const job of jobsJson.jobs ?? []) {
+      jobs.push({
+        id: job.id,
+        name: job.name,
+        status: job.status,
+        conclusion: job.conclusion,
+        startedAt: job.started_at ?? null,
+        completedAt: job.completed_at ?? null,
+        htmlUrl: job.html_url ?? null,
+        steps: (job.steps ?? []).map((step, index) => ({
+          number: step.number ?? index + 1,
+          name: step.name,
+          status: step.status,
+          conclusion: step.conclusion,
+          startedAt: step.started_at ?? null,
+          completedAt: step.completed_at ?? null,
+        })),
+      });
     }
   }
 
-  return { runId, htmlUrl: run.html_url, status: run.status, conclusion: run.conclusion, steps };
+  return {
+    runId: run.id,
+    runNumber: run.run_number ?? 0,
+    htmlUrl: run.html_url,
+    event: run.event ?? "unknown",
+    headBranch: run.head_branch ?? "",
+    headSha: run.head_sha ?? "",
+    status: run.status,
+    conclusion: run.conclusion,
+    createdAt: run.created_at,
+    startedAt: run.run_started_at ?? null,
+    updatedAt: run.updated_at ?? run.created_at,
+    jobs,
+  };
 }
+
+/** Most recent run of the configured workflow, whatever triggered it
+ * (schedule or a manual dispatch) — lets the admin panel attach to a run
+ * that was started before the page was opened, or by the weekly cron. */
+export async function getLatestWorkflowRun(
+  config: GithubIntegrationConfig
+): Promise<WorkflowRunStatus | null> {
+  const url = `${GITHUB_API}/repos/${config.owner}/${config.repo}/actions/workflows/${config.workflowFile}/runs?per_page=1`;
+  const res = await fetch(url, { headers: authHeaders(config.pat) });
+  if (!res.ok) {
+    const bodyText = await res.text().catch(() => "<unreadable>");
+    throw new Error(`Could not list workflow runs (HTTP ${res.status}): ${bodyText.slice(0, 300)}`);
+  }
+  const json = (await res.json()) as { workflow_runs?: RawRun[] };
+  const latest = json.workflow_runs?.[0];
+  if (!latest) return null;
+  // The list payload already carries everything but the jobs; skip the
+  // extra round trip and fetch the full status for this run only.
+  return getWorkflowRunStatus(config, latest.id);
+}
+
+/** Recent run history (newest first) for the compact list in the admin
+ * panel — one API call, no jobs. */
+export async function listWorkflowRuns(
+  config: GithubIntegrationConfig,
+  limit = 6
+): Promise<WorkflowRunSummary[]> {
+  const url =
+    `${GITHUB_API}/repos/${config.owner}/${config.repo}/actions/workflows/${config.workflowFile}/runs` +
+    `?per_page=${Math.min(Math.max(limit, 1), 20)}`;
+  const res = await fetch(url, { headers: authHeaders(config.pat) });
+  if (!res.ok) {
+    const bodyText = await res.text().catch(() => "<unreadable>");
+    throw new Error(`Could not list workflow runs (HTTP ${res.status}): ${bodyText.slice(0, 300)}`);
+  }
+  const json = (await res.json()) as { workflow_runs?: RawRun[] };
+  return (json.workflow_runs ?? []).map((run) => ({
+    runId: run.id,
+    runNumber: run.run_number ?? 0,
+    event: run.event ?? "unknown",
+    status: run.status,
+    conclusion: run.conclusion,
+    createdAt: run.created_at,
+    htmlUrl: run.html_url,
+  }));
+}
+
+/**
+ * Whether the workflow already has a run in flight. Used to refuse a
+ * duplicate dispatch — GitHub would happily queue a second full crawl on
+ * top of the one already running.
+ */
+export async function getActiveWorkflowRun(
+  config: GithubIntegrationConfig
+): Promise<WorkflowRunSummary | null> {
+  const runs = await listWorkflowRuns(config, 5);
+  return runs.find((run) => run.status === "queued" || run.status === "in_progress") ?? null;
+}
+
 
 export type LatestCommit = {
   sha: string;

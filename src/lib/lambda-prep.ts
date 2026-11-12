@@ -71,11 +71,24 @@ export function sortBySubjectOrder<T extends { name: string }>(items: T[]): T[] 
  * the same way the class hub's stream tabs already filter its subject
  * list. `All` always matches. */
 export function subjectMatchesStream(name: string, stream: string) {
-  if (stream === 'All') return true;
+  if (stream.toLowerCase() === 'all') return true;
   const meta = findSubjectMeta(name);
-  return !!meta && (meta.streams as readonly string[]).includes(stream);
+  // Case-insensitive: the canonical param value is 'Science' (see
+  // STREAM_OPTIONS), but a hand-typed or re-cased share link like
+  // `?stream=science` used to filter every subject out and show an empty grid.
+  return !!meta && (meta.streams as readonly string[]).some(s => s.toLowerCase() === stream.toLowerCase());
 }
-export const SITE_URL = 'https://project-3354c0eb.eazo.dev';
+/** Cloudflare Web Analytics beacon site tag.
+ *
+ * Public by design — it ships in every page's HTML. It is the single source
+ * of truth for both the beacon injected in `__root.tsx` and the GraphQL
+ * filters in `admin-server.ts`, so the two cannot drift when the domain (and
+ * therefore the Web Analytics site) changes: update this one value and both
+ * the collection and the reporting move with it.
+ */
+export const RUM_SITE_TAG = '566049355231478b8966df2004f5d7e9';
+
+export const SITE_URL = 'https://lambda-prep.pages.dev';
 export const OG_IMAGE = `${SITE_URL}/og/lambda-prep-og.png`;
 
 /** Resolves to whatever domain the app is actually being served from (the
@@ -92,7 +105,7 @@ export function getSiteOrigin() {
 }
 
 export function pageHead(title: string, description: string, path = '/') {
-  const fullTitle = `${title} | Lambda Prep`;
+  const fullTitle = `Lambda Prep | ${title}`;
   const url = `${SITE_URL}${path}`;
   return {
     meta: [

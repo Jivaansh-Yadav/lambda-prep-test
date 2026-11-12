@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { ArrowUpRight, ShieldCheck, UsersRound } from 'lucide-react';
-import { pageHead } from '@/lib/lambda';
+import { pageHead } from '@/lib/lambda-prep';
 import { useI18n } from '@/lib/i18n';
 
 export const Route = createFileRoute('/resources/')({ head: () => pageHead('Resource library', 'Find your ICSE and ISC class and explore subject-wise learning resources.', '/resources'), component: Resources });

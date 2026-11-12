@@ -3,10 +3,10 @@ import { ChevronDown, ChevronUp, Contrast, Download, ExternalLink, Eye, FileText
 import { useFullscreen } from '@/hooks/use-fullscreen';
 import { useI18n } from '@/lib/i18n';
 import { getGroupLabel, type ResourceItem } from '@/lib/resources-data';
-import { VirtualFileGrid } from '@/components/lambda/virtual-file-grid';
-import { ResourceRatingControl } from '@/components/lambda/resource-rating';
-import { ResourceFeedbackControl } from '@/components/lambda/resource-feedback';
-import { ShareWidget } from '@/components/lambda/share-widget';
+import { VirtualFileGrid } from '@/components/lambda-prep/virtual-file-grid';
+import { ResourceRatingControl } from '@/components/lambda-prep/resource-rating';
+import { ResourceFeedbackControl } from '@/components/lambda-prep/resource-feedback';
+import { ShareWidget } from '@/components/lambda-prep/share-widget';
 import { recordResourceView } from '@/lib/views-server';
 import { recordResourceShare, getResourceSharesBatch } from '@/lib/shares-server';
 

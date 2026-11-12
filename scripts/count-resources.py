@@ -32,21 +32,59 @@ def dataset_path(source, class_slug):
     return os.path.join(DATA_DIR, f'resources-{source}-{class_slug}.json')
 
 
+def folder_file_count(nodes):
+    """Files nested anywhere inside an editorFolders tree."""
+    n = 0
+    for node in nodes:
+        if node.get('type') == 'folder':
+            n += folder_file_count(node.get('children', []))
+        else:
+            n += 1
+    return n
+
+
 def count_monolithic(path):
     with open(path) as f:
         data = json.load(f)
-    subjects = {s['subject']: len(s['items']) for s in data.get('subjects', [])}
+    # A folder-nav group stores its files in `editorFolders` instead of `items`
+    # (the UI renders the tree, not the loose list), so add both.
+    subjects = {
+        s['subject']: len(s['items']) + folder_file_count(s.get('editorFolders', []))
+        for s in data.get('subjects', [])
+    }
     misc = len(data.get('misc', []))
     total = sum(subjects.values()) + misc
     return {'subjects': subjects, 'misc': misc, 'total': total}
 
 
 def count_split(dir_path):
+    """Count what the shards actually hold instead of trusting the manifest's
+    own `count` fields.
+
+    The manifest is display metadata (subject -> shard, card order); its counts
+    are written by split-resources-dataset.py and were the reason a sharded
+    class under-reported its total while the same data loaded monolithically
+    reported the truth. Reading the shards makes the manifest unable to drift
+    from the files it describes without the mismatch showing up here."""
     manifest_path = os.path.join(dir_path, 'manifest.json')
     with open(manifest_path) as f:
         manifest = json.load(f)
-    subjects = {s['subject']: s['count'] for s in manifest.get('subjects', [])}
-    misc = manifest.get('miscCount', 0)
+    subjects = {}
+    for entry in manifest.get('subjects', []):
+        shard_path = os.path.join(dir_path, f"{entry['slug']}.json")
+        if not os.path.isfile(shard_path):
+            subjects[entry['subject']] = 0
+            continue
+        with open(shard_path) as f:
+            payload = json.load(f)
+        subjects[entry['subject']] = len(payload.get('items') or []) + folder_file_count(
+            payload.get('editorFolders') or []
+        )
+    misc_path = os.path.join(dir_path, 'misc.json')
+    misc = 0
+    if os.path.isfile(misc_path):
+        with open(misc_path) as f:
+            misc = len(json.load(f) or [])
     total = sum(subjects.values()) + misc
     return {'subjects': subjects, 'misc': misc, 'total': total}
 

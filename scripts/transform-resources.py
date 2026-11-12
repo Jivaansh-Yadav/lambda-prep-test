@@ -30,7 +30,7 @@ BOARD_ROMAN_BY_SLUG = {
 }
 
 # ---------------------------------------------------------------------------
-# Canonical subject names per board, matching src/lib/lambda.ts / doxxmarks_resources.json.
+# Canonical subject names per board, matching src/lib/lambda-prep.ts / doxxmarks_resources.json.
 # ---------------------------------------------------------------------------
 ICSE_SUBJECTS = [
     'Biology', 'Chemistry', 'Commercial Applications', 'Commercial Studies',
@@ -386,26 +386,190 @@ def build_community(class_slug: str, canonical: set):
     return {'subjects': subjects_out, 'misc': misc}
 
 
+def count_files(payload) -> int:
+    """Total file items in a dataset payload (subject buckets, folder trees
+    and the misc list all count)."""
+
+    def walk(node):
+        if isinstance(node, dict):
+            if 'id' in node and 'children' not in node:
+                return 1
+            return sum(walk(v) for v in node.values())
+        if isinstance(node, list):
+            return sum(walk(v) for v in node)
+        return 0
+
+    return walk(payload)
+
+
+# ---------------------------------------------------------------------------
+# Deterministic ordering. Drive returns a folder's children in whatever order
+# it feels like (and drops new uploads wherever it likes), so a re-crawl of
+# unchanged content reshuffles file lists -- diff noise in the repo and a file
+# order on the site that can move on the weekly refresh. Sorting by name inside
+# each group gives every re-run the same output for the same content.
+# ---------------------------------------------------------------------------
+
+NATURAL_CHUNK = re.compile(r'\d+|\D+')
+LEADING_YEAR = re.compile(r'^(\d{4})\b')
+
+# Card order for the CISCE type folders in the folder navigator: papers first,
+# board commentary last. Independent of TYPE_FOLDER_LABELS' regex order, which
+# exists only to resolve names to labels.
+TYPE_FOLDER_DISPLAY_ORDER = [
+    'PYQs', 'Specimen QPs', 'CFQs', 'Analysis of Pupil Performance', 'Syllabus',
+]
+
+
+def natural_key(text: str):
+    """Case-insensitive natural sort key: 'Paper 2' before 'Paper 10', and
+    '2019' before '2023' instead of the other way round."""
+    key = []
+    for chunk in NATURAL_CHUNK.findall((text or '').strip().casefold()):
+        key.append((0, int(chunk), '') if chunk.isdigit() else (1, 0, chunk))
+    return tuple(key)
+
+
+def item_sort_key(item: dict):
+    # Legacy-imported items carry originalName instead of name.
+    name = item.get('name') or item.get('originalName') or ''
+    return (natural_key(name), item.get('id') or '')
+
+
+def folder_name_key(name: str):
+    """Year folders read newest-first: PYQs opens on 2026, not 2017. Anything
+    that does not start with a four-digit year keeps name order and sorts
+    after the years, so a stray 'Undated' folder cannot land mid-decade."""
+    match = LEADING_YEAR.match(name.strip())
+    if match:
+        return (0, -int(match.group(1)), natural_key(name))
+    return (1, 0, natural_key(name))
+
+
+def folder_rank(name: str) -> int:
+    """Keep the CISCE type folders in reading order (PYQs, Specimen QPs, CFQs,
+    Analysis of Pupil Performance, Syllabus) rather than letting an
+    alphabetical sort put 'Analysis' first. Anything else (year folders,
+    Editor's Choice collections) is ordered purely by name."""
+    label = type_label_for(name)
+    if label in TYPE_FOLDER_DISPLAY_ORDER:
+        return TYPE_FOLDER_DISPLAY_ORDER.index(label)
+    return len(TYPE_FOLDER_DISPLAY_ORDER)
+
+
+def child_sort_key(node: dict):
+    """Folders before loose files -- the same order tree_to_folder_nodes()
+    already emits -- then type-folder reading order, then year (newest first)
+    or name."""
+    name = node.get('name', '')
+    if node.get('type') == 'folder':
+        return (0, folder_rank(name), folder_name_key(name), '')
+    return (1, len(TYPE_FOLDER_DISPLAY_ORDER), natural_key(name), node.get('id') or '')
+
+
+def sort_items(items: list) -> list:
+    """Sort file items by name inside each group. Group sections themselves
+    keep first-appearance order (the UI renders sections in that order, with
+    its own priority override for General / Sample Papers / Solutions View)."""
+    buckets: dict[str, list] = {}
+    order: list[str] = []
+    for item in items:
+        group = item.get('group', '')
+        if group not in buckets:
+            buckets[group] = []
+            order.append(group)
+        buckets[group].append(item)
+    out = []
+    for group in order:
+        out.extend(sorted(buckets[group], key=item_sort_key))
+    return out
+
+
+def sort_folder(node: dict) -> None:
+    for child in node.get('children') or []:
+        if child.get('type') == 'folder':
+            sort_folder(child)
+    node['children'] = sorted(node.get('children') or [], key=child_sort_key)
+
+
+def sort_payload(payload: dict) -> dict:
+    for subject in payload.get('subjects', []):
+        if subject.get('items'):
+            subject['items'] = sort_items(subject['items'])
+        folders = subject.get('editorFolders')
+        if folders:
+            for folder in folders:
+                sort_folder(folder)
+            # The top-level folder cards are themselves a list of folders, so
+            # they need the same ordering as a folder's children.
+            subject['editorFolders'] = sorted(folders, key=child_sort_key)
+    if payload.get('misc'):
+        payload['misc'] = sort_items(payload['misc'])
+    return payload
+
+
+def write_dataset(out_path: str, payload, label: str) -> None:
+    """Write one generated dataset, refusing to replace a populated file with
+    an empty one.
+
+    An empty build almost always means the Drive source folder was emptied,
+    moved, or the service account lost sight of it -- not that every resource
+    was intentionally deleted. Committing the empty result silently wipes the
+    live library (this is how ISC XII's Community dataset got zeroed), so keep
+    the last good file and make the failure loud instead.
+    """
+    sort_payload(payload)
+    new_count = count_files(payload)
+    old_count = 0
+    if os.path.isfile(out_path):
+        try:
+            with open(out_path) as f:
+                old_count = count_files(json.load(f))
+        except (ValueError, OSError):
+            old_count = 0
+
+    if new_count == 0 and old_count > 0:
+        print(
+            f'REFUSED {label}: crawl produced 0 files but the committed dataset has '
+            f'{old_count} -- keeping the existing file. Check the Drive source folder.',
+            flush=True,
+        )
+        return
+
+    with open(out_path, 'w') as f:
+        json.dump(payload, f, ensure_ascii=False)
+
+    if old_count and new_count * 2 < old_count:
+        print(
+            f'WARNING {label}: file count dropped from {old_count} to {new_count} '
+            f'(more than half). Verify the Drive source folder before committing.',
+            flush=True,
+        )
+    print(f'wrote {label}: {new_count} files', flush=True)
+
+
 def main():
     for class_slug in CLASS_SLUGS:
         board, _roman = BOARD_ROMAN_BY_SLUG[class_slug]
-        canonical = set(SUBJECTS_BY_BOARD[board])
+        # Ordered list, not a set: bucket order follows the canonical subject
+        # list so regenerating an unchanged dataset produces an identical file
+        # instead of shuffling subjects on every run.
+        canonical_order = SUBJECTS_BY_BOARD[board]
+        canonical = set(canonical_order)
 
-        cisce = build_cisce(class_slug, canonical)
+        cisce = build_cisce(class_slug, canonical_order)
         if cisce is not None:
             out_path = os.path.join(DATA_DIR, f'resources-cisce-{class_slug}.json')
-            with open(out_path, 'w') as f:
-                json.dump(cisce, f, ensure_ascii=False)
+            write_dataset(out_path, cisce, f'{class_slug} CISCE')
             print(f'{class_slug} CISCE subjects:', [(s['subject'], len(s['items'])) for s in cisce['subjects']])
             print(f'{class_slug} CISCE misc:', len(cisce['misc']))
         else:
             print(f'skip {class_slug} CISCE: no crawl output found')
 
-        community = build_community(class_slug, canonical)
+        community = build_community(class_slug, canonical_order)
         if community is not None:
             out_path = os.path.join(DATA_DIR, f'resources-community-{class_slug}.json')
-            with open(out_path, 'w') as f:
-                json.dump(community, f, ensure_ascii=False)
+            write_dataset(out_path, community, f'{class_slug} Community')
             print(f'{class_slug} Community subjects:', [(s['subject'], len(s['items'])) for s in community['subjects']])
             print(f'{class_slug} Community misc:', len(community['misc']))
         else:

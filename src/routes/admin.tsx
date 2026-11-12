@@ -16,7 +16,10 @@ import {
 import {
   Activity,
   ArrowLeft,
+  CheckCircle2,
+  ChevronDown,
   ChevronRight,
+  CircleDashed,
   Eye,
   ExternalLink,
   File,
@@ -32,7 +35,9 @@ import {
   Loader2,
   Mail,
   MessageSquareText,
+  MinusCircle,
   Pencil,
+  RefreshCw,
   Share2,
   Star,
   Trash2,
@@ -40,10 +45,12 @@ import {
   UploadCloud,
   Users,
   X,
+  XCircle,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import {
@@ -53,6 +60,7 @@ import {
   getManageResources,
   triggerDatasetUpdate,
   getDatasetUpdateStatus,
+  getDatasetUpdateOverview,
   getAdminResourceStats,
   getAdminLatestCommit,
   uploadResource,
@@ -83,7 +91,17 @@ import {
   type AdminContactMessagesResult,
   type ContactMessageStatus,
 } from '@/lib/contact-server';
-import type { WorkflowRunStatus } from '@/lib/github-integration-server';
+import {
+  WORKFLOW_CATEGORIES,
+  categorizeRun,
+  formatDuration,
+  runProgress,
+  statusTone,
+  type CategoryGroup,
+  type WorkflowRunStatus,
+  type WorkflowRunSummary,
+  type WorkflowStep,
+} from '@/lib/workflow-progress';
 import type { DriveFileEntry } from '@/lib/drive-integration-server';
 import { getFileKind, type FileKind } from '@/lib/resources-data';
 
@@ -103,7 +121,7 @@ export const Route = createFileRoute('/admin')({
   validateSearch: (search: Record<string, unknown>): AdminSearch => ({
     section: ADMIN_SECTIONS.includes(search['section'] as AdminSection) ? (search['section'] as AdminSection) : undefined,
   }),
-  head: () => ({ meta: [{ name: 'robots', content: 'noindex, nofollow' }, { title: 'Admin — Lambda Prep' }] }),
+  head: () => ({ meta: [{ name: 'robots', content: 'noindex, nofollow' }, { title: 'Lambda Prep | Admin' }] }),
   component: AdminPage,
 });
 
@@ -147,6 +165,11 @@ function AdminPage() {
       const check = await checkAdminPasscode({ data: { passcode } });
       if (check.ok) {
         adminSessionPasscode = passcode;
+        // Drop anything fetched before the passcode existed (a deep link to
+        // ?section=analytics mounts this component unauthenticated, so its
+        // effects can fire with an empty passcode and set sticky errors).
+        setResult(null);
+        setRumResult(null);
         setAuthed(true);
         await loadTraffic(passcode, range);
       } else if (check.lockedOutSeconds) {
@@ -154,8 +177,11 @@ function AdminPage() {
       } else {
         setError('Incorrect passcode.');
       }
-    } catch {
-      setError('Something went wrong. Try again.');
+    } catch (error) {
+      const message = error instanceof Error ? error.message.trim() : '';
+      setError(
+        message && message.length <= 200 ? `Could not verify the passcode: ${message}` : 'Something went wrong. Try again.',
+      );
     } finally {
       setLoading(false);
     }
@@ -167,8 +193,19 @@ function AdminPage() {
     try {
       const data = await getAdminTraffic({ data: { passcode: code, range: forRange } });
       setResult(data);
-    } catch {
-      setError('Could not load analytics. Try unlocking again.');
+    } catch (error) {
+      // Surface what actually failed. Server functions throw for a rejected
+      // passcode ("Unauthorized") but also for a Neon/Cloudflare failure, and
+      // a single opaque message for both sends you looking in the wrong place.
+      const message = error instanceof Error ? error.message.trim() : '';
+      const unauthorized = /unauthor/i.test(message);
+      setError(
+        unauthorized
+          ? 'Passcode rejected — unlock again.'
+          : message && message.length <= 200
+            ? `Could not load analytics: ${message}`
+            : 'Could not load analytics. Try unlocking again.',
+      );
       setAuthed(false);
       adminSessionPasscode = null;
     } finally {
@@ -188,8 +225,25 @@ function AdminPage() {
     try {
       const data = await getAdminRum({ data: { passcode: code, range: forRange } });
       setRumResult(data);
-    } catch {
-      setRumResult({ configured: false, reason: 'Could not load Web Analytics (RUM) data. Try again.' });
+    } catch (error) {
+      const message = error instanceof Error ? error.message.trim() : '';
+      if (/unauthor/i.test(message)) {
+        // Same passcode as the traffic panel; if this one is rejected the
+        // session is gone, so show the unlock form again rather than a
+        // "not configured" card with setup instructions that don't apply.
+        setError('Passcode rejected — unlock again.');
+        setAuthed(false);
+        adminSessionPasscode = null;
+        setRumResult(null);
+        return;
+      }
+      setRumResult({
+        configured: false,
+        reason:
+          message && message.length <= 200
+            ? `Could not load Web Analytics (RUM) data: ${message}`
+            : 'Could not load Web Analytics (RUM) data. Try again.',
+      });
     } finally {
       setRumLoading(false);
     }
@@ -199,11 +253,12 @@ function AdminPage() {
   // opened, rather than on every page load — it's a second Cloudflare
   // credential/dataset the admin may not have configured yet.
   useEffect(() => {
+    if (!authed || !adminSessionPasscode) return;
     if (openSection === 'analytics' && !rumResult && !rumLoading) {
-      void loadRum(adminSessionPasscode ?? '', range);
+      void loadRum(adminSessionPasscode, range);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [openSection]);
+  }, [openSection, authed]);
 
   // Changing the range re-fetches both datasets for the new window and
   // discards the previous range's data (rather than keeping stale numbers
@@ -450,9 +505,15 @@ function AdminPage() {
                 <span className="font-mono">Account → Analytics → Read</span> permission.
               </li>
               <li>
-                Set <span className="font-mono">account_id</span>,{' '}
-                <span className="font-mono">rum_api_token</span> and{' '}
-                <span className="font-mono">rum_site_tag</span> on the <span className="font-mono">cloudflare_integration</span> row in Neon, then refresh.
+                Set <span className="font-mono">account_id</span> and{' '}
+                <span className="font-mono">rum_api_token</span> on the{' '}
+                <span className="font-mono">cloudflare_integration</span> row in Neon, then refresh.
+              </li>
+              <li>
+                Check the token in <span className="font-mono">src/lib/lambda-prep.ts</span> (
+                <span className="font-mono">RUM_SITE_TAG</span>) matches that site’s{' '}
+                <span className="font-mono">Manage site</span> beacon token — the beacon and these queries
+                both read it, so a new domain or a new Web Analytics site only changes that one value.
               </li>
             </ol>
           </CardContent>
@@ -585,9 +646,15 @@ function RumAnalyticsSection({
               <span className="font-mono">Account → Analytics → Read</span> permission.
             </li>
             <li>
-              Set <span className="font-mono">account_id</span>,{' '}
-              <span className="font-mono">rum_api_token</span> and{' '}
-              <span className="font-mono">rum_site_tag</span> on the <span className="font-mono">cloudflare_integration</span> row in Neon, then refresh.
+              Set <span className="font-mono">account_id</span> and{' '}
+              <span className="font-mono">rum_api_token</span> on the{' '}
+              <span className="font-mono">cloudflare_integration</span> row in Neon, then refresh.
+            </li>
+            <li>
+              Check the token in <span className="font-mono">src/lib/lambda-prep.ts</span> (
+              <span className="font-mono">RUM_SITE_TAG</span>) matches that site’s{' '}
+              <span className="font-mono">Manage site</span> beacon token — the beacon and these queries
+              both read it, so a new domain or a new Web Analytics site only changes that one value.
             </li>
           </ol>
         </CardContent>
@@ -704,16 +771,6 @@ const FILE_KIND_ICON: Record<FileKind, typeof FileText> = {
   other: FileText,
 };
 
-function stepIcon(status: string, conclusion: string | null): string {
-  if (status === 'completed') {
-    if (conclusion === 'success') return '✅';
-    if (conclusion === 'skipped') return '⏭️';
-    return '❌';
-  }
-  if (status === 'in_progress') return '🔄';
-  return '⏳';
-}
-
 function formatRelativeTime(value: string): string {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return '—';
@@ -779,6 +836,429 @@ function LatestCommitCard() {
   );
 }
 
+type DatasetWorkflowPanelProps = {
+  getPasscode: () => string;
+  rootFolderUrl: string | null;
+  /** Called when a tracked run reaches a terminal state, so the caller can
+   * refresh the Drive listing it just rebuilt. */
+  onFinished: () => void;
+};
+
+const WORKFLOW_TONE_CLASS: Record<ReturnType<typeof statusTone>, string> = {
+  success: 'text-emerald-600 dark:text-emerald-400',
+  running: 'text-primary',
+  queued: 'text-muted-foreground',
+  failed: 'text-destructive',
+  skipped: 'text-muted-foreground/70',
+  neutral: 'text-muted-foreground',
+};
+
+const WORKFLOW_BADGE_CLASS: Record<ReturnType<typeof statusTone>, string> = {
+  success: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400',
+  running: 'border-primary/30 bg-primary/10 text-primary',
+  queued: 'border-border bg-muted text-muted-foreground',
+  failed: 'border-destructive/30 bg-destructive/10 text-destructive',
+  skipped: 'border-border bg-muted text-muted-foreground',
+  neutral: 'border-border bg-muted text-muted-foreground',
+};
+
+function WorkflowStatusIcon({ status, conclusion, size = 14 }: { status: string; conclusion: string | null; size?: number }) {
+  const tone = statusTone(status, conclusion);
+  if (tone === 'running') return <Loader2 size={size} className="animate-spin text-primary" />;
+  if (tone === 'success') return <CheckCircle2 size={size} className="text-emerald-600 dark:text-emerald-400" />;
+  if (tone === 'failed') return <XCircle size={size} className="text-destructive" />;
+  if (tone === 'skipped') return <MinusCircle size={size} className="text-muted-foreground/70" />;
+  return <CircleDashed size={size} className="text-muted-foreground" />;
+}
+
+function workflowConclusionLabel(status: string, conclusion: string | null): string {
+  if (status === 'queued') return 'Queued';
+  if (status === 'in_progress') return 'Running';
+  if (conclusion === 'success') return 'Completed';
+  if (conclusion === 'skipped') return 'Skipped';
+  if (conclusion === 'cancelled') return 'Cancelled';
+  if (conclusion) return conclusion.replace(/_/g, ' ');
+  return 'Finished';
+}
+
+function stepDuration(step: WorkflowStep, now: number): string {
+  // A queued step hasn't started yet — GitHub reports no timestamps for it,
+  // so don't invent a duration from the run's start time.
+  if (step.status === 'queued' || !step.startedAt) return '—';
+  const start = new Date(step.startedAt).getTime();
+  const end = step.completedAt ? new Date(step.completedAt).getTime() : now;
+  if (Number.isNaN(start) || Number.isNaN(end)) return '—';
+  return formatDuration(Math.max(0, end - start));
+}
+
+function CategoryRow({ group, now }: { group: CategoryGroup; now: number }) {
+  const [open, setOpen] = useState(group.key !== 'runner');
+  const completed = group.steps.filter((step) => step.status === 'completed').length;
+  const hasFailure = group.steps.some(
+    (step) => step.conclusion && !['success', 'skipped', 'neutral'].includes(step.conclusion)
+  );
+  const tone = statusTone(group.status, group.conclusion);
+
+  return (
+    <li>
+      <button
+        type="button"
+        onClick={() => setOpen((prev) => !prev)}
+        className="flex w-full items-center gap-2 px-3 py-2 text-left hover:bg-muted/40"
+        aria-expanded={open}
+      >
+        {open ? <ChevronDown size={13} className="shrink-0 text-muted-foreground" /> : <ChevronRight size={13} className="shrink-0 text-muted-foreground" />}
+        <WorkflowStatusIcon status={group.status} conclusion={group.conclusion} />
+        <span className="min-w-0 flex-1 truncate text-xs font-medium text-foreground">{group.label}</span>
+        <span className={`shrink-0 text-[11px] ${hasFailure ? 'text-destructive' : 'text-muted-foreground'}`}>
+          {completed}/{group.steps.length} · {formatDuration(group.durationMs)}
+        </span>
+        <span className={`shrink-0 rounded-full border px-1.5 py-0.5 text-[10px] ${WORKFLOW_BADGE_CLASS[tone]}`}>
+          {workflowConclusionLabel(group.status, group.conclusion)}
+        </span>
+      </button>
+
+      {open && (
+        <ul className="space-y-1 pb-2 pl-9 pr-3">
+          {group.steps.map((step) => (
+            <li key={`${step.categoryKey}-${step.number}-${step.name}`} className="flex items-center gap-2 text-[11px]">
+              <WorkflowStatusIcon status={step.status} conclusion={step.conclusion} size={12} />
+              <span
+                className={
+                  step.status === 'in_progress'
+                    ? 'min-w-0 flex-1 truncate font-medium text-foreground'
+                    : step.conclusion && !['success', 'skipped', 'neutral'].includes(step.conclusion)
+                      ? 'min-w-0 flex-1 truncate text-destructive'
+                      : 'min-w-0 flex-1 truncate text-muted-foreground'
+                }
+                title={`${step.name}${step.conclusion ? ` — ${step.conclusion.replace(/_/g, ' ')}` : ''}`}
+              >
+                {step.displayName}
+              </span>
+              <span className={`shrink-0 font-mono ${WORKFLOW_TONE_CLASS[statusTone(step.status, step.conclusion)]}`}>
+                {stepDuration(step, now)}
+              </span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </li>
+  );
+}
+
+/**
+ * Live GitHub Actions tracker for the dataset refresh workflow.
+ *
+ * GitHub only exposes step-level status while a run is in flight (logs
+ * arrive after it finishes), so the detail here comes from the workflow
+ * being split into `[Category]` steps. The panel attaches to whichever run
+ * is newest on mount — including a scheduled one it didn't start — and
+ * keeps polling until the run finishes.
+ */
+function DatasetWorkflowPanel({ getPasscode, rootFolderUrl, onFinished }: DatasetWorkflowPanelProps) {
+  const [run, setRun] = useState<WorkflowRunStatus | null>(null);
+  const [history, setHistory] = useState<WorkflowRunSummary[]>([]);
+  const [meta, setMeta] = useState<{ repo: string; workflowFile: string } | null>(null);
+  const [trackedRunId, setTrackedRunId] = useState<number | null>(null);
+  const [loadingOverview, setLoadingOverview] = useState(true);
+  const [triggering, setTriggering] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [now, setNow] = useState(() => Date.now());
+  const finishedRunRef = useRef<number | null>(null);
+
+  const isRunning = run ? run.status === 'queued' || run.status === 'in_progress' : false;
+  const progress = run ? runProgress(run, now) : null;
+  const groups = run ? categorizeRun(run) : [];
+
+  // Re-render once a second while a run is live so the elapsed clock and
+  // step durations tick between the 3s polls.
+  useEffect(() => {
+    if (!isRunning) return;
+    const timer = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(timer);
+  }, [isRunning]);
+
+  async function loadOverview() {
+    setLoadingOverview(true);
+    try {
+      const res = await getDatasetUpdateOverview({ data: { passcode: getPasscode() } }).catch(() => null);
+      if (!res) {
+        setError('Could not reach the GitHub integration.');
+        return;
+      }
+      if (!res.ok) {
+        setError(res.reason);
+        return;
+      }
+      setError(null);
+      setHistory(res.history);
+      setMeta({ repo: res.repo, workflowFile: res.workflowFile });
+      const shown = res.active ?? res.latest;
+      if (shown) {
+        setRun(shown);
+        setNow(Date.now());
+      }
+      setTrackedRunId(res.active ? res.active.runId : null);
+    } finally {
+      setLoadingOverview(false);
+    }
+  }
+
+  useEffect(() => {
+    void loadOverview();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Self-scheduling poll: one status call, then 3s later the next, so a slow
+  // GitHub response can't stack up overlapping requests the way setInterval
+  // does. Stops as soon as the run leaves queued/in_progress.
+  useEffect(() => {
+    if (trackedRunId === null) return;
+    let cancelled = false;
+    let timer: ReturnType<typeof setTimeout> | null = null;
+
+    const tick = async () => {
+      const res = await getDatasetUpdateStatus({
+        data: { passcode: getPasscode(), runId: trackedRunId },
+      }).catch(() => null);
+      if (cancelled) return;
+      if (!res || !res.ok) {
+        setError(res ? res.reason : 'Lost connection while checking workflow status.');
+        setTrackedRunId(null);
+        return;
+      }
+      setRun(res.status);
+      setNow(Date.now());
+      if (res.status.status === 'completed') {
+        setTrackedRunId(null);
+        if (finishedRunRef.current !== res.status.runId) {
+          finishedRunRef.current = res.status.runId;
+          onFinished();
+        }
+        void loadOverview();
+        return;
+      }
+      timer = setTimeout(tick, 3000);
+    };
+
+    timer = setTimeout(tick, 1200);
+    return () => {
+      cancelled = true;
+      if (timer) clearTimeout(timer);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [trackedRunId]);
+
+  async function handleTrigger() {
+    setShowConfirm(false);
+    setTriggering(true);
+    setError(null);
+    try {
+      const res = await triggerDatasetUpdate({ data: { passcode: getPasscode() } });
+      if (!res.ok) {
+        setError(res.reason);
+        // A run was already going — track it instead of dead-ending on the
+        // error, since that's almost certainly what the admin wanted to see.
+        if (res.activeRunId) {
+          setTrackedRunId(res.activeRunId);
+          const status = await getDatasetUpdateStatus({
+            data: { passcode: getPasscode(), runId: res.activeRunId },
+          }).catch(() => null);
+          if (status?.ok) setRun(status.status);
+        }
+        return;
+      }
+      setRun(null);
+      setTrackedRunId(res.runId);
+    } catch {
+      setError('Could not trigger the workflow. Try again.');
+    } finally {
+      setTriggering(false);
+    }
+  }
+
+  const overallTone = progress ? statusTone(run?.status ?? 'queued', run?.conclusion ?? null) : 'neutral';
+  const headline = !run
+    ? null
+    : progress?.isQueued
+      ? 'Queued — waiting for a runner'
+      : progress?.isRunning
+        ? progress.currentStepName
+          ? `${groups.find((group) => group.key === progress.currentCategoryKey)?.label ?? 'Working'}: ${progress.currentStepName}`
+          : 'Starting…'
+        : workflowConclusionLabel(run.status, run.conclusion);
+
+  return (
+    <div className="mb-6 rounded-lg border bg-muted/20 p-4">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p className="text-sm font-medium text-foreground">Update resource datasets</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Re-crawls Drive, regenerates the committed JSON datasets, and commits the result — via the{' '}
+            <span className="font-mono">{meta?.workflowFile ?? 'update-resources.yml'}</span> GitHub Actions workflow.
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={() => void loadOverview()} disabled={loadingOverview}>
+            {loadingOverview ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
+            Status
+          </Button>
+          <Button size="sm" onClick={() => setShowConfirm(true)} disabled={triggering || isRunning}>
+            {triggering ? 'Starting…' : isRunning ? 'Running…' : 'Update resource datasets'}
+          </Button>
+        </div>
+      </div>
+
+      {error && <p className="mt-3 text-sm text-destructive">{error}</p>}
+
+      {trackedRunId !== null && !run && (
+        <p className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+          <Loader2 size={13} className="animate-spin" /> Dispatching run… waiting for GitHub to queue it.
+        </p>
+      )}
+
+      {run && progress && (
+        <div className="mt-4 overflow-hidden rounded-lg border bg-background/70">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b px-3 py-2">
+            <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-xs">
+              <a
+                href={run.htmlUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="font-mono font-medium text-primary hover:underline"
+              >
+                Run #{run.runNumber || run.runId}
+              </a>
+              <span className="rounded-full border px-1.5 py-0.5 text-[10px] text-muted-foreground">
+                {run.event === 'schedule' ? 'scheduled' : run.event === 'workflow_dispatch' ? 'manual' : run.event}
+              </span>
+              <span className="text-muted-foreground">
+                started {formatRelativeTime(run.startedAt ?? run.createdAt)}
+              </span>
+            </div>
+            <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-medium ${WORKFLOW_BADGE_CLASS[overallTone]}`}>
+              {workflowConclusionLabel(run.status, run.conclusion)}
+            </span>
+          </div>
+
+          <div className="space-y-1.5 px-3 py-2.5">
+            <div className="flex items-start justify-between gap-3 text-[11px]">
+              <span className={`min-w-0 truncate ${progress.isRunning ? 'text-foreground' : 'text-muted-foreground'}`} title={headline ?? ''}>
+                {progress.isRunning && <Loader2 size={11} className="mr-1 inline animate-spin align-[-1px]" />}
+                {headline}
+              </span>
+              <span className="shrink-0 font-mono text-muted-foreground">
+                {progress.completedSteps}/{progress.totalSteps} steps · {formatDuration(progress.elapsedMs)}
+                {progress.isRunning && progress.etaMs !== null ? ` · ~${formatDuration(progress.etaMs)} left` : ''}
+              </span>
+            </div>
+            <Progress value={progress.percent} className="h-1.5" />
+          </div>
+
+          <ul className="divide-y border-t">
+            {groups.map((group) => (
+              <CategoryRow key={group.key} group={group} now={now} />
+            ))}
+          </ul>
+
+          <div className="flex flex-wrap items-center justify-between gap-2 border-t px-3 py-2 text-[11px] text-muted-foreground">
+            <a href={run.htmlUrl} target="_blank" rel="noreferrer" className="flex items-center gap-1 text-primary hover:underline">
+              Open run on GitHub <ExternalLink size={11} />
+            </a>
+            <span className="font-mono">
+              {meta ? `${meta.repo} · ${meta.workflowFile}` : `sha ${run.headSha.slice(0, 7)}`}
+            </span>
+          </div>
+        </div>
+      )}
+
+      {history.length > 0 && (
+        <div className="mt-4">
+          <p className="text-[11px] font-medium text-muted-foreground">Recent runs</p>
+          <ul className="mt-1 divide-y rounded-lg border bg-background/60">
+            {history.map((entry) => {
+              const tone = statusTone(entry.status, entry.conclusion);
+              const active = run?.runId === entry.runId;
+              return (
+                <li key={entry.runId} className={`flex items-center gap-2 px-3 py-1.5 text-[11px] ${active ? 'bg-muted/40' : ''}`}>
+                  <a href={entry.htmlUrl} target="_blank" rel="noreferrer" className="font-mono text-primary hover:underline">
+                    #{entry.runNumber || entry.runId}
+                  </a>
+                  <span className="min-w-0 flex-1 truncate text-muted-foreground">
+                    {entry.event === 'schedule' ? 'scheduled' : entry.event === 'workflow_dispatch' ? 'manual' : entry.event} ·{' '}
+                    {formatRelativeTime(entry.createdAt)}
+                  </span>
+                  <span className={`shrink-0 ${WORKFLOW_TONE_CLASS[tone]}`}>
+                    {workflowConclusionLabel(entry.status, entry.conclusion)}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
+
+      {showConfirm && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+          onClick={() => setShowConfirm(false)}
+          role="presentation"
+        >
+          <div
+            className="w-full max-w-md rounded-lg border bg-background p-6 shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Confirm dataset update"
+          >
+            <h3 className="text-base font-semibold text-foreground">Update resource datasets?</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              This re-crawls the Google Drive folder below, regenerates every committed JSON dataset, and
+              commits the result to the repo. It runs as a GitHub Actions workflow and is{' '}
+              <span className="font-medium text-foreground">not stoppable</span> once started — it can take
+              several minutes.
+            </p>
+            <div className="mt-3 rounded-md border bg-muted/30 p-3">
+              <p className="text-xs font-medium text-muted-foreground">Drive folder to be crawled</p>
+              {rootFolderUrl ? (
+                <a
+                  href={rootFolderUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-1 flex items-center gap-1.5 break-all text-sm text-primary hover:underline"
+                >
+                  {rootFolderUrl} <ExternalLink size={13} className="shrink-0" />
+                </a>
+              ) : (
+                <p className="mt-1 text-sm text-muted-foreground">Unknown — Drive isn't configured.</p>
+              )}
+            </div>
+            {meta && (
+              <div className="mt-3 rounded-md border bg-muted/30 p-3">
+                <p className="text-xs font-medium text-muted-foreground">Workflow category breakdown</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {WORKFLOW_CATEGORIES.filter((category) => category.key !== 'runner' && category.key !== 'other')
+                    .map((category) => category.label)
+                    .join(' → ')}
+                </p>
+              </div>
+            )}
+            <div className="mt-5 flex justify-end gap-2">
+              <Button variant="outline" size="sm" onClick={() => setShowConfirm(false)}>
+                Cancel
+              </Button>
+              <Button size="sm" onClick={() => void handleTrigger()}>
+                Start update
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function ManageResourcesCard() {
   const [state, setState] = useState<ManageResourcesResult | null>(null);
   const [loading, setLoading] = useState(false);
@@ -794,12 +1274,6 @@ function ManageResourcesCard() {
   const currentFolderIdRef = useRef<string | undefined>(undefined);
   currentFolderIdRef.current = currentFolderId;
 
-  const [triggering, setTriggering] = useState(false);
-  const [updateRunId, setUpdateRunId] = useState<number | null>(null);
-  const [updateStatus, setUpdateStatus] = useState<WorkflowRunStatus | null>(null);
-  const [updateError, setUpdateError] = useState<string | null>(null);
-  const [showConfirm, setShowConfirm] = useState(false);
-  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Upload: a hidden <input type="file"> triggered by the "+file" button
   // in the header, so the browser's native picker handles file selection.
@@ -860,60 +1334,6 @@ function ManageResourcesCard() {
     const next = index < 0 ? [] : path.slice(0, index + 1);
     setPath(next);
     void load(next.length ? next[next.length - 1]!.id : undefined);
-  }
-
-  function stopPolling() {
-    if (pollRef.current) {
-      clearInterval(pollRef.current);
-      pollRef.current = null;
-    }
-  }
-
-  function startPolling(runId: number) {
-    stopPolling();
-    pollRef.current = setInterval(async () => {
-      try {
-        const res = await getDatasetUpdateStatus({ data: { passcode: getPasscode(), runId } });
-        if (!res.ok) {
-          setUpdateError(res.reason);
-          stopPolling();
-          return;
-        }
-        setUpdateStatus(res.status);
-        if (res.status.status === 'completed') {
-          stopPolling();
-          if (res.status.conclusion === 'success') {
-            void load(currentFolderIdRef.current);
-          }
-        }
-      } catch {
-        setUpdateError('Lost connection while checking workflow status.');
-        stopPolling();
-      }
-    }, 3000);
-  }
-
-  useEffect(() => stopPolling, []);
-
-  async function handleTriggerUpdate() {
-    setShowConfirm(false);
-    setTriggering(true);
-    setUpdateError(null);
-    setUpdateStatus(null);
-    setUpdateRunId(null);
-    try {
-      const res = await triggerDatasetUpdate({ data: { passcode: getPasscode() } });
-      if (res.ok) {
-        setUpdateRunId(res.runId);
-        startPolling(res.runId);
-      } else {
-        setUpdateError(res.reason);
-      }
-    } catch {
-      setUpdateError('Could not trigger the workflow. Try again.');
-    } finally {
-      setTriggering(false);
-    }
   }
 
   async function handleFileSelected(e: React.ChangeEvent<HTMLInputElement>) {
@@ -989,8 +1409,6 @@ function ManageResourcesCard() {
     }
   }
 
-  const isRunning = updateStatus ? updateStatus.status !== 'completed' : updateRunId !== null && !updateError;
-
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-end gap-2">
@@ -1023,61 +1441,11 @@ function ManageResourcesCard() {
 
         {uploadError && <p className="mb-4 text-sm text-destructive">{uploadError}</p>}
 
-        <div className="mb-6 rounded-lg border bg-muted/20 p-4">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <p className="text-sm font-medium text-foreground">Update resource datasets</p>
-              <p className="mt-1 text-xs text-muted-foreground">
-                Re-crawls Drive, regenerates the committed JSON datasets, and commits the result — via the{' '}
-                <span className="font-mono">update-resources.yml</span> GitHub Actions workflow.
-              </p>
-            </div>
-            <Button size="sm" onClick={() => setShowConfirm(true)} disabled={triggering || isRunning}>
-              {triggering ? 'Starting…' : isRunning ? 'Running…' : 'Update resource datasets'}
-            </Button>
-          </div>
-
-          {updateError && <p className="mt-3 text-sm text-destructive">{updateError}</p>}
-
-          {updateRunId && !updateError && (
-            <div className="mt-4">
-              <div className="flex items-center justify-between text-xs text-muted-foreground">
-                <span>
-                  Run{' '}
-                  {updateStatus?.htmlUrl ? (
-                    <a href={updateStatus.htmlUrl} target="_blank" rel="noreferrer" className="font-mono text-primary hover:underline">
-                      #{updateRunId}
-                    </a>
-                  ) : (
-                    <span className="font-mono">#{updateRunId}</span>
-                  )}
-                </span>
-                <span>
-                  {updateStatus?.status === 'completed'
-                    ? updateStatus.conclusion === 'success'
-                      ? '✅ Completed'
-                      : `❌ ${updateStatus.conclusion ?? 'failed'}`
-                    : updateStatus?.status
-                      ? `⏳ ${updateStatus.status.replace('_', ' ')}`
-                      : '⏳ Starting…'}
-                </span>
-              </div>
-
-              {updateStatus && updateStatus.steps.length > 0 && (
-                <ul className="mt-3 space-y-1 text-xs">
-                  {updateStatus.steps.map((step) => (
-                    <li key={step.name} className="flex items-center gap-2 text-muted-foreground">
-                      <span>{stepIcon(step.status, step.conclusion)}</span>
-                      <span className={step.status === 'in_progress' ? 'font-medium text-foreground' : ''}>
-                        {step.name}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          )}
-        </div>
+        <DatasetWorkflowPanel
+          getPasscode={getPasscode}
+          rootFolderUrl={state?.configured ? state.rootFolderUrl : null}
+          onFinished={() => void load(currentFolderIdRef.current)}
+        />
 
         {error && <p className="mb-4 text-sm text-destructive">{error}</p>}
 
@@ -1249,53 +1617,6 @@ function ManageResourcesCard() {
           </>
         )}
       </CardContent>
-
-      {showConfirm && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
-          onClick={() => setShowConfirm(false)}
-          role="presentation"
-        >
-          <div
-            className="w-full max-w-md rounded-lg border bg-background p-6 shadow-lg"
-            onClick={(e) => e.stopPropagation()}
-            role="dialog"
-            aria-modal="true"
-            aria-label="Confirm dataset update"
-          >
-            <h3 className="text-base font-semibold text-foreground">Update resource datasets?</h3>
-            <p className="mt-2 text-sm text-muted-foreground">
-              This re-crawls the Google Drive folder below, regenerates every committed JSON dataset, and
-              commits the result to the repo. It runs as a GitHub Actions workflow and is{' '}
-              <span className="font-medium text-foreground">not stoppable</span> once started — it can take
-              several minutes.
-            </p>
-            <div className="mt-3 rounded-md border bg-muted/30 p-3">
-              <p className="text-xs font-medium text-muted-foreground">Drive folder to be crawled</p>
-              {state?.configured ? (
-                <a
-                  href={state.rootFolderUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-1 flex items-center gap-1.5 break-all text-sm text-primary hover:underline"
-                >
-                  {state.rootFolderUrl} <ExternalLink size={13} className="shrink-0" />
-                </a>
-              ) : (
-                <p className="mt-1 text-sm text-muted-foreground">Unknown — Drive isn't configured.</p>
-              )}
-            </div>
-            <div className="mt-5 flex justify-end gap-2">
-              <Button variant="outline" size="sm" onClick={() => setShowConfirm(false)}>
-                Cancel
-              </Button>
-              <Button size="sm" onClick={() => void handleTriggerUpdate()}>
-                Start update
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {deleteTarget && (
         <div

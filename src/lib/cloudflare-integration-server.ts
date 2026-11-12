@@ -11,7 +11,6 @@ import { sql } from "./db";
 export type CloudflareIntegrationConfig = {
   accountId: string;
   rumApiToken: string;
-  rumSiteTag: string;
 };
 
 /**
@@ -23,9 +22,9 @@ export type CloudflareIntegrationConfig = {
 export async function getCloudflareIntegrationConfig(): Promise<CloudflareIntegrationConfig | null> {
   if (!sql) return null;
   const rows = await sql.query(
-    "SELECT account_id, rum_api_token, rum_site_tag FROM cloudflare_integration WHERE id = true LIMIT 1"
+    "SELECT account_id, rum_api_token FROM cloudflare_integration WHERE id = true LIMIT 1"
   );
-  const row = rows[0] as { account_id: string; rum_api_token: string; rum_site_tag: string } | undefined;
+  const row = rows[0] as { account_id: string; rum_api_token: string } | undefined;
   if (!row) return null;
-  return { accountId: row.account_id, rumApiToken: row.rum_api_token, rumSiteTag: row.rum_site_tag };
+  return { accountId: row.account_id, rumApiToken: row.rum_api_token };
 }

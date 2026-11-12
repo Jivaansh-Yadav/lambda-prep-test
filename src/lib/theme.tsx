@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useLayoutEffect, use
 
 export type Theme = 'light' | 'dark';
 
-const STORAGE_KEY = 'lambda-theme';
+const STORAGE_KEY = 'lambda-prep-theme';
 
 interface ThemeContextValue {
   theme: Theme;

@@ -15,11 +15,15 @@ import {
   getGithubIntegrationConfig,
   dispatchWorkflow,
   getWorkflowRunStatus,
+  listWorkflowRuns,
+  getActiveWorkflowRun,
   getLatestCommit,
   type WorkflowRunStatus,
+  type WorkflowRunSummary,
   type LatestCommit,
 } from "./github-integration-server";
 import { getCloudflareIntegrationConfig } from "./cloudflare-integration-server";
+import { RUM_SITE_TAG } from "./lambda-prep";
 import { resolveFileLocations } from "./resource-lookup-server";
 
 // No fallback default: an unset ADMIN_PASSCODE must disable admin access
@@ -267,6 +271,32 @@ const TRAFFIC_QUERY_BY_HOUR = `
   }
 `;
 
+/**
+ * Reads a Cloudflare GraphQL response body defensively. A stale token,
+ * wrong account ID or a Cloudflare outage makes the API answer with an
+ * HTML error page (or a 4xx/5xx with no body), and letting
+ * `response.json()` throw would reach the admin UI as an opaque
+ * "could not load analytics" instead of the actual cause.
+ */
+async function readGraphqlResponse<T>(
+  response: Response
+): Promise<{ ok: true; json: T } | { ok: false; reason: string }> {
+  const text = await response.text();
+  try {
+    return { ok: true, json: JSON.parse(text) as T };
+  } catch {
+    const detail = text
+      .replace(/<[^>]*>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 140);
+    return {
+      ok: false,
+      reason: `Cloudflare's API answered HTTP ${response.status} with a non-JSON body${detail ? ` (${detail})` : ""}. Usually a revoked/expired API token or the wrong account ID in cloudflare_integration.`,
+    };
+  }
+}
+
 type CloudflareGraphQLResponse = {
   data?: {
     viewer?: {
@@ -343,16 +373,25 @@ async function writeCache(range: AdminRange, payload: CachedPayload): Promise<vo
  * can show a clear setup state instead of a generic error.
  */
 async function fetchFromCloudflare(range: AdminRange): Promise<AdminTrafficResult> {
-  const config = await getCloudflareIntegrationConfig();
+  let config: Awaited<ReturnType<typeof getCloudflareIntegrationConfig>>;
+  try {
+    config = await getCloudflareIntegrationConfig();
+  } catch (error) {
+    return {
+      configured: false,
+      reason: `Could not read the cloudflare_integration row from Neon: ${error instanceof Error ? error.message : String(error)}`,
+    };
+  }
 
   if (!config) {
     return {
       configured: false,
       reason:
-        "Web Analytics isn't configured yet. Seed the cloudflare_integration row (account ID, RUM API token with Account → Analytics → Read scope, and RUM site tag) in Neon.",
+        "Web Analytics isn't configured yet. Seed the cloudflare_integration row (Cloudflare account ID + a RUM API token with Account → Analytics → Read scope) in Neon. The beacon site tag is not stored in Neon — it comes from RUM_SITE_TAG in src/lib/lambda-prep.ts.",
     };
   }
-  const { accountId, rumApiToken: apiToken, rumSiteTag: siteTag } = config;
+  const { accountId, rumApiToken: apiToken } = config;
+  const siteTag = RUM_SITE_TAG;
 
   const until = new Date();
   const since = new Date(until.getTime() - RANGE_WINDOW_MS[range]);
@@ -383,7 +422,9 @@ async function fetchFromCloudflare(range: AdminRange): Promise<AdminTrafficResul
     };
   }
 
-  const json = (await response.json()) as CloudflareGraphQLResponse;
+  const parsed = await readGraphqlResponse<CloudflareGraphQLResponse>(response);
+  if (!parsed.ok) return { configured: false, reason: parsed.reason };
+  const json = parsed.json;
 
   if (json.errors?.length) {
     return { configured: false, reason: json.errors[0]?.message ?? "Cloudflare API returned an error." };
@@ -601,16 +642,25 @@ function sortedBreakdown(groups: RumGroup[] | undefined): RumBreakdownItem[] {
  * missing or the request/response fails.
  */
 async function fetchRumFromCloudflare(range: AdminRange): Promise<AdminRumResult> {
-  const config = await getCloudflareIntegrationConfig();
+  let config: Awaited<ReturnType<typeof getCloudflareIntegrationConfig>>;
+  try {
+    config = await getCloudflareIntegrationConfig();
+  } catch (error) {
+    return {
+      configured: false,
+      reason: `Could not read the cloudflare_integration row from Neon: ${error instanceof Error ? error.message : String(error)}`,
+    };
+  }
 
   if (!config) {
     return {
       configured: false,
       reason:
-        "Web Analytics (RUM) isn't configured yet. Seed the cloudflare_integration row (account ID, RUM API token with Account → Analytics → Read scope, and RUM site tag) in Neon.",
+        "Web Analytics (RUM) isn't configured yet. Seed the cloudflare_integration row (Cloudflare account ID + a RUM API token with Account → Analytics → Read scope) in Neon. The beacon site tag is not stored in Neon — it comes from RUM_SITE_TAG in src/lib/lambda-prep.ts.",
     };
   }
-  const { accountId, rumApiToken: apiToken, rumSiteTag: siteTag } = config;
+  const { accountId, rumApiToken: apiToken } = config;
+  const siteTag = RUM_SITE_TAG;
 
   const until = new Date();
   const since = new Date(until.getTime() - RANGE_WINDOW_MS[range]);
@@ -640,7 +690,9 @@ async function fetchRumFromCloudflare(range: AdminRange): Promise<AdminRumResult
     };
   }
 
-  const json = (await response.json()) as RumGraphQLResponse;
+  const parsed = await readGraphqlResponse<RumGraphQLResponse>(response);
+  if (!parsed.ok) return { configured: false, reason: parsed.reason };
+  const json = parsed.json;
 
   if (json.errors?.length) {
     return { configured: false, reason: json.errors[0]?.message ?? "Cloudflare API returned an error." };
@@ -881,7 +933,14 @@ export const getDriveWriteCapability = createServerFn({ method: "POST" })
 
 export type TriggerDatasetUpdateResult =
   | { ok: true; runId: number; htmlUrl: string }
-  | { ok: false; reason: string };
+  | {
+      ok: false;
+      reason: string;
+      /** Set when the refusal was "a run is already in flight", so the UI
+       * can attach to that run instead of just showing an error. */
+      activeRunId?: number;
+      activeRunNumber?: number;
+    };
 
 export const triggerDatasetUpdate = createServerFn({ method: "POST" })
   .validator((data: unknown) => {
@@ -898,6 +957,23 @@ export const triggerDatasetUpdate = createServerFn({ method: "POST" })
     }
 
     try {
+      // Two overlapping crawls would fight over the same generated files
+      // (and the second commit would be rejected after a wasted run), so
+      // refuse rather than queue — and hand back the active run so the
+      // panel can track the one that's already going.
+      const active = await getActiveWorkflowRun(config);
+      if (active) {
+        return {
+          ok: false,
+          reason:
+            active.status === "queued"
+              ? `Run #${active.runNumber} is already queued — waiting for a runner.`
+              : `Run #${active.runNumber} is already in progress.`,
+          activeRunId: active.runId,
+          activeRunNumber: active.runNumber,
+        };
+      }
+
       const { runId, htmlUrl } = await dispatchWorkflow(config);
       return { ok: true, runId, htmlUrl };
     } catch (error) {
@@ -1063,6 +1139,83 @@ export const getAdminResourceStats = createServerFn({ method: "POST" })
         configured: false,
         reason: `Could not load resource stats: ${error instanceof Error ? error.message : String(error)}`,
       };
+    }
+  });
+
+export type DatasetUpdateOverviewResult =
+  | {
+      ok: true;
+      /** The run currently queued/running, if any — the panel polls this. */
+      active: WorkflowRunStatus | null;
+      /** Newest run of any kind (scheduled or manual), running or finished. */
+      latest: WorkflowRunStatus | null;
+      history: WorkflowRunSummary[];
+      repo: string;
+      workflowFile: string;
+      ref: string;
+    }
+  | { ok: false; reason: string };
+
+/**
+ * Everything the panel needs on mount: the newest run (so a page reload
+ * re-attaches to a run that's already going, or shows the weekly cron's
+ * result), plus a short history list. Replaces the old behaviour where the
+ * tracker only existed in React state for the tab that dispatched it.
+ */
+export const getDatasetUpdateOverview = createServerFn({ method: "POST" })
+  .validator((data: unknown) => {
+    const d = data as { passcode?: unknown };
+    if (typeof d?.passcode !== "string") throw new Error("Missing passcode");
+    return { passcode: d.passcode };
+  })
+  .handler(async ({ data }): Promise<DatasetUpdateOverviewResult> => {
+    requirePasscode(data.passcode);
+
+    const config = await getGithubIntegrationConfig();
+    if (!config) {
+      return { ok: false, reason: "GitHub integration isn't configured yet." };
+    }
+
+    try {
+      const history = await listWorkflowRuns(config, 6);
+      const newest = history[0];
+      if (!newest) {
+        return {
+          ok: true,
+          active: null,
+          latest: null,
+          history: [],
+          repo: `${config.owner}/${config.repo}`,
+          workflowFile: config.workflowFile,
+          ref: config.ref,
+        };
+      }
+
+      const activeRow =
+        history.find((run) => run.status === "queued" || run.status === "in_progress") ?? null;
+
+      // One detail call covers the common cases; the second only happens if
+      // a queued/running run isn't also the newest (e.g. a newer scheduled
+      // run was cancelled before it started).
+      const latest = await getWorkflowRunStatus(config, newest.runId);
+      const active =
+        activeRow && activeRow.runId !== newest.runId
+          ? await getWorkflowRunStatus(config, activeRow.runId)
+          : activeRow
+            ? latest
+            : null;
+
+      return {
+        ok: true,
+        active,
+        latest,
+        history,
+        repo: `${config.owner}/${config.repo}`,
+        workflowFile: config.workflowFile,
+        ref: config.ref,
+      };
+    } catch (error) {
+      return { ok: false, reason: error instanceof Error ? error.message : String(error) };
     }
   });
 

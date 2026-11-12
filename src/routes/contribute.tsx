@@ -16,7 +16,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { classes, getSubjects, pageHead } from '@/lib/lambda';
+import { classes, getSubjects, pageHead } from '@/lib/lambda-prep';
 import { submitContributionLink, submitContributionUpload } from '@/lib/contribute-server';
 
 export const Route = createFileRoute('/contribute')({

@@ -1,11 +1,13 @@
 {
-  "name": "tanstack_start_ts",
+  "name": "lambda-prep",
+  "author": "Jivaansh <jivaanshyadav@gmail.com>",
   "private": true,
   "sideEffects": false,
   "type": "module",
   "scripts": {
     "dev": "vite dev --port 3000",
     "build": "vite build",
+    "build:pages": "LAMBDA_PREP_BUILD_TARGET=pages vite build",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",

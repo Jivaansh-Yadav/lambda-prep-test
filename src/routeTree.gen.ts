@@ -14,6 +14,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ContributeRouteImport } from './routes/contribute'
 import { Route as DoxxmarksRouteImport } from './routes/doxxmarks'
 import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ClassesClassIdRouteImport } from './routes/classes.$classId'
 import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
 import { Route as ResourcesCisceRouteImport } from './routes/resources.cisce'
@@ -44,6 +45,11 @@ const ResourcesRoute = ResourcesRouteImport.update({
   path: '/resources',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ClassesClassIdRoute = ClassesClassIdRouteImport.update({
   id: '/classes/$classId',
   path: '/classes/$classId',
@@ -71,6 +77,7 @@ export interface FileRoutesByFullPath {
   '/contribute': typeof ContributeRoute
   '/doxxmarks': typeof DoxxmarksRoute
   '/resources': typeof ResourcesRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/classes/$classId': typeof ClassesClassIdRoute
   '/resources/cisce': typeof ResourcesCisceRoute
   '/resources/community': typeof ResourcesCommunityRoute
@@ -81,6 +88,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/contribute': typeof ContributeRoute
   '/doxxmarks': typeof DoxxmarksRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/classes/$classId': typeof ClassesClassIdRoute
   '/resources/cisce': typeof ResourcesCisceRoute
   '/resources/community': typeof ResourcesCommunityRoute
@@ -93,6 +101,7 @@ export interface FileRoutesById {
   '/contribute': typeof ContributeRoute
   '/doxxmarks': typeof DoxxmarksRoute
   '/resources': typeof ResourcesRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/classes/$classId': typeof ClassesClassIdRoute
   '/resources/cisce': typeof ResourcesCisceRoute
   '/resources/community': typeof ResourcesCommunityRoute
@@ -106,6 +115,7 @@ export interface FileRouteTypes {
     | '/contribute'
     | '/doxxmarks'
     | '/resources'
+    | '/sitemap.xml'
     | '/classes/$classId'
     | '/resources/cisce'
     | '/resources/community'
@@ -116,6 +126,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/contribute'
     | '/doxxmarks'
+    | '/sitemap.xml'
     | '/classes/$classId'
     | '/resources/cisce'
     | '/resources/community'
@@ -127,6 +138,7 @@ export interface FileRouteTypes {
     | '/contribute'
     | '/doxxmarks'
     | '/resources'
+    | '/sitemap.xml'
     | '/classes/$classId'
     | '/resources/cisce'
     | '/resources/community'
@@ -139,6 +151,7 @@ export interface RootRouteChildren {
   ContributeRoute: typeof ContributeRoute
   DoxxmarksRoute: typeof DoxxmarksRoute
   ResourcesRoute: typeof ResourcesRouteWithChildren
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ClassesClassIdRoute: typeof ClassesClassIdRoute
 }
 
@@ -177,6 +190,13 @@ declare module '@tanstack/react-router' {
       path: '/resources'
       fullPath: '/resources'
       preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/classes/$classId': {
@@ -232,6 +252,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContributeRoute: ContributeRoute,
   DoxxmarksRoute: DoxxmarksRoute,
   ResourcesRoute: ResourcesRouteWithChildren,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   ClassesClassIdRoute: ClassesClassIdRoute,
 }
 export const routeTree = rootRouteImport

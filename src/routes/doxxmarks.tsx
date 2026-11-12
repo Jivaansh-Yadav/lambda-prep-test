@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { ArrowLeft, ArrowUpRight, BookOpen, ChevronRight, PlayCircle, FileText, Search } from 'lucide-react';
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
-import type { DoxxLesson } from '@/components/lambda/doxx-watch';
-import { NotePdfWatch } from '@/components/lambda/note-pdf-watch';
+import type { DoxxLesson } from '@/components/lambda-prep/doxx-watch';
+import { NotePdfWatch } from '@/components/lambda-prep/note-pdf-watch';
 import { curriculumClasses, type LessonLink } from '@/lib/curriculum';
-import { classes, findSubjectMeta, pageHead, getSiteOrigin, sortBySubjectOrder } from '@/lib/lambda';
+import { classes, findSubjectMeta, pageHead, getSiteOrigin, sortBySubjectOrder } from '@/lib/lambda-prep';
 import { DOXX_CATEGORIES, categoryForActivity, categoryMeta } from '@/lib/doxx-categories';
 import { useI18n } from '@/lib/i18n';
 import { useFuseSearch } from '@/hooks/use-fuse-search';
@@ -13,7 +13,7 @@ import { useGoBack } from '@/hooks/use-go-back';
 // DoxxWatch pulls in the full Video.js + hls.js player stack (over 1MB), so
 // it's only fetched once a lesson is actually opened — not on every visit to
 // the chapter/topic browsing grid.
-const DoxxWatch = lazy(() => import('@/components/lambda/doxx-watch').then(m => ({ default: m.DoxxWatch })));
+const DoxxWatch = lazy(() => import('@/components/lambda-prep/doxx-watch').then(m => ({ default: m.DoxxWatch })));
 
 // Referentially stable key arrays for useFuseSearch — a fresh array literal
 // at the call site would rebuild the Fuse index on every render.

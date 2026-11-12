@@ -4,14 +4,15 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
 
-import { Header, Footer, ContactMessageDialog } from "@/components/lambda/shell";
-import { SITE_URL, OG_IMAGE } from "@/lib/lambda";
+import { Header, Footer, ContactMessageDialog } from "@/components/lambda-prep/shell";
+import { SITE_URL, OG_IMAGE, RUM_SITE_TAG } from "@/lib/lambda-prep";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { I18nProvider, useI18n } from "../lib/i18n";
@@ -83,15 +84,24 @@ const NOTFOUND_MESSAGE_KEYS: readonly string[] = [
 function NotFoundComponent() {
   const { t } = useI18n();
   const [contactOpen, setContactOpen] = useState(false);
-  // Picked once per mount so the message doesn't shuffle on re-renders.
-  const [messageKey] = useState<string>(() => NOTFOUND_MESSAGE_KEYS[Math.floor(Math.random() * NOTFOUND_MESSAGE_KEYS.length)] ?? 'notfound.text');
+  // Chosen deterministically from the pathname rather than via Math.random():
+  // the 404 page is server-rendered *and* hydrated on the client, and a fresh
+  // random pick on each render made the two texts disagree, which React
+  // reported as a hydration mismatch and repaired by re-rendering the tree.
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  const [messageKey] = useState<string>(() => {
+    let hash = 0;
+    for (let i = 0; i < pathname.length; i += 1) hash = (hash * 31 + pathname.charCodeAt(i)) | 0;
+    const index = Math.abs(hash) % NOTFOUND_MESSAGE_KEYS.length;
+    return NOTFOUND_MESSAGE_KEYS[index] ?? 'notfound.text';
+  });
 
   // notFoundComponent renders outside the normal route `head()` pipeline, so
   // this page's own title/robots meta are set directly here instead — a
   // distinct, non-indexable title rather than inheriting the root default.
   useEffect(() => {
     const previousTitle = document.title;
-    document.title = 'Page not found | Lambda Prep';
+    document.title = 'Lambda Prep | Page not found';
     const meta = document.createElement('meta');
     meta.name = 'robots';
     meta.content = 'noindex, follow';
@@ -251,7 +261,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <script
           type="module"
           src="https://static.cloudflareinsights.com/beacon.min.js"
-          data-cf-beacon='{"token": "a9d4d976f92b48ed89669f9959c889de"}'
+          data-cf-beacon={JSON.stringify({ token: RUM_SITE_TAG })}
         ></script>
       </head>
       <body>

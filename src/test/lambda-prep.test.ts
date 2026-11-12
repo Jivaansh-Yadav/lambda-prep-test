@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { classes, getSubjects } from '@/lib/lambda';
-describe('Lambda class coverage', () => {
+import { classes, getSubjects } from '@/lib/lambda-prep';
+describe('Lambda Prep class coverage', () => {
   it('uses the four requested class hub addresses', () => {
     expect(classes.map(c => c.slug)).toEqual(['icse-9', 'icse-10', 'isc-11', 'isc-12']);
   });

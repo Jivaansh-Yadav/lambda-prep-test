@@ -116,7 +116,7 @@
             </tbody>
           </table>
           <p class="footer-note">
-            Generated for <a href="https://project-3354c0eb.eazo.dev/">Lambda Prep</a> — curated ICSE &amp; ISC study resources.
+            Generated for <a href="https://lambda-prep.pages.dev/">Lambda Prep</a> — curated ICSE &amp; ISC study resources.
           </p>
         </div>
       </body>

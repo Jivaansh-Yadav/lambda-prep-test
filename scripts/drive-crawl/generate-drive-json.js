@@ -3,8 +3,40 @@ import path from "path";
 import { google } from "googleapis";
 
 // 🔐 Auth
+//
+// googleapis silently falls back to Application Default Credentials when the
+// key file is missing or empty, which surfaces as "Method doesn't allow
+// unregistered callers" from inside the first files.list() — a misleading
+// error that looks like a Drive permission problem. Fail here instead, with
+// the thing that is actually wrong.
+const KEY_FILE = "service-account.json";
+if (!fs.existsSync(KEY_FILE)) {
+  console.error(
+    `❌ ${KEY_FILE} not found in ${process.cwd()}. The crawl needs a Google ` +
+      `service-account key with the Drive folders shared to its client_email.`
+  );
+  process.exit(1);
+}
+let serviceAccount;
+try {
+  serviceAccount = JSON.parse(fs.readFileSync(KEY_FILE, "utf8"));
+} catch (err) {
+  console.error(
+    `❌ ${KEY_FILE} is not valid JSON (${err.message}). In CI this usually ` +
+      `means the SERVICE_ACCOUNT secret is empty or truncated.`
+  );
+  process.exit(1);
+}
+if (!serviceAccount.client_email || !serviceAccount.private_key) {
+  console.error(
+    `❌ ${KEY_FILE} has no client_email / private_key. In CI this usually ` +
+      `means the SERVICE_ACCOUNT secret holds something other than the key JSON.`
+  );
+  process.exit(1);
+}
+
 const auth = new google.auth.GoogleAuth({
-  keyFile: "service-account.json",
+  keyFile: KEY_FILE,
   scopes: ["https://www.googleapis.com/auth/drive.readonly"],
 });
 

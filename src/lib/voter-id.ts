@@ -5,7 +5,7 @@
  * persisted in localStorage; a fresh id is minted if storage is unavailable
  * (private browsing, SSR) or empty.
  */
-const STORAGE_KEY = 'lambda.voterId';
+const STORAGE_KEY = 'lambda-prep.voterId';
 
 export function getVoterId(): string {
   if (typeof window === 'undefined') return '';

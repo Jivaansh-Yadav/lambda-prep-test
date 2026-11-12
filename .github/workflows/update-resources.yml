@@ -53,12 +53,21 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: "[Setup] Write Google Drive service-account credentials"
+      - name: "[Setup] Fetch Google Drive credentials"
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
         run: |
-          mkdir -p scripts/drive-crawl
-          cat <<'EOF' > scripts/drive-crawl/service-account.json
-          ${{ secrets.SERVICE_ACCOUNT }}
-          EOF
+          # The service-account key lives in Neon (drive_integration), the same
+          # row the app reads at runtime, so the crawl never holds a second copy
+          # that can go stale after a key rotation. SERVICE_ACCOUNT is only a
+          # fallback for a runner without database access.
+          #
+          # googleapis falls back to anonymous Application Default Credentials
+          # when the key file is empty, which reports as "Method doesn't allow
+          # unregistered callers" — a credential problem dressed up as a Drive
+          # permission problem. Failing here keeps that confusion out of the log.
+          node scripts/drive-crawl/fetch-credentials.mjs
 
       - name: "[Setup] Install Drive crawl dependencies"
         working-directory: scripts/drive-crawl
@@ -89,7 +98,11 @@ jobs:
       # ------------------------------------------------------------------
       # [InstaRevision] — re-sign the GCS PDF URLs (7-day expiry)
       # ------------------------------------------------------------------
+      # The upload credential is not a secret of its own any more: like the Drive
+      # key it is read from Neon, so the step only needs DATABASE_URL.
       - name: "[InstaRevision] Refresh signed PDF links"
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: node scripts/drive-crawl/generate-insta-revision-links.mjs
 
       - name: "[InstaRevision] Apply signed links to doxxmarks_resources.json"

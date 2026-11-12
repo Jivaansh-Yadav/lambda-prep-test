@@ -4,7 +4,8 @@
 // and ISC XI/XII and records the GCS folderPath + title for each chapter's
 // "Revision Notes" (InstaRevision) PDF. This needs a short-lived
 // EXTRAMARKS_TOKEN (teacher login JWT, ~60min) read from the Extramarks
-// teacher app's localStorage — see README in this directory.
+// teacher app's localStorage: JSON.parse(localStorage.extramarks_user)
+// .access_token. Background: wiki/Doxxmarks-and-Signed-Links.md.
 //
 // The output (insta-revision-sources.json) has NO expiry — folder paths in
 // GCS don't change — so it's committed to the repo and only needs

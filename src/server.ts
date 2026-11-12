@@ -2,6 +2,7 @@ import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
+import { resolveShortRedirect } from "./lib/redirects";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -75,12 +76,16 @@ const CONTENT_SECURITY_POLICY = [
   "default-src 'self'",
   "base-uri 'self'",
   "object-src 'none'",
-  "script-src 'self' 'unsafe-inline'",
+  // static.cloudflareinsights.com is the Cloudflare Web Analytics (RUM) beacon
+  // loaded from __root.tsx; cloudflareinsights.com is where it POSTs its
+  // measurements. Without both hosts the browser blocks the beacon and the
+  // admin "Deep analytics" panel stays empty forever.
+  "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' data: https://fonts.gstatic.com",
   "img-src 'self' data: blob: https://drive.google.com",
   "media-src 'self' blob: https://mscontent-gcp.extramarks.com",
-  "connect-src 'self' https://mscontent-gcp.extramarks.com",
+  "connect-src 'self' https://mscontent-gcp.extramarks.com https://cloudflareinsights.com",
   "frame-src 'self' https://drive.google.com https://docs.google.com https://mscontent-gcp.extramarks.com https://storage.googleapis.com",
   "worker-src 'self' blob:",
   "frame-ancestors 'self' https://*.e2b.app https://*.eazo.dev https://*.eazo.ai",
@@ -127,6 +132,17 @@ function withSecurityHeaders(response: Response): Response {
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
+    // Short links (/drive, /github). public/_redirects covers hosts that read
+    // it for edge-served requests; this covers the SSR entry, which some hosts
+    // hand every request to before any redirect file is consulted.
+    const shortLink = resolveShortRedirect(new URL(request.url));
+    if (shortLink) {
+      return new Response(null, {
+        status: 302,
+        headers: { location: shortLink, "cache-control": "public, max-age=300" },
+      });
+    }
+
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);

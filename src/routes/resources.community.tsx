@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { pageHead } from '@/lib/lambda';
+import { pageHead } from '@/lib/lambda-prep';
 import { useI18n } from '@/lib/i18n';
-import { SourceClassPicker } from '@/components/lambda/source-class-picker';
+import { SourceClassPicker } from '@/components/lambda-prep/source-class-picker';
 
 interface ResourcesSearch { class?: string | undefined; subject?: string | undefined; file?: string | undefined; stream?: string | undefined }
 
@@ -35,7 +35,25 @@ function CommunityResources() {
       // no history entry to go back to.
       onFileChange={fileId => navigate({ search: prev => ({ ...prev, file: fileId ?? undefined }) })}
       title={t('resources.community.title')}
-      desc={<>{t('resources.community.descPrefix')} <a href="https://www.reddit.com/r/ICSE" target="_blank" rel="noreferrer">r/ICSE</a> and <a href="https://www.reddit.com/r/ISCNERDS/" target="_blank" rel="noreferrer">r/ISCNERDS</a> {t('resources.community.descMid')} <a href="https://discord.gg/7daJugjUA3" target="_blank" rel="noreferrer">ICSEcord</a> and <a href="https://discord.gg/7daJugjUA3" target="_blank" rel="noreferrer">ISCcord</a> {t('resources.community.descSuffix')}</>}
+      // The Class XII index was compiled from a community directory and the
+      // files stay hosted by their original contributors — say so plainly,
+      // inside the disclaimer block where people actually read it.
+      sourceCredit={
+        classSlug === 'isc-12' ? (
+          <>
+            The Class XII index was compiled from the{' '}
+            <a href="https://class-12-isc.vercel.app/#/notes" target="_blank" rel="noreferrer">
+              ISC.exe 2.0 community directory
+            </a>
+            ; every file is still hosted by the student or school that shared it.
+          </>
+        ) : undefined
+      }
+      desc={
+        <>
+          {t('resources.community.descPrefix')} <a href="https://www.reddit.com/r/ICSE" target="_blank" rel="noreferrer">r/ICSE</a> and <a href="https://www.reddit.com/r/ISCNERDS/" target="_blank" rel="noreferrer">r/ISCNERDS</a> {t('resources.community.descMid')} <a href="https://discord.gg/7daJugjUA3" target="_blank" rel="noreferrer">ICSEcord</a> and <a href="https://discord.gg/7daJugjUA3" target="_blank" rel="noreferrer">ISCcord</a> {t('resources.community.descSuffix')}
+        </>
+      }
     />
   );
 }

@@ -5,7 +5,7 @@ import { VideoPlayer } from '@videojs/react/video';
 import { VideoSkin } from '@/components/videojs/video/skin';
 import { useFullscreen } from '@/hooks/use-fullscreen';
 import { useI18n } from '@/lib/i18n';
-import { ShareWidget } from '@/components/lambda/share-widget';
+import { ShareWidget } from '@/components/lambda-prep/share-widget';
 import { DOXX_CATEGORIES, categoryMeta, type DoxxCategory } from '@/lib/doxx-categories';
 
 export interface DoxxLesson {

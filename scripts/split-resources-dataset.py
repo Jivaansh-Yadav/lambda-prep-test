@@ -29,9 +29,36 @@ CLASS_SLUGS = ['icse-9', 'icse-10', 'isc-11', 'isc-12']
 # app never has to download the whole thing just to show one subject.
 SPLIT_THRESHOLD_BYTES = 200 * 1024
 
+# Size alone is not enough: a split dataset only loads in the app if
+# src/lib/resources-data.ts registers per-subject dynamic imports for it
+# (MONOLITHIC_LOADERS / split loaders). Splitting an unregistered dataset
+# deletes the monolithic .json the app still imports and leaves the subject
+# pages empty, so sharding is opt-in per dataset and this list must be updated
+# alongside resources-data.ts.
+SPLIT_ALLOWLIST = {('community', 'icse-10')}
+
 
 def slugify(name):
     return re.sub(r'[^a-z0-9]+', '-', name.lower()).strip('-')
+
+
+def folder_file_count(nodes):
+    """Files nested anywhere inside an editorFolders tree."""
+    n = 0
+    for node in nodes:
+        if node.get('type') == 'folder':
+            n += folder_file_count(node.get('children') or [])
+        else:
+            n += 1
+    return n
+
+
+def shard_file_count(payload):
+    """Files a shard actually holds: loose `items` plus everything inside its
+    `editorFolders` tree. Counting only `items` under-reports every subject
+    that renders as a folder tree (CISCE subjects, Editor's Choice), which is
+    why the manifest totals used to disagree with the monolithic loader."""
+    return len(payload.get('items') or []) + folder_file_count(payload.get('editorFolders') or [])
 
 
 def split_one(src_path, out_dir):
@@ -51,6 +78,7 @@ def split_one(src_path, out_dir):
             payload['editorFolders'] = s['editorFolders']
             if s.get('editorFoldersGroup'):
                 payload['editorFoldersGroup'] = s['editorFoldersGroup']
+        manifest['subjects'][-1]['count'] = shard_file_count(payload)
         with open(os.path.join(out_dir, f'{slug}.json'), 'w') as f:
             json.dump(payload, f, ensure_ascii=False)
 
@@ -101,9 +129,14 @@ def main():
             any_found = True
             size = os.path.getsize(src_path)
             label = f'{source}/{class_slug}'
-            if size >= SPLIT_THRESHOLD_BYTES:
+            if size >= SPLIT_THRESHOLD_BYTES and (source, class_slug) in SPLIT_ALLOWLIST:
                 print(f'{label}: {size} bytes >= threshold, splitting...')
                 split_one(src_path, out_dir)
+            elif size >= SPLIT_THRESHOLD_BYTES:
+                print(
+                    f'{label}: {size} bytes >= threshold but no split loader is registered '
+                    f'in src/lib/resources-data.ts -- left monolithic.'
+                )
             else:
                 print(f'{label}: {size} bytes, left monolithic')
                 remove_stale_split_dir(out_dir)

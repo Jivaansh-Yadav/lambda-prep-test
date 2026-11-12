@@ -16,7 +16,7 @@
 // it in module scope, since the dataset only changes when the app is
 // redeployed (e.g. after an "Update resource datasets" run), not between
 // requests within the same server instance.
-import { classes } from "./lambda";
+import { classes } from "./lambda-prep";
 import {
   flattenFolderFiles,
   hasResourceDataset,
