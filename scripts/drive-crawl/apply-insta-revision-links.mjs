@@ -1,16 +1,22 @@
 #!/usr/bin/env node
 // STEP 3 (automated — runs weekly via GitHub Actions right after
-// generate-insta-revision-links.mjs): merges the freshly-generated
-// insta-revision-links.json (direct, signed GCS PDF URLs, valid 7 days)
-// into src/data/curriculum.json's chapter-level `revisionNotes` field.
+// generate-insta-revision-links.mjs): merges the freshly-signed GCS PDF
+// URLs (valid 7 days) into src/data/doxxmarks_resources.json's
+// chapter-level `revisionNotes` field.
+//
+// That JSON dataset is the ONLY place signed links are stored: the
+// generator writes its manifest to scripts/drive-crawl/output/ (a
+// gitignored build artifact) and this step folds it in, so the repo has a
+// single committed source of truth and no second copy of ~4,000 expiring
+// URLs to keep in sync.
 //
 // Matching key: (board, class roman, subject name, normalized chapter name).
 // insta-revision-sources.json classLabels look like "ICSE - X" / "ISC - XI".
 //
 // Usage:
 //   node apply-insta-revision-links.mjs
-//     [--links ../../src/data/insta-revision-links.json]
-//     [--curriculum ../../src/data/curriculum.json]
+//     [--links ../../scripts/drive-crawl/output/insta-revision-links.json]
+//     [--curriculum ../../src/data/doxxmarks_resources.json]
 
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -27,8 +33,8 @@ const CLASS_LABEL_TO_BOARD_ROMAN = {
 
 function parseArgs(argv) {
   const args = {
-    links: path.resolve(SCRIPT_DIR, "../../src/data/insta-revision-links.json"),
-    curriculum: path.resolve(SCRIPT_DIR, "../../src/data/curriculum.json"),
+    links: path.resolve(SCRIPT_DIR, "output/insta-revision-links.json"),
+    curriculum: path.resolve(SCRIPT_DIR, "../../src/data/doxxmarks_resources.json"),
   };
   for (let i = 0; i < argv.length; i += 1) {
     if (argv[i] === "--links") args.links = path.resolve(process.cwd(), argv[++i]);

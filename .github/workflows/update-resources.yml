@@ -92,7 +92,7 @@ jobs:
       - name: "[InstaRevision] Refresh signed PDF links"
         run: node scripts/drive-crawl/generate-insta-revision-links.mjs
 
-      - name: "[InstaRevision] Apply signed links to curriculum.json"
+      - name: "[InstaRevision] Apply signed links to doxxmarks_resources.json"
         run: node scripts/drive-crawl/apply-insta-revision-links.mjs
 
       # ------------------------------------------------------------------

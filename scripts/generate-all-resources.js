@@ -99,7 +99,7 @@ async function main() {
   }
 
   // Step 2: transform every class's CISCE + Community datasets, and update
-  // curriculum.json's chapter revisionNotes from Doxxmarks.
+  // doxxmarks_resources.json's chapter revisionNotes from Doxxmarks.
   steps.push({
     label: "Transform CISCE + Community resources for all classes",
     run: () => run("python3", ["scripts/transform-resources.py"], PROJECT_ROOT),

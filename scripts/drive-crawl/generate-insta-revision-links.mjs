@@ -3,14 +3,15 @@
 // reads the committed insta-revision-sources.json (produced by
 // discover-insta-revision-sources.mjs) and generates a fresh 7-day Google
 // Cloud Storage signed URL for every chapter's Revision Notes PDF — the
-// maximum expiry GCS allows. Writes insta-revision-links.json, which the
-// app/consumers read to show always-fresh (if refreshed weekly) direct PDF
-// links without ever downloading or re-hosting the files.
+// maximum expiry GCS allows. Writes a manifest to the gitignored
+// scripts/drive-crawl/output/ directory — apply-insta-revision-links.mjs
+// then folds it into src/data/doxxmarks_resources.json, the single
+// committed place those signed links live.
 //
 // Usage:
 //   node generate-insta-revision-links.mjs
 //     [--sources ../../src/data/insta-revision-sources.json]
-//     [--out ../../src/data/insta-revision-links.json]
+//     [--out ./output/insta-revision-links.json]
 
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -26,7 +27,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 function parseArgs(argv) {
   const args = {
     sources: path.resolve(SCRIPT_DIR, "../../src/data/insta-revision-sources.json"),
-    out: path.resolve(SCRIPT_DIR, "../../src/data/insta-revision-links.json"),
+    out: path.resolve(SCRIPT_DIR, "output/insta-revision-links.json"),
     concurrency: 3,
   };
   for (let i = 0; i < argv.length; i += 1) {

@@ -11,7 +11,7 @@
 //
 // Builds one in-memory index (file id -> { name, classLabel }) by walking
 // every indexed resources dataset (both sources, every class) plus
-// Doxxmarks' curriculum.json revisionNotes — the same two data sources
+// Doxxmarks' doxxmarks_resources.json revisionNotes — the same two data sources
 // the public Resources/Doxxmarks pages themselves read from — and caches
 // it in module scope, since the dataset only changes when the app is
 // redeployed (e.g. after an "Update resource datasets" run), not between
@@ -35,7 +35,7 @@ function classLabel(board: string, grade: string): string {
 }
 
 /** Extracts the Drive file id from a `.../file/d/<id>/view`-style link
- * (the shape every revisionNotes entry in curriculum.json uses). */
+ * (the shape every revisionNotes entry in doxxmarks_resources.json uses). */
 function driveIdFromLink(link: string): string | null {
   const match = /\/file\/d\/([^/]+)/.exec(link);
   return match?.[1] ?? null;
@@ -66,7 +66,7 @@ async function buildIndex(): Promise<Map<string, FileLocation>> {
     }
   }
 
-  // Doxxmarks InstaRevision chapter notes: curriculum.json stores plain
+  // Doxxmarks InstaRevision chapter notes: doxxmarks_resources.json stores plain
   // {name, link} entries per chapter, not ResourceItems, so resolve the
   // file id out of the Drive link and use the chapter (+ subject) name as
   // the display name — a generic "InstaRevision Notes" label (what the

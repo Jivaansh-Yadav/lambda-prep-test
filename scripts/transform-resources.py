@@ -30,7 +30,7 @@ BOARD_ROMAN_BY_SLUG = {
 }
 
 # ---------------------------------------------------------------------------
-# Canonical subject names per board, matching src/lib/lambda.ts / curriculum.json.
+# Canonical subject names per board, matching src/lib/lambda.ts / doxxmarks_resources.json.
 # ---------------------------------------------------------------------------
 ICSE_SUBJECTS = [
     'Biology', 'Chemistry', 'Commercial Applications', 'Commercial Studies',

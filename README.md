@@ -115,7 +115,7 @@ Where the earlier portals were static catalogues, this one is a product. Every f
 
 <ol>
 <li><b>Drive crawl</b> → <code>scripts/drive-crawl/output/&lt;class&gt;/{cisce,community}.json</code> for all four classes, plus <code>doxxmarks.json</code>. The Doxxmarks crawl has its own exponential-backoff retries because it walks one very large root.</li>
-<li><b>Transform</b> → <code>src/data/resources-{cisce,community}-&lt;class&gt;.json</code>, and it rewrites <code>curriculum.json</code>'s chapter <code>revisionNotes</code> from the Doxxmarks PDFs.</li>
+<li><b>Transform</b> → <code>src/data/resources-{cisce,community}-&lt;class&gt;.json</code>, and it rewrites <code>doxxmarks_resources.json</code>'s chapter <code>revisionNotes</code> from the Doxxmarks PDFs.</li>
 <li><b>Split</b> → any dataset past the size threshold becomes a sharded directory instead of one file.</li>
 <li><b>Sort</b> → every <code>manifest.json</code> gets its subjects in Featured-first, then A–Z order.</li>
 <li><b>Count</b> → <code>resource-counts.json</code>, the single source for every number the UI prints.</li>
@@ -170,7 +170,7 @@ Where the earlier portals were static catalogues, this one is a product. Every f
 ├── src/routes/                 # __root · index · classes.$classId · resources[.cisce|.community]
 │                               # doxxmarks · contribute · admin · sitemap[.]xml
 ├── src/lib/                    # db · lambda brand · i18n · theme · utils
-├── src/data/                   # curriculum.json · resources-*.json · manifests · resource-counts.json
+├── src/data/                   # doxxmarks_resources.json · resources-*.json · manifests · resource-counts.json
 ├── scripts/
 │   ├── generate-all-resources.js     # the 5-step orchestrator
 │   ├── drive-crawl/generate-drive-json.js

@@ -29,7 +29,8 @@ EXTRAMARKS_TOKEN=... node discover-insta-revision-sources.mjs
 
 Reads the committed `insta-revision-sources.json` and generates a fresh
 7-day GCS signed URL for every recorded PDF, writing
-`src/data/insta-revision-links.json`. Needs **no login token** — only the
+`scripts/drive-crawl/output/insta-revision-links.json` (gitignored build
+artifact). Needs **no login token** — only the
 static Extramarks upload-service Basic credential baked into the script —
 so this is the step the GitHub Actions workflow (`update-resources.yml`)
 runs every week to keep links from expiring:
@@ -55,5 +56,5 @@ node generate-insta-revision-links.mjs
 ```
 
 If the weekly Action is ever skipped for more than 7 days, the links in
-`insta-revision-links.json` will 403. Re-running
+the signed links in `doxxmarks_resources.json` will 403. Re-running
 `generate-insta-revision-links.mjs` (no token needed) immediately fixes it.

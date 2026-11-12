@@ -1,4 +1,4 @@
-import raw from '@/data/curriculum.json';
+import raw from '@/data/doxxmarks_resources.json';
 
 export interface LessonLink { name: string; link: string; }
 /** A non-video, non-class activity node (practice game, virtual lab, HOTS

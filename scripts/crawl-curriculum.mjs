@@ -763,9 +763,9 @@ Options:
   --board-id ID           Extramarks board ID (default 404)
   --class-id ID           Extramarks class syllabus ID (default 19727898)
   --language-id ID        Extramarks language ID (default 1)
-  --apply                 Surgically replace that subject in curriculum.json
+  --apply                 Surgically replace that subject in doxxmarks_resources.json
   --report PATH           Write the crawl and verification report to PATH
-  --curriculum PATH       Curriculum JSON path (defaults to src/data/curriculum.json)
+  --curriculum PATH       Curriculum JSON path (defaults to src/data/doxxmarks_resources.json)
   --cdp-url URL           Optional local Chrome DevTools endpoint for screenshots
   --screenshots-dir DIR   Screenshot output directory (defaults to the OS temp directory)
   --settle-ms N           Wait after navigation before capture (default 1800)
@@ -836,7 +836,7 @@ export async function runCli(options, token) {
   }
 
   const curriculumPath = path.resolve(
-    options.curriculumPath ?? path.join(PROJECT_ROOT, "src/data/curriculum.json"),
+    options.curriculumPath ?? path.join(PROJECT_ROOT, "src/data/doxxmarks_resources.json"),
   );
   if (options.apply) {
     const original = await fs.readFile(curriculumPath, "utf8");
