@@ -1,0 +1,348 @@
+{
+  "generatedAt": "2026-11-12T10:44:50.190Z",
+  "classes": {
+    "ICSE - IX": {},
+    "ICSE - X": {
+      "Physics": {
+        "Machines": [
+          {
+            "title": "Machines",
+            "folderPath": "content_data_private/PDF/2025/7/10/175215250977898194_dir_V001/1/1752152496376/Revision_notes_Machines_version_1.pdf"
+          }
+        ],
+        "Force": [
+          {
+            "title": "Force",
+            "folderPath": "content_data_private/PDF/2025/6/12/174973131653153925_dir_V001/1/1749731316660/Revision_Notes_ICSE_X_Force.pdf"
+          }
+        ],
+        "Refraction of Light at Plane Surfaces": [
+          {
+            "title": "Refraction of Light at a plane surface",
+            "folderPath": "content_data_private/PDF/2025/9/3/175687853339216542_dir_V001/1/1756878509909/RevisionNotes_Refraction_of_light_at_a_plane_surfaces_signoff.pdf"
+          }
+        ],
+        "Work, Energy and Power": [
+          {
+            "title": "Work, Power and Energy",
+            "folderPath": "content_data_private/PDF/2025/7/9/175203948623535102_dir_V001/1/1752039472746/Revision_notes_Work_Energy_Power_version2.pdf"
+          }
+        ],
+        "Spectrum": [
+          {
+            "title": "Spectrum",
+            "folderPath": "content_data_private/PDF/2025/9/3/175688013945964767_dir_V001/1/1756880115986/RevisionNotes_Spectrum_Signoff.pdf"
+          }
+        ],
+        "Sound": [
+          {
+            "title": "Sound",
+            "folderPath": "content_data_private/PDF/2025/9/3/175687913200019797_dir_V001/1/1756879108385/Sound_signoff.pdf"
+          }
+        ],
+        "Refraction through a Lens": [
+          {
+            "title": "Refraction through Lens",
+            "folderPath": "content_data_private/PDF/2025/8/1/175405221639797412_dir_V001/1/1754052198948/Refraction_Through_a_Lens_Signoff_Final.pdf"
+          }
+        ],
+        "Current Electricity": [
+          {
+            "title": "Current Electricity",
+            "folderPath": "content_data_private/PDF/2025/9/3/175687787856836137_dir_V001/1/1756877855114/Current_Electricity_signoff.pdf"
+          }
+        ],
+        "Electromagnetism": [
+          {
+            "title": "Electromagnetism",
+            "folderPath": "content_data_private/PDF/2025/9/4/175688602658784135_dir_V001/1/1756980272661/Electromagnetism_SignOff.pdf"
+          }
+        ],
+        "Household Circuits": [
+          {
+            "title": "Household Circuits",
+            "folderPath": "content_data_private/PDF/2025/9/3/175688585430047502_dir_V001/1/1756885830843/Household_Circuits_signoff.pdf"
+          }
+        ],
+        "Heat (Calorimetry)": [
+          {
+            "title": "Calorimetry",
+            "folderPath": "content_data_private/PDF/2025/8/1/175405211880469285_dir_V001/1/1754052101346/RevisionNotes_Calorimetry_Signoff_Final.pdf"
+          }
+        ],
+        "Radioactivity": [
+          {
+            "title": "Radioactivity",
+            "folderPath": "content_data_private/PDF/2025/9/3/175687882802113943_dir_V001/1/1756878804383/Radioactivity_Signoff.pdf"
+          }
+        ]
+      },
+      "Chemistry": {
+        "Chemical Bonding": [
+          {
+            "title": "Chemical Bonding",
+            "folderPath": "content_data_private/PDF/2025/6/12/174973106807930047_dir_V001/1/1749731068291/Revision_Notes_ICSE_X_Chemical_Bonding.pdf"
+          }
+        ],
+        "Analytical Chemistry": [
+          {
+            "title": "Analytical Chemistry",
+            "folderPath": "content_data_private/PDF/2025/9/3/175688079019598540_dir_V001/1/1756880766683/Revision_Notes_Analytical_Chemistry_Singed_off.pdf"
+          }
+        ],
+        "Acids, Bases and Salts": [
+          {
+            "title": "Acids, Bases and Salts",
+            "folderPath": "content_data_private/PDF/2025/8/1/175405202095619384_dir_V001/1/1754052003519/Revision_notes_Acids_bases_and_salts_Signed_off.pdf"
+          }
+        ],
+        "Periodic Table, Periodic Properties and Variations of Properties": [
+          {
+            "title": "Periodic Table: Periodic Properties and Variations",
+            "folderPath": "content_data_private/PDF/2025/7/9/175203860559121769_dir_V001/1/1752038592028/Revision_notes_periodic_table_periodic_properties_and_variations_of_properties_off.pdf"
+          }
+        ],
+        "Mole Concept and Stoichiometry": [
+          {
+            "title": "Mole Concept and Stoichiometry",
+            "folderPath": "content_data_private/PDF/2025/7/9/175203873020840829_dir_V001/1/1752038716561/Revision_notes_Mole_concept_and_stoichiometry_Signed_off.pdf"
+          }
+        ],
+        "Metallurgy": [
+          {
+            "title": "Metallurgy",
+            "folderPath": "content_data_private/PDF/2025/9/3/175688127443713956_dir_V001/1/1756881250812/Revision_notes_Metallurgy_V2_Signed_off.pdf"
+          }
+        ],
+        "Electrolysis": [
+          {
+            "title": "Electrolysis",
+            "folderPath": "content_data_private/PDF/2025/9/3/175688041786193586_dir_V001/1/1756880394301/Revision_notes_Electrolysis_V2_Signed_off.pdf"
+          }
+        ],
+        "Study of Compounds": [
+          {
+            "title": "Study of Compounds",
+            "folderPath": "content_data_private/PDF/2025/9/3/175688101351693835_dir_V001/1/1756880989952/Revision_Notes_Study_of_Compounds_Singed_off.pdf"
+          }
+        ],
+        "Organic Chemistry": [
+          {
+            "title": "Organic Chemistry",
+            "folderPath": "content_data_private/PDF/2025/9/3/175688062662581311_dir_V001/1/1756880603077/Revision_notes_Organic_Chemistry_Signed_off.pdf"
+          }
+        ]
+      },
+      "Mathematics": {
+        "Banking (New)": [
+          {
+            "title": "Banking (Recurring Deposit Accounts)",
+            "folderPath": "content_data_private/PDF/2025/8/1/175405160973793727_dir_V001/1/1754051592376/ICSE_Revision_Notes_Banking.pdf"
+          }
+        ],
+        "GST (New)": [
+          {
+            "title": "GST (Goods and Services Tax)",
+            "folderPath": "content_data_private/PDF/2025/7/10/175215202147842859_dir_V001/1/1752152008189/ICSE_Revision_Notes_GST.pdf"
+          }
+        ],
+        "Linear Inequations (New)": [
+          {
+            "title": "Linear Equations In One Variable",
+            "folderPath": "content_data_private/PDF/2025/6/16/174979882080011594_dir_V001/1/1750066039465/Revision_Notes_ICSE_X_Linear_Inequations_in_One_Variables.pdf"
+          }
+        ],
+        "Quadratic Equations (New)": [
+          {
+            "title": "Quadratic Equations",
+            "folderPath": "content_data_private/PDF/2025/7/8/175198161875173661_dir_V001/1/1751981604859/ICSE_Revision_Notes_Quadratic_Equations_V2_Final.pdf"
+          }
+        ],
+        "Polynomials (New)": [
+          {
+            "title": "Polynomials",
+            "folderPath": "content_data_private/PDF/2025/9/3/175688536189894550_dir_V001/1/1756885338341/ICSE_Revision_Notes_Polynomials_Final.pdf"
+          }
+        ],
+        "Ratio and Proportion (New)": [
+          {
+            "title": "Ratio and Proportion",
+            "folderPath": "content_data_private/PDF/2025/7/8/175198178956340715_dir_V001/1/1751981775882/ICSE_Revision_Notes_Ratio_Proportions_V2_Final.pdf"
+          }
+        ],
+        "Matrices (New)": [
+          {
+            "title": "Matrices",
+            "folderPath": "content_data_private/PDF/2025/10/3/175947177261188791_dir_V001/1/1759471571204/Matrices.pdf"
+          }
+        ],
+        "Arithmetic and Geometric Progressions (New)": [
+          {
+            "title": "Arithmetic and Geometric Progressions",
+            "folderPath": "content_data_private/PDF/2025/10/3/175947189851568041_dir_V001/1/1759471697142/Arithmatic_and_Geometric_Progressions.pdf"
+          }
+        ],
+        "Coordinate Geometry (New)": [
+          {
+            "title": "Coordinate Geometry",
+            "folderPath": "content_data_private/PDF/2025/9/3/175688431044096606_dir_V001/1/1756884286907/ICSE_Revision_Notes_Coordinate_Geometry_V2.pdf"
+          }
+        ],
+        "Straight Lines (New)": [
+          {
+            "title": "Straight Lines",
+            "folderPath": "content_data_private/PDF/2025/8/4/175428853291179300_dir_V001/1/1754288514986/ICSE_Revision_Notes_Straight_Lines_V3_Final.pdf"
+          }
+        ],
+        "Similarity (New)": [
+          {
+            "title": "Similarity",
+            "folderPath": "content_data_private/PDF/2025/9/4/175688863513402922_dir_V001/1/1756977627755/ICSE_Revision_Notes_Similarity_Final.pdf"
+          }
+        ],
+        "Loci (New)": [
+          {
+            "title": "Loci",
+            "folderPath": "content_data_private/PDF/2025/9/3/175688402795905922_dir_V001/1/1756884004363/Revision_Notes_Loci.pdf"
+          }
+        ],
+        "Circles (New)": [
+          {
+            "title": "Circles",
+            "folderPath": "content_data_private/PDF/2025/9/4/175688887924167147_dir_V001/1/1756977414971/ICSE_Revision_Notes_Circles_Final.pdf"
+          }
+        ],
+        "Constructions (New)": [
+          {
+            "title": "Constructions",
+            "folderPath": "content_data_private/PDF/2025/9/3/175688464131717787_dir_V001/1/1756884617761/ICSE_Revision_Notes_Constructions_Final.pdf"
+          }
+        ],
+        "Tangents and Intersecting Chords (New)": [
+          {
+            "title": "Tangents and Intersecting Chords",
+            "folderPath": "content_data_private/PDF/2025/10/3/175947135534517528_dir_V001/1/1759471154252/Tangents_and_Intersecting_Chords.pdf"
+          }
+        ],
+        "Mensuration (New)": [
+          {
+            "title": "Mensuration",
+            "folderPath": "content_data_private/PDF/2025/9/3/175688481139012328_dir_V001/1/1756884787840/ICSE_Revision_Notes_Mensuration_Final.pdf"
+          }
+        ],
+        "Graphical Representation (New)": [
+          {
+            "title": "Graphical Representation",
+            "folderPath": "content_data_private/PDF/2025/10/3/175947152119861334_dir_V001/1/1759471319871/Graphical_Representation.pdf"
+          }
+        ],
+        "Trigonometry (New)": [
+          {
+            "title": "Trigonometry",
+            "folderPath": "content_data_private/PDF/2025/9/3/175688500193817173_dir_V001/1/1756884978429/ICSE_Revision_Notes_Trigonometry_Final.pdf"
+          }
+        ],
+        "Measures of Central Tendency (New)": [
+          {
+            "title": "Measures of Central Tendency",
+            "folderPath": "content_data_private/PDF/2025/10/3/175947165379284440_dir_V001/1/1759471452446/Measures_of_Central_Tendency.pdf"
+          }
+        ],
+        "Probability (New)": [
+          {
+            "title": "Probability",
+            "folderPath": "content_data_private/PDF/2025/9/3/175688515998573623_dir_V001/1/1756885136437/ICSE_Revision_Notes_Probability_Final.pdf"
+          }
+        ]
+      },
+      "Biology": {
+        "Structure Of Chromosomes, Cell Cycle and Cell Division": [
+          {
+            "title": "Structure of Chromosome, Cell Cycle and Cell Division",
+            "folderPath": "content_data_private/PDF/2025/6/13/174979908100235224_dir_V001/1/1749799080600/Revision_Notes_ICSE_X_Structure_of_Chromosome_Cell_cycle_and_cell_division.pdf"
+          }
+        ],
+        "Absorption By Roots - The Processes Involved": [
+          {
+            "title": "Absorption by Roots - The Processes Involved",
+            "folderPath": "content_data_private/PDF/2025/7/9/175203844541257861_dir_V001/1/1752038431753/Revision_notes_X_Absorption_by_Roots_The_Process_Involved_Sign_Off.pdf"
+          }
+        ],
+        "Genetics - Some Basic Fundamentals": [
+          {
+            "title": "Genetics - Some Basic Fundamentals",
+            "folderPath": "content_data_private/PDF/2025/7/9/175203820858616611_dir_V001/1/1752038195511/Revision_Notes_ICSE_X_Genetics_Some_basic_fundamentals_V2_FB2.pdf"
+          }
+        ],
+        "Transpiration": [
+          {
+            "title": "Transpiration",
+            "folderPath": "content_data_private/PDF/2025/8/1/175405185216662129_dir_V001/1/1754051834725/Revision_Notes_X_Bio_Transpiration_V2_FB2.pdf"
+          }
+        ],
+        "Chemical Coordination in Plants": [
+          {
+            "title": "Chemical Coordination in Plants",
+            "folderPath": "content_data_private/PDF/2025/9/3/175688301294260705_dir_V001/1/1756882989293/Chemical_coordination_in_plants_V2_Sign_off_Sonika.pdf"
+          }
+        ],
+        "The Circulatory System": [
+          {
+            "title": "The Circulatory System",
+            "folderPath": "content_data_private/PDF/2025/9/3/175688277936652014_dir_V001/1/1756882755696/The_Circulatory_System_V2_Sign_off.pdf"
+          }
+        ],
+        "Photosynthesis - Provider of Food for All": [
+          {
+            "title": "Photosynthesis",
+            "folderPath": "content_data_private/PDF/2025/9/3/175688316922814650_dir_V001/1/1756883145563/Photosynthesis_V2_Sign_off_Sonika.pdf"
+          }
+        ],
+        "The Excretory System - Elimination of Body Wastes": [
+          {
+            "title": "The Excretory System",
+            "folderPath": "content_data_private/PDF/2025/10/29/175688384350097697_dir_V003/1/1761722276410/765.pdf"
+          }
+        ],
+        "The Nervous System": [
+          {
+            "title": "The Nervous System",
+            "folderPath": "content_data_private/PDF/2025/9/3/175688367868551136_dir_V001/1/1756883655035/ICSE_X_Revision_note_The_nervous_system_Sign_off.pdf"
+          }
+        ],
+        "Endocrine Glands - \" The Producers of Chemical Messengers\"": [
+          {
+            "title": "Endocrine Glands - The Producers of Chemical messengers",
+            "folderPath": "content_data_private/PDF/2025/10/29/175688334114425844_dir_V002/1/1761722346951/987654321.pdf"
+          }
+        ],
+        "The Reproductive System": [
+          {
+            "title": "The Reproductive System",
+            "folderPath": "content_data_private/PDF/2025/9/3/175688260595240060_dir_V001/1/1756882582332/Revision_Notes_ICSE_X_Reproductive_System.pdf"
+          }
+        ],
+        "Population - The Increasing Numbers And Rising Problems": [
+          {
+            "title": "Population - The Increasing Numbers and Rising Problems",
+            "folderPath": "content_data_private/PDF/2025/9/3/175688558690625393_dir_V001/1/1756885563417/Reviewed_ICSE_Revision_note_X_Population_Signoff.pdf"
+          }
+        ],
+        "Human Evolution": [
+          {
+            "title": "Human Evolution",
+            "folderPath": "content_data_private/PDF/2025/9/3/175688235160032764_dir_V001/1/1756882327986/ICSE_Revision_note_X_Human_Evolution.pdf"
+          }
+        ],
+        "Sense Organs": [
+          {
+            "title": "Sense Organs",
+            "folderPath": "content_data_private/PDF/2025/9/3/175688353055078160_dir_V001/1/1756883506998/ICSE_Revision_Note_X_Sense_Organs_Signoff.pdf"
+          }
+        ]
+      }
+    },
+    "ISC - XI": {},
+    "ISC - XII": {}
+  }
+}
