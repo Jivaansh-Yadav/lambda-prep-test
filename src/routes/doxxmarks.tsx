@@ -2,11 +2,10 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { ArrowLeft, ArrowUpRight, BookOpen, ChevronRight, PlayCircle, FileText, Search } from 'lucide-react';
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import type { DoxxLesson } from '@/components/lambda/doxx-watch';
-import { ResourceWatch } from '@/components/lambda/resource-watch';
-import { curriculumClasses } from '@/lib/curriculum';
+import { NotePdfWatch } from '@/components/lambda/note-pdf-watch';
+import { curriculumClasses, type LessonLink } from '@/lib/curriculum';
 import { classes, findSubjectMeta, pageHead, getSiteOrigin, sortBySubjectOrder } from '@/lib/lambda';
 import { DOXX_CATEGORIES, categoryForActivity, categoryMeta } from '@/lib/doxx-categories';
-import { type ResourceItem } from '@/lib/resources-data';
 import { useI18n } from '@/lib/i18n';
 import { useFuseSearch } from '@/hooks/use-fuse-search';
 import { useGoBack } from '@/hooks/use-go-back';
@@ -15,15 +14,6 @@ import { useGoBack } from '@/hooks/use-go-back';
 // it's only fetched once a lesson is actually opened — not on every visit to
 // the chapter/topic browsing grid.
 const DoxxWatch = lazy(() => import('@/components/lambda/doxx-watch').then(m => ({ default: m.DoxxWatch })));
-
-/** Extracts the Drive file id from a `.../file/d/<id>/view` share link, so a
- * chapter's revision-note links (plain `{name, link}` entries in
- * curriculum.json) can be opened through the same embedded ResourceWatch
- * player used for Resources, instead of a new tab. */
-function driveIdFromLink(link: string): string | null {
-  const match = /\/file\/d\/([^/]+)/.exec(link);
-  return match?.[1] ?? null;
-}
 
 // Referentially stable key arrays for useFuseSearch — a fresh array literal
 // at the call site would rebuild the Fuse index on every render.
@@ -41,8 +31,8 @@ interface DoxxSearch {
    * pointer back to a specific lesson. */
   lesson?: number | undefined;
   /** Index into the active chapter's `revisionNotes` array, used to open
-   * the embedded ResourceWatch viewer for that note. `note` to avoid
-   * clashing with the per-lesson `lesson` index above. */
+   * the embedded PDF viewer for that note. `note` to avoid clashing with
+   * the per-lesson `lesson` index above. */
   note?: number | undefined;
 }
 
@@ -101,21 +91,15 @@ function Doxxmarks() {
   };
   const closeLesson = () => { if (canGoBack) goBack(); else navigate({ search: prev => ({ ...prev, lesson: undefined }) }); };
 
-  // Chapter revision notes (plain `{name, link}` entries in curriculum.json,
-  // Drive share-links) converted to the same ResourceItem shape Resources
-  // uses, so they can be opened through ResourceWatch's embedded preview +
-  // sidebar instead of a plain "open in new tab" link. Entries whose link
-  // isn't a recognizable Drive file URL are dropped rather than shown as a
-  // broken player.
-  const noteItems = useMemo((): ResourceItem[] => (chapter?.revisionNotes ?? [])
-    .flatMap((n): ResourceItem[] => {
-      const id = driveIdFromLink(n.link);
-      return id ? [{ name: n.name, id, group: t('doxx.revisionNotes') }] : [];
-    }), [chapter, t]);
+  // Chapter revision notes are plain `{name, link}` entries in
+  // curriculum.json — direct, signed GCS PDF URLs (refreshed weekly) rather
+  // than Drive file ids, so they're rendered through NotePdfWatch's own
+  // iframe instead of ResourceWatch/Drive's `/preview` viewer.
+  const noteItems: LessonLink[] = chapter?.revisionNotes ?? [];
   const activeNote = noteIdx !== undefined ? noteItems[noteIdx] ?? null : null;
 
-  const openNote = (item: ResourceItem) => {
-    const index = noteItems.findIndex(n => n.id === item.id);
+  const openNote = (item: LessonLink) => {
+    const index = noteItems.findIndex(n => n.link === item.link);
     navigate({ search: prev => ({ ...prev, note: index >= 0 ? index : undefined }) });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -286,20 +270,20 @@ function Doxxmarks() {
         <section className="doxx-notes">
           {!activeNote && <h2><FileText size={18} /> {t('doxx.revisionNotes')}</h2>}
           {activeNote ? (
-            // Opens through the same embedded preview + sidebar used for
-            // Resources, with the sidebar scoped to just this chapter's
-            // own notes (noteItems derives from `chapter.revisionNotes`
-            // only) — not every chapter's notes mixed together.
-            <ResourceWatch
-              groups={[{ group: t('doxx.revisionNotes'), items: noteItems }]}
+            // Opens through the direct-PDF iframe viewer, scoped to just
+            // this chapter's own notes (noteItems derives from
+            // `chapter.revisionNotes` only) — not every chapter's notes
+            // mixed together.
+            <NotePdfWatch
+              notes={noteItems}
               active={activeNote}
               onSelect={openNote}
-              shareUrl={`${getSiteOrigin()}/doxxmarks?class=${encodeURIComponent(classSlug ?? '')}&subject=${encodeURIComponent(subjectName ?? '')}&chapter=${chapterIdx}&note=${noteItems.findIndex(n => n.id === activeNote.id)}`}
+              shareUrl={`${getSiteOrigin()}/doxxmarks?class=${encodeURIComponent(classSlug ?? '')}&subject=${encodeURIComponent(subjectName ?? '')}&chapter=${chapterIdx}&note=${noteItems.findIndex(n => n.link === activeNote.link)}`}
             />
           ) : noteItems.length ? (
             <div className="doxx-list">
               {noteItems.map(n => (
-                <button key={n.id} type="button" className="doxx-row" onClick={() => openNote(n)}>
+                <button key={n.link} type="button" className="doxx-row" onClick={() => openNote(n)}>
                   <span className="doxx-row-title">{n.name}</span><ArrowUpRight size={18} />
                 </button>
               ))}
@@ -307,6 +291,7 @@ function Doxxmarks() {
           ) : (
             <EmptyState text={t('doxx.empty.notes')} />
           )}
+
         </section>
       </>}
 

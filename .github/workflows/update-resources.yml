@@ -51,6 +51,9 @@ jobs:
       - name: Refresh InstaRevision PDF signed links (7-day GCS URLs)
         run: node scripts/drive-crawl/generate-insta-revision-links.mjs
 
+      - name: Apply InstaRevision signed links to curriculum.json
+        run: node scripts/drive-crawl/apply-insta-revision-links.mjs
+
       - name: Remove service-account credentials before diffing/committing
         run: rm -f scripts/drive-crawl/service-account.json
 
