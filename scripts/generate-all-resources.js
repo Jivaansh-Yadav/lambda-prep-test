@@ -15,10 +15,7 @@
  *   2. scripts/transform-resources.py        -> src/data/resources-{cisce,
  *                                               community}-<class>.json for
  *                                               every class with crawl
- *                                               output present, and rewrites
- *                                               src/data/curriculum.json's
- *                                               chapter revisionNotes from
- *                                               Doxxmarks InstaRevision PDFs
+ *                                               output present
  *   3. scripts/split-resources-dataset.py    -> shards any resources-*.json
  *                                               dataset that's grown past
  *                                               the size threshold into

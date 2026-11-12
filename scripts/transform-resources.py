@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """Transform the unified Lambda Prep Google-Drive crawl (scripts/drive-crawl/
-output/<class>/{cisce,community}.json, scripts/drive-crawl/output/
-doxxmarks.json) into the per-class subject-bucketed resource JSON consumed
-by the Lambda Prep resources UI, plus Doxxmarks chapter revision notes.
+output/<class>/{cisce,community}.json) into the per-class subject-bucketed
+resource JSON consumed by the Lambda Prep resources UI.
 
 Produces, for every class with crawl output present (icse-9, icse-10,
 isc-11, isc-12):
@@ -10,10 +9,6 @@ isc-11, isc-12):
   src/data/resources-community-<class>.json
 Each has shape: { subjects: [{ subject, items: [{name, id, group, ...}],
                                 editorFolders?: [...] }], misc: [...] }
-
-Also rewrites src/data/curriculum.json's chapter-level `revisionNotes` from
-scripts/drive-crawl/output/doxxmarks.json (InstaRevision chapter PDFs),
-matching chapters by (board, class roman, subject, chapter name).
 
 Only content with a clear subject header (folder/filename matching one of
 the class's own canonical subjects) is bucketed under that subject.
@@ -27,7 +22,6 @@ import json, os, re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CRAWL_DIR = os.path.join(ROOT, 'scripts', 'drive-crawl', 'output')
 DATA_DIR = os.path.join(ROOT, 'src', 'data')
-CURRICULUM_PATH = os.path.join(DATA_DIR, 'curriculum.json')
 
 CLASS_SLUGS = ['icse-9', 'icse-10', 'isc-11', 'isc-12']
 BOARD_ROMAN_BY_SLUG = {
@@ -392,87 +386,6 @@ def build_community(class_slug: str, canonical: set):
     return {'subjects': subjects_out, 'misc': misc}
 
 
-# ---------------------------------------------------------------------------
-# Doxxmarks InstaRevision chapter notes -> curriculum.json revisionNotes.
-# Tree shape: Doxxmarks / <class folder, e.g. "ICSE - X"> / <subject> /
-# <chapter name> - InstaRevision.pdf
-# ---------------------------------------------------------------------------
-DOXXMARKS_CLASS_FOLDER_TO_SLUG = {
-    'icse - ix': 'icse-9', 'icse - x': 'icse-10', 'isc - xi': 'isc-11', 'isc - xii': 'isc-12',
-}
-
-
-def _normalize_chapter_key(name: str) -> str:
-    """Loosely normalize a chapter name for fuzzy matching against
-    Doxxmarks InstaRevision filenames, which don't always agree with the
-    curriculum's chapter name on singular/plural or punctuation (e.g.
-    "Refraction of Light at Plane Surface" vs "...Plane Surfaces"). Lowercases,
-    strips all punctuation, collapses whitespace, and strips a single
-    trailing 's' from each word (crude singularization) so minor
-    singular/plural drift still matches."""
-    words = re.findall(r'[a-z0-9]+', name.lower())
-    singularized = [w[:-1] if len(w) > 3 and w.endswith('s') else w for w in words]
-    return ' '.join(singularized)
-
-
-def update_curriculum_revision_notes():
-    doxx_path = os.path.join(CRAWL_DIR, 'doxxmarks.json')
-    if not os.path.isfile(doxx_path):
-        print('skip: no doxxmarks.json crawl output found')
-        return
-    doxx = load(doxx_path)
-    # (class_slug, subject_name, normalized_chapter_key) -> [{name, link}]
-    notes_by_key: dict[tuple, list] = {}
-    for class_folder in doxx.get('children', []):
-        if class_folder.get('type') != 'folder':
-            continue
-        class_slug = DOXXMARKS_CLASS_FOLDER_TO_SLUG.get(class_folder['name'].strip().lower())
-        if not class_slug:
-            continue
-        for subject_folder in class_folder.get('children', []):
-            if subject_folder.get('type') != 'folder':
-                continue
-            subject_name = subject_folder['name'].strip()
-            for node, _ in walk_files(subject_folder):
-                if not node.get('id'):
-                    continue
-                chapter_name = re.sub(r'\.(pdf|docx?|pptx?)$', '', node['name'], flags=re.I)
-                chapter_name = re.sub(r'\s*-\s*InstaRevision\s*$', '', chapter_name, flags=re.I).strip()
-                # Strip a leading ordering prefix (e.g. "01 - ", "1. ") used
-                # to keep chapters sorted in Drive-folder order -- it's not
-                # part of the actual chapter name used for matching.
-                chapter_name = re.sub(r'^\d+\s*[-.)]\s*', '', chapter_name).strip()
-                link = f"https://drive.google.com/file/d/{node['id']}/view"
-                key = (class_slug, subject_name, _normalize_chapter_key(chapter_name))
-                notes_by_key.setdefault(key, []).append({'name': 'InstaRevision Notes', 'link': link})
-
-    if not notes_by_key:
-        print('skip: no InstaRevision chapter notes found in doxxmarks.json')
-        return
-
-    with open(CURRICULUM_PATH) as f:
-        curriculum = json.load(f)
-
-    updated = 0
-    for class_slug, (board, roman) in BOARD_ROMAN_BY_SLUG.items():
-        board_data = curriculum.get('boards', {}).get(board, {})
-        class_data = board_data.get('classes', {}).get(roman, {})
-        for subject in class_data.get('subjects', []):
-            for chapter in subject.get('chapters', []):
-                key = (class_slug, subject.get('name', '').strip(), _normalize_chapter_key(chapter.get('name', '').strip()))
-                notes = notes_by_key.get(key)
-                if notes:
-                    chapter['revisionNotes'] = notes
-                    updated += 1
-
-    with open(CURRICULUM_PATH, 'w') as f:
-        # Pretty-printed (3-space indent) to match the hand-formatted style
-        # the file was last saved in -- keeps future diffs readable instead
-        # of collapsing back to one compact line.
-        json.dump(curriculum, f, indent=3, ensure_ascii=False)
-    print(f'Updated revisionNotes for {updated} chapter(s) in {CURRICULUM_PATH}')
-
-
 def main():
     for class_slug in CLASS_SLUGS:
         board, _roman = BOARD_ROMAN_BY_SLUG[class_slug]
@@ -497,8 +410,6 @@ def main():
             print(f'{class_slug} Community misc:', len(community['misc']))
         else:
             print(f'skip {class_slug} Community: no crawl output found')
-
-    update_curriculum_revision_notes()
 
 
 if __name__ == '__main__':
