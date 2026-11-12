@@ -127,16 +127,6 @@ function withSecurityHeaders(response: Response): Response {
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
-    // TEMPORARY SITE TAKEDOWN — intentional, not a mistake. Every request that
-    // reaches this Worker (documents, assets, everything) is sent to
-    // https://google.com with a 302. Remove this block to restore the site.
-    // public/_redirects covers hosts that honour it for static assets; this
-    // covers the SSR Worker, which `_redirects` cannot touch.
-    return new Response(null, {
-      status: 302,
-      headers: { location: "https://google.com", "cache-control": "no-store" },
-    });
-
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
