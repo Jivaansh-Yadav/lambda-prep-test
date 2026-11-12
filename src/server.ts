@@ -51,6 +51,9 @@ function isH3SwallowedErrorBody(body: string): boolean {
 //
 // The CSP is scoped to what the app actually loads:
 //   - drive.google.com        -> resource PDF previews (resource-watch)
+//   - storage.googleapis.com  -> Doxxmarks InstaRevision notes (direct
+//                              signed GCS PDF URLs, embedded via
+//                              note-pdf-watch's iframe)
 //   - mscontent-gcp.extramarks.com -> Doxxmarks interactive lessons (iframe)
 //                              and lesson videos (HLS: manifest + segments via
 //                              hls.js, which fetches them with XHR)
@@ -78,7 +81,7 @@ const CONTENT_SECURITY_POLICY = [
   "img-src 'self' data: blob: https://drive.google.com",
   "media-src 'self' blob: https://mscontent-gcp.extramarks.com",
   "connect-src 'self' https://mscontent-gcp.extramarks.com",
-  "frame-src 'self' https://drive.google.com https://docs.google.com https://mscontent-gcp.extramarks.com",
+  "frame-src 'self' https://drive.google.com https://docs.google.com https://mscontent-gcp.extramarks.com https://storage.googleapis.com",
   "worker-src 'self' blob:",
   "frame-ancestors 'self' https://*.e2b.app https://*.eazo.dev https://*.eazo.ai",
   "form-action 'self'",
