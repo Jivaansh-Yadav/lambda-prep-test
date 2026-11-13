@@ -43,7 +43,7 @@ This file is the SSR entry (`tanstackStart.server.entry = "server"` in `vite.con
 The CSP itself is scoped to what the app really uses:
 
 - `frame-src` — `drive.google.com` (embedded PDFs), `mscontent-gcp.extramarks.com` (interactive classes), `storage.googleapis.com` (signed InstaRevision PDFs).
-- `connect-src` — Extramarks, `cloudflareinsights.com` (where the Web Analytics beacon the app ships POSTs its page-load events).
+- `connect-src` — Extramarks, `cloudflareinsights.com` (only needed if a Web Analytics snippet is ever added back; Cloudflare Pages collects page loads without one).
 - `script-src` — `static.cloudflareinsights.com`; `img-src` — `drive.google.com` thumbnails.
 
 ## Routing
