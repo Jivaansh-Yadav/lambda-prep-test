@@ -16,6 +16,7 @@ import { SITE_URL, OG_IMAGE } from "@/lib/lambda-prep";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { I18nProvider, useI18n } from "../lib/i18n";
+import { captureCampaignTouch } from "../lib/campaign-tracking";
 import { ThemeProvider, themeBootstrapScript } from "../lib/theme";
 
 /** A torn-page book glyph for the 404 state — drawn by hand instead of
@@ -275,6 +276,13 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  // Records the utm tags on the landing URL once per session — the only
+  // attribution available for Reddit/Discord/Gmail links, which send no
+  // referrer and whose query strings Cloudflare's RUM dataset discards.
+  useEffect(() => {
+    captureCampaignTouch();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

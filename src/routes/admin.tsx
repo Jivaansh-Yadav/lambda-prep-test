@@ -57,6 +57,7 @@ import {
   checkAdminPasscode,
   getAdminTraffic,
   getAdminRum,
+  getAdminCampaignSources,
   getManageResources,
   triggerDatasetUpdate,
   getDatasetUpdateStatus,
@@ -72,6 +73,7 @@ import {
   type AdminRange,
   type AdminTrafficResult,
   type AdminRumResult,
+  type AdminCampaignResult,
   type RumBreakdownItem,
   type ManageResourcesResult,
   type AdminResourceStatsResult,
@@ -156,6 +158,8 @@ function AdminPage() {
   }
   const [rumResult, setRumResult] = useState<AdminRumResult | null>(null);
   const [rumLoading, setRumLoading] = useState(false);
+  const [campaignResult, setCampaignResult] = useState<AdminCampaignResult | null>(null);
+  const [campaignLoading, setCampaignLoading] = useState(false);
 
   async function handleUnlock(e: React.FormEvent) {
     e.preventDefault();
@@ -260,6 +264,42 @@ function AdminPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openSection, authed]);
 
+  async function loadCampaign(code: string, forRange: AdminRange) {
+    setCampaignLoading(true);
+    try {
+      const data = await getAdminCampaignSources({ data: { passcode: code, range: forRange } });
+      setCampaignResult(data);
+    } catch (error) {
+      const message = error instanceof Error ? error.message.trim() : '';
+      if (/unauthor/i.test(message)) {
+        setError('Passcode rejected — unlock again.');
+        setAuthed(false);
+        adminSessionPasscode = null;
+        setCampaignResult(null);
+        return;
+      }
+      setCampaignResult({
+        configured: false,
+        reason:
+          message && message.length <= 200
+            ? `Could not load campaign sources: ${message}`
+            : 'Could not load campaign sources. Try again.',
+      });
+    } finally {
+      setCampaignLoading(false);
+    }
+  }
+
+  // Same lazy pattern as the RUM panel: Neon-only, but there's no reason to
+  // query it on the dashboard page where the table isn't rendered.
+  useEffect(() => {
+    if (!authed || !adminSessionPasscode) return;
+    if (openSection === 'analytics' && !campaignResult && !campaignLoading) {
+      void loadCampaign(adminSessionPasscode, range);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openSection, authed]);
+
   // Changing the range re-fetches both datasets for the new window and
   // discards the previous range's data (rather than keeping stale numbers
   // visible) — both come from the same per-range Neon cache on the
@@ -269,10 +309,12 @@ function AdminPage() {
     setRange(next);
     setResult(null);
     setRumResult(null);
+    setCampaignResult(null);
     if (authed) {
       void loadTraffic(adminSessionPasscode ?? '', next);
       if (openSection === 'analytics') {
         void loadRum(adminSessionPasscode ?? '', next);
+        void loadCampaign(adminSessionPasscode ?? '', next);
       }
     }
   }
@@ -437,6 +479,8 @@ function AdminPage() {
             )}
 
             <RumAnalyticsSection result={rumResult} loading={rumLoading} range={range} />
+
+            <CampaignSourcesSection result={campaignResult} loading={campaignLoading} range={range} />
           </>
         )}
 
@@ -718,8 +762,102 @@ function RumAnalyticsSection({
   );
 }
 
-function RumBreakdownList({ title, items }: { title: string; items: RumBreakdownItem[] }) {
+/** Campaign arrivals: the app's own attribution, since Reddit/Discord/Gmail
+ * strip the referrer and Cloudflare's RUM dataset drops query strings — so a
+ * `?utm_source=reddit` link is invisible to every other panel here. */
+function CampaignSourcesSection({
+  result,
+  loading,
+  range,
+}: {
+  result: AdminCampaignResult | null;
+  loading: boolean;
+  range: AdminRange;
+}) {
+  if (loading && !result) {
+    return <p className="mt-6 text-sm text-muted-foreground">Loading campaign sources…</p>;
+  }
+  if (!result) return null;
+
+  if (!result.configured) {
+    return (
+      <Card className="mt-6">
+        <CardHeader>
+          <CardTitle>Campaign sources</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground">{result.reason}</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
+    <Card className="mt-6">
+      <CardHeader>
+        <CardTitle>Campaign sources — {ADMIN_RANGE_LABEL[range]}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p className="text-sm text-muted-foreground">
+          {result.total.toLocaleString()} {result.total === 1 ? 'session' : 'sessions'} arrived with a campaign tag
+          {result.allTimeTotal > result.total && (
+            <> · {result.allTimeTotal.toLocaleString()} recorded all time</>
+          )}
+          .
+        </p>
+
+        {result.rows.length === 0 ? (
+          <div className="mt-4 space-y-2 text-sm text-muted-foreground">
+            <p>No tagged arrivals in this window yet.</p>
+            <p>
+              Share a link with a source tag and it shows up here:{' '}
+              <span className="break-all font-mono text-xs text-foreground">
+                ?utm_source=reddit&amp;utm_medium=post&amp;utm_campaign=class10
+              </span>
+            </p>
+          </div>
+        ) : (
+          <div className="mt-4 overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Source</TableHead>
+                  <TableHead>Medium</TableHead>
+                  <TableHead>Campaign</TableHead>
+                  <TableHead className="text-right">Sessions</TableHead>
+                  <TableHead className="text-right">Last seen</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {result.rows.map((row) => (
+                  <TableRow key={`${row.source}|${row.medium ?? ''}|${row.campaign ?? ''}`}>
+                    <TableCell className="font-mono text-xs text-foreground">{row.source}</TableCell>
+                    <TableCell className="text-xs text-muted-foreground">{row.medium ?? '—'}</TableCell>
+                    <TableCell className="text-xs text-muted-foreground">{row.campaign ?? '—'}</TableCell>
+                    <TableCell className="text-right font-mono text-xs text-foreground">
+                      {row.sessions.toLocaleString()}
+                    </TableCell>
+                    <TableCell className="text-right text-xs text-muted-foreground">
+                      {formatRelativeTime(row.lastSeenAt)}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        )}
+
+        <p className="mt-4 text-xs text-muted-foreground">
+          Counted by this app, not by Cloudflare: Reddit, Discord, Slack and Gmail send no referrer, and the Web
+          Analytics dataset drops query strings, so these numbers come from the landing URL&apos;s own utm tags —
+          one row per session per distinct set of tags.
+        </p>
+      </CardContent>
+    </Card>
+  );
+}
+
+function RumBreakdownList({ title, items }: { title: string; items: RumBreakdownItem[] }) {  return (
     <div>
       <p className="mb-2 text-sm font-medium text-foreground">{title}</p>
       {items.length === 0 ? (

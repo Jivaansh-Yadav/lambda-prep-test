@@ -30,6 +30,16 @@ Design rules that matter:
 - **Abuse protection on every public write** (`ratings`, `feedback`, `contact`, `contribute`): a light in-memory per-IP + voter limit (e.g. `10 submissions / 10 minutes` for ratings) plus a validity check that the `file_id` actually exists in the dataset. The limiter resets on deploy and a determined attacker can rotate IPs — it exists to stop naive scripted brigading and junk rows, which is the realistic threat for a school portal.
 - **Editor's Choice** is computed from these rows (`average rating`, minimum count), never from a hand-written list.
 
+### Attribution
+
+| Table | Written by | Semantics |
+| --- | --- | --- |
+| `campaign_visits` | `campaign-server.ts` (from `campaign-tracking.ts` in the browser) | One row per session per distinct set of utm tags on the landing URL |
+
+`campaign_visits` exists because neither other analytics source can answer "which link did this visit come from". Reddit, Discord, Slack and Gmail send no `Referer`, and Cloudflare's RUM dataset drops query strings, so `?utm_source=reddit` is invisible there. The browser reads the tags itself, keeps a `sessionStorage` marker so reloads and internal navigation don't add rows, and posts once; the row carries `source` / `medium` / `campaign` / `content` / `term`, the landing path, the referrer hostname when there is one, and the country from Cloudflare's `cf-ipcountry` header. Values are re-normalised on the server (lowercase, `[a-z0-9._~:/+-]`, length-capped) and the write is rate limited per IP like the other public counters.
+
+Because a row is written at most once per session, `COUNT(*)` reads as *sessions that arrived from this link* — not page views, and not unique people (there is no identity to dedupe on).
+
 ### Integrations (one row each)
 
 | Table | Columns (abridged) | Used for |
@@ -65,6 +75,25 @@ Consequences worth knowing:
 - The app does **not** boot-create its own tables. A fresh database with `DATABASE_URL` set but no tables fails at query time, and the failure surfaces as a server error (the admin panel now prints it) rather than a silent "not configured" — the `sql === null` path only covers a *missing* `DATABASE_URL`.
 - To add a table, write the `CREATE TABLE` in Neon first, then add the reader in the server module that owns it.
 - Nothing is dropped automatically. Clean-up is a manual decision.
+
+The newest table, `campaign_visits`, was created with:
+
+```sql
+CREATE TABLE campaign_visits (
+  id BIGSERIAL PRIMARY KEY,
+  source TEXT NOT NULL,
+  medium TEXT,
+  campaign TEXT,
+  content TEXT,
+  term TEXT,
+  landing_path TEXT,
+  referrer_host TEXT,
+  country TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX campaign_visits_created_at_idx ON campaign_visits (created_at DESC);
+CREATE INDEX campaign_visits_source_idx ON campaign_visits (source, created_at DESC);
+```
 
 ## Local/dev
 

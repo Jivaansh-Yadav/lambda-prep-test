@@ -47,6 +47,19 @@ Then open `/doxxmarks?class=icse-10&subject=Biology&chapter=0&note=0`. If the PD
 3. Check the cache tables are not stuck on a stale range key.
 4. Compare against the Cloudflare dashboard. The panel filters to `SITE_URL`'s hostname and drops bot traffic, so a Pages card for the same host should match within a few minutes of lag on today's bucket.
 
+### Campaign sources card is empty
+
+That card reads `campaign_visits` in Neon — the app's own table — not Cloudflare. Nothing appears until somebody arrives on a URL carrying a tag:
+
+```
+https://lambda-prep.pages.dev/?utm_source=reddit&utm_medium=post&utm_campaign=class10
+```
+
+1. Confirm the link people are clicking actually has `utm_source` (or the `?ref=` shorthand) on it — the tag has to be on the *landing* URL, since that is read once on first load.
+2. One row is written per session per distinct set of tags, so the same visitor reloading is not counted twice; a second person on the same link is.
+3. If the row is missing entirely, check `DATABASE_URL` — the write no-ops when it is unset, and the panel prints "could not read campaign_visits".
+4. Test data can be deleted with `DELETE FROM campaign_visits WHERE campaign = 'verify'`.
+
 ### “Could not load analytics” after unlocking
 
 The panel now prints the underlying reason. The common ones:

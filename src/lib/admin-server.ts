@@ -820,6 +820,103 @@ export const getAdminRum = createServerFn({ method: "POST" })
   });
 
 // ---------------------------------------------------------------------
+// Campaign sources: the app's own attribution table (campaign_visits,
+// written by campaign-server.ts from the utm tags on the landing URL).
+//
+// This exists because the two other sources can't answer the question:
+// Reddit/Discord/Gmail strip the referrer, and Cloudflare's RUM dataset drops
+// query strings, so a `?utm_source=reddit` link is unidentifiable there. Rows
+// are one per session per distinct campaign link, so COUNT(*) is "sessions that
+// arrived from this link".
+// ---------------------------------------------------------------------
+
+export type AdminCampaignRow = {
+  source: string;
+  medium: string | null;
+  campaign: string | null;
+  /** Sessions whose landing URL carried these values. */
+  sessions: number;
+  lastSeenAt: string;
+};
+
+export type AdminCampaignResult =
+  | {
+      configured: true;
+      rows: AdminCampaignRow[];
+      /** Sessions in the selected range. */
+      total: number;
+      /** Sessions ever recorded, so a quiet range is distinguishable from a
+       * feature nobody has used yet. */
+      allTimeTotal: number;
+    }
+  | { configured: false; reason: string };
+
+/** Campaign arrivals for the requested lookback window, newest numbers first.
+ * Reads Neon directly — no Cloudflare call, no cache, it's a single grouped
+ * count over a small table. */
+export const getAdminCampaignSources = createServerFn({ method: "POST" })
+  .validator((data: unknown) => {
+    const d = data as { passcode?: unknown; range?: unknown };
+    if (typeof d?.passcode !== "string") throw new Error("Missing passcode");
+    if (d.range !== undefined && !isAdminRange(d.range)) throw new Error("Invalid range");
+    return { passcode: d.passcode, range: (d.range as AdminRange | undefined) ?? "30d" };
+  })
+  .handler(async ({ data }): Promise<AdminCampaignResult> => {
+    requirePasscode(data.passcode);
+    if (!sql) {
+      return {
+        configured: false,
+        reason: "DATABASE_URL isn't set on this deployment, so campaign arrivals can't be read.",
+      };
+    }
+
+    const since = new Date(Date.now() - RANGE_WINDOW_MS[data.range]);
+
+    try {
+      const rows = (await sql.query(
+        `SELECT source, medium, campaign, COUNT(*)::int AS sessions, MAX(created_at) AS last_seen_at
+           FROM campaign_visits
+          WHERE created_at >= $1
+          GROUP BY source, medium, campaign
+          ORDER BY sessions DESC, last_seen_at DESC
+          LIMIT 50`,
+        [since.toISOString()],
+      )) as Array<{
+        source: string;
+        medium: string | null;
+        campaign: string | null;
+        sessions: number;
+        last_seen_at: string | Date;
+      }>;
+      const totals = await sql.query(
+        `SELECT COUNT(*)::int AS all_time FROM campaign_visits`,
+      );
+
+      const mapped: AdminCampaignRow[] = rows.map((row) => ({
+        source: String(row.source),
+        medium: row.medium === null || row.medium === undefined ? null : String(row.medium),
+        campaign: row.campaign === null || row.campaign === undefined ? null : String(row.campaign),
+        sessions: Number(row.sessions) || 0,
+        lastSeenAt: new Date(row.last_seen_at).toISOString(),
+      }));
+
+      const allTime = totals[0] as { all_time?: number } | undefined;
+
+      return {
+        configured: true,
+        rows: mapped,
+        total: mapped.reduce((sum, row) => sum + row.sessions, 0),
+        allTimeTotal: Number(allTime?.all_time) || 0,
+      };
+    } catch (error) {
+      return {
+        configured: false,
+        reason: `Could not read campaign_visits from Neon: ${error instanceof Error ? error.message : String(error)}`,
+      };
+    }
+  });
+
+// ---------------------------------------------------------------------
 // Manage Resources panel: real-time Drive folder listing + upload, backed
 // by the service-account credentials + target folder ID stored in Neon
 // (table: drive_integration) — never the static committed JSON datasets.

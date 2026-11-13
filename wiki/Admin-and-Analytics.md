@@ -52,6 +52,18 @@ Two different sources, both cached in Postgres because neither API is fast enoug
 - When nothing is configured, the panel says so and prints the exact steps to fix it, instead of showing zeroes that look like an outage.
 - No beacon script is injected by the app: Cloudflare Pages collects page loads for the project hostname. See the runbook's "New domain" section if a non-Pages host is ever added.
 
+### Campaign sources — the third source
+
+Cloudflare cannot say which *link* a visit came from. Reddit, Discord, Slack and Gmail strip the `Referer`, and the RUM dataset drops query strings entirely, so `?utm_source=reddit` never reaches it. The "Campaign sources" card in Deep analytics therefore reads the app's own table instead:
+
+- The browser reads `utm_source` / `utm_medium` / `utm_campaign` / `utm_content` / `utm_term` from the landing URL (`campaign-tracking.ts`, called once from `RootComponent`). `?ref=` is accepted as a shorthand for `utm_source`, which is what short links typed by hand usually use.
+- One row per session per distinct set of tags (`sessionStorage` guard), so reloads and internal navigation never inflate the count. The number in the table is **sessions that arrived from that link**.
+- Values are normalised again on the server and the write is rate limited per IP, same as the other public counters.
+- The card is host- and range-scoped like the rest of the panel, and prints the recorded total all-time when the selected range is quieter.
+- Because this is the app's own data, it keeps working regardless of what Cloudflare collects — it is also the only attribution that survives a stripped referrer.
+
+Share links look like `https://lambda-prep.pages.dev/?utm_source=reddit&utm_medium=post&utm_campaign=class10`.
+
 ## The dataset workflow panel
 
 The part worth reading twice.
