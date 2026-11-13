@@ -12,7 +12,7 @@ import {
 import { useEffect, useState, type ReactNode } from "react";
 
 import { Header, Footer, ContactMessageDialog } from "@/components/lambda-prep/shell";
-import { SITE_URL, OG_IMAGE, RUM_SITE_TAG } from "@/lib/lambda-prep";
+import { SITE_URL, OG_IMAGE } from "@/lib/lambda-prep";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { I18nProvider, useI18n } from "../lib/i18n";
@@ -254,15 +254,16 @@ function RootShell({ children }: { children: ReactNode }) {
         />
         {/* Applies the stored/system theme class before first paint to prevent a light->dark flash. */}
         <script dangerouslySetInnerHTML={{ __html: themeBootstrapScript }} />
-        {/* Cloudflare Web Analytics (RUM) beacon — client-side only, collects
-            real visitor page-load/performance data keyed by the site token
-            below. Server-side GraphQL queries against this same token power
-            the admin "Deep analytics" panel; see admin-server.ts. */}
-        <script
-          type="module"
-          src="https://static.cloudflareinsights.com/beacon.min.js"
-          data-cf-beacon={JSON.stringify({ token: RUM_SITE_TAG })}
-        ></script>
+        {/* No Cloudflare Web Analytics beacon here on purpose. Cloudflare
+            Pages already collects page loads for the project's own hostname
+            (the "Page views / Visits" card on the Pages dashboard), and a
+            hand-installed beacon needs a site token bound to one exact
+            hostname — a stale token silently drops every event once the site
+            moves hosts, which is what left the admin "Deep analytics" panel
+            empty. The panel now reads the account's RUM dataset filtered by
+            request hostname (see admin-server.ts), so it follows the app
+            wherever it is deployed. Add a snippet back only if the app is
+            ever served from a host Cloudflare doesn't instrument. */}
       </head>
       <body>
         {children}

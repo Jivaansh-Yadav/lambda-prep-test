@@ -78,16 +78,6 @@ export function subjectMatchesStream(name: string, stream: string) {
   // `?stream=science` used to filter every subject out and show an empty grid.
   return !!meta && (meta.streams as readonly string[]).some(s => s.toLowerCase() === stream.toLowerCase());
 }
-/** Cloudflare Web Analytics beacon site tag.
- *
- * Public by design — it ships in every page's HTML. It is the single source
- * of truth for both the beacon injected in `__root.tsx` and the GraphQL
- * filters in `admin-server.ts`, so the two cannot drift when the domain (and
- * therefore the Web Analytics site) changes: update this one value and both
- * the collection and the reporting move with it.
- */
-export const RUM_SITE_TAG = '566049355231478b8966df2004f5d7e9';
-
 export const SITE_URL = 'https://lambda-prep.pages.dev';
 export const OG_IMAGE = `${SITE_URL}/og/lambda-prep-og.png`;
 

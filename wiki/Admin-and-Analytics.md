@@ -45,9 +45,11 @@ Two different sources, both cached in Postgres because neither API is fast enoug
 
 - Cache keys include the **range** (`24h`, `7d`, `14d`, `30d`), so switching ranges does not overwrite the other three.
 - Credentials live in `cloudflare_integration` (Cloudflare account id + a RUM API token with `Account → Analytics → Read`) — seeded once by hand in Neon, not in env vars.
-- The **site tag** is not a secret: it ships in every page's HTML as the beacon token. It lives in code (`RUM_SITE_TAG` in `src/lib/lambda-prep.ts`) and is imported by both the beacon in `__root.tsx` and the GraphQL filters in `admin-server.ts`, so the two can never disagree. Moving domains or re-creating the Web Analytics site is one constant, one deploy.
+- Queries filter on **request hostname**, not on a Web Analytics site tag. The host comes from `SITE_URL` (`TRACKED_HOST` in `admin-server.ts`), so the panel, the sitemap and the canonical link all follow one value. A site tag is bound to the hostname its Web Analytics site was created for, and a stale one silently reports zero — which is exactly how the panel once went empty after production moved to `lambda-prep.pages.dev`.
+- The account can hold unrelated Web Analytics sites, so the traffic chart is host-filtered. The **Collected from** strip deliberately is not: it lists every host Cloudflare recorded, marks the ones outside the filter as *not counted*, and warns outright when all traffic has moved to a host the panel is not counting.
+- `bot: 0` is applied to every query so the numbers reconcile with Cloudflare's own dashboard cards, which exclude bots.
 - When nothing is configured, the panel says so and prints the exact steps to fix it, instead of showing zeroes that look like an outage.
-- The RUM beacon itself is served from `static.cloudflareinsights.com`; the CSP has to allow both the script and the beacon `connect-src`, otherwise the numbers stay at zero forever (this has happened — see the runbook).
+- No beacon script is injected by the app: Cloudflare Pages collects page loads for the project hostname. See the runbook's "New domain" section if a non-Pages host is ever added.
 
 ## The dataset workflow panel
 

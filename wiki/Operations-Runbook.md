@@ -43,9 +43,9 @@ Then open `/doxxmarks?class=icse-10&subject=Biology&chapter=0&note=0`. If the PD
 ### Analytics cards show zeros
 
 1. `/admin` → Deep analytics prints whether the integration is configured.
-2. If configured, check the CSP still allows `static.cloudflareinsights.com` (`script-src`) and `cloudflareinsights.com` (`connect-src`). A blocked beacon means no data forever, and no error anywhere except the browser console.
+2. Check the **Collected from** strip under the traffic chart. It lists every hostname Cloudflare has page loads for. If all the traffic sits on a host marked *not counted*, `SITE_URL` in `src/lib/lambda-prep.ts` no longer matches the domain actually serving the app — the panel says this outright. Fix `SITE_URL` and deploy.
 3. Check the cache tables are not stuck on a stale range key.
-4. If the site moved domains recently, see below — a beacon token from the old Web Analytics site reports under the old tag.
+4. Compare against the Cloudflare dashboard. The panel filters to `SITE_URL`'s hostname and drops bot traffic, so a Pages card for the same host should match within a few minutes of lag on today's bucket.
 
 ### “Could not load analytics” after unlocking
 
@@ -58,17 +58,19 @@ The panel now prints the underlying reason. The common ones:
 | `Could not read the cloudflare_integration row from Neon` | `DATABASE_URL` wrong/missing on this deployment, or Neon unreachable | check the Pages env var, then redeploy (env vars are baked per deployment) |
 | `Web Analytics isn't configured yet` | no `cloudflare_integration` row | seed it (account id + `rum_api_token`) |
 
-### New domain, or a new Web Analytics site
+### New domain
 
-The beacon token is a **Web Analytics site tag** and it is the join key between what the browser reports and what the admin queries: the same value must be in the beacon and in the GraphQL filter. Both come from `RUM_SITE_TAG` in `src/lib/lambda-prep.ts`, so:
+The admin panel filters Cloudflare's RUM dataset by **request hostname** — the host in `SITE_URL` (`src/lib/lambda-prep.ts`) — not by Web Analytics site tag. So a domain move is a one-line change:
 
-1. **Preferred — keep the history:** Cloudflare dashboard → Web Analytics → the existing site → **Manage site** → edit the hostname to the new one → Update. The token does not change, so nothing in the repo does either.
-2. **New site (fresh token):** Web Analytics → Add a site → new hostname → copy the token from **Manage site → Beacon** → replace `RUM_SITE_TAG` → push. Numbers collected under the old tag stay in the old site; the admin panel starts reading the new one on the next deploy.
-3. Clear the per-range caches so the dashboard does not keep serving pre-move numbers for up to five minutes:
+1. Change `SITE_URL` to the new origin. Sitemap, canonical link, OG tags and the analytics filter all follow it.
+2. Deploy. Nothing else in Cloudflare needs to be touched: the new host starts appearing in the dataset on its own, and the *Collected from* strip keeps showing the old hosts (marked *not counted*) so the history stays visible.
+3. Optionally clear the per-range caches so the dashboard does not keep serving pre-move numbers for up to five minutes:
    ```sql
    DELETE FROM cloudflare_analytics_cache;
    DELETE FROM cloudflare_rum_cache;
    ```
+
+There is no beacon token to rotate. The site ships **no** hand-installed Web Analytics beacon: Cloudflare Pages collects page loads for the project's own hostname, and a hand-installed beacon only works while its site tag stays bound to the exact hostname in the page (a stale tag silently drops every event — that is what once left the panel empty). Add a snippet back only if the app is ever served from a host Cloudflare does not instrument, and remember its events then arrive under that site's own host in the dataset.
 
 ### Workflow panel says “Could not reach the GitHub integration”
 

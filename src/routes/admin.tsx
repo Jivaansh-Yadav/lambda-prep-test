@@ -72,6 +72,7 @@ import {
   type AdminRange,
   type AdminTrafficResult,
   type AdminRumResult,
+  type HostBreakdownItem,
   type RumBreakdownItem,
   type ManageResourcesResult,
   type AdminResourceStatsResult,
@@ -310,6 +311,23 @@ function AdminPage() {
       )
     : null;
 
+  // Every host Cloudflare recorded page loads for in this window, versus the
+  // single host these numbers are filtered to (TRACKED_HOST, derived from
+  // SITE_URL in admin-server.ts). If the panel is counting a host that no
+  // longer receives traffic while another one in the account does, the domain
+  // moved and SITE_URL needs to follow — say so instead of showing a bare zero.
+  const hostRows = result?.configured ? (result.hosts ?? []) : [];
+  const trackedHost = result?.configured ? result.trackedHost : undefined;
+  const untrackedHosts = trackedHost ? hostRows.filter((h) => h.host !== trackedHost) : [];
+  const busiestUntracked = untrackedHosts.reduce<HostBreakdownItem | null>(
+    (best, h) => (best === null || h.visits > best.visits ? h : best),
+    null,
+  );
+  const hostDrift =
+    trackedHost !== undefined && (totals?.visits ?? 0) === 0 && (busiestUntracked?.visits ?? 0) > 0
+      ? busiestUntracked
+      : null;
+
   // A section is a full-width page (driven by the ?section= query param)
   // rather than a capped-height modal, so charts, the Drive browser and
   // stats tables all get the full viewport width to work with instead of
@@ -347,9 +365,14 @@ function AdminPage() {
                   <CardHeader>
                     <CardTitle>Traffic — {ADMIN_RANGE_LABEL[range]}</CardTitle>
                   </CardHeader>
-                  <CardContent className="h-80 sm:h-96">
+                  <CardContent>
+                    <div className="h-80 sm:h-96">
                     {result.days.length === 0 ? (
-                      <p className="text-sm text-muted-foreground">No data yet — the beacon hasn't recorded any page loads.</p>
+                      <p className="text-sm text-muted-foreground">
+                        No page loads recorded for this window yet. If the Cloudflare dashboard shows traffic for
+                        this site, check that the <span className="font-mono">cloudflare_integration</span> row's
+                        account ID is the one that owns it.
+                      </p>
                     ) : (
                       <ResponsiveContainer width="100%" height="100%">
                         <LineChart data={result.days}>
@@ -375,6 +398,35 @@ function AdminPage() {
                           <Line type="monotone" dataKey="visits" name="Visits" stroke="#22c55e" strokeWidth={2} dot={false} />
                         </LineChart>
                       </ResponsiveContainer>
+                    )}
+                    </div>
+                    {hostRows.length > 0 && (
+                      <div className="mt-4 border-t border-border/60 pt-3 text-xs text-muted-foreground">
+                        <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                          <span className="font-medium text-foreground">Collected from</span>
+                          {hostRows.map((h) => (
+                            <span key={h.host} className={h.host === trackedHost ? '' : 'opacity-60'}>
+                              <span className="font-mono text-foreground">{h.host}</span> —{' '}
+                              {h.pageLoads.toLocaleString()} loads · {h.visits.toLocaleString()} visits
+                              {h.host === trackedHost ? '' : ' (not counted)'}
+                            </span>
+                          ))}
+                        </div>
+                        {hostDrift ? (
+                          <p className="mt-2 text-amber-600 dark:text-amber-400">
+                            Every visit in this window landed on <span className="font-mono">{hostDrift.host}</span>,
+                            but this panel reports on <span className="font-mono">{trackedHost}</span>. Point{' '}
+                            <span className="font-mono">SITE_URL</span> in{' '}
+                            <span className="font-mono">src/lib/lambda-prep.ts</span> at the domain actually
+                            serving the app.
+                          </p>
+                        ) : untrackedHosts.length > 0 && trackedHost ? (
+                          <p className="mt-2">
+                            Counted host: <span className="font-mono">{trackedHost}</span>. Other hosts in this
+                            Cloudflare account are listed for context but excluded from the totals above.
+                          </p>
+                        ) : null}
+                      </div>
                     )}
                   </CardContent>
                 </Card>
@@ -510,10 +562,9 @@ function AdminPage() {
                 <span className="font-mono">cloudflare_integration</span> row in Neon, then refresh.
               </li>
               <li>
-                Check the token in <span className="font-mono">src/lib/lambda-prep.ts</span> (
-                <span className="font-mono">RUM_SITE_TAG</span>) matches that site’s{' '}
-                <span className="font-mono">Manage site</span> beacon token — the beacon and these queries
-                both read it, so a new domain or a new Web Analytics site only changes that one value.
+                No site token or site tag is needed — the queries filter by the request hostname taken
+                from <span className="font-mono">SITE_URL</span>, so a new domain or Pages project reports
+                as soon as traffic lands on it.
               </li>
             </ol>
           </CardContent>
@@ -651,10 +702,9 @@ function RumAnalyticsSection({
               <span className="font-mono">cloudflare_integration</span> row in Neon, then refresh.
             </li>
             <li>
-              Check the token in <span className="font-mono">src/lib/lambda-prep.ts</span> (
-              <span className="font-mono">RUM_SITE_TAG</span>) matches that site’s{' '}
-              <span className="font-mono">Manage site</span> beacon token — the beacon and these queries
-              both read it, so a new domain or a new Web Analytics site only changes that one value.
+              No site token or site tag is needed — the queries filter by the request hostname taken from{' '}
+              <span className="font-mono">SITE_URL</span>, so a new domain or Pages project reports as soon
+              as traffic lands on it.
             </li>
           </ol>
         </CardContent>
@@ -667,8 +717,9 @@ function RumAnalyticsSection({
       <Card className="mt-6">
         <CardContent className="pt-6">
           <p className="text-sm text-muted-foreground">
-            No Web Analytics (RUM) visits recorded yet for the {ADMIN_RANGE_LABEL[range]}. The beacon script is
-            live on every page — data should start appearing shortly after real visitors load the site.
+            No Web Analytics (RUM) visits recorded yet for the {ADMIN_RANGE_LABEL[range]}. Cloudflare Pages
+            reports page loads for the project's own hostname automatically, so traffic usually shows up on the
+            Pages dashboard first and here within a few minutes of the next visitor.
           </p>
         </CardContent>
       </Card>
@@ -690,7 +741,7 @@ function RumAnalyticsSection({
       </CardHeader>
       <CardContent>
         <p className="mb-4 text-sm text-muted-foreground">
-          {result.totalVisits.toLocaleString()} real-user page-load visits recorded by the beacon script.
+          {result.totalVisits.toLocaleString()} real-user page-load visits Cloudflare recorded for this site.
         </p>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {panels.map((panel) => (

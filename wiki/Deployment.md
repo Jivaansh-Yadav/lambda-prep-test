@@ -93,7 +93,7 @@ If a custom domain replaces `lambda-prep.pages.dev`:
 1. Pages → Custom domains → add the domain, follow the DNS instructions.
 2. Change `SITE_URL` in `src/lib/lambda-prep.ts`.
 3. `https://lambda-prep.pages.dev` in `public/robots.txt` (the `Sitemap:` line).
-4. Web Analytics: **Manage site** → edit that site's hostname to the new domain (the beacon token does not change). A brand-new site instead means changing `RUM_SITE_TAG` in `src/lib/lambda-prep.ts` too — it is the value both the beacon and the admin queries read.
+4. Analytics needs nothing: the admin panel filters Cloudflare's RUM dataset by request hostname taken from `SITE_URL`, so the new domain starts reporting as soon as traffic lands on it.
 5. Redeploy, then confirm `canonical`, `og:url` and every `<loc>` in `/sitemap.xml` use the new origin, and that `/admin` → Deep analytics still returns numbers.
 
 Keeping the origin in one exported constant is what makes this a three-line change; do not scatter literals back in.

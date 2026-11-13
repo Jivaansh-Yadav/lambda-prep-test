@@ -41,7 +41,7 @@ Design rules that matter:
 
 All four are **seeded by hand** in the Neon SQL editor (the admin panel only prints instructions, it has no write path) and read through a `LIMIT 1` `id = true` row — one integration of each kind per deployment, which keeps the queries trivial and the UI honest.
 
-`cloudflare_integration` used to carry a `rum_site_tag` column. It no longer does any work: the beacon site tag is public (it ships in every page's HTML) so it lives in code as `RUM_SITE_TAG` in `src/lib/lambda-prep.ts`, which keeps the injected beacon and the GraphQL filters in sync automatically. The column can stay or be dropped.
+`cloudflare_integration` used to carry a `rum_site_tag` column. Nothing reads it: the admin analytics queries filter Cloudflare's RUM dataset by request hostname (from `SITE_URL`) instead of by site tag, precisely because a tag is bound to one hostname and silently returns zero after a domain move. The column can be dropped.
 
 > After the rename, `github_integration` must point at `Jivaansh-Yadav/lambda-prep`. See [Admin-and-Analytics](Admin-and-Analytics).
 

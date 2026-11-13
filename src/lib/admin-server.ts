@@ -23,7 +23,7 @@ import {
   type LatestCommit,
 } from "./github-integration-server";
 import { getCloudflareIntegrationConfig } from "./cloudflare-integration-server";
-import { RUM_SITE_TAG } from "./lambda-prep";
+import { SITE_URL } from "./lambda-prep";
 import { resolveFileLocations } from "./resource-lookup-server";
 
 // No fallback default: an unset ADMIN_PASSCODE must disable admin access
@@ -127,12 +127,11 @@ export const requirePasscode = createServerOnlyFn((passcode: string) => {
 });
 
 // Daily bucket for the traffic chart. Both numbers come from the same
-// account-scoped Web Analytics (RUM) dataset the beacon in __root.tsx
-// reports to: `pageLoads` is the raw RUM event count (every page load the
-// beacon recorded), `visits` is Cloudflare's own `sum.visits` (page loads
-// whose referrer was a different site — i.e. not internal navigation).
-// RUM doesn't expose a separate unique-visitor count, so there's no third
-// number here.
+// account-scoped Web Analytics (RUM) dataset Cloudflare collects for the
+// site: `pageLoads` is the raw RUM event count (every page load recorded),
+// `visits` is Cloudflare's own `sum.visits` (page loads whose referrer was a
+// different site — i.e. not internal navigation). RUM doesn't expose a
+// separate unique-visitor count, so there's no third number here.
 export type TrafficDay = {
   date: string;
   pageLoads: number;
@@ -185,43 +184,91 @@ const SECTION_DEFS = [
 
 export type SectionBreakdownItem = { label: string; path: string; visits: number };
 
+/** One row of the "Collected from" strip: a hostname Cloudflare's RUM
+ * dataset recorded page loads for inside this account. */
+export type HostBreakdownItem = { host: string; pageLoads: number; visits: number };
+
 export type AdminTrafficResult =
-  | { configured: true; days: TrafficDay[]; sections: SectionBreakdownItem[]; cache: { hit: boolean; fetchedAt: string } }
+  | {
+      configured: true;
+      days: TrafficDay[];
+      sections: SectionBreakdownItem[];
+      /** Optional because traffic cached before the host strip existed has
+       * no `hosts` key — callers treat a missing value as "unknown". */
+      hosts?: HostBreakdownItem[] | undefined;
+      /** The hostname `days` and `sections` are actually filtered to. */
+      trackedHost?: string | undefined;
+      cache: { hit: boolean; fetchedAt: string };
+    }
   | { configured: false; reason: string };
 
 const CLOUDFLARE_GRAPHQL_ENDPOINT = "https://api.cloudflare.com/client/v4/graphql";
 
-// Account-scoped Web Analytics (RUM) query — reads the same beacon data
-// (keyed by siteTag, not zoneTag) that getAdminRum below drills into for
-// the top-pages/countries/devices detail. Needs the account ID, a RUM
-// API token (Account -> Analytics -> Read) and the site tag, all read
-// from the cloudflare_integration row on Neon (see
-// getCloudflareIntegrationConfig), not a Zone ID/zone-scoped token —
-// Cloudflare's legacy httpRequests*/zone-level analytics requires a Zone
-// ID + Zone Analytics Read token this project doesn't have, whereas the
-// RUM beacon
-// + Account Analytics Read token work from a single Cloudflare account.
+/** Hostname whose Cloudflare page loads the admin analytics reports on —
+ * the canonical production host from SITE_URL, so the panel, the sitemap,
+ * the canonical link and the OG tags all agree on one domain. */
+const TRACKED_HOST = new URL(SITE_URL).host;
+
+// Account-scoped Web Analytics (RUM) query — reads the same page-load
+// dataset (keyed by account, not zoneTag) that getAdminRum below drills
+// into for the top-pages/countries/devices detail. Needs the account ID
+// and a RUM API token (Account -> Analytics -> Read), both read from the
+// cloudflare_integration row on Neon (see getCloudflareIntegrationConfig),
+// not a Zone ID/zone-scoped token — Cloudflare's legacy httpRequests*/
+// zone-level analytics requires a Zone ID + Zone Analytics Read token this
+// project doesn't have, whereas RUM + Account Analytics Read work from a
+// single Cloudflare account.
+//
+// Rows are filtered by requestHost, NOT by a Web Analytics site tag. A site
+// tag is bound to the hostname its Web Analytics site was created for, so a
+// hardcoded tag silently reports zero the moment the app is served from a
+// different host — exactly what happened when production moved to
+// lambda-prep.pages.dev (traffic kept landing in the dataset, under the
+// Pages project's own auto-provisioned tag, while the panel showed zeros).
+// A hostname is what these numbers are actually "for", so it is the honest
+// filter, and TRACKED_HOST derives it from the same SITE_URL the sitemap and
+// canonical link use.
+//
+// The account can also hold unrelated Web Analytics sites, so the chart is
+// host-filtered while hostBreakdown deliberately is not: the panel lists
+// those other hosts as "not counted", which turns the old silent zero into a
+// visible "traffic is landing on X" warning if SITE_URL ever drifts from the
+// domain actually being served.
+//
+// `bot: 0` mirrors Cloudflare's own dashboard cards, which exclude bots —
+// without it these numbers drift above the dashboard's.
+//
 // Two variants of the same query, differing only in which time
 // dimension dailyTraffic buckets by: "date" (one point per calendar day)
 // for the 7d/14d/30d ranges, or "datetimeHour" (one point per hour) for
 // 24h, since a single day has too few calendar-day points to chart.
 const TRAFFIC_QUERY_BY_DAY = `
-  query GetTrafficData($accountTag: String!, $siteTag: String!, $since: Time!, $until: Time!, $limit: Int!) {
+  query GetTrafficData($accountTag: String!, $host: String!, $since: Time!, $until: Time!, $limit: Int!) {
     viewer {
       accounts(filter: { accountTag: $accountTag }) {
         dailyTraffic: rumPageloadEventsAdaptiveGroups(
           limit: $limit,
-          filter: { siteTag: $siteTag, datetime_geq: $since, datetime_lt: $until },
+          filter: { bot: 0, requestHost: $host, datetime_geq: $since, datetime_lt: $until },
           orderBy: [date_ASC]
         ) {
           count
           sum { visits }
           dimensions { bucket: date }
         }
+        hostBreakdown: rumPageloadEventsAdaptiveGroups(
+          limit: 50,
+          filter: { bot: 0, datetime_geq: $since, datetime_lt: $until },
+          orderBy: [sum_visits_DESC]
+        ) {
+          count
+          sum { visits }
+          dimensions { requestHost }
+        }
         sectionBreakdown: rumPageloadEventsAdaptiveGroups(
           limit: 1000,
           filter: {
-            siteTag: $siteTag,
+            bot: 0,
+            requestHost: $host,
             datetime_geq: $since,
             datetime_lt: $until,
             OR: [
@@ -239,22 +286,32 @@ const TRAFFIC_QUERY_BY_DAY = `
 `;
 
 const TRAFFIC_QUERY_BY_HOUR = `
-  query GetTrafficData($accountTag: String!, $siteTag: String!, $since: Time!, $until: Time!, $limit: Int!) {
+  query GetTrafficData($accountTag: String!, $host: String!, $since: Time!, $until: Time!, $limit: Int!) {
     viewer {
       accounts(filter: { accountTag: $accountTag }) {
         dailyTraffic: rumPageloadEventsAdaptiveGroups(
           limit: $limit,
-          filter: { siteTag: $siteTag, datetime_geq: $since, datetime_lt: $until },
+          filter: { bot: 0, requestHost: $host, datetime_geq: $since, datetime_lt: $until },
           orderBy: [datetimeHour_ASC]
         ) {
           count
           sum { visits }
           dimensions { bucket: datetimeHour }
         }
+        hostBreakdown: rumPageloadEventsAdaptiveGroups(
+          limit: 50,
+          filter: { bot: 0, datetime_geq: $since, datetime_lt: $until },
+          orderBy: [sum_visits_DESC]
+        ) {
+          count
+          sum { visits }
+          dimensions { requestHost }
+        }
         sectionBreakdown: rumPageloadEventsAdaptiveGroups(
           limit: 1000,
           filter: {
-            siteTag: $siteTag,
+            bot: 0,
+            requestHost: $host,
             datetime_geq: $since,
             datetime_lt: $until,
             OR: [
@@ -310,6 +367,11 @@ type CloudflareGraphQLResponse = {
           sum: { visits: number };
           dimensions: { requestPath: string };
         }>;
+        hostBreakdown?: Array<{
+          count: number;
+          sum: { visits: number };
+          dimensions: { requestHost: string };
+        }>;
       }>;
     };
   };
@@ -330,7 +392,14 @@ export const checkAdminPasscode = createServerFn({ method: "POST" })
     return { ok: result.ok };
   });
 
-type CachedPayload = { days: TrafficDay[]; sections: SectionBreakdownItem[] };
+type CachedPayload = {
+  days: TrafficDay[];
+  sections: SectionBreakdownItem[];
+  hosts?: HostBreakdownItem[] | undefined;
+  /** Stored so a cache hit can still label which host it reports on; a row
+   * without it predates the field and is treated as a cache miss. */
+  trackedHost?: string | undefined;
+};
 
 /**
  * Reads the per-range Cloudflare analytics cache row from Neon. Returns
@@ -387,11 +456,10 @@ async function fetchFromCloudflare(range: AdminRange): Promise<AdminTrafficResul
     return {
       configured: false,
       reason:
-        "Web Analytics isn't configured yet. Seed the cloudflare_integration row (Cloudflare account ID + a RUM API token with Account → Analytics → Read scope) in Neon. The beacon site tag is not stored in Neon — it comes from RUM_SITE_TAG in src/lib/lambda-prep.ts.",
+        "Web Analytics isn't configured yet. Seed the cloudflare_integration row (Cloudflare account ID + a RUM API token with Account → Analytics → Read scope) in Neon.",
     };
   }
   const { accountId, rumApiToken: apiToken } = config;
-  const siteTag = RUM_SITE_TAG;
 
   const until = new Date();
   const since = new Date(until.getTime() - RANGE_WINDOW_MS[range]);
@@ -408,7 +476,7 @@ async function fetchFromCloudflare(range: AdminRange): Promise<AdminTrafficResul
         query: range === "24h" ? TRAFFIC_QUERY_BY_HOUR : TRAFFIC_QUERY_BY_DAY,
         variables: {
           accountTag: accountId,
-          siteTag,
+          host: TRACKED_HOST,
           since: since.toISOString(),
           until: until.toISOString(),
           limit: RANGE_BUCKET_LIMIT[range],
@@ -451,7 +519,20 @@ async function fetchFromCloudflare(range: AdminRange): Promise<AdminTrafficResul
     visits: g.sum.visits,
   }));
 
-  return { configured: true, days, sections, cache: { hit: false, fetchedAt: new Date().toISOString() } };
+  const hosts: HostBreakdownItem[] = (account?.hostBreakdown ?? []).map((row) => ({
+    host: row.dimensions.requestHost || "(unknown)",
+    pageLoads: row.count,
+    visits: row.sum.visits,
+  }));
+
+  return {
+    configured: true,
+    days,
+    sections,
+    hosts,
+    trackedHost: TRACKED_HOST,
+    cache: { hit: false, fetchedAt: new Date().toISOString() },
+  };
 }
 
 /**
@@ -477,11 +558,13 @@ export const getAdminTraffic = createServerFn({ method: "POST" })
 
     try {
       const cached = await readCache(range);
-      if (cached && Date.now() - cached.fetchedAt.getTime() < CACHE_TTL_MS) {
+      if (cached && cached.payload.trackedHost && Date.now() - cached.fetchedAt.getTime() < CACHE_TTL_MS) {
         return {
           configured: true,
           days: cached.payload.days,
           sections: cached.payload.sections,
+          hosts: cached.payload.hosts,
+          trackedHost: cached.payload.trackedHost,
           cache: { hit: true, fetchedAt: cached.fetchedAt.toISOString() },
         };
       }
@@ -495,7 +578,12 @@ export const getAdminTraffic = createServerFn({ method: "POST" })
 
     if (result.configured) {
       try {
-        await writeCache(range, { days: result.days, sections: result.sections });
+        await writeCache(range, {
+          days: result.days,
+          sections: result.sections,
+          hosts: result.hosts,
+          trackedHost: result.trackedHost,
+        });
       } catch (error) {
         // A failed cache write shouldn't fail the request — the UI still
         // gets fresh data this time, it just won't be cached for next time.
@@ -529,18 +617,18 @@ export type AdminRumResult =
   | { configured: false; reason: string };
 
 const RUM_QUERY = `
-  query GetRumData($accountTag: String!, $siteTag: String!, $since: Time!, $until: Time!) {
+  query GetRumData($accountTag: String!, $host: String!, $since: Time!, $until: Time!) {
     viewer {
       accounts(filter: { accountTag: $accountTag }) {
         total: rumPageloadEventsAdaptiveGroups(
           limit: 1,
-          filter: { siteTag: $siteTag, datetime_geq: $since, datetime_lt: $until }
+          filter: { bot: 0, requestHost: $host, datetime_geq: $since, datetime_lt: $until }
         ) {
           sum { visits }
         }
         topPaths: rumPageloadEventsAdaptiveGroups(
           limit: 10,
-          filter: { siteTag: $siteTag, datetime_geq: $since, datetime_lt: $until },
+          filter: { bot: 0, requestHost: $host, datetime_geq: $since, datetime_lt: $until },
           orderBy: [sum_visits_DESC]
         ) {
           sum { visits }
@@ -548,7 +636,7 @@ const RUM_QUERY = `
         }
         topCountries: rumPageloadEventsAdaptiveGroups(
           limit: 10,
-          filter: { siteTag: $siteTag, datetime_geq: $since, datetime_lt: $until },
+          filter: { bot: 0, requestHost: $host, datetime_geq: $since, datetime_lt: $until },
           orderBy: [sum_visits_DESC]
         ) {
           sum { visits }
@@ -556,7 +644,7 @@ const RUM_QUERY = `
         }
         topDeviceTypes: rumPageloadEventsAdaptiveGroups(
           limit: 10,
-          filter: { siteTag: $siteTag, datetime_geq: $since, datetime_lt: $until },
+          filter: { bot: 0, requestHost: $host, datetime_geq: $since, datetime_lt: $until },
           orderBy: [sum_visits_DESC]
         ) {
           sum { visits }
@@ -564,7 +652,7 @@ const RUM_QUERY = `
         }
         topBrowsers: rumPageloadEventsAdaptiveGroups(
           limit: 10,
-          filter: { siteTag: $siteTag, datetime_geq: $since, datetime_lt: $until },
+          filter: { bot: 0, requestHost: $host, datetime_geq: $since, datetime_lt: $until },
           orderBy: [sum_visits_DESC]
         ) {
           sum { visits }
@@ -572,7 +660,7 @@ const RUM_QUERY = `
         }
         topReferrers: rumPageloadEventsAdaptiveGroups(
           limit: 10,
-          filter: { siteTag: $siteTag, datetime_geq: $since, datetime_lt: $until },
+          filter: { bot: 0, requestHost: $host, datetime_geq: $since, datetime_lt: $until },
           orderBy: [sum_visits_DESC]
         ) {
           sum { visits }
@@ -629,15 +717,23 @@ async function writeRumCache(range: AdminRange, payload: CachedRumPayload): Prom
 }
 
 function sortedBreakdown(groups: RumGroup[] | undefined): RumBreakdownItem[] {
-  return (groups ?? [])
-    .map((g) => ({ label: g.dimensions.metric || "(unknown)", visits: g.sum.visits }))
-    .sort((a, b) => b.visits - a.visits);
+  return (
+    (groups ?? [])
+      .map((g) => ({ label: g.dimensions.metric || "(unknown)", visits: g.sum.visits }))
+      // Cloudflare returns every known dimension value, including ones with no
+      // visits of their own in this window (a path people only reached by
+      // internal navigation has page loads but 0 visits). Listing those rows
+      // reads as "nobody goes here" instead of "no data".
+      .filter((item) => item.visits > 0)
+      .sort((a, b) => b.visits - a.visits)
+  );
 }
 
 /**
  * Calls Cloudflare's GraphQL Analytics API for Web Analytics (RUM)
  * detail — top pages, countries, device types, browsers and referrers —
- * over the given lookback window, scoped by the beacon's site tag.
+ * over the given lookback window, scoped to TRACKED_HOST (no site tag, for
+ * the reasons documented above TRAFFIC_QUERY_BY_DAY).
  * Returns `configured: false` (never throws) when credentials are
  * missing or the request/response fails.
  */
@@ -656,11 +752,10 @@ async function fetchRumFromCloudflare(range: AdminRange): Promise<AdminRumResult
     return {
       configured: false,
       reason:
-        "Web Analytics (RUM) isn't configured yet. Seed the cloudflare_integration row (Cloudflare account ID + a RUM API token with Account → Analytics → Read scope) in Neon. The beacon site tag is not stored in Neon — it comes from RUM_SITE_TAG in src/lib/lambda-prep.ts.",
+        "Web Analytics (RUM) isn't configured yet. Seed the cloudflare_integration row (Cloudflare account ID + a RUM API token with Account → Analytics → Read scope) in Neon.",
     };
   }
   const { accountId, rumApiToken: apiToken } = config;
-  const siteTag = RUM_SITE_TAG;
 
   const until = new Date();
   const since = new Date(until.getTime() - RANGE_WINDOW_MS[range]);
@@ -677,7 +772,7 @@ async function fetchRumFromCloudflare(range: AdminRange): Promise<AdminRumResult
         query: RUM_QUERY,
         variables: {
           accountTag: accountId,
-          siteTag,
+          host: TRACKED_HOST,
           since: since.toISOString(),
           until: until.toISOString(),
         },

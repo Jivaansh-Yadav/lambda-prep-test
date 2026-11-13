@@ -43,7 +43,7 @@ This file is the SSR entry (`tanstackStart.server.entry = "server"` in `vite.con
 The CSP itself is scoped to what the app really uses:
 
 - `frame-src` — `drive.google.com` (embedded PDFs), `mscontent-gcp.extramarks.com` (interactive classes), `storage.googleapis.com` (signed InstaRevision PDFs).
-- `connect-src` — Extramarks, `cloudflareinsights.com` (Web Analytics beacon).
+- `connect-src` — Extramarks, `cloudflareinsights.com` (only needed if a Web Analytics snippet is ever added back; Cloudflare Pages collects page loads without one).
 - `script-src` — `static.cloudflareinsights.com`; `img-src` — `drive.google.com` thumbnails.
 
 ## Routing
@@ -96,7 +96,7 @@ src/
 │   ├── lambda-prep/  # shell, resource/note/doxx players, rating, sharing, grids
 │   └── ui/           # shadcn-style primitives
 ├── lib/
-│   ├── lambda-prep.ts  # SITE_URL, RUM_SITE_TAG, pageHead(), class/subject metadata helpers
+│   ├── lambda-prep.ts  # SITE_URL, pageHead(), class/subject metadata helpers
 │   ├── brand.ts      # logo + hero asset paths
 │   ├── redirects.ts  # /drive and /github destinations
 │   ├── db.ts         # Neon client singleton
