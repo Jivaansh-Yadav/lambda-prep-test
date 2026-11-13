@@ -72,7 +72,6 @@ import {
   type AdminRange,
   type AdminTrafficResult,
   type AdminRumResult,
-  type HostBreakdownItem,
   type RumBreakdownItem,
   type ManageResourcesResult,
   type AdminResourceStatsResult,
@@ -311,22 +310,10 @@ function AdminPage() {
       )
     : null;
 
-  // Every host Cloudflare recorded page loads for in this window, versus the
-  // single host these numbers are filtered to (TRACKED_HOST, derived from
-  // SITE_URL in admin-server.ts). If the panel is counting a host that no
-  // longer receives traffic while another one in the account does, the domain
-  // moved and SITE_URL needs to follow — say so instead of showing a bare zero.
-  const hostRows = result?.configured ? (result.hosts ?? []) : [];
-  const trackedHost = result?.configured ? result.trackedHost : undefined;
-  const untrackedHosts = trackedHost ? hostRows.filter((h) => h.host !== trackedHost) : [];
-  const busiestUntracked = untrackedHosts.reduce<HostBreakdownItem | null>(
-    (best, h) => (best === null || h.visits > best.visits ? h : best),
-    null,
-  );
-  const hostDrift =
-    trackedHost !== undefined && (totals?.visits ?? 0) === 0 && (busiestUntracked?.visits ?? 0) > 0
-      ? busiestUntracked
-      : null;
+  // These numbers cover exactly one host — TRACKED_HOST, the canonical
+  // production host derived from SITE_URL in admin-server.ts. Other hosts in
+  // the same Cloudflare account are never queried, so they can't leak in.
+  const trackedHost = result?.configured ? result.trackedHost : null;
 
   // A section is a full-width page (driven by the ?section= query param)
   // rather than a capped-height modal, so charts, the Drive browser and
@@ -400,33 +387,11 @@ function AdminPage() {
                       </ResponsiveContainer>
                     )}
                     </div>
-                    {hostRows.length > 0 && (
-                      <div className="mt-4 border-t border-border/60 pt-3 text-xs text-muted-foreground">
-                        <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                          <span className="font-medium text-foreground">Collected from</span>
-                          {hostRows.map((h) => (
-                            <span key={h.host} className={h.host === trackedHost ? '' : 'opacity-60'}>
-                              <span className="font-mono text-foreground">{h.host}</span> —{' '}
-                              {h.pageLoads.toLocaleString()} loads · {h.visits.toLocaleString()} visits
-                              {h.host === trackedHost ? '' : ' (not counted)'}
-                            </span>
-                          ))}
-                        </div>
-                        {hostDrift ? (
-                          <p className="mt-2 text-amber-600 dark:text-amber-400">
-                            Every visit in this window landed on <span className="font-mono">{hostDrift.host}</span>,
-                            but this panel reports on <span className="font-mono">{trackedHost}</span>. Point{' '}
-                            <span className="font-mono">SITE_URL</span> in{' '}
-                            <span className="font-mono">src/lib/lambda-prep.ts</span> at the domain actually
-                            serving the app.
-                          </p>
-                        ) : untrackedHosts.length > 0 && trackedHost ? (
-                          <p className="mt-2">
-                            Counted host: <span className="font-mono">{trackedHost}</span>. Other hosts in this
-                            Cloudflare account are listed for context but excluded from the totals above.
-                          </p>
-                        ) : null}
-                      </div>
+                    {trackedHost && (
+                      <p className="mt-3 text-xs text-muted-foreground">
+                        Counting <span className="font-mono text-foreground">{trackedHost}</span> only — other
+                        Cloudflare sites are excluded.
+                      </p>
                     )}
                   </CardContent>
                 </Card>

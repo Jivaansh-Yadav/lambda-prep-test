@@ -184,20 +184,14 @@ const SECTION_DEFS = [
 
 export type SectionBreakdownItem = { label: string; path: string; visits: number };
 
-/** One row of the "Collected from" strip: a hostname Cloudflare's RUM
- * dataset recorded page loads for inside this account. */
-export type HostBreakdownItem = { host: string; pageLoads: number; visits: number };
-
 export type AdminTrafficResult =
   | {
       configured: true;
       days: TrafficDay[];
       sections: SectionBreakdownItem[];
-      /** Optional because traffic cached before the host strip existed has
-       * no `hosts` key — callers treat a missing value as "unknown". */
-      hosts?: HostBreakdownItem[] | undefined;
-      /** The hostname `days` and `sections` are actually filtered to. */
-      trackedHost?: string | undefined;
+      /** The hostname `days` and `sections` are filtered to — the only host
+       * this panel reports on. */
+      trackedHost: string;
       cache: { hit: boolean; fetchedAt: string };
     }
   | { configured: false; reason: string };
@@ -229,11 +223,11 @@ const TRACKED_HOST = new URL(SITE_URL).host;
 // filter, and TRACKED_HOST derives it from the same SITE_URL the sitemap and
 // canonical link use.
 //
-// The account can also hold unrelated Web Analytics sites, so the chart is
-// host-filtered while hostBreakdown deliberately is not: the panel lists
-// those other hosts as "not counted", which turns the old silent zero into a
-// visible "traffic is landing on X" warning if SITE_URL ever drifts from the
-// domain actually being served.
+// The dataset is account-scoped, so the filter is what keeps unrelated
+// sites out of the panel: everything is filtered to TRACKED_HOST, the
+// canonical production host derived from SITE_URL. Nothing else in the
+// account (other Pages projects, other people's Web Analytics sites) is
+// read or displayed — the numbers here are lambda-prep.pages.dev only.
 //
 // `bot: 0` mirrors Cloudflare's own dashboard cards, which exclude bots —
 // without it these numbers drift above the dashboard's.
@@ -254,15 +248,6 @@ const TRAFFIC_QUERY_BY_DAY = `
           count
           sum { visits }
           dimensions { bucket: date }
-        }
-        hostBreakdown: rumPageloadEventsAdaptiveGroups(
-          limit: 50,
-          filter: { bot: 0, datetime_geq: $since, datetime_lt: $until },
-          orderBy: [sum_visits_DESC]
-        ) {
-          count
-          sum { visits }
-          dimensions { requestHost }
         }
         sectionBreakdown: rumPageloadEventsAdaptiveGroups(
           limit: 1000,
@@ -297,15 +282,6 @@ const TRAFFIC_QUERY_BY_HOUR = `
           count
           sum { visits }
           dimensions { bucket: datetimeHour }
-        }
-        hostBreakdown: rumPageloadEventsAdaptiveGroups(
-          limit: 50,
-          filter: { bot: 0, datetime_geq: $since, datetime_lt: $until },
-          orderBy: [sum_visits_DESC]
-        ) {
-          count
-          sum { visits }
-          dimensions { requestHost }
         }
         sectionBreakdown: rumPageloadEventsAdaptiveGroups(
           limit: 1000,
@@ -367,11 +343,6 @@ type CloudflareGraphQLResponse = {
           sum: { visits: number };
           dimensions: { requestPath: string };
         }>;
-        hostBreakdown?: Array<{
-          count: number;
-          sum: { visits: number };
-          dimensions: { requestHost: string };
-        }>;
       }>;
     };
   };
@@ -395,10 +366,9 @@ export const checkAdminPasscode = createServerFn({ method: "POST" })
 type CachedPayload = {
   days: TrafficDay[];
   sections: SectionBreakdownItem[];
-  hosts?: HostBreakdownItem[] | undefined;
-  /** Stored so a cache hit can still label which host it reports on; a row
-   * without it predates the field and is treated as a cache miss. */
-  trackedHost?: string | undefined;
+  /** Stored so a cache hit can still label which host it reports on, and so
+   * a row written before the panel was host-scoped is treated as a miss. */
+  trackedHost: string;
 };
 
 /**
@@ -519,17 +489,10 @@ async function fetchFromCloudflare(range: AdminRange): Promise<AdminTrafficResul
     visits: g.sum.visits,
   }));
 
-  const hosts: HostBreakdownItem[] = (account?.hostBreakdown ?? []).map((row) => ({
-    host: row.dimensions.requestHost || "(unknown)",
-    pageLoads: row.count,
-    visits: row.sum.visits,
-  }));
-
   return {
     configured: true,
     days,
     sections,
-    hosts,
     trackedHost: TRACKED_HOST,
     cache: { hit: false, fetchedAt: new Date().toISOString() },
   };
@@ -563,7 +526,6 @@ export const getAdminTraffic = createServerFn({ method: "POST" })
           configured: true,
           days: cached.payload.days,
           sections: cached.payload.sections,
-          hosts: cached.payload.hosts,
           trackedHost: cached.payload.trackedHost,
           cache: { hit: true, fetchedAt: cached.fetchedAt.toISOString() },
         };
@@ -581,7 +543,6 @@ export const getAdminTraffic = createServerFn({ method: "POST" })
         await writeCache(range, {
           days: result.days,
           sections: result.sections,
-          hosts: result.hosts,
           trackedHost: result.trackedHost,
         });
       } catch (error) {

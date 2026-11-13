@@ -43,7 +43,7 @@ Then open `/doxxmarks?class=icse-10&subject=Biology&chapter=0&note=0`. If the PD
 ### Analytics cards show zeros
 
 1. `/admin` → Deep analytics prints whether the integration is configured.
-2. Check the **Collected from** strip under the traffic chart. It lists every hostname Cloudflare has page loads for. If all the traffic sits on a host marked *not counted*, `SITE_URL` in `src/lib/lambda-prep.ts` no longer matches the domain actually serving the app — the panel says this outright. Fix `SITE_URL` and deploy.
+2. Check the hostname printed under the traffic chart ("Counting … only"). The panel reads exactly one host, taken from `SITE_URL` in `src/lib/lambda-prep.ts`; if that is not the domain actually serving the app, the numbers stay empty. Fix `SITE_URL` and deploy.
 3. Check the cache tables are not stuck on a stale range key.
 4. Compare against the Cloudflare dashboard. The panel filters to `SITE_URL`'s hostname and drops bot traffic, so a Pages card for the same host should match within a few minutes of lag on today's bucket.
 
@@ -63,7 +63,7 @@ The panel now prints the underlying reason. The common ones:
 The admin panel filters Cloudflare's RUM dataset by **request hostname** — the host in `SITE_URL` (`src/lib/lambda-prep.ts`) — not by Web Analytics site tag. So a domain move is a one-line change:
 
 1. Change `SITE_URL` to the new origin. Sitemap, canonical link, OG tags and the analytics filter all follow it.
-2. Deploy. Nothing else in Cloudflare needs to be touched: the new host starts appearing in the dataset on its own, and the *Collected from* strip keeps showing the old hosts (marked *not counted*) so the history stays visible.
+2. Deploy. Nothing else in Cloudflare needs to be touched: Pages reports page loads for the project hostname, so the new host starts appearing in the dataset on its own. The old host's history stays in Cloudflare — the panel simply no longer reads it.
 3. Optionally clear the per-range caches so the dashboard does not keep serving pre-move numbers for up to five minutes:
    ```sql
    DELETE FROM cloudflare_analytics_cache;
