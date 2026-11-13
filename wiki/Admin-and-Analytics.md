@@ -50,7 +50,7 @@ Two different sources, both cached in Postgres because neither API is fast enoug
 - Top referrers is the only place another domain can surface, and only as *where a lambda-prep visit came from*; `(unknown)` is a direct visit.
 - `bot: 0` is applied to every query so the numbers reconcile with Cloudflare's own dashboard cards, which exclude bots.
 - When nothing is configured, the panel says so and prints the exact steps to fix it, instead of showing zeroes that look like an outage.
-- No beacon script is injected by the app: Cloudflare Pages collects page loads for the project hostname. See the runbook's "New domain" section if a non-Pages host is ever added.
+- The app ships the Cloudflare Web Analytics beacon (`RUM_SITE_TAG` in `lambda-prep.ts`, injected in `__root.tsx`), and it is the **only** thing that records page loads: the Pages project does not inject a snippet of its own, so removing it silences the panel entirely. Its site tag only decides *where events are collected*; the panel's own filters are host-based, so the two can differ without the numbers going blank — but no beacon still means no data.
 
 ## The dataset workflow panel
 

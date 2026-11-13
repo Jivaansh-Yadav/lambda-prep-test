@@ -70,7 +70,7 @@ The admin panel filters Cloudflare's RUM dataset by **request hostname** — the
    DELETE FROM cloudflare_rum_cache;
    ```
 
-There is no beacon token to rotate. The site ships **no** hand-installed Web Analytics beacon: Cloudflare Pages collects page loads for the project's own hostname, and a hand-installed beacon only works while its site tag stays bound to the exact hostname in the page (a stale tag silently drops every event — that is what once left the panel empty). Add a snippet back only if the app is ever served from a host Cloudflare does not instrument, and remember its events then arrive under that site's own host in the dataset.
+The beacon token is not a secret and never needs rotating: `RUM_SITE_TAG` in `lambda-prep.ts` is a public Web Analytics site tag that ships in every page's HTML. It is what records page loads — the app ships the beacon itself (`__root.tsx` posts to `cloudflareinsights.com`) because Cloudflare Pages does **not** inject one for this project; removing the snippet stops collection within the hour and the panel goes quiet. Its site tag only decides where events are collected, while every panel query filters by request hostname, so a stale-looking tag does not blank the numbers. If the Web Analytics site is ever recreated, update `RUM_SITE_TAG` and nothing else.
 
 ### Workflow panel says “Could not reach the GitHub integration”
 
