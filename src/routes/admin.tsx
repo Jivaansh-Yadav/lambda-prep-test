@@ -191,11 +191,11 @@ function AdminPage() {
     }
   }
 
-  async function loadTraffic(code: string, forRange: AdminRange) {
+  async function loadTraffic(code: string, forRange: AdminRange, force = false) {
     setLoading(true);
     setError(null);
     try {
-      const data = await getAdminTraffic({ data: { passcode: code, range: forRange } });
+      const data = await getAdminTraffic({ data: { passcode: code, range: forRange, force } });
       setResult(data);
     } catch (error) {
       // Surface what actually failed. Server functions throw for a rejected
@@ -224,10 +224,10 @@ function AdminPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authed]);
 
-  async function loadRum(code: string, forRange: AdminRange) {
+  async function loadRum(code: string, forRange: AdminRange, force = false) {
     setRumLoading(true);
     try {
-      const data = await getAdminRum({ data: { passcode: code, range: forRange } });
+      const data = await getAdminRum({ data: { passcode: code, range: forRange, force } });
       setRumResult(data);
     } catch (error) {
       const message = error instanceof Error ? error.message.trim() : '';
@@ -320,10 +320,24 @@ function AdminPage() {
   }
 
 
+  // Refresh is a live read, not a cache peek: the server drops its Neon cache
+  // row for the range before calling Cloudflare, so the numbers shown are
+  // whatever Cloudflare has now rather than a snapshot from up to five
+  // minutes ago. Range switches still reuse a fresh cache row (that's just
+  // navigating), but an explicit Refresh never does.
+  function refreshAll() {
+    if (!authed) return;
+    void loadTraffic(adminSessionPasscode ?? '', range, true);
+    if (openSection === 'analytics') {
+      void loadRum(adminSessionPasscode ?? '', range, true);
+      // Campaign sources read Neon directly — nothing cached to bypass.
+      void loadCampaign(adminSessionPasscode ?? '', range);
+    }
+  }
+
   if (!authed) {
     return (
-      <div className="flex min-h-[70vh] items-center justify-center px-4">
-        <form onSubmit={handleUnlock} className="w-full max-w-sm space-y-4 rounded-xl border bg-card p-6 shadow">
+      <div className="flex min-h-[70vh] items-center justify-center px-4">        <form onSubmit={handleUnlock} className="w-full max-w-sm space-y-4 rounded-xl border bg-card p-6 shadow">
           <h1 className="text-lg font-semibold text-foreground">Admin access</h1>
           <p className="text-sm text-muted-foreground">Enter the admin passcode to view analytics.</p>
           <Input
@@ -383,7 +397,21 @@ function AdminPage() {
           <h1 className="flex items-center gap-2 text-2xl font-semibold text-foreground">
             {meta.icon} {meta.title}
           </h1>
-          {openSection === 'analytics' && <RangeSelect value={range} onChange={handleRangeChange} />}
+          {openSection === 'analytics' && (
+            <div className="flex flex-wrap items-center gap-2">
+              <RangeSelect value={range} onChange={handleRangeChange} />
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={refreshAll}
+                disabled={loading || rumLoading}
+                title="Read Cloudflare live — clears this range's cached numbers first"
+              >
+                {loading || rumLoading ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
+                {loading || rumLoading ? 'Refreshing…' : 'Refresh'}
+              </Button>
+            </div>
+          )}
         </div>
 
         {openSection === 'analytics' && (
@@ -435,6 +463,11 @@ function AdminPage() {
                         Cloudflare sites are excluded.
                       </p>
                     )}
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Every range is read in 7-day slices. Cloudflare downsamples any single query wider than about a
+                      week, which used to make 14d/30d under-count the same days 7d reported in full — so the ranges now
+                      agree with each other.
+                    </p>
                   </CardContent>
                 </Card>
 
@@ -510,8 +543,9 @@ function AdminPage() {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => loadTraffic(adminSessionPasscode ?? '', range)}
+            onClick={() => loadTraffic(adminSessionPasscode ?? '', range, true)}
             disabled={loading}
+            title="Read Cloudflare live — clears this range's cached numbers first"
           >
             {loading ? 'Refreshing…' : 'Refresh'}
           </Button>

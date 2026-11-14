@@ -25,6 +25,7 @@ import {
 import { getCloudflareIntegrationConfig } from "./cloudflare-integration-server";
 import { SITE_URL } from "./lambda-prep";
 import { resolveFileLocations } from "./resource-lookup-server";
+import { chunkWindows } from "./rum-windows";
 
 // No fallback default: an unset ADMIN_PASSCODE must disable admin access
 // entirely rather than silently accepting a hardcoded, publicly-visible
@@ -163,8 +164,9 @@ export const ADMIN_RANGE_LABEL: Record<AdminRange, string> = {
   "30d": "last 30 days",
 };
 
-// Row limit for the per-bucket traffic query: 24h buckets by hour (24
-// points max), the rest bucket by day (up to 30 points max).
+// Row limit per traffic query. Each query now covers one ≤7-day slice (see
+// rum-windows.ts), so a day-bucketed slice needs 7 rows + 1 for the boundary
+// hour, and the hourly 24h slice needs 25.
 const RANGE_BUCKET_LIMIT: Record<AdminRange, number> = {
   "24h": 25,
   "7d": 8,
@@ -405,6 +407,17 @@ async function writeCache(range: AdminRange, payload: CachedPayload): Promise<vo
 }
 
 /**
+ * Deletes the cached row for one range. Used by the Refresh button, which
+ * asks for a live Cloudflare read rather than whatever the cache happens to
+ * hold — the admin's explicit "show me now" shouldn't be answered with a
+ * five-minute-old snapshot. No-ops without DATABASE_URL.
+ */
+async function deleteCache(range: AdminRange): Promise<void> {
+  if (!sql) return;
+  await sql.query(`DELETE FROM cloudflare_analytics_cache WHERE range = $1`, [range]);
+}
+
+/**
  * Calls Cloudflare's GraphQL Analytics API for Web Analytics (RUM)
  * traffic plus the doxxmarks/resources section breakdown, over the given
  * lookback window. Returns `configured: false` (never throws) when
@@ -432,45 +445,66 @@ async function fetchFromCloudflare(range: AdminRange): Promise<AdminTrafficResul
   const { accountId, rumApiToken: apiToken } = config;
 
   const until = new Date();
-  const since = new Date(until.getTime() - RANGE_WINDOW_MS[range]);
+  const windows = chunkWindows(until.getTime() - RANGE_WINDOW_MS[range], until.getTime());
 
-  let response: Response;
-  try {
-    response = await fetch(CLOUDFLARE_GRAPHQL_ENDPOINT, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: range === "24h" ? TRAFFIC_QUERY_BY_HOUR : TRAFFIC_QUERY_BY_DAY,
-        variables: {
-          accountTag: accountId,
-          host: TRACKED_HOST,
-          since: since.toISOString(),
-          until: until.toISOString(),
-          limit: RANGE_BUCKET_LIMIT[range],
+  // Merged across slices — Cloudflare downsamples any single query whose
+  // window exceeds ~7 days (see rum-windows.ts), so every range is fetched
+  // in ≤7-day slices and the buckets are summed here.
+  const loadsByBucket = new Map<string, number>();
+  const visitsByBucket = new Map<string, number>();
+  const visitsByPath = new Map<string, number>();
+
+  for (const window of windows) {
+    let response: Response;
+    try {
+      response = await fetch(CLOUDFLARE_GRAPHQL_ENDPOINT, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiToken}`,
+          "Content-Type": "application/json",
         },
-      }),
-    });
-  } catch (error) {
-    return {
-      configured: false,
-      reason: `Could not reach Cloudflare's API: ${error instanceof Error ? error.message : String(error)}`,
-    };
+        body: JSON.stringify({
+          query: range === "24h" ? TRAFFIC_QUERY_BY_HOUR : TRAFFIC_QUERY_BY_DAY,
+          variables: {
+            accountTag: accountId,
+            host: TRACKED_HOST,
+            since: window.since.toISOString(),
+            until: window.until.toISOString(),
+            limit: RANGE_BUCKET_LIMIT[range],
+          },
+        }),
+      });
+    } catch (error) {
+      return {
+        configured: false,
+        reason: `Could not reach Cloudflare's API: ${error instanceof Error ? error.message : String(error)}`,
+      };
+    }
+
+    const parsed = await readGraphqlResponse<CloudflareGraphQLResponse>(response);
+    if (!parsed.ok) return { configured: false, reason: parsed.reason };
+    const json = parsed.json;
+
+    if (json.errors?.length) {
+      return { configured: false, reason: json.errors[0]?.message ?? "Cloudflare API returned an error." };
+    }
+
+    const account = json.data?.viewer?.accounts?.[0];
+    for (const row of account?.dailyTraffic ?? []) {
+      const bucket = row.dimensions.bucket;
+      loadsByBucket.set(bucket, (loadsByBucket.get(bucket) ?? 0) + row.count);
+      visitsByBucket.set(bucket, (visitsByBucket.get(bucket) ?? 0) + row.sum.visits);
+    }
+    for (const row of account?.sectionBreakdown ?? []) {
+      const path = row.dimensions.requestPath;
+      visitsByPath.set(path, (visitsByPath.get(path) ?? 0) + row.sum.visits);
+    }
   }
 
-  const parsed = await readGraphqlResponse<CloudflareGraphQLResponse>(response);
-  if (!parsed.ok) return { configured: false, reason: parsed.reason };
-  const json = parsed.json;
-
-  if (json.errors?.length) {
-    return { configured: false, reason: json.errors[0]?.message ?? "Cloudflare API returned an error." };
-  }
-
-  const account = json.data?.viewer?.accounts?.[0];
-  const groups = account?.dailyTraffic ?? [];
-  const pathRows = account?.sectionBreakdown ?? [];
+  const pathRows = [...visitsByPath.entries()].map(([requestPath, visits]) => ({
+    sum: { visits },
+    dimensions: { requestPath },
+  }));
 
   // Bucket raw path rows (one per distinct path) into the two known
   // top-level sections by prefix match, since the dataset can't group by
@@ -483,11 +517,13 @@ async function fetchFromCloudflare(range: AdminRange): Promise<AdminTrafficResul
       .reduce((sum, r) => sum + r.sum.visits, 0),
   }));
 
-  const days: TrafficDay[] = groups.map((g) => ({
-    date: g.dimensions.bucket,
-    pageLoads: g.count,
-    visits: g.sum.visits,
-  }));
+  const days: TrafficDay[] = [...loadsByBucket.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([bucket, pageLoads]) => ({
+      date: bucket,
+      pageLoads,
+      visits: visitsByBucket.get(bucket) ?? 0,
+    }));
 
   return {
     configured: true,
@@ -510,30 +546,47 @@ async function fetchFromCloudflare(range: AdminRange): Promise<AdminTrafficResul
  */
 export const getAdminTraffic = createServerFn({ method: "POST" })
   .validator((data: unknown) => {
-    const d = data as { passcode?: unknown; range?: unknown };
+    const d = data as { passcode?: unknown; range?: unknown; force?: unknown };
     if (typeof d?.passcode !== "string") throw new Error("Missing passcode");
     if (d.range !== undefined && !isAdminRange(d.range)) throw new Error("Invalid range");
-    return { passcode: d.passcode, range: (d.range as AdminRange | undefined) ?? "30d" };
+    return {
+      passcode: d.passcode,
+      range: (d.range as AdminRange | undefined) ?? "30d",
+      // Refresh sets this: drop the cached row and read Cloudflare live.
+      force: d.force === true,
+    };
   })
   .handler(async ({ data }): Promise<AdminTrafficResult> => {
     requirePasscode(data.passcode);
     const range = data.range;
 
-    try {
-      const cached = await readCache(range);
-      if (cached && cached.payload.trackedHost && Date.now() - cached.fetchedAt.getTime() < CACHE_TTL_MS) {
-        return {
-          configured: true,
-          days: cached.payload.days,
-          sections: cached.payload.sections,
-          trackedHost: cached.payload.trackedHost,
-          cache: { hit: true, fetchedAt: cached.fetchedAt.toISOString() },
-        };
+    if (data.force) {
+      try {
+        await deleteCache(range);
+      } catch (error) {
+        // A failed delete just means this request may be answered from the
+        // cache below — never a reason to fail the refresh.
+        console.error("[admin] cache delete failed:", error);
       }
-    } catch (error) {
-      // Cache read failures (e.g. Neon unreachable) shouldn't block the
-      // dashboard — fall through to a live Cloudflare fetch instead.
-      console.error("[admin] cache read failed, fetching live:", error);
+    }
+
+    if (!data.force) {
+      try {
+        const cached = await readCache(range);
+        if (cached && cached.payload.trackedHost && Date.now() - cached.fetchedAt.getTime() < CACHE_TTL_MS) {
+          return {
+            configured: true,
+            days: cached.payload.days,
+            sections: cached.payload.sections,
+            trackedHost: cached.payload.trackedHost,
+            cache: { hit: true, fetchedAt: cached.fetchedAt.toISOString() },
+          };
+        }
+      } catch (error) {
+        // Cache read failures (e.g. Neon unreachable) shouldn't block the
+        // dashboard — fall through to a live Cloudflare fetch instead.
+        console.error("[admin] cache read failed, fetching live:", error);
+      }
     }
 
     const result = await fetchFromCloudflare(range);
@@ -677,17 +730,30 @@ async function writeRumCache(range: AdminRange, payload: CachedRumPayload): Prom
   );
 }
 
-function sortedBreakdown(groups: RumGroup[] | undefined): RumBreakdownItem[] {
-  return (
-    (groups ?? [])
-      .map((g) => ({ label: g.dimensions.metric || "(unknown)", visits: g.sum.visits }))
-      // Cloudflare returns every known dimension value, including ones with no
-      // visits of their own in this window (a path people only reached by
-      // internal navigation has page loads but 0 visits). Listing those rows
-      // reads as "nobody goes here" instead of "no data".
-      .filter((item) => item.visits > 0)
-      .sort((a, b) => b.visits - a.visits)
-  );
+/** Deletes the cached RUM detail row for one range — the Refresh button
+ * path, mirroring deleteCache() above. */
+async function deleteRumCache(range: AdminRange): Promise<void> {
+  if (!sql) return;
+  await sql.query(`DELETE FROM cloudflare_rum_cache WHERE range = $1`, [range]);
+}
+
+/** Folds one slice's rows into a running label → visits map. */
+function mergeBreakdown(target: Map<string, number>, groups: RumGroup[] | undefined): void {
+  for (const group of groups ?? []) {
+    const label = group.dimensions.metric || "(unknown)";
+    target.set(label, (target.get(label) ?? 0) + group.sum.visits);
+  }
+}
+
+function sortedBreakdown(merged: Map<string, number>): RumBreakdownItem[] {
+  return [...merged.entries()]
+    .map(([label, visits]) => ({ label, visits }))
+    // Cloudflare returns every known dimension value, including ones with no
+    // visits of their own in this window (a path people only reached by
+    // internal navigation has page loads but 0 visits). Listing those rows
+    // reads as "nobody goes here" instead of "no data".
+    .filter((item) => item.visits > 0)
+    .sort((a, b) => b.visits - a.visits);
 }
 
 /**
@@ -719,59 +785,78 @@ async function fetchRumFromCloudflare(range: AdminRange): Promise<AdminRumResult
   const { accountId, rumApiToken: apiToken } = config;
 
   const until = new Date();
-  const since = new Date(until.getTime() - RANGE_WINDOW_MS[range]);
+  const windows = chunkWindows(until.getTime() - RANGE_WINDOW_MS[range], until.getTime());
 
-  let response: Response;
-  try {
-    response = await fetch(CLOUDFLARE_GRAPHQL_ENDPOINT, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: RUM_QUERY,
-        variables: {
-          accountTag: accountId,
-          host: TRACKED_HOST,
-          since: since.toISOString(),
-          until: until.toISOString(),
+  // Same ≤7-day slicing as the traffic query (see rum-windows.ts): a single
+  // 14d/30d query is downsampled by Cloudflare, which is why the detail
+  // panels used to disagree with the chart above them.
+  let totalVisits = 0;
+  const breakdowns = {
+    topPaths: new Map<string, number>(),
+    topCountries: new Map<string, number>(),
+    topDeviceTypes: new Map<string, number>(),
+    topBrowsers: new Map<string, number>(),
+    topReferrers: new Map<string, number>(),
+  };
+
+  for (const window of windows) {
+    let response: Response;
+    try {
+      response = await fetch(CLOUDFLARE_GRAPHQL_ENDPOINT, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${apiToken}`,
+          "Content-Type": "application/json",
         },
-      }),
-    });
-  } catch (error) {
-    return {
-      configured: false,
-      reason: `Could not reach Cloudflare's API: ${error instanceof Error ? error.message : String(error)}`,
-    };
+        body: JSON.stringify({
+          query: RUM_QUERY,
+          variables: {
+            accountTag: accountId,
+            host: TRACKED_HOST,
+            since: window.since.toISOString(),
+            until: window.until.toISOString(),
+          },
+        }),
+      });
+    } catch (error) {
+      return {
+        configured: false,
+        reason: `Could not reach Cloudflare's API: ${error instanceof Error ? error.message : String(error)}`,
+      };
+    }
+
+    const parsed = await readGraphqlResponse<RumGraphQLResponse>(response);
+    if (!parsed.ok) return { configured: false, reason: parsed.reason };
+    const json = parsed.json;
+
+    if (json.errors?.length) {
+      return { configured: false, reason: json.errors[0]?.message ?? "Cloudflare API returned an error." };
+    }
+
+    const account = json.data?.viewer?.accounts?.[0];
+    if (!account) {
+      return {
+        configured: false,
+        reason: "Cloudflare API returned no account data — check the account ID and the token's permissions in the cloudflare_integration row.",
+      };
+    }
+
+    totalVisits += account.total?.[0]?.sum.visits ?? 0;
+    mergeBreakdown(breakdowns.topPaths, account.topPaths);
+    mergeBreakdown(breakdowns.topCountries, account.topCountries);
+    mergeBreakdown(breakdowns.topDeviceTypes, account.topDeviceTypes);
+    mergeBreakdown(breakdowns.topBrowsers, account.topBrowsers);
+    mergeBreakdown(breakdowns.topReferrers, account.topReferrers);
   }
-
-  const parsed = await readGraphqlResponse<RumGraphQLResponse>(response);
-  if (!parsed.ok) return { configured: false, reason: parsed.reason };
-  const json = parsed.json;
-
-  if (json.errors?.length) {
-    return { configured: false, reason: json.errors[0]?.message ?? "Cloudflare API returned an error." };
-  }
-
-  const account = json.data?.viewer?.accounts?.[0];
-  if (!account) {
-    return {
-      configured: false,
-      reason: "Cloudflare API returned no account data — check the account ID and the token's permissions in the cloudflare_integration row.",
-    };
-  }
-
-  const totalVisits = account.total?.[0]?.sum.visits ?? 0;
 
   return {
     configured: true,
     totalVisits,
-    topPaths: sortedBreakdown(account.topPaths),
-    topCountries: sortedBreakdown(account.topCountries),
-    topDeviceTypes: sortedBreakdown(account.topDeviceTypes),
-    topBrowsers: sortedBreakdown(account.topBrowsers),
-    topReferrers: sortedBreakdown(account.topReferrers),
+    topPaths: sortedBreakdown(breakdowns.topPaths),
+    topCountries: sortedBreakdown(breakdowns.topCountries),
+    topDeviceTypes: sortedBreakdown(breakdowns.topDeviceTypes),
+    topBrowsers: sortedBreakdown(breakdowns.topBrowsers),
+    topReferrers: sortedBreakdown(breakdowns.topReferrers),
     cache: { hit: false, fetchedAt: new Date().toISOString() },
   };
 }
@@ -785,22 +870,36 @@ async function fetchRumFromCloudflare(range: AdminRange): Promise<AdminRumResult
  */
 export const getAdminRum = createServerFn({ method: "POST" })
   .validator((data: unknown) => {
-    const d = data as { passcode?: unknown; range?: unknown };
+    const d = data as { passcode?: unknown; range?: unknown; force?: unknown };
     if (typeof d?.passcode !== "string") throw new Error("Missing passcode");
     if (d.range !== undefined && !isAdminRange(d.range)) throw new Error("Invalid range");
-    return { passcode: d.passcode, range: (d.range as AdminRange | undefined) ?? "30d" };
+    return {
+      passcode: d.passcode,
+      range: (d.range as AdminRange | undefined) ?? "30d",
+      force: d.force === true,
+    };
   })
   .handler(async ({ data }): Promise<AdminRumResult> => {
     requirePasscode(data.passcode);
     const range = data.range;
 
-    try {
-      const cached = await readRumCache(range);
-      if (cached && Date.now() - cached.fetchedAt.getTime() < CACHE_TTL_MS) {
-        return { configured: true, ...cached.payload, cache: { hit: true, fetchedAt: cached.fetchedAt.toISOString() } };
+    if (data.force) {
+      try {
+        await deleteRumCache(range);
+      } catch (error) {
+        console.error("[admin] RUM cache delete failed:", error);
       }
-    } catch (error) {
-      console.error("[admin] RUM cache read failed, fetching live:", error);
+    }
+
+    if (!data.force) {
+      try {
+        const cached = await readRumCache(range);
+        if (cached && Date.now() - cached.fetchedAt.getTime() < CACHE_TTL_MS) {
+          return { configured: true, ...cached.payload, cache: { hit: true, fetchedAt: cached.fetchedAt.toISOString() } };
+        }
+      } catch (error) {
+        console.error("[admin] RUM cache read failed, fetching live:", error);
+      }
     }
 
     const result = await fetchRumFromCloudflare(range);

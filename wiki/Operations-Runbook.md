@@ -47,6 +47,18 @@ Then open `/doxxmarks?class=icse-10&subject=Biology&chapter=0&note=0`. If the PD
 3. Check the cache tables are not stuck on a stale range key.
 4. Compare against the Cloudflare dashboard. The panel filters to `SITE_URL`'s hostname and drops bot traffic, so a Pages card for the same host should match within a few minutes of lag on today's bucket.
 
+### 14d or 30d disagrees with 7d
+
+Symptom: the long ranges report fewer page loads for a day the 7d range reports in full, sometimes losing a quiet day entirely, and the numbers never move when you refresh.
+
+That was Cloudflare's adaptive sampling, not the cache: a single query wider than ~7 days is downsampled, so 14d/30d were asking one big question instead of three to five small ones. Both panels now read every range in ≤7-day slices (`src/lib/rum-windows.ts`) and sum per bucket, so overlapping days match to the event.
+
+If they ever drift again:
+
+1. Press **Refresh** in Deep analytics — it deletes that range's row from `cloudflare_analytics_cache` / `cloudflare_rum_cache` before calling Cloudflare, so a stale row cannot survive it.
+2. Confirm the build includes the slicing: `grep -r "7-day slices" .output/` (or the panel footer under the traffic chart).
+3. Compare the day in question against a hand-run 7-day query; if the hand-run matches the panel, the window chunking is intact and the difference is in Cloudflare's own numbers.
+
 ### Campaign sources card is empty
 
 That card reads `campaign_visits` in Neon — the app's own table — not Cloudflare. Nothing appears until somebody arrives on a URL carrying a tag:
