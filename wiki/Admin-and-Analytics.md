@@ -52,6 +52,7 @@ Two different sources, both cached in Postgres because neither API is fast enoug
 - Top referrers is the only place another domain can surface, and only as *where a lambda-prep visit came from*; `(unknown)` is a direct visit.
 - `bot: 0` is applied to every query so the numbers reconcile with Cloudflare's own dashboard cards, which exclude bots.
 - When nothing is configured, the panel says so and prints the exact steps to fix it, instead of showing zeroes that look like an outage.
+- Chart axes, tooltips and the "Live / Cached" stamp are pinned to **one timezone** — `ADMIN_CHART_TIMEZONE` in `src/lib/chart-time.ts`, currently `UTC` — and the chart prints which one it is. Formatting used to go through `toLocaleString`, so the same bucket read `12 PM` for a UTC viewer and `5 PM` for an IST one, and day labels could slide back a date west of Greenwich. UTC is the pinned default because Cloudflare's buckets *are* UTC hours and UTC days, so every tick lands on a real bucket edge.
 - No beacon script is injected by the app: Cloudflare Pages collects page loads for the project hostname. See the runbook's "New domain" section if a non-Pages host is ever added.
 
 ### Campaign sources — the third source

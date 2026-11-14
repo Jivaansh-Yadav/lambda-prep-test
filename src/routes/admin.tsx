@@ -80,6 +80,13 @@ import {
   type AdminLatestCommitResult,
 } from '@/lib/admin-server';
 import {
+  formatBucketTooltip,
+  formatClockLabel,
+  formatDayLabel,
+  formatHourLabel,
+  ADMIN_CHART_TIMEZONE_LABEL,
+} from '@/lib/chart-time';
+import {
   getAdminContributions,
   updateContributionStatus,
   type AdminContributionRow,
@@ -437,20 +444,12 @@ function AdminPage() {
                           <XAxis
                             dataKey="date"
                             tickFormatter={(v: string) =>
-                              range === '24h'
-                                ? new Date(v).toLocaleTimeString([], { hour: 'numeric' })
-                                : new Date(v).toLocaleDateString([], { month: 'short', day: 'numeric' })
+                              range === '24h' ? formatHourLabel(v) : formatDayLabel(v)
                             }
                             tick={{ fontSize: 12 }}
                           />
                           <YAxis tick={{ fontSize: 12 }} allowDecimals={false} />
-                          <Tooltip
-                            labelFormatter={(v: string) =>
-                              range === '24h'
-                                ? new Date(v).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric' })
-                                : new Date(v).toLocaleDateString()
-                            }
-                          />
+                          <Tooltip labelFormatter={(v: string) => formatBucketTooltip(v, range === '24h')} />
                           <Line type="monotone" dataKey="pageLoads" name="Page loads" stroke="#6366f1" strokeWidth={2} dot={false} />
                           <Line type="monotone" dataKey="visits" name="Visits" stroke="#22c55e" strokeWidth={2} dot={false} />
                         </LineChart>
@@ -463,6 +462,10 @@ function AdminPage() {
                         Cloudflare sites are excluded.
                       </p>
                     )}
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      Times on this axis are {ADMIN_CHART_TIMEZONE_LABEL}, not your device's timezone, so the labels read
+                      the same for everyone — Cloudflare's buckets are UTC hours and UTC days.
+                    </p>
                     <p className="mt-1 text-xs text-muted-foreground">
                       Every range is read in 7-day slices. Cloudflare downsamples any single query wider than about a
                       week, which used to make 14d/30d under-count the same days 7d reported in full — so the ranges now
@@ -536,7 +539,7 @@ function AdminPage() {
           {result?.configured && (
             <span className="text-xs text-muted-foreground">
               {result.cache.hit ? 'Cached' : 'Live'} ·{' '}
-              {new Date(result.cache.fetchedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              {formatClockLabel(result.cache.fetchedAt)} {ADMIN_CHART_TIMEZONE_LABEL}
             </span>
           )}
           <RangeSelect value={range} onChange={handleRangeChange} />
