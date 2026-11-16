@@ -1,134 +1,134 @@
-name: Update resource datasets
+# name: Update resource datasets
 
-# Re-crawls the Google Drive CISCE/Study-Materials folders, rebuilds the
-# transform/split/sort/count datasets, refreshes the InstaRevision PDF
-# signed-link manifest (GCS signed URLs expire after 7 days — the max GCS
-# allows — so this must run at least weekly), and commits the regenerated
-# JSON datasets back to the repo. Run on a schedule, or manually via
-# workflow_dispatch (the admin panel's "Update resource datasets" button).
-#
-# Every step name starts with a "[Category]" tag. The admin panel groups
-# steps by that tag and shows live per-category progress while a run is in
-# flight (GitHub's REST API exposes step status live, job logs only after
-# the run finishes), so keep the tag when adding or renaming steps — an
-# untagged step still shows up, under "Other".
-on:
-  schedule:
-    # 03:00 UTC every Monday — adjust as needed.
-    - cron: "0 3 * * 1"
-  workflow_dispatch: {}
+# # Re-crawls the Google Drive CISCE/Study-Materials folders, rebuilds the
+# # transform/split/sort/count datasets, refreshes the InstaRevision PDF
+# # signed-link manifest (GCS signed URLs expire after 7 days — the max GCS
+# # allows — so this must run at least weekly), and commits the regenerated
+# # JSON datasets back to the repo. Run on a schedule, or manually via
+# # workflow_dispatch (the admin panel's "Update resource datasets" button).
+# #
+# # Every step name starts with a "[Category]" tag. The admin panel groups
+# # steps by that tag and shows live per-category progress while a run is in
+# # flight (GitHub's REST API exposes step status live, job logs only after
+# # the run finishes), so keep the tag when adding or renaming steps — an
+# # untagged step still shows up, under "Other".
+# on:
+#   schedule:
+#     # 03:00 UTC every Monday — adjust as needed.
+#     - cron: "0 3 * * 1"
+#   workflow_dispatch: {}
 
-permissions:
-  contents: write
+# permissions:
+#   contents: write
 
-# Never let two dataset refreshes overlap: two crawls racing to push the
-# same generated files would conflict, and the second commit would be
-# rejected after wasting a full run.
-concurrency:
-  group: update-resource-datasets
-  cancel-in-progress: false
+# # Never let two dataset refreshes overlap: two crawls racing to push the
+# # same generated files would conflict, and the second commit would be
+# # rejected after wasting a full run.
+# concurrency:
+#   group: update-resource-datasets
+#   cancel-in-progress: false
 
-jobs:
-  update-resources:
-    runs-on: ubuntu-latest
-    # A hung Drive crawl used to be able to burn GitHub's 6h default.
-    timeout-minutes: 30
+# jobs:
+#   update-resources:
+#     runs-on: ubuntu-latest
+#     # A hung Drive crawl used to be able to burn GitHub's 6h default.
+#     timeout-minutes: 30
 
-    steps:
-      # ------------------------------------------------------------------
-      # [Setup] — checkout + toolchains + Drive credentials
-      # ------------------------------------------------------------------
-      - name: "[Setup] Checkout repository"
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+#     steps:
+#       # ------------------------------------------------------------------
+#       # [Setup] — checkout + toolchains + Drive credentials
+#       # ------------------------------------------------------------------
+#       - name: "[Setup] Checkout repository"
+#         uses: actions/checkout@v4
+#         with:
+#           fetch-depth: 0
 
-      - name: "[Setup] Set up Node.js"
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+#       - name: "[Setup] Set up Node.js"
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: "20"
 
-      - name: "[Setup] Set up Python"
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
+#       - name: "[Setup] Set up Python"
+#         uses: actions/setup-python@v5
+#         with:
+#           python-version: "3.11"
 
-      - name: "[Setup] Fetch Google Drive credentials"
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
-        run: |
-          # The service-account key lives in Neon (drive_integration), the same
-          # row the app reads at runtime, so the crawl never holds a second copy
-          # that can go stale after a key rotation. SERVICE_ACCOUNT is only a
-          # fallback for a runner without database access.
-          #
-          # googleapis falls back to anonymous Application Default Credentials
-          # when the key file is empty, which reports as "Method doesn't allow
-          # unregistered callers" — a credential problem dressed up as a Drive
-          # permission problem. Failing here keeps that confusion out of the log.
-          node scripts/drive-crawl/fetch-credentials.mjs
+#       - name: "[Setup] Fetch Google Drive credentials"
+#         env:
+#           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+#           SERVICE_ACCOUNT: ${{ secrets.SERVICE_ACCOUNT }}
+#         run: |
+#           # The service-account key lives in Neon (drive_integration), the same
+#           # row the app reads at runtime, so the crawl never holds a second copy
+#           # that can go stale after a key rotation. SERVICE_ACCOUNT is only a
+#           # fallback for a runner without database access.
+#           #
+#           # googleapis falls back to anonymous Application Default Credentials
+#           # when the key file is empty, which reports as "Method doesn't allow
+#           # unregistered callers" — a credential problem dressed up as a Drive
+#           # permission problem. Failing here keeps that confusion out of the log.
+#           node scripts/drive-crawl/fetch-credentials.mjs
 
-      - name: "[Setup] Install Drive crawl dependencies"
-        working-directory: scripts/drive-crawl
-        run: npm install
+#       - name: "[Setup] Install Drive crawl dependencies"
+#         working-directory: scripts/drive-crawl
+#         run: npm install
 
-      # ------------------------------------------------------------------
-      # [Crawl] — the slowest phase; own step so its progress is visible
-      # ------------------------------------------------------------------
-      - name: "[Crawl] Crawl Google Drive folder tree"
-        working-directory: scripts/drive-crawl
-        run: node generate-drive-json.js
+#       # ------------------------------------------------------------------
+#       # [Crawl] — the slowest phase; own step so its progress is visible
+#       # ------------------------------------------------------------------
+#       - name: "[Crawl] Crawl Google Drive folder tree"
+#         working-directory: scripts/drive-crawl
+#         run: node generate-drive-json.js
 
-      # ------------------------------------------------------------------
-      # [Datasets] — transform the crawl output into the committed JSON
-      # ------------------------------------------------------------------
-      - name: "[Datasets] Transform CISCE + Community resources"
-        run: python3 scripts/transform-resources.py
+#       # ------------------------------------------------------------------
+#       # [Datasets] — transform the crawl output into the committed JSON
+#       # ------------------------------------------------------------------
+#       - name: "[Datasets] Transform CISCE + Community resources"
+#         run: python3 scripts/transform-resources.py
 
-      - name: "[Datasets] Split oversized datasets per subject"
-        run: python3 scripts/split-resources-dataset.py
+#       - name: "[Datasets] Split oversized datasets per subject"
+#         run: python3 scripts/split-resources-dataset.py
 
-      - name: "[Datasets] Sort manifest subject order (Featured first, then A-Z)"
-        run: python3 scripts/sort-manifest-subjects.py
+#       - name: "[Datasets] Sort manifest subject order (Featured first, then A-Z)"
+#         run: python3 scripts/sort-manifest-subjects.py
 
-      - name: "[Datasets] Count resources across all datasets"
-        run: python3 scripts/count-resources.py
+#       - name: "[Datasets] Count resources across all datasets"
+#         run: python3 scripts/count-resources.py
 
-      # ------------------------------------------------------------------
-      # [InstaRevision] — re-sign the GCS PDF URLs (7-day expiry)
-      # ------------------------------------------------------------------
-      # The upload credential is not a secret of its own any more: like the Drive
-      # key it is read from Neon, so the step only needs DATABASE_URL.
-      - name: "[InstaRevision] Refresh signed PDF links"
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: node scripts/drive-crawl/generate-insta-revision-links.mjs
+#       # ------------------------------------------------------------------
+#       # [InstaRevision] — re-sign the GCS PDF URLs (7-day expiry)
+#       # ------------------------------------------------------------------
+#       # The upload credential is not a secret of its own any more: like the Drive
+#       # key it is read from Neon, so the step only needs DATABASE_URL.
+#       - name: "[InstaRevision] Refresh signed PDF links"
+#         env:
+#           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+#         run: node scripts/drive-crawl/generate-insta-revision-links.mjs
 
-      - name: "[InstaRevision] Apply signed links to doxxmarks_resources.json"
-        run: node scripts/drive-crawl/apply-insta-revision-links.mjs
+#       - name: "[InstaRevision] Apply signed links to doxxmarks_resources.json"
+#         run: node scripts/drive-crawl/apply-insta-revision-links.mjs
 
-      # ------------------------------------------------------------------
-      # [Commit] — clean up the secret, then commit whatever changed
-      # ------------------------------------------------------------------
-      - name: "[Commit] Remove service-account credentials"
-        run: rm -f scripts/drive-crawl/service-account.json
+#       # ------------------------------------------------------------------
+#       # [Commit] — clean up the secret, then commit whatever changed
+#       # ------------------------------------------------------------------
+#       - name: "[Commit] Remove service-account credentials"
+#         run: rm -f scripts/drive-crawl/service-account.json
 
-      - name: "[Commit] Summarize dataset diff"
-        run: |
-          echo "### Dataset diff" >> "$GITHUB_STEP_SUMMARY"
-          echo '```' >> "$GITHUB_STEP_SUMMARY"
-          git diff --stat -- src/data | tail -40 >> "$GITHUB_STEP_SUMMARY"
-          echo '```' >> "$GITHUB_STEP_SUMMARY"
+#       - name: "[Commit] Summarize dataset diff"
+#         run: |
+#           echo "### Dataset diff" >> "$GITHUB_STEP_SUMMARY"
+#           echo '```' >> "$GITHUB_STEP_SUMMARY"
+#           git diff --stat -- src/data | tail -40 >> "$GITHUB_STEP_SUMMARY"
+#           echo '```' >> "$GITHUB_STEP_SUMMARY"
 
-      - name: "[Commit] Commit regenerated datasets"
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add src/data
-          if git diff --cached --quiet; then
-            echo "No dataset changes — nothing to commit."
-          else
-            git commit -m "chore: regenerate resource datasets [skip ci]"
-            git push
-          fi
+#       - name: "[Commit] Commit regenerated datasets"
+#         run: |
+#           git config user.name "github-actions[bot]"
+#           git config user.email "github-actions[bot]@users.noreply.github.com"
+#           git add src/data
+#           if git diff --cached --quiet; then
+#             echo "No dataset changes — nothing to commit."
+#           else
+#             git commit -m "chore: regenerate resource datasets [skip ci]"
+#             git push
+#           fi
