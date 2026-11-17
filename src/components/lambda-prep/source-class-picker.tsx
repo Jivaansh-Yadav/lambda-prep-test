@@ -605,10 +605,6 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
         <div className="resource-stream-tabs"><StreamTabs stream={activeStream} onChange={next => onStreamChange?.(next)} /></div>
       )}
       {!!subjectCards.length && <p className="library-note resource-total-count">{subjectCards.reduce((sum, s) => sum + s.count, 0)} {t('resources.filesLabel')} {t('resources.total')}</p>}
-      {/* Sits above the subject grid and renders nothing at all when no file
-          in this class has been opened today — a class with no traffic keeps
-          exactly the page it had before. */}
-      {!isClassSearchActive && <ClassTrending classSlug={classSlug} />}
       {isClassSearchActive ? (
         <>
           <p className="library-note resource-search-count">{t('resources.search.resultsFor').replace('{query}', trimmedSubjectQuery).replace('{n}', classHitsLoading && !classHits ? '…' : String(filteredClassHits.length))}</p>
@@ -734,6 +730,11 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
           <label className="search-field resource-search"><Search size={18} /><input aria-label={t('resources.searchFiles.label')} placeholder={t('resources.searchFiles.placeholder')} value={fileQuery} onChange={e => setFileQuery(e.target.value)} /></label>
         </div>
       </div>
+      {/* Sits above this subject's file grid and renders nothing at all when
+          no file here has been opened in the past week — a quiet subject keeps
+          exactly the page it had before. Hidden while a file search is active,
+          since the results replace the grid it ranks. */}
+      {!isFileSearchActive && <ClassTrending classSlug={classSlug} subject={subject} />}
       {isFileSearchActive ? (
         <>
           <p className="library-note resource-search-count">{t('resources.search.resultsFor').replace('{query}', fileQuery.trim()).replace('{n}', String(filteredFiles.length))}</p>

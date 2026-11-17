@@ -87,46 +87,105 @@ export const recordResourceView = createServerFn({ method: "POST" })
     }
   });
 
-/** Top files opened in one class today, most-viewed first.
+/** Widest window the Trending section will widen to. It starts with today
+ * alone and, only while the list is still short of `limit`, keeps adding a
+ * day — 1, 2, 3 ... 7 — so a quiet class borrows yesterday's traffic rather
+ * than showing a one-line band. The step is capped at a week so the label
+ * can never claim more than "the last 7 days". */
+const TRENDING_MAX_DAYS = 7;
+const TRENDING_DEFAULT_LIMIT = 5;
+
+export type TrendingResult = {
+  files: TrendingFile[];
+  /** How many days the returned ranking actually covers (1 = today only). */
+  days: number;
+};
+
+/** Top files opened in one class (optionally one subject), most-viewed first.
  *
- * Returns an empty list when nothing in that class has been opened today —
- * callers use that to hide the Trending section entirely, so a class with no
- * traffic never shows an empty shell. Rows written before this feature (or
- * from a viewer that had no class context) simply don't participate: they
- * have no `class_slug`/`subject`, so they can neither be ranked for a class
- * nor deep-linked back into it. */
+ * The window widens until the list is full: today first, then the last 2
+ * days, 3, and so on up to a week. Sums are per file across the window, so a
+ * file opened on three separate days outranks one opened twice today. The
+ * returned `days` tells the caller which label to use and whether to render
+ * at all — an empty list means nothing in that class was opened in the past
+ * week, and the section is genuinely absent rather than an empty shell. Rows
+ * written before this feature (or from a viewer with no class context) don't
+ * participate: they have no `class_slug`/`subject`, so they can neither be
+ * ranked for a class nor deep-linked back into it. */
 export const getTrendingFiles = createServerFn({ method: "POST" })
   .validator((data: unknown) => {
-    const d = data as { classSlug?: unknown; limit?: unknown };
+    const d = data as { classSlug?: unknown; subject?: unknown; limit?: unknown };
     if (typeof d?.classSlug !== "string" || !d.classSlug) throw new Error("Missing classSlug");
-    const limit = typeof d.limit === "number" && Number.isFinite(d.limit) ? Math.min(Math.max(Math.trunc(d.limit), 1), 25) : 10;
-    return { classSlug: d.classSlug, limit };
+    const limit = typeof d.limit === "number" && Number.isFinite(d.limit)
+      ? Math.min(Math.max(Math.trunc(d.limit), 1), 25)
+      : TRENDING_DEFAULT_LIMIT;
+    const subject = typeof d.subject === "string" && d.subject.trim() ? d.subject.trim().slice(0, 120) : null;
+    return { classSlug: d.classSlug, subject, limit };
   })
-  .handler(async ({ data }): Promise<{ files: TrendingFile[] }> => {
-    if (!sql) return { files: [] };
+  .handler(async ({ data }): Promise<TrendingResult> => {
+    if (!sql) return { files: [], days: 1 };
     try {
+      // One query over the widest window, then the widening itself happens in
+      // memory — cheapest possible read (a class/week of rows is tiny) and no
+      // cascade of round trips for the common "today already has 5" case.
       const rows = await sql.query(
-        `SELECT file_id, file_name, subject, source, view_count
+        `SELECT file_id, file_name, subject, source,
+                day::text AS day, view_count,
+                (now() AT TIME ZONE $1)::date::text AS today
          FROM resource_daily_views
-         WHERE day = (now() AT TIME ZONE $1)::date
-           AND class_slug = $2
+         WHERE day > (now() AT TIME ZONE $1)::date - $2::int
+           AND class_slug = $3
+           AND ($4::text IS NULL OR subject = $4)
            AND subject IS NOT NULL
-           AND source IS NOT NULL
-         ORDER BY view_count DESC, file_name ASC
-         LIMIT $3`,
-        [TRENDING_TIMEZONE, data.classSlug, data.limit]
+           AND source IS NOT NULL`,
+        [TRENDING_TIMEZONE, TRENDING_MAX_DAYS, data.classSlug, data.subject]
       );
-      const files = (rows as Array<{ file_id: string; file_name: string | null; subject: string; source: string; view_count: number }>).map((row) => ({
-        fileId: row.file_id,
-        name: row.file_name ?? "Untitled file",
-        subject: row.subject,
-        source: row.source === "cisce" ? ("cisce" as const) : ("community" as const),
-        views: row.view_count,
-      }));
-      return { files };
+      type Row = {
+        file_id: string;
+        file_name: string | null;
+        subject: string;
+        source: string;
+        day: string;
+        view_count: number;
+        today: string;
+      };
+      const all = rows as Row[];
+      const first = all[0];
+      if (!first) return { files: [], days: 1 };
+
+      const DAY_MS = 86_400_000;
+      const todayMs = Date.parse(`${first.today}T00:00:00Z`);
+      const daysAgo = (day: string) => Math.round((todayMs - Date.parse(`${day}T00:00:00Z`)) / DAY_MS);
+
+      let files: TrendingFile[] = [];
+      let days = 1;
+      for (let window = 1; window <= TRENDING_MAX_DAYS; window += 1) {
+        const totals = new Map<string, TrendingFile>();
+        for (const row of all) {
+          if (daysAgo(row.day) > window - 1) continue;
+          const seen = totals.get(row.file_id);
+          if (seen) {
+            seen.views += row.view_count;
+            continue;
+          }
+          totals.set(row.file_id, {
+            fileId: row.file_id,
+            name: row.file_name ?? "Untitled file",
+            subject: row.subject,
+            source: row.source === "cisce" ? ("cisce" as const) : ("community" as const),
+            views: row.view_count,
+          });
+        }
+        files = [...totals.values()]
+          .sort((a, b) => b.views - a.views || a.name.localeCompare(b.name))
+          .slice(0, data.limit);
+        days = window;
+        if (files.length >= data.limit) break;
+      }
+      return { files, days };
     } catch (error) {
       console.error("[resource-views] failed to load trending files", error);
-      return { files: [] };
+      return { files: [], days: 1 };
     }
   });
 
