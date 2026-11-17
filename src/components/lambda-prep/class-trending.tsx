@@ -15,9 +15,9 @@ interface ClassTrendingProps {
  * file grid.
  *
  * The window widens by itself: today first, and only if that can't fill five
- * rows, the last 2 days, then 3, up to a week. The heading follows the window
- * actually used, so a quiet subject reads "Trending · last 3 days" instead of
- * quietly passing old traffic off as today's.
+ * rows, the last 2 days, then 3, up to a week. The heading stays a plain
+ * "Trending" whatever window was used — the list is social proof, not a
+ * claim about when those opens happened.
  *
  * The list is genuinely absent, not empty, when nothing here has been opened
  * in the past week: the page then looks exactly as it did before this section
@@ -29,35 +29,33 @@ interface ClassTrendingProps {
  * does not. */
 export function ClassTrending({ classSlug, subject }: ClassTrendingProps) {
   const { t } = useI18n();
-  const [trending, setTrending] = useState<{ files: TrendingFile[]; days: number }>({ files: [], days: 1 });
+  const [files, setFiles] = useState<TrendingFile[]>([]);
 
   useEffect(() => {
     if (!classSlug) {
-      setTrending({ files: [], days: 1 });
+      setFiles([]);
       return;
     }
     let cancelled = false;
-    setTrending({ files: [], days: 1 });
+    setFiles([]);
     getTrendingFiles({ data: { classSlug, subject, limit: 5 } })
       .then((result) => {
-        if (!cancelled) setTrending({ files: result.files, days: result.days });
+        if (!cancelled) setFiles(result.files);
       })
       .catch((error) => {
         // A social-proof section is never worth an error state on a working
         // page — log it and render nothing.
         console.error('[resources] failed to load trending files', classSlug, subject, error);
-        if (!cancelled) setTrending({ files: [], days: 1 });
+        if (!cancelled) setFiles([]);
       });
     return () => {
       cancelled = true;
     };
   }, [classSlug, subject]);
 
-  if (!trending.files.length) return null;
+  if (!files.length) return null;
 
-  const title = trending.days <= 1
-    ? t('resources.trending.title')
-    : t('resources.trending.recent').replace('{n}', String(trending.days));
+  const title = t('resources.trending.title');
 
   return (
     <section className="class-trending" aria-label={title}>
@@ -68,7 +66,7 @@ export function ClassTrending({ classSlug, subject }: ClassTrendingProps) {
         </h2>
       </div>
       <ol className="class-trending-list">
-        {trending.files.map((file, index) => (
+        {files.map((file, index) => (
           <li key={file.fileId}>
             <Link
               to={file.source === 'cisce' ? '/resources/cisce' : '/resources/community'}
