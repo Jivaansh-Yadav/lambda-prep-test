@@ -99,9 +99,24 @@ There is no beacon token to rotate. The site ships **no** hand-installed Web Ana
 
 ### Workflow panel says “Could not reach the GitHub integration”
 
-The `github_integration` row is wrong or the PAT expired. Required: `owner = Jivaansh-Yadav`, `repo = lambda-prep`, `workflow_file = update-resources.yml`, `ref = main`. The PAT needs Actions read + write (dispatch) on that repository. **This row still pointing at `lambda-prep-test` is the expected breakage after the rename.**
+The `github_integration` row is wrong or the PAT expired. Required: `owner = Jivaansh-Yadav`, `repo = lambda-prep`, `workflow_file = update-resources.yml`, `ref = main`. **This row still pointing at `lambda-prep-test` is the expected breakage after the rename.**
 
 A revoked PAT is the common case and shows up as `HTTP 401 Bad credentials` — a `lambda` repo value is the same bug seen through a rename, since GitHub redirects the read but not the dispatch `POST`. Since the repo is public, a dead PAT no longer blanks the admin cards: `githubGet` retries read-only calls anonymously, so the “Latest commit” and run-history cards keep working and only the dispatch button refuses, with an error that says to replace the PAT. A dispatch can therefore fail on a page that otherwise looks healthy — check the token before assuming the workflow is gone.
+
+### What the admin PAT needs — and what it must not be
+
+The app calls exactly three things, so the token is small on purpose:
+
+| Call | Used by | Fine-grained PAT | Classic PAT |
+| --- | --- | --- | --- |
+| `GET /repos/{owner}/{repo}/commits/{ref}` | “Latest commit” card | **Contents: Read** | `public_repo` |
+| `GET /repos/{owner}/{repo}/actions/workflows/{f}/runs`, `/actions/runs/{id}`, `/actions/runs/{id}/jobs` | run history, live step progress | **Actions: Read** | `public_repo` |
+| `POST /repos/{owner}/{repo}/actions/workflows/{f}/dispatches` | “Update resource datasets” | **Actions: Write** | `public_repo` |
+
+So: **Actions: Read and write** + **Contents: Read**, scoped to `Jivaansh-Yadav/lambda-prep` only (Metadata: Read is added automatically and cannot be removed). A classic token needs `public_repo` — not `workflow`, which is for editing workflow *files* through the API and does not help a dispatch.
+
+Never put the platform's own GitHub credential in this row. The Eazo-managed `GH_TOKEN` is used by the build/push tooling, not by the running app; the admin row is the site's own integration and is read on every admin request. An empty `pat` is a supported state: the read-only cards fall back to anonymous GitHub calls and the dispatch button says a token is missing.
+
 
 ### Crawl fails with 403
 

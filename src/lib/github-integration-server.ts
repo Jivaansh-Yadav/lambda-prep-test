@@ -46,6 +46,13 @@ export async function getGithubIntegrationConfig(): Promise<GithubIntegrationCon
  * — we have to look it up by listing runs right after.
  */
 export async function dispatchWorkflow(config: GithubIntegrationConfig): Promise<{ runId: number; htmlUrl: string }> {
+  // Publishing a dataset refresh needs a real credential; say what is
+  // missing instead of letting an empty header come back as a bare 401.
+  if (!config.pat.trim()) {
+    throw new Error(
+      "No GitHub access token is stored. Add a fine-grained PAT to github_integration.pat (Actions: read and write, Contents: read) — the platform's own credentials are deliberately not used here."
+    );
+  }
   const dispatchUrl = `${GITHUB_API}/repos/${config.owner}/${config.repo}/actions/workflows/${config.workflowFile}/dispatches`;
   const beforeDispatch = new Date();
 
@@ -62,7 +69,7 @@ export async function dispatchWorkflow(config: GithubIntegrationConfig): Promise
     // GitHub's JSON.
     if (dispatchRes.status === 401 || dispatchRes.status === 403) {
       throw new Error(
-        `GitHub rejected the stored access token (HTTP ${dispatchRes.status}). Replace the PAT in the github_integration row, then try again.`
+        `GitHub rejected the stored access token (HTTP ${dispatchRes.status}). It needs Actions: read and write on ${config.owner}/${config.repo} — replace it in the github_integration row, then try again.`
       );
     }
     throw new Error(`GitHub workflow dispatch failed (HTTP ${dispatchRes.status}): ${bodyText.slice(0, 300)}`);

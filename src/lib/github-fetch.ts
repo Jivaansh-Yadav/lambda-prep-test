@@ -44,6 +44,10 @@ function shouldRetryAnonymous(res: Response) {
  * that silently degraded to anonymous would just be a confusing 404.
  */
 export async function githubGet(url: string, pat: string): Promise<Response> {
+  // An empty PAT is a valid state (the admin clears it, or has not set one
+  // yet): go straight to the anonymous read instead of sending a header
+  // GitHub is guaranteed to reject.
+  if (!pat.trim()) return fetch(url, { headers: anonHeaders() });
   const authed = await fetch(url, { headers: authHeaders(pat) });
   if (!shouldRetryAnonymous(authed)) return authed;
   return fetch(url, { headers: anonHeaders() });

@@ -35,6 +35,14 @@ describe("githubGet", () => {
     expect(header(calls[0], "Authorization")).toBe("Bearer tok");
   });
 
+  it("goes straight to anonymous when no PAT is stored", async () => {
+    const calls = stubFetch([{ status: 200 }]);
+    const res = await githubGet(URL_UNDER_TEST, "  ");
+    expect(res.status).toBe(200);
+    expect(calls).toHaveLength(1);
+    expect(header(calls[0], "Authorization")).toBeUndefined();
+  });
+
   it("retries anonymously when the stored PAT is revoked", async () => {
     const calls = stubFetch([{ status: 401 }, { status: 200 }]);
     const res = await githubGet(URL_UNDER_TEST, "ghp_revoked");

@@ -104,7 +104,7 @@ The panel is driven by `github_integration` (single row): `pat`, `owner`, `repo`
 
 > **After the rename, this row must point at the new repository:** `owner = Jivaansh-Yadav`, `repo = lambda-prep`, `workflow_file = update-resources.yml`, `ref = main`. If it still points at the old repository the panel shows “Could not reach the GitHub integration” or tracks a workflow that is no longer the live one.
 
-The PAT only needs Actions read + dispatch on this repository. It is stored in the database, never in the bundle.
+The PAT only needs **Actions: Read and write** plus **Contents: Read**, scoped to this repository (a classic token needs `public_repo`). It is stored in the database, never in the bundle, and it is the site's own credential — not the platform token used by the build tooling. An empty `pat` is supported: the cards read GitHub anonymously, and only the dispatch button reports the missing token. The full permission table is in [Operations-Runbook](Operations-Runbook).
 
 ## Other admin surfaces
 
