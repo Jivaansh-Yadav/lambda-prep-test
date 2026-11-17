@@ -198,11 +198,19 @@ function AdminPage() {
     }
   }
 
+  // Cloudflare's RUM rows are keyed by request hostname, and this app is
+  // served from several (Eazo production alias, a custom domain, pages.dev).
+  // Ask about the host the panel is open on so the numbers always describe
+  // the site the admin is actually looking at.
+  function viewHost(): string | undefined {
+    return typeof window === 'undefined' ? undefined : window.location.hostname;
+  }
+
   async function loadTraffic(code: string, forRange: AdminRange, force = false) {
     setLoading(true);
     setError(null);
     try {
-      const data = await getAdminTraffic({ data: { passcode: code, range: forRange, force } });
+      const data = await getAdminTraffic({ data: { passcode: code, range: forRange, force, host: viewHost() } });
       setResult(data);
     } catch (error) {
       // Surface what actually failed. Server functions throw for a rejected
@@ -234,7 +242,7 @@ function AdminPage() {
   async function loadRum(code: string, forRange: AdminRange, force = false) {
     setRumLoading(true);
     try {
-      const data = await getAdminRum({ data: { passcode: code, range: forRange, force } });
+      const data = await getAdminRum({ data: { passcode: code, range: forRange, force, host: viewHost() } });
       setRumResult(data);
     } catch (error) {
       const message = error instanceof Error ? error.message.trim() : '';

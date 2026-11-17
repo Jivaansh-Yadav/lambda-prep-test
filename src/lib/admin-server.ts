@@ -205,6 +205,26 @@ const CLOUDFLARE_GRAPHQL_ENDPOINT = "https://api.cloudflare.com/client/v4/graphq
  * the canonical link and the OG tags all agree on one domain. */
 const TRACKED_HOST = new URL(SITE_URL).host;
 
+/**
+ * Resolves which request hostname the panel should report on. Callers pass
+ * the host the admin page is being viewed from, because the app is served
+ * from several hostnames (the Eazo production alias, a Cloudflare custom
+ * domain, the canonical pages.dev) and Cloudflare's RUM rows are keyed by
+ * `requestHost`. A fixed host silently reports zero the moment traffic moves
+ * to another one — exactly the failure this parameter exists to prevent.
+ * Anything that doesn't look like a bare hostname falls back to the
+ * canonical TRACKED_HOST.
+ */
+function resolveTrackedHost(value: unknown): string {
+  if (typeof value === "string") {
+    const host = value.trim().toLowerCase();
+    if (host.length <= 253 && /^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+(:\d{1,5})?$/.test(host)) {
+      return host;
+    }
+  }
+  return TRACKED_HOST;
+}
+
 // Account-scoped Web Analytics (RUM) query — reads the same page-load
 // dataset (keyed by account, not zoneTag) that getAdminRum below drills
 // into for the top-pages/countries/devices detail. Needs the account ID
@@ -424,7 +444,7 @@ async function deleteCache(range: AdminRange): Promise<void> {
  * credentials are missing or the request/response fails, so the admin UI
  * can show a clear setup state instead of a generic error.
  */
-async function fetchFromCloudflare(range: AdminRange): Promise<AdminTrafficResult> {
+async function fetchFromCloudflare(range: AdminRange, host: string): Promise<AdminTrafficResult> {
   let config: Awaited<ReturnType<typeof getCloudflareIntegrationConfig>>;
   try {
     config = await getCloudflareIntegrationConfig();
@@ -467,7 +487,7 @@ async function fetchFromCloudflare(range: AdminRange): Promise<AdminTrafficResul
           query: range === "24h" ? TRAFFIC_QUERY_BY_HOUR : TRAFFIC_QUERY_BY_DAY,
           variables: {
             accountTag: accountId,
-            host: TRACKED_HOST,
+            host,
             since: window.since.toISOString(),
             until: window.until.toISOString(),
             limit: RANGE_BUCKET_LIMIT[range],
@@ -525,11 +545,18 @@ async function fetchFromCloudflare(range: AdminRange): Promise<AdminTrafficResul
       visits: visitsByBucket.get(bucket) ?? 0,
     }));
 
+  // A host Cloudflare doesn't instrument (or one whose Web Analytics site was
+  // removed) has no rows at all. Rather than show an empty panel, report the
+  // canonical host's numbers instead.
+  if (days.length === 0 && host !== TRACKED_HOST) {
+    return fetchFromCloudflare(range, TRACKED_HOST);
+  }
+
   return {
     configured: true,
     days,
     sections,
-    trackedHost: TRACKED_HOST,
+    trackedHost: host,
     cache: { hit: false, fetchedAt: new Date().toISOString() },
   };
 }
@@ -546,7 +573,7 @@ async function fetchFromCloudflare(range: AdminRange): Promise<AdminTrafficResul
  */
 export const getAdminTraffic = createServerFn({ method: "POST" })
   .validator((data: unknown) => {
-    const d = data as { passcode?: unknown; range?: unknown; force?: unknown };
+    const d = data as { passcode?: unknown; range?: unknown; force?: unknown; host?: unknown };
     if (typeof d?.passcode !== "string") throw new Error("Missing passcode");
     if (d.range !== undefined && !isAdminRange(d.range)) throw new Error("Invalid range");
     return {
@@ -554,11 +581,14 @@ export const getAdminTraffic = createServerFn({ method: "POST" })
       range: (d.range as AdminRange | undefined) ?? "30d",
       // Refresh sets this: drop the cached row and read Cloudflare live.
       force: d.force === true,
+      // The host the admin is viewing the panel from (see resolveTrackedHost).
+      host: typeof d.host === "string" ? d.host : undefined,
     };
   })
   .handler(async ({ data }): Promise<AdminTrafficResult> => {
     requirePasscode(data.passcode);
     const range = data.range;
+    const host = resolveTrackedHost(data.host);
 
     if (data.force) {
       try {
@@ -573,7 +603,11 @@ export const getAdminTraffic = createServerFn({ method: "POST" })
     if (!data.force) {
       try {
         const cached = await readCache(range);
-        if (cached && cached.payload.trackedHost && Date.now() - cached.fetchedAt.getTime() < CACHE_TTL_MS) {
+        if (
+          cached &&
+          (cached.payload.trackedHost === host || cached.payload.trackedHost === TRACKED_HOST) &&
+          Date.now() - cached.fetchedAt.getTime() < CACHE_TTL_MS
+        ) {
           return {
             configured: true,
             days: cached.payload.days,
@@ -589,7 +623,7 @@ export const getAdminTraffic = createServerFn({ method: "POST" })
       }
     }
 
-    const result = await fetchFromCloudflare(range);
+    const result = await fetchFromCloudflare(range, host);
 
     if (result.configured) {
       try {
@@ -626,6 +660,8 @@ export type AdminRumResult =
       topDeviceTypes: RumBreakdownItem[];
       topBrowsers: RumBreakdownItem[];
       topReferrers: RumBreakdownItem[];
+      /** Which hostname these numbers describe (see resolveTrackedHost). */
+      trackedHost: string;
       cache: { hit: boolean; fetchedAt: string };
     }
   | { configured: false; reason: string };
@@ -764,7 +800,7 @@ function sortedBreakdown(merged: Map<string, number>): RumBreakdownItem[] {
  * Returns `configured: false` (never throws) when credentials are
  * missing or the request/response fails.
  */
-async function fetchRumFromCloudflare(range: AdminRange): Promise<AdminRumResult> {
+async function fetchRumFromCloudflare(range: AdminRange, host: string): Promise<AdminRumResult> {
   let config: Awaited<ReturnType<typeof getCloudflareIntegrationConfig>>;
   try {
     config = await getCloudflareIntegrationConfig();
@@ -812,7 +848,7 @@ async function fetchRumFromCloudflare(range: AdminRange): Promise<AdminRumResult
           query: RUM_QUERY,
           variables: {
             accountTag: accountId,
-            host: TRACKED_HOST,
+            host,
             since: window.since.toISOString(),
             until: window.until.toISOString(),
           },
@@ -849,6 +885,10 @@ async function fetchRumFromCloudflare(range: AdminRange): Promise<AdminRumResult
     mergeBreakdown(breakdowns.topReferrers, account.topReferrers);
   }
 
+  if (totalVisits === 0 && host !== TRACKED_HOST) {
+    return fetchRumFromCloudflare(range, TRACKED_HOST);
+  }
+
   return {
     configured: true,
     totalVisits,
@@ -857,6 +897,7 @@ async function fetchRumFromCloudflare(range: AdminRange): Promise<AdminRumResult
     topDeviceTypes: sortedBreakdown(breakdowns.topDeviceTypes),
     topBrowsers: sortedBreakdown(breakdowns.topBrowsers),
     topReferrers: sortedBreakdown(breakdowns.topReferrers),
+    trackedHost: host,
     cache: { hit: false, fetchedAt: new Date().toISOString() },
   };
 }
@@ -870,18 +911,20 @@ async function fetchRumFromCloudflare(range: AdminRange): Promise<AdminRumResult
  */
 export const getAdminRum = createServerFn({ method: "POST" })
   .validator((data: unknown) => {
-    const d = data as { passcode?: unknown; range?: unknown; force?: unknown };
+    const d = data as { passcode?: unknown; range?: unknown; force?: unknown; host?: unknown };
     if (typeof d?.passcode !== "string") throw new Error("Missing passcode");
     if (d.range !== undefined && !isAdminRange(d.range)) throw new Error("Invalid range");
     return {
       passcode: d.passcode,
       range: (d.range as AdminRange | undefined) ?? "30d",
       force: d.force === true,
+      host: typeof d.host === "string" ? d.host : undefined,
     };
   })
   .handler(async ({ data }): Promise<AdminRumResult> => {
     requirePasscode(data.passcode);
     const range = data.range;
+    const host = resolveTrackedHost(data.host);
 
     if (data.force) {
       try {
@@ -894,7 +937,11 @@ export const getAdminRum = createServerFn({ method: "POST" })
     if (!data.force) {
       try {
         const cached = await readRumCache(range);
-        if (cached && Date.now() - cached.fetchedAt.getTime() < CACHE_TTL_MS) {
+        if (
+          cached &&
+          (cached.payload.trackedHost === host || cached.payload.trackedHost === TRACKED_HOST) &&
+          Date.now() - cached.fetchedAt.getTime() < CACHE_TTL_MS
+        ) {
           return { configured: true, ...cached.payload, cache: { hit: true, fetchedAt: cached.fetchedAt.toISOString() } };
         }
       } catch (error) {
@@ -902,7 +949,7 @@ export const getAdminRum = createServerFn({ method: "POST" })
       }
     }
 
-    const result = await fetchRumFromCloudflare(range);
+    const result = await fetchRumFromCloudflare(range, host);
 
     if (result.configured) {
       try {

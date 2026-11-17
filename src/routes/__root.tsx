@@ -255,16 +255,22 @@ function RootShell({ children }: { children: ReactNode }) {
         />
         {/* Applies the stored/system theme class before first paint to prevent a light->dark flash. */}
         <script dangerouslySetInnerHTML={{ __html: themeBootstrapScript }} />
-        {/* No Cloudflare Web Analytics beacon here on purpose. Cloudflare
-            Pages already collects page loads for the project's own hostname
-            (the "Page views / Visits" card on the Pages dashboard), and a
-            hand-installed beacon needs a site token bound to one exact
-            hostname — a stale token silently drops every event once the site
-            moves hosts, which is what left the admin "Deep analytics" panel
-            empty. The panel now reads the account's RUM dataset filtered by
-            request hostname (see admin-server.ts), so it follows the app
-            wherever it is deployed. Add a snippet back only if the app is
-            ever served from a host Cloudflare doesn't instrument. */}
+        {/* Cloudflare Web Analytics (RUM) beacon. Keep this hand-installed:
+            Cloudflare Pages only auto-injects a beacon for the Pages project's
+            own hostname, and this app is also served from hosts Cloudflare
+            does not instrument (Eazo production and preview aliases), which is
+            where real visitors are. The beacon POST is validated server-side
+            against the token — an unknown or deleted site tag fails the
+            request outright, so this token has to stay a live Web Analytics
+            site tag. The RUM rows are filtered by request hostname in
+            admin-server.ts, which is why one token covers every host. Both
+            static.cloudflareinsights.com (script) and cloudflareinsights.com
+            (beacon POST) are allowlisted in the CSP in src/server.ts. */}
+        <script
+          type="module"
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token": "a9d4d976f92b48ed89669f9959c889de"}'
+        ></script>
       </head>
       <body>
         {children}
