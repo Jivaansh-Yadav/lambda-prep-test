@@ -59,7 +59,7 @@ Content is not uploaded by hand. A **weekly GitHub Actions run** re-crawls Googl
 - **Real media playback** — `@videojs/react` with an HLS source; lectures play in place.
 - **Doxxmarks player** — chapter lessons and PDF revision notes embedded, with a playlist and a fullscreen-safe toolbar.
 - **Trending strip** — the five most-opened files in a subject, above its grid, filled by widening the window from today out to a week.
-- **Passcode admin** — analytics KPIs, a live pipeline tracker, Drive folder attachment, contribution and message moderation.
+- **Passcode admin** — analytics and resource activity on one 24h/7d/14d/30d selector (24h by default), a live pipeline tracker, Drive folder attachment, contribution and message moderation.
 - **Bilingual UI** — one i18n module (`en-US`, `zh-CN`); no hardcoded strings in components.
 - **Short links** — `/drive` and `/github`, handled both at the edge (`_redirects`) and in the SSR entry.
 

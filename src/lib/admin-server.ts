@@ -2,6 +2,16 @@ import { createServerFn, createServerOnlyFn } from "@tanstack/react-start";
 import { getRequestIP } from "@tanstack/react-start/server";
 import { sql } from "./db";
 import {
+  ADMIN_DEFAULT_RANGE,
+  ADMIN_RANGES,
+  ADMIN_RANGE_LABEL,
+  RANGE_DAY_COUNT,
+  RANGE_WINDOW_MS,
+  isAdminRange,
+  rangeStart,
+  type AdminRange,
+} from "./admin-ranges";
+import {
   getDriveIntegrationConfig,
   isDriveId,
   listDriveFolderFiles,
@@ -139,30 +149,22 @@ export type TrafficDay = {
   visits: number;
 };
 
-// Selectable lookback windows for the Deep analytics traffic chart +
-// Web Analytics (RUM) detail panel. "24h" buckets by hour
-// (datetimeHour) since a day has too few points to chart meaningfully by
-// day; the other three bucket by calendar day (date) same as before.
-export const ADMIN_RANGES = ["24h", "7d", "14d", "30d"] as const;
-export type AdminRange = (typeof ADMIN_RANGES)[number];
-
-function isAdminRange(value: unknown): value is AdminRange {
-  return typeof value === "string" && (ADMIN_RANGES as readonly string[]).includes(value);
-}
-
-const RANGE_WINDOW_MS: Record<AdminRange, number> = {
-  "24h": 24 * 60 * 60 * 1000,
-  "7d": 7 * 24 * 60 * 60 * 1000,
-  "14d": 14 * 24 * 60 * 60 * 1000,
-  "30d": 30 * 24 * 60 * 60 * 1000,
+// Selectable lookback windows for the Deep analytics traffic chart, the
+// Web Analytics (RUM) detail panel and the Resource stats tables. "24h"
+// buckets Cloudflare traffic by hour (datetimeHour) since a day has too few
+// points to chart meaningfully by day; the other three bucket by calendar
+// day (date). The list, labels and window maths live in admin-ranges.ts so
+// the client and the server cannot drift, and 24h is the default there.
+export {
+  ADMIN_DEFAULT_RANGE,
+  ADMIN_RANGES,
+  ADMIN_RANGE_LABEL,
+  RANGE_DAY_COUNT,
+  isAdminRange,
+  rangeStart,
+  RANGE_WINDOW_MS,
 };
-
-export const ADMIN_RANGE_LABEL: Record<AdminRange, string> = {
-  "24h": "last 24 hours",
-  "7d": "last 7 days",
-  "14d": "last 14 days",
-  "30d": "last 30 days",
-};
+export type { AdminRange } from "./admin-ranges";
 
 // Row limit per traffic query. Each query now covers one ≤7-day slice (see
 // rum-windows.ts), so a day-bucketed slice needs 7 rows + 1 for the boundary
@@ -563,7 +565,7 @@ async function fetchFromCloudflare(range: AdminRange, host: string): Promise<Adm
 
 /**
  * Returns Web Analytics (RUM) traffic + section breakdown for the
- * requested lookback window (24h/7d/14d/30d, default 30d), backed by a
+ * requested lookback window (24h/7d/14d/30d, default 24h), backed by a
  * 5-minute Neon cache keyed per range: a fresh cache row for that range is
  * served directly from the database; a stale or missing row triggers a
  * live Cloudflare fetch, whose result is written back to the cache before
@@ -578,7 +580,7 @@ export const getAdminTraffic = createServerFn({ method: "POST" })
     if (d.range !== undefined && !isAdminRange(d.range)) throw new Error("Invalid range");
     return {
       passcode: d.passcode,
-      range: (d.range as AdminRange | undefined) ?? "30d",
+      range: (d.range as AdminRange | undefined) ?? ADMIN_DEFAULT_RANGE,
       // Refresh sets this: drop the cached row and read Cloudflare live.
       force: d.force === true,
       // The host the admin is viewing the panel from (see resolveTrackedHost).
@@ -904,7 +906,7 @@ async function fetchRumFromCloudflare(range: AdminRange, host: string): Promise<
 
 /**
  * Returns Web Analytics (RUM) detail for the requested lookback window
- * (24h/7d/14d/30d, default 30d), backed by a 5-minute Neon cache keyed
+ * (24h/7d/14d/30d, default 24h), backed by a 5-minute Neon cache keyed
  * per range (same TTL/pattern as getAdminTraffic above). Requires the
  * cloudflare_integration row (account ID, RUM API token with Account ->
  * Analytics -> Read scope, and site tag) to be seeded on Neon.
@@ -916,7 +918,7 @@ export const getAdminRum = createServerFn({ method: "POST" })
     if (d.range !== undefined && !isAdminRange(d.range)) throw new Error("Invalid range");
     return {
       passcode: d.passcode,
-      range: (d.range as AdminRange | undefined) ?? "30d",
+      range: (d.range as AdminRange | undefined) ?? ADMIN_DEFAULT_RANGE,
       force: d.force === true,
       host: typeof d.host === "string" ? d.host : undefined,
     };
@@ -1005,7 +1007,7 @@ export const getAdminCampaignSources = createServerFn({ method: "POST" })
     const d = data as { passcode?: unknown; range?: unknown };
     if (typeof d?.passcode !== "string") throw new Error("Missing passcode");
     if (d.range !== undefined && !isAdminRange(d.range)) throw new Error("Invalid range");
-    return { passcode: d.passcode, range: (d.range as AdminRange | undefined) ?? "30d" };
+    return { passcode: d.passcode, range: (d.range as AdminRange | undefined) ?? ADMIN_DEFAULT_RANGE };
   })
   .handler(async ({ data }): Promise<AdminCampaignResult> => {
     requirePasscode(data.passcode);
@@ -1313,8 +1315,13 @@ export type AdminViewRow = {
   fileName: string;
   classLabel: string;
   driveUrl: string;
+  /** Views inside the selected window, from the daily buckets. */
   viewCount: number;
-  lastViewedAt: string;
+  /** Every view ever recorded for the file — the counter it is compared to. */
+  allTimeViewCount: number;
+  /** Day bucket (YYYY-MM-DD, IST) of the last view inside the window. The
+   * daily table has no timestamps, so this is as precise as it gets. */
+  lastViewedOn: string;
 };
 
 export type AdminShareRow = {
@@ -1327,7 +1334,18 @@ export type AdminShareRow = {
 };
 
 export type AdminResourceStatsResult =
-  | { configured: true; ratings: AdminRatingRow[]; feedback: AdminFeedbackRow[]; views: AdminViewRow[]; shares: AdminShareRow[] }
+  | {
+      configured: true;
+      /** The window every list below was scoped to. */
+      range: AdminRange;
+      ratings: AdminRatingRow[];
+      feedback: AdminFeedbackRow[];
+      views: AdminViewRow[];
+      shares: AdminShareRow[];
+      /** All-time file counts per tab, so a quiet window can be told apart
+       * from a panel that never recorded anything. */
+      allTimeFileCounts: Record<"ratings" | "feedback" | "views" | "shares", number>;
+    }
   | { configured: false; reason: string };
 
 const FEEDBACK_ROW_LIMIT = 200;
@@ -1337,15 +1355,27 @@ function driveFileUrl(fileId: string): string {
 }
 
 /**
- * Returns every file's aggregate rating, view count and share count, plus
- * the most recent feedback entries, for the admin "Resource stats" panel.
+ * Resource engagement scoped to one lookback window, for the admin
+ * "Resource stats" panel. Every list answers "which files were live in the
+ * last 24 hours / 7 / 14 / 30 days", so the same window that scopes the
+ * traffic charts also scopes these tables.
+ *
+ * Two of the four tables have no event history, and the numbers say so
+ * rather than pretending otherwise:
+ * - views come from `resource_daily_views` (day buckets), so 24h means the
+ *   current IST day; each row also carries the all-time counter for context.
+ * - shares keep only a running total plus `last_shared_at`, so the window
+ *   selects which files appear and the count stays all-time (the panel
+ *   labels the column accordingly).
+ *
  * Read-only: none of the four tables is ever mutated here.
  */
 export const getAdminResourceStats = createServerFn({ method: "POST" })
   .validator((data: unknown) => {
-    const d = data as { passcode?: unknown };
+    const d = data as { passcode?: unknown; range?: unknown };
     if (typeof d?.passcode !== "string") throw new Error("Missing passcode");
-    return { passcode: d.passcode };
+    if (d.range !== undefined && !isAdminRange(d.range)) throw new Error("Invalid range");
+    return { passcode: d.passcode, range: (d.range as AdminRange | undefined) ?? ADMIN_DEFAULT_RANGE };
   })
   .handler(async ({ data }): Promise<AdminResourceStatsResult> => {
     requirePasscode(data.passcode);
@@ -1355,24 +1385,46 @@ export const getAdminResourceStats = createServerFn({ method: "POST" })
     }
 
     try {
+      const since = rangeStart(data.range).toISOString();
+      const dayCount = RANGE_DAY_COUNT[data.range];
+
       const ratingRows = await sql.query(
         `SELECT file_id, AVG(rating)::float AS average, COUNT(*)::int AS count, MAX(updated_at) AS last_rated_at
          FROM resource_ratings
+         WHERE updated_at >= $1::timestamptz
          GROUP BY file_id
-         ORDER BY last_rated_at DESC`
+         ORDER BY count DESC, last_rated_at DESC`,
+        [since]
       );
       const feedbackRows = await sql.query(
         `SELECT id, file_id, feedback, created_at
          FROM resource_feedback
+         WHERE created_at >= $1::timestamptz
          ORDER BY created_at DESC
-         LIMIT $1`,
-        [FEEDBACK_ROW_LIMIT]
+         LIMIT $2`,
+        [since, FEEDBACK_ROW_LIMIT]
       );
+      // Day buckets, not timestamps: the window is "today plus the N-1 days
+      // before it", where "today" is the IST date the write path files a
+      // view under (see views-server.ts).
       const viewRows = await sql.query(
-        `SELECT file_id, view_count, last_viewed_at FROM resource_views ORDER BY last_viewed_at DESC`
+        `SELECT file_id, SUM(view_count)::int AS view_count, MAX(day)::text AS last_day
+         FROM resource_daily_views
+         WHERE day > (now() AT TIME ZONE 'Asia/Kolkata')::date - $1::int
+         GROUP BY file_id
+         ORDER BY view_count DESC, last_day DESC`,
+        [dayCount]
+      );
+      const allTimeViewRows = await sql.query(`SELECT file_id, view_count FROM resource_views`);
+      const allTimeViews = new Map<string, number>(
+        (allTimeViewRows as Array<{ file_id: string; view_count: number }>).map((r) => [r.file_id, Number(r.view_count)])
       );
       const shareRows = await sql.query(
-        `SELECT file_id, share_count, last_shared_at FROM resource_shares ORDER BY last_shared_at DESC`
+        `SELECT file_id, share_count, last_shared_at
+         FROM resource_shares
+         WHERE last_shared_at >= $1::timestamptz
+         ORDER BY last_shared_at DESC`,
+        [since]
       );
 
       // Resolve every distinct file id across all four tables to its
@@ -1411,14 +1463,15 @@ export const getAdminResourceStats = createServerFn({ method: "POST" })
       }));
 
       const views: AdminViewRow[] = (
-        viewRows as Array<{ file_id: string; view_count: number; last_viewed_at: string }>
+        viewRows as Array<{ file_id: string; view_count: number; last_day: string }>
       ).map((r) => ({
         fileId: r.file_id,
         fileName: locate(r.file_id).name,
         classLabel: locate(r.file_id).classLabel,
         driveUrl: driveFileUrl(r.file_id),
         viewCount: r.view_count,
-        lastViewedAt: r.last_viewed_at,
+        allTimeViewCount: allTimeViews.get(r.file_id) ?? r.view_count,
+        lastViewedOn: r.last_day,
       }));
 
       const shares: AdminShareRow[] = (
@@ -1432,7 +1485,22 @@ export const getAdminResourceStats = createServerFn({ method: "POST" })
         lastSharedAt: r.last_shared_at,
       }));
 
-      return { configured: true, ratings, feedback, views, shares };
+      // All-time file counts for the four tiles: a 24h window is usually
+      // quiet, and "0" alone cannot distinguish "nothing today" from "this
+      // panel has never had data".
+      const allTimeRows = await sql.query(
+        `SELECT
+           (SELECT COUNT(DISTINCT file_id) FROM resource_ratings)::int AS ratings,
+           (SELECT COUNT(DISTINCT file_id) FROM resource_feedback)::int AS feedback,
+           (SELECT COUNT(*) FROM resource_views WHERE view_count > 0)::int AS views,
+           (SELECT COUNT(*) FROM resource_shares WHERE share_count > 0)::int AS shares`
+      );
+      const allTimeFileCounts = (allTimeRows[0] ?? { ratings: 0, feedback: 0, views: 0, shares: 0 }) as Record<
+        "ratings" | "feedback" | "views" | "shares",
+        number
+      >;
+
+      return { configured: true, range: data.range, ratings, feedback, views, shares, allTimeFileCounts };
     } catch (error) {
       return {
         configured: false,

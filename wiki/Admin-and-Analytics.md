@@ -28,7 +28,7 @@ Two rows, four cards each, colour-coded by intent.
 | Card | Content |
 | --- | --- |
 | Manage resources | Drive folder attachment, the dataset workflow panel, the Drive root link |
-| Resource stats | Per-class/per-subject counts and rating totals |
+| Resource stats | Which files were rated, viewed, shared or discussed in the selected range |
 | Contributed resources | Student submissions with approve / reject / notes |
 | Contact messages | Footer messages with status and admin notes |
 
@@ -43,6 +43,7 @@ Two different sources, both cached in Postgres because neither API is fast enoug
 | Cloudflare **GraphQL** analytics | `cloudflare_analytics_cache` | page loads, visits, visits by path/section |
 | Cloudflare **Web Analytics (RUM)** | `cloudflare_rum_cache` | real-user visits, referrers, a fuller traffic chart |
 
+- **24h is the default window everywhere** (`ADMIN_DEFAULT_RANGE` in `admin-ranges.ts`): the dashboard answers "what is happening now", and a 30-day default made every number read as background noise. The list, labels and window maths live in that one module so the client selector and the server queries cannot drift.
 - Cache keys include the **range** (`24h`, `7d`, `14d`, `30d`), so switching ranges does not overwrite the other three.
 - A cached row is served only while it is under five minutes old. **Refresh always fetches live**: the server deletes that range's cached row first (`deleteCache` / `deleteRumCache` in `admin-server.ts`), so an explicit refresh is never answered with a snapshot. Switching ranges may still use a fresh row — that is navigation, not a refresh.
 - **Every range is fetched in ≤7-day slices** (`rum-windows.ts`), oldest first, summed per bucket. Cloudflare's `*AdaptiveGroups` datasets downsample a whole query once it gets wider than about a week: the same two days reported 339 page loads when asked as part of a 7-day window and 230 — with one quiet day dropped entirely — when asked as part of a 30-day window. That is why 14d/30d used to look stale and disagree with 7d. A 24h window is a single slice, so nothing changes there; 30d makes five Cloudflare calls instead of one.
@@ -108,7 +109,7 @@ The PAT only needs Actions read + dispatch on this repository. It is stored in t
 ## Other admin surfaces
 
 - **Manage resources** — a live Drive browser rooted at `drive_integration.folder_id` (not the committed JSON), with upload into the current folder, rename, and delete-to-trash. Folder/file ids are validated (`isDriveId`) before any write, and failed uploads report the Drive API's reason. It does not change which folder the weekly crawl starts from.
-- **Resource stats** — totals by class and subject, average rating and rating count per file, read from the same `resource_*` tables the public counters write.
+- **Resource stats** — the same 24h/7d/14d/30d selector, scoping all four tabs to "files active in this window" and sorting each list by volume. Read from the same `resource_*` tables the public counters write, with two honest limits: views come from `resource_daily_views` day buckets, so 24h means today so far (IST) and each row also shows the all-time counter; shares only keep a running total plus `last_shared_at`, so the window selects rows and the count stays all-time, labelled as such. A window that has no activity says so instead of falling back to all-time numbers.
 - **Contributed resources** — the queue from `/contribute`: approve, reject with a note, and the schema records `admin_notes`, `status` and `reviewed_at`.
 - **Contact messages** — footer messages with the same review shape, plus optional Discord/Reddit handles.
 

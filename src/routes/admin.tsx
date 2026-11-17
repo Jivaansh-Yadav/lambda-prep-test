@@ -68,6 +68,7 @@ import {
   renameResource,
   deleteResource,
   getDriveWriteCapability,
+  ADMIN_DEFAULT_RANGE,
   ADMIN_RANGES,
   ADMIN_RANGE_LABEL,
   type AdminRange,
@@ -148,7 +149,7 @@ function AdminPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AdminTrafficResult | null>(null);
-  const [range, setRange] = useState<AdminRange>('30d');
+  const [range, setRange] = useState<AdminRange>(ADMIN_DEFAULT_RANGE);
   const { section: openSection } = Route.useSearch();
   const navigate = Route.useNavigate();
   function setOpenSection(next: AdminSection | null) {
@@ -1859,19 +1860,22 @@ function formatDateTime(value: string): string {
 
 type StatsTab = 'ratings' | 'feedback' | 'views' | 'shares';
 
-const STATS_TABS: Array<{ key: StatsTab; label: string; icon: typeof Star }> = [
-  { key: 'ratings', label: 'Ratings', icon: Star },
-  { key: 'feedback', label: 'Feedback', icon: MessageSquareText },
-  { key: 'views', label: 'Views', icon: Eye },
-  { key: 'shares', label: 'Shares', icon: Share2 },
+const STATS_TABS: Array<{ key: StatsTab; label: string; noun: string; icon: typeof Star }> = [
+  { key: 'ratings', label: 'Ratings', noun: 'files', icon: Star },
+  { key: 'feedback', label: 'Feedback', noun: 'responses', icon: MessageSquareText },
+  { key: 'views', label: 'Views', noun: 'files', icon: Eye },
+  { key: 'shares', label: 'Shares', noun: 'files', icon: Share2 },
 ];
 
 /** "Resource stats" panel: a summary row of the four counts (ratings,
  * feedback, views, shares) that opens a modal with one table per
- * category — each table lists every file plus a direct Drive link, so an
- * admin can jump straight to the file being discussed/rated/viewed/shared. */
+ * category — each table lists every file active in the selected window
+ * plus a direct Drive link, so an admin can jump straight to the file being
+ * discussed/rated/viewed/shared. The window defaults to 24h and is the same
+ * 24h/7d/14d/30d list the traffic charts use. */
 function ResourceStatsCard() {
   const [state, setState] = useState<AdminResourceStatsResult | null>(null);
+  const [range, setRange] = useState<AdminRange>(ADMIN_DEFAULT_RANGE);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [openTab, setOpenTab] = useState<StatsTab | null>(null);
@@ -1880,11 +1884,11 @@ function ResourceStatsCard() {
     return adminSessionPasscode ?? '';
   }
 
-  async function load() {
+  async function load(forRange: AdminRange) {
     setLoading(true);
     setError(null);
     try {
-      const data = await getAdminResourceStats({ data: { passcode: getPasscode() } });
+      const data = await getAdminResourceStats({ data: { passcode: getPasscode(), range: forRange } });
       setState(data);
     } catch {
       setError('Could not load resource stats.');
@@ -1894,16 +1898,29 @@ function ResourceStatsCard() {
   }
 
   useEffect(() => {
-    void load();
+    void load(range);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Switching the window clears the old numbers instead of leaving them on
+  // screen under a new label — the whole point of the control is that the
+  // counts below it describe the window named above it.
+  function handleRangeChange(next: AdminRange) {
+    setRange(next);
+    setState(null);
+    void load(next);
+  }
+
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-end gap-4">
-        <Button variant="outline" size="sm" onClick={() => void load()} disabled={loading}>
-          {loading ? 'Refreshing…' : 'Refresh'}
-        </Button>
+      <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-3">
+        <CardTitle className="text-base">Activity — {ADMIN_RANGE_LABEL[range]}</CardTitle>
+        <div className="flex items-center gap-2">
+          <RangeSelect value={range} onChange={handleRangeChange} />
+          <Button variant="outline" size="sm" onClick={() => void load(range)} disabled={loading}>
+            {loading ? 'Refreshing…' : 'Refresh'}
+          </Button>
+        </div>
       </CardHeader>
       <CardContent>
         {error && <p className="mb-4 text-sm text-destructive">{error}</p>}
@@ -1916,8 +1933,9 @@ function ResourceStatsCard() {
 
         {state?.configured && (
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-            {STATS_TABS.map(({ key, label, icon: Icon }) => {
+            {STATS_TABS.map(({ key, label, noun, icon: Icon }) => {
               const count = state[key].length;
+              const allTime = state.allTimeFileCounts[key];
               return (
                 <button
                   key={key}
@@ -1929,11 +1947,22 @@ function ResourceStatsCard() {
                     <Icon size={15} /> {label}
                   </span>
                   <span className="text-2xl font-semibold text-foreground">{count}</span>
-                  <span className="text-xs text-muted-foreground">files · tap to open</span>
+                  <span className="text-xs text-muted-foreground">
+                    {noun} · tap to open
+                    {allTime > count && <span className="block opacity-70">{allTime} all time</span>}
+                  </span>
                 </button>
               );
             })}
           </div>
+        )}
+
+        {state?.configured && (
+          <p className="mt-3 text-xs text-muted-foreground">
+            Counting files with activity in the {ADMIN_RANGE_LABEL[state.range]}. Views come from day
+            buckets, so 24h means today so far (IST). Shares keep a running total only, so their count is
+            all-time — the window decides which files are listed.
+          </p>
         )}
       </CardContent>
 
@@ -1980,6 +2009,7 @@ function StatsModal({
         <div className="mb-4 flex items-center justify-between gap-4">
           <h3 className="flex items-center gap-2 text-base font-semibold text-foreground">
             <Icon size={16} /> {tabMeta.label}
+            <span className="text-xs font-normal text-muted-foreground">· {ADMIN_RANGE_LABEL[state.range]}</span>
           </h3>
           <button type="button" onClick={onClose} className="rounded-sm p-1 text-muted-foreground hover:text-foreground" aria-label="Close">
             <X size={18} />
@@ -1989,7 +2019,7 @@ function StatsModal({
         <div className="overflow-auto">
           {tab === 'ratings' && (
             state.ratings.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No ratings submitted yet.</p>
+              <p className="text-sm text-muted-foreground">No ratings in the {ADMIN_RANGE_LABEL[state.range]}.</p>
             ) : (
               <Table>
                 <TableHeader>
@@ -2027,7 +2057,7 @@ function StatsModal({
 
           {tab === 'feedback' && (
             state.feedback.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No feedback submitted yet.</p>
+              <p className="text-sm text-muted-foreground">No feedback in the {ADMIN_RANGE_LABEL[state.range]}.</p>
             ) : (
               <Table>
                 <TableHeader>
@@ -2063,7 +2093,7 @@ function StatsModal({
 
           {tab === 'views' && (
             state.views.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No views recorded yet.</p>
+              <p className="text-sm text-muted-foreground">No views in the {ADMIN_RANGE_LABEL[state.range]}.</p>
             ) : (
               <Table>
                 <TableHeader>
@@ -2071,7 +2101,8 @@ function StatsModal({
                     <TableHead>File</TableHead>
                     <TableHead>Drive link</TableHead>
                     <TableHead>Views</TableHead>
-                    <TableHead>Last viewed</TableHead>
+                    <TableHead>All time</TableHead>
+                    <TableHead>Last viewed on</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -2085,10 +2116,11 @@ function StatsModal({
                           </a>
                         </TableCell>
                         <TableCell>{v.viewCount.toLocaleString()}</TableCell>
-                        <TableCell className="whitespace-nowrap text-xs text-muted-foreground">{formatDateTime(v.lastViewedAt)}</TableCell>
+                        <TableCell className="text-muted-foreground">{v.allTimeViewCount.toLocaleString()}</TableCell>
+                        <TableCell className="whitespace-nowrap text-xs text-muted-foreground">{formatDayLabel(v.lastViewedOn)}</TableCell>
                       </TableRow>
                       <TableRow key={`${v.fileId}-class`}>
-                        <TableCell colSpan={4} className="pt-0 text-xs text-muted-foreground">{v.classLabel}</TableCell>
+                        <TableCell colSpan={5} className="pt-0 text-xs text-muted-foreground">{v.classLabel}</TableCell>
                       </TableRow>
                     </Fragment>
                   ))}
@@ -2099,14 +2131,14 @@ function StatsModal({
 
           {tab === 'shares' && (
             state.shares.length === 0 ? (
-              <p className="text-sm text-muted-foreground">No shares recorded yet.</p>
+              <p className="text-sm text-muted-foreground">No shares in the {ADMIN_RANGE_LABEL[state.range]}.</p>
             ) : (
               <Table>
                 <TableHeader>
                   <TableRow>
                     <TableHead>File</TableHead>
                     <TableHead>Drive link</TableHead>
-                    <TableHead>Shares</TableHead>
+                    <TableHead>Shares (all time)</TableHead>
                     <TableHead>Last shared</TableHead>
                   </TableRow>
                 </TableHeader>
