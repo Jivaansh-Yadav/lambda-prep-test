@@ -57,7 +57,7 @@ Because a row is written at most once per session, `COUNT(*)` reads as *sessions
 | `drive_integration` | `service_account_json`, `folder_id`, `oauth_client_id`, `oauth_client_secret`, `oauth_refresh_token` | Crawling Drive, listing a class folder, contributing uploads |
 | `github_integration` | `pat`, `owner`, `repo`, `workflow_file`, `ref` | Dispatching and tracking the dataset workflow |
 | `cloudflare_integration` | `account_id`, `rum_api_token` | Cloudflare GraphQL analytics + Web Analytics (RUM) |
-| `insta_revision_integration` | `username`, `password` | The upload service's credential, used by the weekly job to mint 7-day signed URLs for the revision-note PDFs |
+| `insta_revision_integration` | `username`, `password` | HTTP Basic pair for `upload.extramarks.com/getSignedUrl`. The weekly job uses it to mint 7-day signed URLs for the revision-note PDFs; the endpoint signs whatever path it is sent, so the pair is effectively read access to `gs://em_content_private` |
 
 All four are **seeded by hand** in the Neon SQL editor (the admin panel only prints instructions, it has no write path) and read through a `LIMIT 1` `id = true` row — one integration of each kind per deployment, which keeps the queries trivial and the UI honest.
 
@@ -65,7 +65,7 @@ All four are **seeded by hand** in the Neon SQL editor (the admin panel only pri
 
 > After the rename, `github_integration` must point at `Jivaansh-Yadav/lambda-prep`. See [Admin-and-Analytics](Admin-and-Analytics).
 
-`insta_revision_integration` has no admin UI — it is seeded by hand, like the others, and is read only by `scripts/drive-crawl/neon-config.mjs`. It exists because its credential used to be a literal in a public repository (see [Doxxmarks-and-Signed-Links](Doxxmarks-and-Signed-Links)). Only the pipeline reads it; nothing in `src/` touches it, so a missing row breaks the weekly job and nothing else.
+`insta_revision_integration` has no admin UI — it is seeded by hand, like the others, and is read only by `scripts/drive-crawl/neon-config.mjs`. It exists so the credential is not a literal in the source tree — the script used to carry the `Basic` header inline while this repository was public. The current history does not contain the value (one squashed base commit, no reachable object matches), so the reason to keep it in a row is the future, not the past: it can be replaced without a commit, and only the pipeline can read it. The credential itself is unscoped — see [Operations-Runbook](Operations-Runbook#the-insta-revision-signing-credential). Only the pipeline reads it; nothing in `src/` touches it, so a missing row breaks the weekly job and nothing else.
 
 ### Caches
 
@@ -84,7 +84,9 @@ Consequences worth knowing:
 
 - The app does **not** boot-create its own tables. A fresh database with `DATABASE_URL` set but no tables fails at query time, and the failure surfaces as a server error (the admin panel now prints it) rather than a silent "not configured" — the `sql === null` path only covers a *missing* `DATABASE_URL`.
 - To add a table, write the `CREATE TABLE` in Neon first (or in a one-shot `scripts/` script, like `create-resource-daily-views.mjs`), then add the reader in the server module that owns it.
-- Nothing is dropped automatically. Clean-up is a manual decision.
+- Nothing is dropped automatically. Clean-up is a manual decision. Two columns and one table have been dropped so far:
+  - `analytics_history` — an orphan from the pre-Cloudflare analytics design (two rows ever inserted, then deleted, and no reference in `src/`, `scripts/` or the wiki once `cloudflare_analytics_cache` / `cloudflare_rum_cache` took over). Removing it removed the last reason to believe the site keeps its own pageview history.
+  - `admin_notes` on `contact_messages` and `resource_contributions` — write-only schema. The server functions accepted the field, no call site ever sent a value, and every status change therefore wrote `NULL` over anything set by hand. Dropping it is cheaper than teaching the panel to edit a column nothing reads. Review state is `status` + `reviewed_at`.
 
 The newest table, `campaign_visits`, was created with:
 

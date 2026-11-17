@@ -40,6 +40,25 @@ The PDFs are not on Google Drive. They are served out of `gs://em_content_privat
 
 So every 7 days the URLs must be re-signed, or revision notes start returning `403`. The pipeline runs weekly for exactly this reason; a missed week is visible as broken notes, not as a build failure.
 
+## The signing credential
+
+Signing does not happen locally, because the private key belongs to Extramarks. The pipeline posts a form to the content service:
+
+```
+POST https://upload.extramarks.com/getSignedUrl
+Authorization: Basic <pair from Neon's insta_revision_integration row>
+folderPath=<path in the bucket>&bucketName=gs://em_content_private&expiry=604800
+→ { "url": "https://storage.googleapis.com/…&X-Goog-Expires=604800…" }
+```
+
+Three consequences of that shape:
+
+- **It is a signing oracle, not an upload endpoint.** The service signs whatever `folderPath` it is handed. The credential is not scoped to our chapters, so anyone holding it can read any object in `gs://em_content_private` whose name they can guess.
+- **It grants no listing.** The pair never authenticates against `storage.googleapis.com`, and a signed URL addresses one object, so there is no way to walk the bucket with these credentials — only to name things.
+- **There is one pair for the whole endpoint** — HTTP Basic with a single username and password, no per-partner key in the contract we were given. So it cannot be revoked just for us, and it is not ours to rotate: only Extramarks can change it.
+
+The pipeline signs only paths that appear in `src/data/insta-revision-sources.json`. That is the rule, not a convention: probing other paths is unauthorised access to a third party's storage, no matter how the credential came into our possession. Background and the disclosure path are in [Operations-Runbook](Operations-Runbook#the-insta-revision-signing-credential).
+
 ## The two steps
 
 ```

@@ -144,14 +144,29 @@ The old Vercel deployment used a takedown redirect in both `public/_redirects` a
 | Secret | Where | Rotation effect |
 | --- | --- | --- |
 | `drive_integration.service_account_json` (Neon) | DB row | Next run picks it up automatically — no secret to update |
-| `insta_revision_integration` (Neon) | DB row | Next run picks it up — but only Extramarks can change the password upstream |
+| `insta_revision_integration` (Neon) | DB row | Next run picks it up — but nobody here can rotate it. Ask Extramarks for a new pair, ideally one scoped to a per-partner prefix; see below |
 | `DATABASE_URL` | GitHub Actions secret | None until next run — both the Drive key and the signed-link credential are read with it |
 | `DATABASE_URL` | Pages env | Requires a redeploy |
 | GitHub PAT (Actions) | `github_integration` row, via `/admin` | Immediate |
 | Cloudflare RUM token | `cloudflare_integration` row | Immediate, cache may serve stale numbers until it expires |
 
+### The InstaRevision signing credential
+
+`upload.extramarks.com/getSignedUrl` takes the pair as **HTTP Basic** and mints a GCS V4 signed URL for whatever `folderPath` it is handed. Nothing in the credential itself limits which paths those are, so holding it is effectively read access to `gs://em_content_private` for any object whose name you can guess — not just the revision notes we embed. It does not grant bucket *listing* (a signed URL is a single object, and the credentials never authenticate against `storage.googleapis.com` directly), but guessing is the only thing standing between the holder and everything else in that bucket.
+
+What we know for certain:
+
+- The pair is valid: a live call returns `200` plus a `storage.googleapis.com` URL, while a deliberately wrong pair returns `401`.
+- It lives only in Neon's `insta_revision_integration` row and is read only by `scripts/drive-crawl/neon-config.mjs`. Nothing in `src/` touches it, and it is not in the client bundle.
+- It is **not** in this repository's history. The script once carried the header as a literal while the repo was public, but the current history starts at one squashed base commit and no reachable object contains the string (`git log --all -S…` and a `git grep` over every reachable tree both come back empty). So git is not the leak vector — copies outside git are the thing to assume: old working trees, local `.env` files, CI logs, screenshots, chat.
+- Treat the value as compromised anyway. "Not in git" makes the exposure smaller, not safe: the credential is unscoped and whoever has it reads the bucket.
+
+Do not probe it. Fetching objects that are not ours — even "just to see how bad it is" — is unauthorised access to a third party's storage, and it is the kind of thing that ends a partnership. The only legitimate calls are the ones the pipeline already makes, for paths listed in `src/data/insta-revision-sources.json`.
+
+The right fix is upstream: tell Extramarks that the pair they issued signs arbitrary `folderPath` values in `gs://em_content_private`, and ask for a credential scoped to a per-partner prefix, shorter expiries, and rotation. Until they do, the exposure is theirs to accept.
+
 ## Known follow-ups
 
-- The InstaRevision upload credential **was** an inline `Basic` header in `generate-insta-revision-links.mjs`. It now lives in Neon's `insta_revision_integration` row. The exposure is permanent regardless: the value sat in the single squashed commit, so old objects remain fetchable by SHA, and it is not ours to rotate — only the upstream service owner can change that password. Treat it as public and assume anything the `/getSignedUrl` endpoint can mint links for (`folderPath` is a request parameter, not fixed to our chapters) is readable by whoever copied it in time.
+- The InstaRevision signing credential is not ours to rotate and is not scoped to us. It is the one upstream dependency whose blast radius we cannot shrink from here — see [the credential note](#the-insta-revision-signing-credential) above.
 - `public/_redirects` and `src/lib/redirects.ts` duplicate the two destinations by nature (one is static). Keep them in sync; they are two lines each.
 - Dataset JSON files are large enough that GitHub diffs are unreadable. Trust the `--stat` summary in the run log, not the file diff.
