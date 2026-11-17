@@ -1169,8 +1169,6 @@ body.pseudo-fullscreen-open { overflow: hidden; }
 .class-trending-item.is-first .class-trending-rank { color: var(--amber-ink); }
 .class-trending-body { display: flex; flex-direction: column; gap: 1px; flex: 1; min-width: 0; }
 .class-trending-name { font-size: 13.5px; font-weight: 550; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.class-trending-meta { font-size: 11.5px; color: var(--muted-foreground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.class-trending-views { flex-shrink: 0; display: inline-flex; align-items: center; gap: 4px; font-size: 11.5px; font-weight: 600; color: var(--muted-foreground); font-variant-numeric: tabular-nums; }
 @media (max-width: 800px) { .class-trending { padding: 14px; } /* minmax(0, 1fr), not 1fr: filenames are nowrap, and a bare 1fr track sizes to the longest
    name's min-content, pushing each row (and its view count) past the band. */
   .class-trending-list { grid-template-columns: minmax(0, 1fr); gap: 0; }

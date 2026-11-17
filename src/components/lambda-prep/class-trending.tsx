@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Link } from '@tanstack/react-router';
-import { Eye, Flame } from 'lucide-react';
+import { Flame } from 'lucide-react';
 import { useI18n } from '@/lib/i18n';
 import { getTrendingFiles, type TrendingFile } from '@/lib/views-server';
 
 interface ClassTrendingProps {
   classSlug: string | undefined;
-  /** Scopes the ranking to one subject's file list. Omitted on the class hub,
-   * where the band spans every subject in the class. */
-  subject?: string;
+  /** The subject whose file grid this band sits above. Ranking is scoped to
+   * it, so the band never quotes another subject's traffic. */
+  subject: string | undefined;
 }
 
-/** "Trending" — the five most-opened files for this class/subject, shown above
- * the file grid.
+/** "Trending" — the five most-opened files in this subject, shown above its
+ * file grid.
  *
  * The window widens by itself: today first, and only if that can't fill five
  * rows, the last 2 days, then 3, up to a week. The heading follows the window
@@ -78,13 +78,6 @@ export function ClassTrending({ classSlug, subject }: ClassTrendingProps) {
               <span className="class-trending-rank">{index + 1}</span>
               <span className="class-trending-body">
                 <span className="class-trending-name">{file.name}</span>
-                {/* A subject-scoped band would print the same subject on
-                    every row, so the second line only earns its place on the
-                    class hub, where the list spans subjects. */}
-                {!subject && <span className="class-trending-meta">{file.subject}</span>}
-              </span>
-              <span className="class-trending-views">
-                <Eye size={12} /> {file.views.toLocaleString()}
               </span>
             </Link>
           </li>
