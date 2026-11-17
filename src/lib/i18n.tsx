@@ -124,6 +124,8 @@ const en: Dict = {
   'resources.rating.rateThis': 'Rate this file',
   'resources.rating.starLabel': 'Rate {n} star',
   'resources.rating.yourRating': 'Your rating: {n}/5',
+  'resources.rating.badge': 'Rated {avg} out of 5 ({count} ratings)',
+  'resources.rating.badgeTop': 'Top rated — {avg} out of 5 ({count} ratings)',
   'resources.rating.saveFailed': 'Couldn\u2019t save your rating \u2014 try again',
   'resources.feedback.label': 'Leave feedback on this file',
   'resources.feedback.placeholder': 'Found an error, a better source, or have a suggestion? Let us know...',

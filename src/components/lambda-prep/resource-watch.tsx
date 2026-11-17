@@ -5,6 +5,7 @@ import { useI18n } from '@/lib/i18n';
 import { getGroupLabel, type ResourceItem } from '@/lib/resources-data';
 import { VirtualFileGrid } from '@/components/lambda-prep/virtual-file-grid';
 import { ResourceRatingControl } from '@/components/lambda-prep/resource-rating';
+import { FileRatingBadge } from '@/components/lambda-prep/file-rating-badge';
 import { ResourceFeedbackControl } from '@/components/lambda-prep/resource-feedback';
 import { ShareWidget } from '@/components/lambda-prep/share-widget';
 import { recordResourceView } from '@/lib/views-server';
@@ -63,6 +64,7 @@ function SidebarSection({ group, items, active, onSelect }: { group: string; ite
               >
                 <span className="doxx-side-thumb"><FileText size={16} /></span>
                 <span className="doxx-side-name">{item.name}</span>
+                <FileRatingBadge fileId={item.id} inline />
               </button>
             );
           }}
@@ -81,6 +83,7 @@ function SidebarSection({ group, items, active, onSelect }: { group: string; ite
                 >
                   <span className="doxx-side-thumb"><FileText size={16} /></span>
                   <span className="doxx-side-name">{item.name}</span>
+                  <FileRatingBadge fileId={item.id} inline />
                 </button>
               </li>
             );

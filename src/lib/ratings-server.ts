@@ -102,6 +102,39 @@ export const getResourceRating = createServerFn({ method: "POST" })
     return fetchSummary(data.fileId, data.voterId);
   });
 
+/** One file's aggregate rating, as it travels to the client in the index
+ * below (no voter identity, so it's safe to serve to everyone). */
+export type FileRatingEntry = { average: number; count: number };
+export type FileRatingIndex = Record<string, FileRatingEntry>;
+
+// Upper bound on how many rated files the index serves. Every entry is a
+// file that has actually been rated at least once (no seeded 0-vote rows),
+// so in practice this stays in the hundreds; the cap is just a guard
+// against an unbounded payload if the table ever grows unexpectedly.
+const MAX_INDEX_FILES = 5000;
+
+/** Every file that has at least one rating, keyed by Google Drive file id,
+ * in a single round trip. This is what puts the rating badge on the file
+ * grid: requesting ratings for the visible cards one batch at a time would
+ * mean re-querying on every scroll/expand of a virtualized grid, whereas the
+ * whole rated set is tiny (only rated files appear in it) and can be fetched
+ * once per page load. Shaped like getResourceRatingsBatch's result so the
+ * two are interchangeable on the client. */
+export const getResourceRatingsIndex = createServerFn({ method: "POST" })
+  .handler(async (): Promise<FileRatingIndex> => {
+    if (!sql) return {};
+    const rows = await sql.query(
+      `SELECT file_id, AVG(rating)::float AS average, COUNT(*)::int AS count
+       FROM resource_ratings GROUP BY file_id ORDER BY count DESC LIMIT $1`,
+      [MAX_INDEX_FILES]
+    );
+    const out: FileRatingIndex = {};
+    for (const row of rows as Array<{ file_id: string; average: number; count: number }>) {
+      out[row.file_id] = { average: row.average, count: row.count };
+    }
+    return out;
+  });
+
 /** Fetches aggregate ratings for a batch of file ids in one round trip —
  * used by the sidebar/file-grid views so each visible file can show its
  * rating without one request per card. Only returns rows for files that

@@ -2,6 +2,7 @@ import { Star } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useI18n } from '@/lib/i18n';
 import { getResourceRating, submitResourceRating, type ResourceRatingSummary } from '@/lib/ratings-server';
+import { refreshFileRatingIndex } from '@/hooks/use-file-rating-index';
 import { getVoterId } from '@/lib/voter-id';
 
 interface ResourceRatingProps {
@@ -23,8 +24,10 @@ function PartialStar({ fraction, size = 18 }: { fraction: number; size?: number 
   );
 }
 
-/** Read-only "single partially-filled star + x.x + (n ratings)" summary,
- * used wherever a compact rating glance is enough (file cards, sidebar). */
+/** Read-only "single partially-filled star + x.x + (n ratings)" summary for
+ * callers that already hold a rating summary. The file grid/sidebar badges
+ * use FileRatingBadge instead, since those only have a file id and read from
+ * the shared rating index. */
 export function ResourceRatingBadge({ average, count }: { average: number | null; count: number }) {
   const { t } = useI18n();
   if (!count || average === null) return null;
@@ -82,6 +85,9 @@ export function ResourceRatingControl({ fileId }: ResourceRatingProps) {
       const voterId = getVoterId();
       const result = await submitResourceRating({ data: { fileId, voterId, rating } });
       setSummary(result);
+      // Keep the card/sidebar badges for this file in sync with the vote the
+      // viewer just cast, instead of waiting for the next full page load.
+      refreshFileRatingIndex();
     } catch (error) {
       // Leave `summary` untouched so the stars fall back to their previous
       // state, and tell the viewer the click didn't stick instead of failing

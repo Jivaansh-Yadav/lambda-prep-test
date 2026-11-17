@@ -1194,11 +1194,32 @@ body.pseudo-fullscreen-open { overflow: hidden; }
 
 /* Resource file cards (PDF/DOCX/XLSX/PPTX/image icons) */
 .resource-file-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; margin-top: 16px; }
-.resource-file-card { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: 16px; border: 1px solid var(--border); border-radius: 12px; background: var(--card); color: var(--foreground); font-size: 14px; text-align: left; cursor: pointer; transition: border-color .15s, box-shadow .15s, transform .15s; }
+.resource-file-card { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: 16px; border: 1px solid var(--border); border-radius: 12px; background: var(--card); color: var(--foreground); font-size: 14px; text-align: left; cursor: pointer; transition: border-color .15s, box-shadow .15s, transform .15s; position: relative; }
 .resource-file-card:hover { border-color: var(--primary); box-shadow: 0 4px 14px color-mix(in oklch, var(--primary) 12%, transparent); transform: translateY(-2px); }
 .resource-file-icon { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 10px; background: var(--subject-fill, var(--muted)); color: var(--subject-ink, var(--muted-foreground)); flex-shrink: 0; }
 .resource-file-name { min-width: 0; width: 100%; font-weight: 600; line-height: 1.35; overflow: hidden; text-overflow: ellipsis; overflow-wrap: anywhere; word-break: break-word; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
 .resource-file-type { font-size: 11px; font-weight: 700; letter-spacing: .4px; color: var(--muted-foreground); }
+
+/* Rating preview badge: sits in the top-right corner of a file card, next to
+   (not on top of) the type icon. Only rendered for files with at least one
+   rating, so an unrated card is visually unchanged. Default variant is a flat
+   neutral pill — deliberately quiet, it's a hint not a headline. A file whose
+   average rounds to a perfect 5.0 gets the `is-top` variant: gold ink, a
+   soft ring and a slow breathing glow so top-rated files are scannable while
+   skim-reading a grid. `is-inline` drops the absolute positioning for
+   sidebar rows, where it right-aligns after the file name instead. */
+.file-rating-badge { position: absolute; top: 10px; right: 10px; display: inline-flex; align-items: center; gap: 3px; padding: 2px 6px 2px 5px; border-radius: 999px; background: var(--muted); color: var(--muted-foreground); font-size: 10.5px; font-weight: 700; line-height: 1.5; letter-spacing: .01em; pointer-events: none; }
+.file-rating-badge.is-inline { position: static; margin-left: auto; flex-shrink: 0; }
+.file-rating-badge-value { font-variant-numeric: tabular-nums; }
+.file-rating-badge.is-top { color: var(--amber-ink); background: linear-gradient(135deg, color-mix(in oklch, var(--amber-soft) 70%, white 30%), var(--amber-soft)); box-shadow: 0 0 0 1px color-mix(in oklch, var(--amber-ink) 28%, transparent), 0 1px 6px color-mix(in oklch, var(--amber-ink) 26%, transparent), 0 0 14px color-mix(in oklch, var(--amber-ink) 22%, transparent); animation: file-rating-glow 3.4s ease-in-out infinite; }
+@keyframes file-rating-glow {
+  0%, 100% { box-shadow: 0 0 0 1px color-mix(in oklch, var(--amber-ink) 28%, transparent), 0 1px 6px color-mix(in oklch, var(--amber-ink) 24%, transparent), 0 0 12px color-mix(in oklch, var(--amber-ink) 18%, transparent); }
+  50% { box-shadow: 0 0 0 1px color-mix(in oklch, var(--amber-ink) 40%, transparent), 0 1px 8px color-mix(in oklch, var(--amber-ink) 32%, transparent), 0 0 22px color-mix(in oklch, var(--amber-ink) 34%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .file-rating-badge.is-top { animation: none; }
+}
+
 .resource-file-hit-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; width: 100%; }
 .resource-file-hit-subject { font-size: 11px; font-weight: 600; color: var(--muted-foreground); background: var(--muted); padding: 2px 8px; border-radius: 999px; }
 .resource-search-count { margin-top: 20px; margin-bottom: 4px; font-size: 14px; }

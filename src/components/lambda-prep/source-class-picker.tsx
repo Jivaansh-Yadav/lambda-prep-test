@@ -8,6 +8,7 @@ import { useGoBack } from '@/hooks/use-go-back';
 import { flattenFolderFiles, findItemInSubject, getFileKind, getGroupBadge, getGroupLabel, groupItems, hasResourceDataset, isFolderNode, isPremiumGroup, loadAllClassFiles, loadAllSourceFiles, loadResourceManifest, loadResourceMisc, loadResourceSubject, type FileKind, type ResourceFolderNode, type ResourceItem, type ResourceManifest, type ResourceNode, type ResourceSearchHit, type ResourceSubject } from '@/lib/resources-data';
 import { ResourceWatch } from '@/components/lambda-prep/resource-watch';
 import { VirtualFileGrid } from '@/components/lambda-prep/virtual-file-grid';
+import { FileRatingBadge } from '@/components/lambda-prep/file-rating-badge';
 import { StreamTabs } from '@/components/lambda-prep/stream-tabs';
 import { Button } from '@/components/ui/button';
 
@@ -67,6 +68,7 @@ function FileCard({ item, onClick }: { item: ResourceItem; onClick: () => void }
   const Icon = meta.icon;
   return (
     <button type="button" className={`resource-file-card tone-${meta.tone}`} onClick={onClick}>
+      <FileRatingBadge fileId={item.id} />
       <span className="resource-file-icon"><Icon size={26} strokeWidth={1.6} /></span>
       <span className="resource-file-name">{item.name}</span>
       <span className="resource-file-type">{meta.label}</span>
@@ -89,6 +91,7 @@ function HitFileCard({ hit, sourcePath, classLabel, stream }: { hit: ResourceSea
       search={{ class: hit.classSlug, subject: hit.subject, file: hit.item.id, stream }}
       className={`resource-file-card tone-${meta.tone}`}
     >
+      <FileRatingBadge fileId={hit.item.id} />
       <span className="resource-file-icon"><Icon size={26} strokeWidth={1.6} /></span>
       <span className="resource-file-name">{hit.item.name}</span>
       <span className="resource-file-hit-meta">
