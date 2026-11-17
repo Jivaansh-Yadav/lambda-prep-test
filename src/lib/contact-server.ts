@@ -128,7 +128,6 @@ export type AdminContactMessageRow = {
   subject: string;
   message: string;
   status: ContactMessageStatus;
-  adminNotes: string | null;
   socialHandle: string | null;
 };
 
@@ -145,7 +144,6 @@ function mapContactMessageRow(r: Record<string, unknown>): AdminContactMessageRo
     subject: r["subject"] as string,
     message: r["message"] as string,
     status: r["status"] as ContactMessageStatus,
-    adminNotes: (r["admin_notes"] as string | null) ?? null,
     socialHandle: (r["social_handle"] as string | null) ?? null,
   };
 }
@@ -165,7 +163,7 @@ export const getAdminContactMessages = createServerFn({ method: "POST" })
 
     try {
       const rows = await sql.query(
-        `SELECT id, created_at, name, email, subject, message, status, admin_notes, social_handle
+        `SELECT id, created_at, name, email, subject, message, status, social_handle
          FROM contact_messages
          ORDER BY created_at DESC`
       );
@@ -182,14 +180,13 @@ export type UpdateContactMessageStatusResult = { ok: true } | { ok: false; reaso
 
 export const updateContactMessageStatus = createServerFn({ method: "POST" })
   .validator((data: unknown) => {
-    const d = data as { passcode?: unknown; id?: unknown; status?: unknown; adminNotes?: unknown };
+    const d = data as { passcode?: unknown; id?: unknown; status?: unknown };
     if (typeof d?.passcode !== "string") throw new Error("Missing passcode");
     if (typeof d?.id !== "number") throw new Error("Missing id");
     if (d.status !== "unread" && d.status !== "read" && d.status !== "archived") {
       throw new Error("Invalid status");
     }
-    if (d.adminNotes !== undefined && typeof d.adminNotes !== "string") throw new Error("Invalid adminNotes");
-    return { passcode: d.passcode, id: d.id, status: d.status, adminNotes: d.adminNotes as string | undefined };
+    return { passcode: d.passcode, id: d.id, status: d.status };
   })
   .handler(async ({ data }): Promise<UpdateContactMessageStatusResult> => {
     requirePasscode(data.passcode);
@@ -199,9 +196,9 @@ export const updateContactMessageStatus = createServerFn({ method: "POST" })
     try {
       await sql.query(
         `UPDATE contact_messages
-         SET status = $1, admin_notes = $2, reviewed_at = now()
-         WHERE id = $3`,
-        [data.status, data.adminNotes ?? null, data.id]
+         SET status = $1, reviewed_at = now()
+         WHERE id = $2`,
+        [data.status, data.id]
       );
       return { ok: true };
     } catch (error) {

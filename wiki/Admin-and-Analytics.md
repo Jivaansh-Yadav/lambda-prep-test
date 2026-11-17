@@ -110,7 +110,7 @@ The PAT only needs **Actions: Read and write** plus **Contents: Read**, scoped t
 
 - **Manage resources** — a live Drive browser rooted at `drive_integration.folder_id` (not the committed JSON), with upload into the current folder, rename, and delete-to-trash. Folder/file ids are validated (`isDriveId`) before any write, and failed uploads report the Drive API's reason. It does not change which folder the weekly crawl starts from.
 - **Resource stats** — the same 24h/7d/14d/30d selector, scoping all four tabs to "files active in this window" and sorting each list by volume. Read from the same `resource_*` tables the public counters write, with two honest limits: views come from `resource_daily_views` day buckets, so 24h means today so far (IST) and each row also shows the all-time counter; shares only keep a running total plus `last_shared_at`, so the window selects rows and the count stays all-time, labelled as such. A window that has no activity says so instead of falling back to all-time numbers.
-- **Contributed resources** — the queue from `/contribute`: approve, reject with a note, and the schema records `admin_notes`, `status` and `reviewed_at`.
+- **Contributed resources** — the queue from `/contribute`: approve or reject, and the schema records `status` and `reviewed_at`. There is no free-text note column: one existed (`admin_notes` on both this table and `contact_messages`) but nothing ever wrote it and every status change overwrote it with `NULL`, so it was dropped rather than left as a field an admin could fill by hand and lose.
 - **Contact messages** — footer messages with the same review shape, plus optional Discord/Reddit handles.
 
 ## Design notes

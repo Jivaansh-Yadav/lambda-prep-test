@@ -20,7 +20,7 @@ That single `null` check is the whole degraded mode: **the catalogue renders, th
 | `resource_daily_views` | `views-server.ts` | The same opens, bucketed per `(file_id, day)` — what the Trending strip reads |
 | `resource_shares` | `shares-server.ts` | Increment per share action / copied link |
 | `resource_feedback` | `feedback-server.ts` | “Was this useful?” style notes attached to a file |
-| `resource_contributions` | `contribute-server.ts` | Student-submitted resources, with `status`, `admin_notes`, `reviewed_at` |
+| `resource_contributions` | `contribute-server.ts` | Student-submitted resources, with `status` and `reviewed_at` |
 | `contact_messages` | `contact-server.ts` | Footer contact form, same review shape plus optional social handles |
 
 Design rules that matter:

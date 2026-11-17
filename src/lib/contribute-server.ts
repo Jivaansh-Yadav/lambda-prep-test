@@ -281,7 +281,6 @@ export type AdminContributionRow = {
   sharedDriveLink: string | null;
   contactMethod: string;
   status: ContributionStatus;
-  adminNotes: string | null;
 };
 
 export type AdminContributionsResult =
@@ -306,7 +305,6 @@ function mapContributionRow(r: Record<string, unknown>): AdminContributionRow {
     sharedDriveLink: (r["shared_drive_link"] as string | null) ?? null,
     contactMethod: r["contact_method"] as string,
     status: r["status"] as ContributionStatus,
-    adminNotes: (r["admin_notes"] as string | null) ?? null,
   };
 }
 
@@ -330,7 +328,7 @@ export const getAdminContributions = createServerFn({ method: "POST" })
       const rows = await sql.query(
         `SELECT id, created_at, submission_type, file_name, class_slug, subject, description,
                 contributor_alias, drive_file_id, drive_file_link, shared_drive_link, contact_method,
-                status, admin_notes
+                status
          FROM resource_contributions
          ORDER BY created_at DESC`
       );
@@ -353,14 +351,13 @@ export type UpdateContributionStatusResult = { ok: true } | { ok: false; reason:
  * fold a contribution in. */
 export const updateContributionStatus = createServerFn({ method: "POST" })
   .validator((data: unknown) => {
-    const d = data as { passcode?: unknown; id?: unknown; status?: unknown; adminNotes?: unknown };
+    const d = data as { passcode?: unknown; id?: unknown; status?: unknown };
     if (typeof d?.passcode !== "string") throw new Error("Missing passcode");
     if (typeof d?.id !== "number") throw new Error("Missing id");
     if (d.status !== "pending" && d.status !== "approved" && d.status !== "rejected") {
       throw new Error("Invalid status");
     }
-    if (d.adminNotes !== undefined && typeof d.adminNotes !== "string") throw new Error("Invalid adminNotes");
-    return { passcode: d.passcode, id: d.id, status: d.status, adminNotes: d.adminNotes as string | undefined };
+    return { passcode: d.passcode, id: d.id, status: d.status };
   })
   .handler(async ({ data }): Promise<UpdateContributionStatusResult> => {
     requirePasscode(data.passcode);
@@ -370,9 +367,9 @@ export const updateContributionStatus = createServerFn({ method: "POST" })
     try {
       await sql.query(
         `UPDATE resource_contributions
-         SET status = $1, admin_notes = $2, reviewed_at = now()
-         WHERE id = $3`,
-        [data.status, data.adminNotes ?? null, data.id]
+         SET status = $1, reviewed_at = now()
+         WHERE id = $2`,
+        [data.status, data.id]
       );
       return { ok: true };
     } catch (error) {
