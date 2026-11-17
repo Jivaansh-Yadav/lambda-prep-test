@@ -55,7 +55,6 @@ export function ClassTrending({ classSlug }: ClassTrendingProps) {
           <span className="class-trending-icon"><Flame size={16} /></span>
           {t('resources.trending.title')}
         </h2>
-        <p className="class-trending-sub">{t('resources.trending.subtitle')}</p>
       </div>
       <ol className="class-trending-list">
         {files.map((file, index) => (
