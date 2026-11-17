@@ -32,8 +32,9 @@ function CisceResources() {
       // browser's own Back can close it later — closing it directly (the
       // in-viewer Back button) goes through `useGoBack` instead of calling
       // this, and only falls back to clearing the param here when there's
-      // no history entry to go back to.
-      onFileChange={fileId => navigate({ search: prev => ({ ...prev, file: fileId ?? undefined }) })}
+      // no history entry to go back to. Clearing the param never pushes a
+      // new entry, so Back can't land on the file URL and reopen it.
+      onFileChange={(fileId, opts) => navigate({ search: prev => ({ ...prev, file: fileId ?? undefined }), replace: opts?.replace ?? false })}
       title={t('resources.cisce.title')}
       desc={<>{t('resources.cisce.descPrefix')} <a href="https://cisce.org" target="_blank" rel="noreferrer">cisce.org</a> {t('resources.cisce.descSuffix')}</>}
     />

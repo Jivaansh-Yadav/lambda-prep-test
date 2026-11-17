@@ -7,6 +7,7 @@ import { useFuseSearch } from '@/hooks/use-fuse-search';
 import { useGoBack } from '@/hooks/use-go-back';
 import { flattenFolderFiles, findItemInSubject, getFileKind, getGroupBadge, getGroupLabel, groupItems, hasResourceDataset, isFolderNode, isPremiumGroup, loadAllClassFiles, loadAllSourceFiles, loadResourceManifest, loadResourceMisc, loadResourceSubject, type FileKind, type ResourceFolderNode, type ResourceItem, type ResourceManifest, type ResourceNode, type ResourceSearchHit, type ResourceSubject } from '@/lib/resources-data';
 import { ResourceWatch } from '@/components/lambda-prep/resource-watch';
+import { BackLink } from '@/components/lambda-prep/back-link';
 import { VirtualFileGrid } from '@/components/lambda-prep/virtual-file-grid';
 import { FileRatingBadge } from '@/components/lambda-prep/file-rating-badge';
 import { StreamTabs } from '@/components/lambda-prep/stream-tabs';
@@ -32,8 +33,12 @@ interface SourceClassPickerProps {
   onStreamChange?: (stream: string) => void;
   /** Called whenever the viewer opens/closes a file, so the host route can
    * keep the `file` search param (and therefore the shareable URL) in sync.
-   * Passing `undefined` clears the param. */
-  onFileChange?: (fileId: string | undefined) => void;
+   * Passing `undefined` clears the param. `replace` asks the host to swap
+   * the current history entry instead of pushing one — used when closing a
+   * file (so Back doesn't reopen it) and when switching files from inside
+   * the viewer (so Back still exits the viewer instead of stepping through
+   * every file the visitor happened to click). */
+  onFileChange?: (fileId: string | undefined, opts?: { replace?: boolean }) => void;
   title: string;
   desc: React.ReactNode;
   /** Optional provenance line appended to the community disclaimer, for a
@@ -102,28 +107,11 @@ function HitFileCard({ hit, sourcePath, classLabel, stream }: { hit: ResourceSea
   );
 }
 
-function countFolderFiles(folder: ResourceFolderNode): number {
-  let n = 0;
+function countFolderFiles(folder: ResourceFolderNode): number {  let n = 0;
   for (const c of folder.children) {
     n += isFolderNode(c) ? countFolderFiles(c) : 1;
   }
   return n;
-}
-
-/** Renders every "Back to ..." link on this page. Picking a class/subject/
- * file always pushes a new history entry (plain `<Link>`/`navigate` push),
- * so the browser's own Back already lands exactly where the visitor came
- * from — including a different stream filter, scroll position, or a
- * deep-linked file shared by someone else — which a fixed destination
- * link can't reproduce. `to`/`search` remain as the fallback for the rare
- * case this tab has no history to go back to (e.g. the page was opened
- * directly from a shared/bookmarked link). */
-function BackLink({ to, search, label }: { to: string; search: Record<string, unknown>; label: string }) {
-  const { canGoBack, goBack } = useGoBack();
-  if (canGoBack) {
-    return <button type="button" className="back-link" onClick={goBack}><ArrowLeft size={15} /> {label}</button>;
-  }
-  return <Link to={to} search={search} className="back-link"><ArrowLeft size={15} /> {label}</Link>;
 }
 
 function FolderCard({ folder, onClick }: { folder: ResourceFolderNode; onClick: () => void }) {
@@ -293,8 +281,6 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
   const [query, setQuery] = useState('');
   const [subjectQuery, setSubjectQuery] = useState('');
   const [fileQuery, setFileQuery] = useState('');
-  const [activeFile, setActiveFile] = useState<ResourceItem | null>(null);
-  const [activeFolderScope, setActiveFolderScope] = useState<ResourceFolderNode | null>(null);
   // Broad, cross-scope file search state. At the top level (no class picked
   // yet) a query searches every file indexed for this source (CISCE or
   // Community, across every class); once a class is picked but no subject
@@ -320,10 +306,13 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
   const [subjectEntry, setSubjectEntry] = useState<ResourceSubject | undefined>(undefined);
   const [miscItems, setMiscItems] = useState<ResourceItem[] | undefined>(undefined);
   const [subjectLoading, setSubjectLoading] = useState(false);
-  useEffect(() => {
-    setActiveFile(null);
-    setActiveFolderScope(null);
-  }, [classSlug, subject]);
+  // Which `subject` the loaded shard actually belongs to. Readiness must be
+  // tracked per subject, not just "some entry exists": the previous subject's
+  // files stay in state for one render after a navigation, and treating them
+  // as ready would make a freshly linked `?file=` look unresolvable (and get
+  // cleared) before its own shard had a chance to arrive.
+  const subjectKey = subject ? `${source}|${classSlug ?? ''}|${subject}` : '';
+  const [loadedSubjectKey, setLoadedSubjectKey] = useState('');
   useEffect(() => {
     setSubjectQuery('');
   }, [classSlug]);
@@ -355,10 +344,15 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
   // Subject fetch: only the active subject's (or misc's) own JSON shard —
   // split datasets never touch any other subject's files.
   useEffect(() => {
-    if (!classSlug || !subject) { setSubjectEntry(undefined); setMiscItems(undefined); return; }
+    if (!classSlug || !subject) { setSubjectEntry(undefined); setMiscItems(undefined); setLoadedSubjectKey(''); return; }
     let cancelled = false;
     setSubjectLoading(true);
     setSubjectError(false);
+    // Drop the outgoing subject's files up front so nothing downstream can
+    // read a stale shard as if it belonged to the subject now selected.
+    setSubjectEntry(undefined);
+    setMiscItems(undefined);
+    setLoadedSubjectKey('');
     const fail = (error: unknown) => {
       if (cancelled) return;
       console.error('[resources] failed to load subject data', source, classSlug, subject, error);
@@ -367,14 +361,15 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
     };
     if (subject === MISC_LABEL) {
       loadResourceMisc(source, classSlug).then(items => {
-        if (!cancelled) { setMiscItems(items); setSubjectEntry(undefined); setSubjectLoading(false); }
+        if (!cancelled) { setMiscItems(items); setSubjectEntry(undefined); setLoadedSubjectKey(subjectKey); setSubjectLoading(false); }
       }).catch(fail);
     } else {
       loadResourceSubject(source, classSlug, subject).then(entry => {
-        if (!cancelled) { setSubjectEntry(entry); setMiscItems(undefined); setSubjectLoading(false); }
+        if (!cancelled) { setSubjectEntry(entry); setMiscItems(undefined); setLoadedSubjectKey(subjectKey); setSubjectLoading(false); }
       }).catch(fail);
     }
     return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- subjectKey is derived from exactly these three
   }, [source, classSlug, subject]);
 
   // Broad cross-class search (top-level "choose a class" page): fetched
@@ -492,38 +487,50 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
     // the primary content of the subject ("Chapter Notes" / "CISCE Resources").
     return hasMatch ? groups : [{ group: editorFoldersGroup, items: [] }, ...groups];
   }, [groups, editorFolders, editorFoldersGroup]);
-  const subjectDataReady = subject === MISC_LABEL ? miscItems !== undefined : subjectEntry !== undefined || (!subjectLoading && subject !== undefined);
+  const subjectDataReady = !!subject && loadedSubjectKey === subjectKey;
 
-  // Deep-link support: once the subject's files are loaded, resolve the
-  // `?file=<driveId>` search param (if any) against them and open that
-  // file automatically — this is what makes a shared resource link land
-  // directly on the file instead of just the subject grid. Only runs when
-  // there's no file already open, so a later in-page file click (which
-  // clears/updates the param itself) doesn't get fought by this effect.
+  // The open file is derived from the `?file=` search param instead of being
+  // mirrored in local state. Keeping a separate `activeFile` state meant the
+  // two could disagree: pressing Back only pops the param, so the viewer
+  // stayed on screen while the URL said the file was closed (the page looked
+  // like Back "did nothing"), and the following Back then skipped straight
+  // past the subject the visitor expected to land on. Deriving it makes the
+  // URL the single source of truth, so browser Back/Forward — and any shared
+  // `?file=` deep link — open and close the viewer exactly as the address
+  // bar describes, in both directions.
+  const openEntry = useMemo(() => {
+    if (!file || !subjectDataReady) return null;
+    return findItemInSubject(subjectItems, editorFolders, file);
+  }, [file, subjectDataReady, subjectItems, editorFolders]);
+  const activeFile = openEntry?.item ?? null;
+  // When viewing a file opened from inside a folder-card (e.g. "Act III,
+  // Scene I - Brief.pdf" inside the "Julius Caesar" > "ACT III" > "SCENE I"
+  // folder), the sidebar must show only that folder's own files — not the
+  // whole Editor's Choice group / subject. Resolving it through the same
+  // lookup as the file keeps that scope correct after a Back/Forward too.
+  const activeFolderScope = openEntry?.folderScope ?? null;
+
+  // A `?file=` that resolves to nothing in this subject (stale share link,
+  // hand-edited address) would otherwise linger in the URL while the grid is
+  // on screen — drop it so the address matches what's actually rendered.
   useEffect(() => {
-    if (!file || activeFile || !subjectDataReady) return;
-    const resolved = findItemInSubject(subjectItems, editorFolders, file);
-    if (resolved) {
-      setActiveFile(resolved.item);
-      setActiveFolderScope(resolved.folderScope);
-    }
-  }, [file, activeFile, subjectDataReady, subjectItems, editorFolders]);
+    if (!file || !subjectDataReady || openEntry) return;
+    onFileChange?.(undefined, { replace: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- onFileChange identity is host-owned
+  }, [file, subjectDataReady, openEntry]);
 
-  const openFile = (item: ResourceItem, folderScope: ResourceFolderNode | null = null) => {
-    setActiveFolderScope(folderScope);
-    setActiveFile(item);
-    onFileChange?.(item.id);
+  const openFile = (item: ResourceItem, opts?: { replace?: boolean }) => {
+    onFileChange?.(item.id, opts);
   };
-  // Opening a file above pushes a history entry (see onFileChange in the
-  // host route), so closing it should undo that via the browser's own
-  // Back — falling back to clearing the state/param directly only when
-  // there's no history entry to go back to (e.g. the file was opened via
-  // a deep `?file=` link with nothing of ours before it).
+  // Opening a file pushes a history entry (see `onFileChange` in the host
+  // route), so closing it should undo that via the browser's own Back —
+  // falling back to clearing the param in place only when there's no history
+  // entry to go back to (e.g. the file was opened from a shared `?file=`
+  // link with nothing of ours before it), so that Back afterwards doesn't
+  // reopen the file.
   const closeFile = () => {
     if (canGoBack) { goBack(); return; }
-    setActiveFile(null);
-    setActiveFolderScope(null);
-    onFileChange?.(undefined);
+    onFileChange?.(undefined, { replace: true });
   };
 
   const disclaimer = source === 'community' ? (
@@ -688,10 +695,8 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
     // feed useFuseSearch); `groups` is irrelevant while a file search is
     // active, since the search view below renders `filteredFiles` as a flat
     // list instead of the grouped sections.
-    // When viewing a file opened from inside a folder-card (e.g. "Act III,
-    // Scene I - Brief.pdf" inside the "Julius Caesar" > "ACT III" > "SCENE I"
-    // folder), the sidebar must show only that folder's own files — not the
-    // whole Editor's Choice group / subject.
+    // `activeFolderScope` (derived above from the `?file=` param) narrows the
+    // sidebar to the folder the open file lives in.
     const sidebarGroups = activeFolderScope
       ? [{ group: activeFolderScope.name, items: activeFolderScope.children.filter((c): c is ResourceItem => !isFolderNode(c)) }]
       : groups;
@@ -704,7 +709,10 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
         <ResourceWatch
           groups={sidebarGroups}
           active={activeFile}
-          onSelect={item => openFile(item)}
+          // Switching files from inside the viewer replaces the current
+          // history entry, so Back from any file returns to the subject grid
+          // instead of stepping through every file clicked in the sidebar.
+          onSelect={item => openFile(item, { replace: true })}
           shareUrl={`${getSiteOrigin()}${sourcePath}?class=${encodeURIComponent(classSlug ?? '')}&subject=${encodeURIComponent(subject ?? '')}&file=${encodeURIComponent(activeFile.id)}`}
         />
         {source === 'community' && disclaimer}
@@ -748,8 +756,8 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
             group={section.group}
             items={section.items}
             editorFolders={section.group.toLowerCase() === editorFoldersGroup.toLowerCase() ? editorFolders : undefined}
-            onPick={(item, folderScope) => {
-              openFile(item, folderScope ?? null);
+            onPick={item => {
+              openFile(item);
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
           />
