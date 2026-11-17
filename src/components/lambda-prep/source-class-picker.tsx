@@ -10,6 +10,7 @@ import { ResourceWatch } from '@/components/lambda-prep/resource-watch';
 import { BackLink } from '@/components/lambda-prep/back-link';
 import { VirtualFileGrid } from '@/components/lambda-prep/virtual-file-grid';
 import { FileRatingBadge } from '@/components/lambda-prep/file-rating-badge';
+import { ClassTrending } from '@/components/lambda-prep/class-trending';
 import { StreamTabs } from '@/components/lambda-prep/stream-tabs';
 import { Button } from '@/components/ui/button';
 
@@ -604,6 +605,10 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
         <div className="resource-stream-tabs"><StreamTabs stream={activeStream} onChange={next => onStreamChange?.(next)} /></div>
       )}
       {!!subjectCards.length && <p className="library-note resource-total-count">{subjectCards.reduce((sum, s) => sum + s.count, 0)} {t('resources.filesLabel')} {t('resources.total')}</p>}
+      {/* Sits above the subject grid and renders nothing at all when no file
+          in this class has been opened today — a class with no traffic keeps
+          exactly the page it had before. */}
+      {!isClassSearchActive && <ClassTrending classSlug={classSlug} />}
       {isClassSearchActive ? (
         <>
           <p className="library-note resource-search-count">{t('resources.search.resultsFor').replace('{query}', trimmedSubjectQuery).replace('{n}', classHitsLoading && !classHits ? '…' : String(filteredClassHits.length))}</p>
@@ -714,6 +719,7 @@ export function SourceClassPicker({ source, classSlug, subject, file, stream, on
           // instead of stepping through every file clicked in the sidebar.
           onSelect={item => openFile(item, { replace: true })}
           shareUrl={`${getSiteOrigin()}${sourcePath}?class=${encodeURIComponent(classSlug ?? '')}&subject=${encodeURIComponent(subject ?? '')}&file=${encodeURIComponent(activeFile.id)}`}
+          viewContext={{ classSlug, subject, source }}
         />
         {source === 'community' && disclaimer}
       </main>;

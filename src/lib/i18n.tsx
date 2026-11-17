@@ -104,6 +104,8 @@ const en: Dict = {
   'resources.viewAll': 'View all',
   'resources.showLess': 'Show less',
   'resources.badge.editorsChoiceTooltip': "Students across multiple batch years rated these the highest. Handpicked across dozens of resource archives to bring you only the clearest notes, the most reliable solutions, and the content that actually helped students score better — so you don't have to dig through everything else to find what works.",
+  'resources.trending.title': 'Trending today',
+  'resources.trending.subtitle': 'The ten most-opened files in this class today',
   'resources.openFile': 'Open file',
   'resources.watch.fullscreen': 'Enter fullscreen',
   'resources.watch.exitFullscreen': 'Exit fullscreen',

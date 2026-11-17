@@ -19,6 +19,10 @@ interface ResourceWatchProps {
   /** Fully-qualified, directly-shareable URL for the active file (includes
    * the `?file=<driveId>` deep-link param), used by the share popup. */
   shareUrl: string;
+  /** Where this file sits in the catalogue, sent along with the view count so
+   * the Trending section can rank files per class without having to resolve
+   * bare Drive ids against the whole resource catalog on every page load. */
+  viewContext?: { classSlug?: string | undefined; subject?: string | undefined; source?: string | undefined };
 }
 
 const SIDEBAR_CAP = 6;
@@ -105,7 +109,7 @@ function SidebarSection({ group, items, active, onSelect }: { group: string; ite
   );
 }
 
-export function ResourceWatch({ groups, active, onSelect, shareUrl }: ResourceWatchProps) {
+export function ResourceWatch({ groups, active, onSelect, shareUrl, viewContext }: ResourceWatchProps) {
   const { t } = useI18n();
   const wrapRef = useRef<HTMLDivElement>(null);
   const { isFullscreen, toggleFullscreen } = useFullscreen(wrapRef);
@@ -128,7 +132,15 @@ export function ResourceWatch({ groups, active, onSelect, shareUrl }: ResourceWa
   // fresh share in this session.
   useEffect(() => {
     let cancelled = false;
-    recordResourceView({ data: { fileId: active.id } }).then((result) => {
+    recordResourceView({
+      data: {
+        fileId: active.id,
+        classSlug: viewContext?.classSlug,
+        subject: viewContext?.subject,
+        source: viewContext?.source,
+        name: active.name,
+      },
+    }).then((result) => {
       if (!cancelled) setViewCount(result.count);
     });
     setShareCount(null);
@@ -136,6 +148,9 @@ export function ResourceWatch({ groups, active, onSelect, shareUrl }: ResourceWa
       if (!cancelled) setShareCount(result[active.id] ?? 0);
     });
     return () => { cancelled = true; };
+    // viewContext is stable for the lifetime of a subject page; re-firing on
+    // an identity change would double-count the view.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active.id]);
 
   const handleShare = () => {
