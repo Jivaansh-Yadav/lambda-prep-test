@@ -204,12 +204,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { property: "og:url", content: SITE_URL },
       { property: "og:image", content: OG_IMAGE },
-      { property: "og:image:width", content: "759" },
-      { property: "og:image:height", content: "406" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: "Lambda Prep — ICSE and ISC resources for Classes 9 to 12" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Lambda Prep" },
       { name: "twitter:description", content: "Curated ICSE and ISC resources for clearer understanding." },
       { name: "twitter:image", content: OG_IMAGE },
+      { name: "twitter:image:alt", content: "Lambda Prep — ICSE and ISC resources for Classes 9 to 12" },
     ],
     links: [
       {
