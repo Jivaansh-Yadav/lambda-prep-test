@@ -17,6 +17,7 @@ That single `null` check is the whole degraded mode: **the catalogue renders, th
 | --- | --- | --- |
 | `resource_ratings` | `ratings-server.ts` | One row per `(file_id, voter_id)`; a student can change their own rating |
 | `resource_views` | `views-server.ts` | Increment per file open |
+| `resource_daily_views` | `views-server.ts` | The same opens, bucketed per `(file_id, day)` — what the Trending strip reads |
 | `resource_shares` | `shares-server.ts` | Increment per share action / copied link |
 | `resource_feedback` | `feedback-server.ts` | “Was this useful?” style notes attached to a file |
 | `resource_contributions` | `contribute-server.ts` | Student-submitted resources, with `status`, `admin_notes`, `reviewed_at` |
@@ -29,6 +30,15 @@ Design rules that matter:
 - **Ratings are per visitor.** There is no sign-in, so `voter_id` is a random per-browser id in `localStorage` (`voter-id.ts`) — enough to let a student see and change their own rating, and to blunt accidental double submits. It is not an identity guarantee and is not treated as one.
 - **Abuse protection on every public write** (`ratings`, `feedback`, `contact`, `contribute`): a light in-memory per-IP + voter limit (e.g. `10 submissions / 10 minutes` for ratings) plus a validity check that the `file_id` actually exists in the dataset. The limiter resets on deploy and a determined attacker can rotate IPs — it exists to stop naive scripted brigading and junk rows, which is the realistic threat for a school portal.
 - **Editor's Choice** is computed from these rows (`average rating`, minimum count), never from a hand-written list.
+
+### Daily view buckets
+
+`resource_daily_views` exists because a lifetime counter cannot answer "what is being opened *now*". One row per `(file_id, day)`, keyed the same way, with `class_slug`, `subject`, `source` and `file_name` copied in at write time so the Trending read never has to join back to the JSON datasets.
+
+- **The day boundary is IST, and Postgres owns it.** Writes and reads both bucket with `(now() AT TIME ZONE 'Asia/Kolkata')::date`, so a file opened at 01:00 IST counts towards the new day, and no two instances can disagree about which day it is.
+- **Ranking is class + subject scoped.** `getTrendingFiles` filters on `class_slug` and, on a subject page, on `subject`; rows with a null `subject`/`source` (older writes, or a viewer with no class context) cannot be ranked or deep-linked, so they are excluded rather than guessed at.
+- **The window widens instead of the list shrinking.** The strip asks for five files; if today cannot fill five, the same rows are re-aggregated over 2 days, then 3, up to 7. Views are summed per file across the window, so three separate days of opens outrank two today. One query covers the widest window and the widening happens in memory.
+- **It is a read-only convenience.** Recording a daily view is wrapped so a failure there can never break the view counter, and a failed trending read renders nothing rather than an error state.
 
 ### Attribution
 
@@ -68,12 +78,12 @@ Both exist because Cloudflare's analytics APIs routinely take seconds, and the d
 
 ## Migrations
 
-There is no migration runner **and no DDL in the codebase** — no `CREATE TABLE`, no `ALTER TABLE`. Every table above was created by hand in the Neon SQL editor. That is the whole schema process.
+There is no migration runner. Tables were created by hand in the Neon SQL editor, and that is still the process — the one exception is `resource_daily_views`, whose `CREATE TABLE IF NOT EXISTS` lives in `scripts/create-resource-daily-views.mjs` because the Trending strip arrived after the schema-by-hand era; running that script is the whole migration.
 
 Consequences worth knowing:
 
 - The app does **not** boot-create its own tables. A fresh database with `DATABASE_URL` set but no tables fails at query time, and the failure surfaces as a server error (the admin panel now prints it) rather than a silent "not configured" — the `sql === null` path only covers a *missing* `DATABASE_URL`.
-- To add a table, write the `CREATE TABLE` in Neon first, then add the reader in the server module that owns it.
+- To add a table, write the `CREATE TABLE` in Neon first (or in a one-shot `scripts/` script, like `create-resource-daily-views.mjs`), then add the reader in the server module that owns it.
 - Nothing is dropped automatically. Clean-up is a manual decision.
 
 The newest table, `campaign_visits`, was created with:

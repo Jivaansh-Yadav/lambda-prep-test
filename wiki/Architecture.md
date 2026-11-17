@@ -80,6 +80,8 @@ Because the datasets ship as ES modules they are code-split with the route that 
 
 Server functions (`createServerFn` in `src/lib/*-server.ts`) handle everything that must not trust the client: ratings, views, downloads, shares, contributions, feedback, contact, admin, Drive, GitHub and Cloudflare calls.
 
+The Trending strip is the one thing on a resource page that is not in those JSON files: `getTrendingFiles` reads the `resource_daily_views` table (see [Database](Database)) and `class-trending.tsx` renders nothing at all when the last week was quiet, so a class with no traffic keeps exactly the page it had before the strip existed.
+
 ## Rendering and theming
 
 - **Theme with no flash** — `__root.tsx` runs a small inline script that sets the theme class on `<html>` before first paint, so a dark-mode visitor never sees a white flash.
