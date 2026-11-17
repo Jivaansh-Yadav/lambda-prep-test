@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from '@tanstack/react-router';
 import { Flame } from 'lucide-react';
 import { useI18n } from '@/lib/i18n';
+import { FILE_KIND_LABEL, getFileKind } from '@/lib/resources-data';
 import { getTrendingFiles, type TrendingFile } from '@/lib/views-server';
 
 interface ClassTrendingProps {
@@ -12,7 +13,9 @@ interface ClassTrendingProps {
 }
 
 /** "Trending" — the five most-opened files in this subject, shown above its
- * file grid.
+ * file grid as cards built from the same toolkit as the grid itself: same
+ * 12px gutters, 16px padding, 12px radius and 14px/600 titles, so the band
+ * reads as one more row of the library rather than a separate widget.
  *
  * The window widens by itself: today first, and only if that can't fill five
  * rows, the last 2 days, then 3, up to a week. The heading stays a plain
@@ -73,10 +76,11 @@ export function ClassTrending({ classSlug, subject }: ClassTrendingProps) {
               search={{ class: classSlug, subject: file.subject, file: file.fileId }}
               className={`class-trending-item${index === 0 ? ' is-first' : ''}`}
             >
-              <span className="class-trending-rank">{index + 1}</span>
-              <span className="class-trending-body">
-                <span className="class-trending-name">{file.name}</span>
+              <span className="class-trending-top">
+                <span className="class-trending-rank">{index + 1}</span>
+                <span className="class-trending-kind">{FILE_KIND_LABEL[getFileKind(file.name)]}</span>
               </span>
+              <span className="class-trending-name">{file.name}</span>
             </Link>
           </li>
         ))}

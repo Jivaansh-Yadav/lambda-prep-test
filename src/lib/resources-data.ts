@@ -353,3 +353,14 @@ export function getFileKind(name: string): FileKind {
   const ext = match?.[1]?.toLowerCase();
   return (ext && EXT_KIND[ext]) || 'other';
 }
+
+/** Short label for a file kind, shared by every card that shows one so the
+ * file grid and the trending band can never drift apart. */
+export const FILE_KIND_LABEL: Record<FileKind, string> = {
+  pdf: 'PDF',
+  docx: 'DOCX',
+  xlsx: 'XLSX',
+  pptx: 'PPTX',
+  image: 'IMG',
+  other: 'FILE',
+};

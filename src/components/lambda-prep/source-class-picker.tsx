@@ -5,7 +5,7 @@ import { classes, findSubjectMeta, getSiteOrigin, subjectMatchesStream } from '@
 import { useI18n } from '@/lib/i18n';
 import { useFuseSearch } from '@/hooks/use-fuse-search';
 import { useGoBack } from '@/hooks/use-go-back';
-import { flattenFolderFiles, findItemInSubject, getFileKind, getGroupBadge, getGroupLabel, groupItems, hasResourceDataset, isFolderNode, isPremiumGroup, loadAllClassFiles, loadAllSourceFiles, loadResourceManifest, loadResourceMisc, loadResourceSubject, type FileKind, type ResourceFolderNode, type ResourceItem, type ResourceManifest, type ResourceNode, type ResourceSearchHit, type ResourceSubject } from '@/lib/resources-data';
+import { FILE_KIND_LABEL, flattenFolderFiles, findItemInSubject, getFileKind, getGroupBadge, getGroupLabel, groupItems, hasResourceDataset, isFolderNode, isPremiumGroup, loadAllClassFiles, loadAllSourceFiles, loadResourceManifest, loadResourceMisc, loadResourceSubject, type FileKind, type ResourceFolderNode, type ResourceItem, type ResourceManifest, type ResourceNode, type ResourceSearchHit, type ResourceSubject } from '@/lib/resources-data';
 import { ResourceWatch } from '@/components/lambda-prep/resource-watch';
 import { BackLink } from '@/components/lambda-prep/back-link';
 import { VirtualFileGrid } from '@/components/lambda-prep/virtual-file-grid';
@@ -60,12 +60,12 @@ const FILE_SEARCH_KEYS = ['name'];
 const SOURCE_HIT_SEARCH_KEYS = ['item.name'];
 
 const FILE_KIND_META: Record<FileKind, { icon: typeof FileText; tone: string; label: string }> = {
-  pdf: { icon: FileText, tone: 'rose', label: 'PDF' },
-  docx: { icon: File, tone: 'blue', label: 'DOCX' },
-  xlsx: { icon: FileSpreadsheet, tone: 'green', label: 'XLSX' },
-  pptx: { icon: File, tone: 'amber', label: 'PPTX' },
-  image: { icon: FileImage, tone: 'purple', label: 'IMG' },
-  other: { icon: FileText, tone: 'teal', label: 'FILE' },
+  pdf: { icon: FileText, tone: 'rose', label: FILE_KIND_LABEL.pdf },
+  docx: { icon: File, tone: 'blue', label: FILE_KIND_LABEL.docx },
+  xlsx: { icon: FileSpreadsheet, tone: 'green', label: FILE_KIND_LABEL.xlsx },
+  pptx: { icon: File, tone: 'amber', label: FILE_KIND_LABEL.pptx },
+  image: { icon: FileImage, tone: 'purple', label: FILE_KIND_LABEL.image },
+  other: { icon: FileText, tone: 'teal', label: FILE_KIND_LABEL.other },
 };
 
 function FileCard({ item, onClick }: { item: ResourceItem; onClick: () => void }) {
