@@ -101,6 +101,8 @@ There is no beacon token to rotate. The site ships **no** hand-installed Web Ana
 
 The `github_integration` row is wrong or the PAT expired. Required: `owner = Jivaansh-Yadav`, `repo = lambda-prep`, `workflow_file = update-resources.yml`, `ref = main`. The PAT needs Actions read + write (dispatch) on that repository. **This row still pointing at `lambda-prep-test` is the expected breakage after the rename.**
 
+A revoked PAT is the common case and shows up as `HTTP 401 Bad credentials` — a `lambda` repo value is the same bug seen through a rename, since GitHub redirects the read but not the dispatch `POST`. Since the repo is public, a dead PAT no longer blanks the admin cards: `githubGet` retries read-only calls anonymously, so the “Latest commit” and run-history cards keep working and only the dispatch button refuses, with an error that says to replace the PAT. A dispatch can therefore fail on a page that otherwise looks healthy — check the token before assuming the workflow is gone.
+
 ### Crawl fails with 403
 
 The service account lost access to the Drive root (`1Dref01UoCLaP6DrQHRxqY1Nrj-f5illc`). Re-share the root with the service-account email, then re-run. The key itself is the `drive_integration.service_account_json` row in Neon, which `[Setup] Fetch Google Drive credentials` reads through the `DATABASE_URL` secret; if neither reaches the runner, the run fails earlier with `❌ No credentials`.

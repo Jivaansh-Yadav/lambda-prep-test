@@ -8,7 +8,9 @@
 
 import { sql } from "./db";
 
-const GITHUB_API = "https://api.github.com";
+import { GITHUB_API, anonHeaders, authHeaders, githubGet } from "./github-fetch";
+
+export { anonHeaders, authHeaders, githubGet };
 
 export type GithubIntegrationConfig = {
   pat: string;
@@ -35,16 +37,6 @@ export async function getGithubIntegrationConfig(): Promise<GithubIntegrationCon
   return { pat: row.pat, owner: row.owner, repo: row.repo, workflowFile: row.workflow_file, ref: row.ref };
 }
 
-function authHeaders(pat: string) {
-  return {
-    Authorization: `Bearer ${pat}`,
-    Accept: "application/vnd.github+json",
-    "X-GitHub-Api-Version": "2022-11-28",
-    // GitHub's REST API rejects requests without a User-Agent header
-    // (HTTP 403 "Request forbidden by administrative rules").
-    "User-Agent": "lambda-prep-admin",
-  };
-}
 
 /**
  * Dispatches the configured workflow via workflow_dispatch, then polls
@@ -65,6 +57,14 @@ export async function dispatchWorkflow(config: GithubIntegrationConfig): Promise
 
   if (!dispatchRes.ok) {
     const bodyText = await dispatchRes.text().catch(() => "<unreadable>");
+    // A revoked or expired PAT is the one failure that cannot be retried
+    // by the person clicking the button, so name it instead of echoing
+    // GitHub's JSON.
+    if (dispatchRes.status === 401 || dispatchRes.status === 403) {
+      throw new Error(
+        `GitHub rejected the stored access token (HTTP ${dispatchRes.status}). Replace the PAT in the github_integration row, then try again.`
+      );
+    }
     throw new Error(`GitHub workflow dispatch failed (HTTP ${dispatchRes.status}): ${bodyText.slice(0, 300)}`);
   }
 
@@ -73,7 +73,7 @@ export async function dispatchWorkflow(config: GithubIntegrationConfig): Promise
   const runsUrl = `${GITHUB_API}/repos/${config.owner}/${config.repo}/actions/workflows/${config.workflowFile}/runs?per_page=5`;
   for (let attempt = 0; attempt < 10; attempt++) {
     await new Promise((r) => setTimeout(r, 1000));
-    const runsRes = await fetch(runsUrl, { headers: authHeaders(config.pat) });
+    const runsRes = await githubGet(runsUrl, config.pat);
     if (!runsRes.ok) continue;
     const json = (await runsRes.json()) as { workflow_runs: Array<{ id: number; created_at: string; html_url: string }> };
     const match = json.workflow_runs.find((r) => new Date(r.created_at) >= beforeDispatch);
@@ -140,7 +140,7 @@ export async function getWorkflowRunStatus(
   runId: number
 ): Promise<WorkflowRunStatus> {
   const runUrl = `${GITHUB_API}/repos/${config.owner}/${config.repo}/actions/runs/${runId}`;
-  const runRes = await fetch(runUrl, { headers: authHeaders(config.pat) });
+  const runRes = await githubGet(runUrl, config.pat);
   if (!runRes.ok) {
     const bodyText = await runRes.text().catch(() => "<unreadable>");
     throw new Error(`Could not fetch run status (HTTP ${runRes.status}): ${bodyText.slice(0, 300)}`);
@@ -148,7 +148,7 @@ export async function getWorkflowRunStatus(
   const run = (await runRes.json()) as RawRun;
 
   const jobsUrl = `${GITHUB_API}/repos/${config.owner}/${config.repo}/actions/runs/${runId}/jobs?per_page=100`;
-  const jobsRes = await fetch(jobsUrl, { headers: authHeaders(config.pat) });
+  const jobsRes = await githubGet(jobsUrl, config.pat);
   const jobs: WorkflowJob[] = [];
   if (jobsRes.ok) {
     const jobsJson = (await jobsRes.json()) as { jobs?: RawJob[] };
@@ -196,7 +196,7 @@ export async function getLatestWorkflowRun(
   config: GithubIntegrationConfig
 ): Promise<WorkflowRunStatus | null> {
   const url = `${GITHUB_API}/repos/${config.owner}/${config.repo}/actions/workflows/${config.workflowFile}/runs?per_page=1`;
-  const res = await fetch(url, { headers: authHeaders(config.pat) });
+  const res = await githubGet(url, config.pat);
   if (!res.ok) {
     const bodyText = await res.text().catch(() => "<unreadable>");
     throw new Error(`Could not list workflow runs (HTTP ${res.status}): ${bodyText.slice(0, 300)}`);
@@ -218,7 +218,7 @@ export async function listWorkflowRuns(
   const url =
     `${GITHUB_API}/repos/${config.owner}/${config.repo}/actions/workflows/${config.workflowFile}/runs` +
     `?per_page=${Math.min(Math.max(limit, 1), 20)}`;
-  const res = await fetch(url, { headers: authHeaders(config.pat) });
+  const res = await githubGet(url, config.pat);
   if (!res.ok) {
     const bodyText = await res.text().catch(() => "<unreadable>");
     throw new Error(`Could not list workflow runs (HTTP ${res.status}): ${bodyText.slice(0, 300)}`);
@@ -264,7 +264,7 @@ export type LatestCommit = {
  */
 export async function getLatestCommit(config: GithubIntegrationConfig): Promise<LatestCommit> {
   const url = `${GITHUB_API}/repos/${config.owner}/${config.repo}/commits/${config.ref}`;
-  const res = await fetch(url, { headers: authHeaders(config.pat) });
+  const res = await githubGet(url, config.pat);
   if (!res.ok) {
     const bodyText = await res.text().catch(() => "<unreadable>");
     throw new Error(`Could not fetch latest commit (HTTP ${res.status}): ${bodyText.slice(0, 300)}`);
