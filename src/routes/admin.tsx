@@ -86,8 +86,8 @@ import {
   formatDayLabel,
   formatHourLabel,
   formatMomentLabel,
-  ADMIN_CHART_TIMEZONE_LABEL,
-} from '@/lib/chart-time';
+  SITE_TIMEZONE_LABEL,
+} from '@/lib/time-labels';
 import {
   getAdminContributions,
   updateContributionStatus,
@@ -473,8 +473,9 @@ function AdminPage() {
                       </p>
                     )}
                     <p className="mt-1 text-xs text-muted-foreground">
-                      Times on this axis are {ADMIN_CHART_TIMEZONE_LABEL}, not your device's timezone, so the labels read
-                      the same for everyone — Cloudflare's buckets are UTC hours and UTC days.
+                      Times on this axis are {SITE_TIMEZONE_LABEL}, not your device's timezone, so the labels read
+                      the same for everyone. Cloudflare's buckets start on the UTC hour, which is :30 in IST — the
+                      ticks keep the minutes rather than rounding to a whole hour.
                     </p>
                     <p className="mt-1 text-xs text-muted-foreground">
                       Every range is read in 7-day slices. Cloudflare downsamples any single query wider than about a
@@ -549,7 +550,7 @@ function AdminPage() {
           {result?.configured && (
             <span className="text-xs text-muted-foreground">
               {result.cache.hit ? 'Cached' : 'Live'} ·{' '}
-              {formatClockLabel(result.cache.fetchedAt)} {ADMIN_CHART_TIMEZONE_LABEL}
+              {formatClockLabel(result.cache.fetchedAt)} {SITE_TIMEZONE_LABEL}
             </span>
           )}
           <RangeSelect value={range} onChange={handleRangeChange} />
@@ -983,7 +984,7 @@ function formatRelativeTime(value: string): string {
   if (diffHr < 24) return `${diffHr}h ago`;
   const diffDay = Math.round(diffHr / 24);
   if (diffDay < 30) return `${diffDay}d ago`;
-  return date.toLocaleDateString([], { year: 'numeric', month: 'short', day: 'numeric' });
+  return formatDayLabel(value);
 }
 
 /** Top-summary card showing the latest Git commit (sha, message, author,
@@ -1736,7 +1737,7 @@ function ManageResourcesCard() {
                             {folder ? '—' : formatBytes(f.size)}
                           </span>
                           <span className="doxx-row-meta manage-resources-row-meta">
-                            {f.modifiedTime ? new Date(f.modifiedTime).toLocaleDateString() : '—'}
+                            {f.modifiedTime ? formatDayLabel(f.modifiedTime) : '—'}
                           </span>
                         </>
                       )}
@@ -1851,12 +1852,6 @@ function ManageResourcesCard() {
       )}
     </Card>
   );
-}
-
-function formatDateTime(value: string): string {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return '—';
-  return date.toLocaleString([], { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
 }
 
 type StatsTab = 'ratings' | 'feedback' | 'views' | 'shares';
@@ -2044,7 +2039,7 @@ function StatsModal({
                         </TableCell>
                         <TableCell>{r.average.toFixed(1)} / 5</TableCell>
                         <TableCell>{r.count}</TableCell>
-                        <TableCell className="whitespace-nowrap text-xs text-muted-foreground">{formatDateTime(r.lastRatedAt)}</TableCell>
+                        <TableCell className="whitespace-nowrap text-xs text-muted-foreground">{formatMomentLabel(r.lastRatedAt)}</TableCell>
                       </TableRow>
                       <TableRow key={`${r.fileId}-class`}>
                         <TableCell colSpan={5} className="pt-0 text-xs text-muted-foreground">{r.classLabel}</TableCell>
@@ -2080,7 +2075,7 @@ function StatsModal({
                           </a>
                         </TableCell>
                         <TableCell className="max-w-sm whitespace-pre-wrap break-words">{f.feedback}</TableCell>
-                        <TableCell className="whitespace-nowrap text-xs text-muted-foreground">{formatDateTime(f.createdAt)}</TableCell>
+                        <TableCell className="whitespace-nowrap text-xs text-muted-foreground">{formatMomentLabel(f.createdAt)}</TableCell>
                       </TableRow>
                       <TableRow key={`${f.id}-class`}>
                         <TableCell colSpan={4} className="pt-0 text-xs text-muted-foreground">{f.classLabel}</TableCell>
@@ -2120,7 +2115,7 @@ function StatsModal({
                         <TableCell className="text-muted-foreground">{v.allTimeViewCount.toLocaleString()}</TableCell>
                         <TableCell
                           className="whitespace-nowrap text-xs text-muted-foreground"
-                          title={v.lastViewedAt ? `Exact view time (${ADMIN_CHART_TIMEZONE_LABEL})` : 'Day only — no timestamp recorded'}
+                          title={v.lastViewedAt ? `Exact view time (${SITE_TIMEZONE_LABEL})` : 'Day only — no timestamp recorded'}
                         >
                           {v.lastViewedAt ? formatMomentLabel(v.lastViewedAt) : `${formatDayLabel(v.lastViewedOn)} (day)`}
                         </TableCell>
@@ -2159,7 +2154,7 @@ function StatsModal({
                           </a>
                         </TableCell>
                         <TableCell>{s.shareCount.toLocaleString()}</TableCell>
-                        <TableCell className="whitespace-nowrap text-xs text-muted-foreground">{formatDateTime(s.lastSharedAt)}</TableCell>
+                        <TableCell className="whitespace-nowrap text-xs text-muted-foreground">{formatMomentLabel(s.lastSharedAt)}</TableCell>
                       </TableRow>
                       <TableRow key={`${s.fileId}-class`}>
                         <TableCell colSpan={4} className="pt-0 text-xs text-muted-foreground">{s.classLabel}</TableCell>
@@ -2305,7 +2300,7 @@ function ContributedResourcesCard() {
                     <span className="contribution-row-title">
                       <span className="contribution-row-filename" title={row.fileName}>{row.fileName}</span>
                       <span className="contribution-row-meta">
-                        {row.classLabel} · {row.subject} · {formatDateTime(row.createdAt)}
+                        {row.classLabel} · {row.subject} · {formatMomentLabel(row.createdAt)}
                       </span>
                     </span>
                     <span className={`contribution-badge ${badge.className}`}>{badge.label}</span>
@@ -2513,7 +2508,7 @@ function ContactMessagesCard() {
                     <span className="contribution-row-title">
                       <span className="contribution-row-filename" title={row.subject}>{row.subject}</span>
                       <span className="contribution-row-meta">
-                        {row.name} · {row.email} · {formatDateTime(row.createdAt)}
+                        {row.name} · {row.email} · {formatMomentLabel(row.createdAt)}
                       </span>
                     </span>
                     <span className={`contribution-badge ${badge.className}`}>{badge.label}</span>

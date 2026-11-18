@@ -9,6 +9,7 @@ import { FileRatingBadge } from '@/components/lambda-prep/file-rating-badge';
 import { ResourceFeedbackControl } from '@/components/lambda-prep/resource-feedback';
 import { ShareWidget } from '@/components/lambda-prep/share-widget';
 import { recordResourceView } from '@/lib/views-server';
+import { formatDayLabel } from '@/lib/time-labels';
 import { recordResourceShare, getResourceSharesBatch } from '@/lib/shares-server';
 
 interface ResourceWatchProps {
@@ -188,7 +189,8 @@ export function ResourceWatch({ groups, active, onSelect, shareUrl, viewContext 
     if (!value) return null;
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return null;
-    return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+    // Same clock as the admin panel — see lib/time-labels.
+    return formatDayLabel(value);
   };
   // Drive's createdTime is upload time and modifiedTime is the source file's
   // own last-modified stamp — for bulk-uploaded community content the two
