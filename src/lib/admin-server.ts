@@ -1320,8 +1320,11 @@ export type AdminViewRow = {
   /** Every view ever recorded for the file — the counter it is compared to. */
   allTimeViewCount: number;
   /** Day bucket (YYYY-MM-DD, IST) of the last view inside the window. The
-   * daily table has no timestamps, so this is as precise as it gets. */
+   * daily table has no timestamps, so this is only a date. */
   lastViewedOn: string;
+  /** Exact moment (timestamptz, UTC) of the last view ever recorded for the
+   * file, straight from the all-time counter — this is the one with a clock. */
+  lastViewedAt: string | null;
 };
 
 export type AdminShareRow = {
@@ -1415,9 +1418,18 @@ export const getAdminResourceStats = createServerFn({ method: "POST" })
          ORDER BY view_count DESC, last_day DESC`,
         [dayCount]
       );
-      const allTimeViewRows = await sql.query(`SELECT file_id, view_count FROM resource_views`);
-      const allTimeViews = new Map<string, number>(
-        (allTimeViewRows as Array<{ file_id: string; view_count: number }>).map((r) => [r.file_id, Number(r.view_count)])
+      // `resource_views` is the all-time counter and the only table that keeps
+      // an exact moment per file (`last_viewed_at`, a timestamptz written on
+      // every view). `resource_daily_views.day` is a bare DATE, so the window
+      // query above can only say which *day* a file was last opened — read the
+      // clock from here instead of showing a date-only label.
+      const allTimeViewRows = await sql.query(
+        `SELECT file_id, view_count, last_viewed_at::text AS last_viewed_at FROM resource_views`
+      );
+      const allTimeViews = new Map<string, { count: number; lastViewedAt: string | null }>(
+        (allTimeViewRows as Array<{ file_id: string; view_count: number; last_viewed_at: string | null }>).map(
+          (r) => [r.file_id, { count: Number(r.view_count), lastViewedAt: r.last_viewed_at }]
+        )
       );
       const shareRows = await sql.query(
         `SELECT file_id, share_count, last_shared_at
@@ -1470,8 +1482,9 @@ export const getAdminResourceStats = createServerFn({ method: "POST" })
         classLabel: locate(r.file_id).classLabel,
         driveUrl: driveFileUrl(r.file_id),
         viewCount: r.view_count,
-        allTimeViewCount: allTimeViews.get(r.file_id) ?? r.view_count,
+        allTimeViewCount: allTimeViews.get(r.file_id)?.count ?? r.view_count,
         lastViewedOn: r.last_day,
+        lastViewedAt: allTimeViews.get(r.file_id)?.lastViewedAt ?? null,
       }));
 
       const shares: AdminShareRow[] = (

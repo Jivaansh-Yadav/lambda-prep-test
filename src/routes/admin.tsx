@@ -85,6 +85,7 @@ import {
   formatClockLabel,
   formatDayLabel,
   formatHourLabel,
+  formatMomentLabel,
   ADMIN_CHART_TIMEZONE_LABEL,
 } from '@/lib/chart-time';
 import {
@@ -2102,7 +2103,7 @@ function StatsModal({
                     <TableHead>Drive link</TableHead>
                     <TableHead>Views</TableHead>
                     <TableHead>All time</TableHead>
-                    <TableHead>Last viewed on</TableHead>
+                    <TableHead>Last viewed</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -2117,7 +2118,12 @@ function StatsModal({
                         </TableCell>
                         <TableCell>{v.viewCount.toLocaleString()}</TableCell>
                         <TableCell className="text-muted-foreground">{v.allTimeViewCount.toLocaleString()}</TableCell>
-                        <TableCell className="whitespace-nowrap text-xs text-muted-foreground">{formatDayLabel(v.lastViewedOn)}</TableCell>
+                        <TableCell
+                          className="whitespace-nowrap text-xs text-muted-foreground"
+                          title={v.lastViewedAt ? `Exact view time (${ADMIN_CHART_TIMEZONE_LABEL})` : 'Day only — no timestamp recorded'}
+                        >
+                          {v.lastViewedAt ? formatMomentLabel(v.lastViewedAt) : `${formatDayLabel(v.lastViewedOn)} (day)`}
+                        </TableCell>
                       </TableRow>
                       <TableRow key={`${v.fileId}-class`}>
                         <TableCell colSpan={5} className="pt-0 text-xs text-muted-foreground">{v.classLabel}</TableCell>

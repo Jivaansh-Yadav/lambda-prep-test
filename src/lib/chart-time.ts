@@ -60,6 +60,14 @@ export function formatBucketTooltip(iso: string, hourly: boolean): string {
   return (hourly ? tooltipHourFormatter : tooltipDayFormatter).format(date);
 }
 
+/** "Nov 18, 4:12 PM" — one exact moment, on the admin clock (IST). Used by
+ * tables that show a real timestamp rather than a bucketed axis label. */
+export function formatMomentLabel(iso: string): string {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "—";
+  return tooltipHourFormatter.format(date);
+}
+
 const clockFormatter = new Intl.DateTimeFormat("en-US", {
   hour: "2-digit",
   minute: "2-digit",
