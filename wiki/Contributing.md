@@ -7,7 +7,7 @@ git clone https://github.com/Jivaansh-Yadav/lambda-prep.git
 cd lambda-prep
 bun install
 bun run dev        # http://localhost:3000
-bun run test       # vitest, 18 tests / 3 files
+bun run test       # vitest, 59 tests / 9 files
 bunx tsc --noEmit  # type check (the real gate)
 ```
 
@@ -42,6 +42,10 @@ node scripts/generate-all-resources.js --skip-crawl   # rebuild datasets from la
 - Public write endpoints get a rate limit and an existence check on the resource id (`ratings-server.ts` is the reference implementation).
 - Handle `sql === null` by returning `{ ok: false, reason: 'not configured' }`, never by throwing.
 
+### Time and tables
+- Every timestamp goes through `src/lib/time-labels.ts`. `toLocaleDateString` / `toLocaleTimeString` on a real moment is a bug: it renders in the *viewer's* zone, so two admins disagree about the same row. The site clock is IST (`SITE_TIMEZONE`), stated in the label, and hour ticks keep their `:30` offset because Cloudflare's buckets are UTC hours.
+- Sortable tables use `src/lib/table-sort.ts` and the `useSortState` / `SortableHead` pair in `admin.tsx`. Default to the time column, newest first; never let a null sort as zero.
+
 ### Styling
 - Tailwind utilities inline; anything repeated or stateful goes in `src/styles.css` as a named class.
 - Design tokens (colour, spacing, radii) are CSS variables at the top of `src/styles.css`. Do not invent new hex values in components.
@@ -65,6 +69,12 @@ Current suites:
 | File | Covers |
 | --- | --- |
 | `src/lib/workflow-progress.test.ts` | Step → category mapping, roll-ups, duration maths |
+| `src/lib/time-labels.test.ts` | The one-clock formatters: IST hour/day/moment labels, `:30` offsets, NaN guards |
+| `src/lib/table-sort.test.ts` | Column sorting: direction flips, null sieving, numeric-aware names |
+| `src/lib/admin-ranges.test.ts` | 24h/7d/14d/30d windows, labels, default range |
+| `src/lib/rum-windows.test.ts` | ≤7-day slice chunking and per-bucket summing |
+| `src/lib/campaign-tracking.test.ts` | utm parsing and normalisation |
+| `src/lib/github-fetch.test.ts` | Integration row → request, error mapping |
 | `src/test/lambda-prep.test.ts` | Class/subject metadata helpers, stream matching |
 | `src/test/app-routing.test.tsx` | Route wiring smoke test |
 
@@ -94,6 +104,8 @@ Rule: format the files you touch. Do not run a repo-wide `--fix` in a feature PR
 | Doxxmarks player or notes | `src/components/lambda-prep/{doxx-watch,note-pdf-watch}.tsx` |
 | Admin dashboard | `src/routes/admin.tsx` (sections are components in the same file) |
 | Counters/ratings | `src/lib/{views,ratings,shares}-server.ts` |
+| A date or time label | `src/lib/time-labels.ts` |
+| Table sorting | `src/lib/table-sort.ts` + `SortableHead` in `routes/admin.tsx` |
 | Pipeline | `scripts/` + `.github/workflows/update-resources.yml` |
 | Headers / redirects | `src/server.ts`, `public/_headers`, `public/_redirects` |
 | Metadata | `src/lib/lambda-prep.ts` (`SITE_URL`, `pageHead`) |

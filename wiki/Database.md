@@ -39,6 +39,7 @@ Design rules that matter:
 - **Ranking is class + subject scoped.** `getTrendingFiles` filters on `class_slug` and, on a subject page, on `subject`; rows with a null `subject`/`source` (older writes, or a viewer with no class context) cannot be ranked or deep-linked, so they are excluded rather than guessed at.
 - **The window widens instead of the list shrinking.** The strip asks for five files; if today cannot fill five, the same rows are re-aggregated over 2 days, then 3, up to 7. Views are summed per file across the window, so three separate days of opens outrank two today. One query covers the widest window and the widening happens in memory.
 - **It is a read-only convenience.** Recording a daily view is wrapped so a failure there can never break the view counter, and a failed trending read renders nothing rather than an error state.
+- **It carries no clock.** `day` is a `DATE`, so the bucket can say *when by day* but never *when by minute*. Anything that needs an exact moment — the admin "Last viewed" column, "last shared" times, relative-time day fallbacks — reads `resource_views.last_viewed_at` (a `timestamptz`) instead, and treats it as optional: rows written before that column existed have no time and say so (`Nov 18 (day)`) rather than inventing midnight.
 
 ### Attribution
 
