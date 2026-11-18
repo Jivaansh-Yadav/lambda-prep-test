@@ -62,6 +62,7 @@ Content is not uploaded by hand. A **weekly GitHub Actions run** re-crawls Googl
 - **Passcode admin** — analytics and resource activity on one 24h/7d/14d/30d selector (24h by default), a live pipeline tracker, Drive folder attachment, contribution and message moderation.
 - **Sortable activity lists** — ratings, views, shares and feedback open on their timestamp, newest first, and every header toggles direction; a row with no timestamp sinks instead of pretending to be the epoch.
 - **One clock** — chart axes, tooltips, table cells and the Drive file list all print IST from a single module (`time-labels.ts`), so two admins reading the same row see the same minute.
+- **Scan codes** — the share popup draws a QR for the exact link it copies: rounded modules, the brand gradient, the λ mark knocked out of the centre, and a bundled encoder (`qr-code.ts`) rather than a QR dependency.
 - **Bilingual UI** — one i18n module (`en-US`, `zh-CN`); no hardcoded strings in components.
 - **Short links** — `/drive` and `/github`, handled both at the edge (`_redirects`) and in the SSR entry.
 
@@ -100,6 +101,7 @@ lambda-prep/
 │                               # doxxmarks · contribute · admin · sitemap[.]xml
 ├── src/lib/                    # db · brand · i18n · redirects · workflow-progress
 │                               # time-labels (IST formatters) · table-sort
+│                               # qr-code + qr-art (share popup scan codes)
 │                               # *-server.ts: admin, drive, github, ratings, views…
 ├── src/data/                   # doxxmarks_resources.json · resources-*.json · manifests
 ├── scripts/

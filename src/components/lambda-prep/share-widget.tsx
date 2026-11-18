@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Check, Copy, Mail, MessageSquareText, Share2, X } from 'lucide-react';
 import { useI18n } from '@/lib/i18n';
 import { DiscordIcon, RedditIcon, TelegramIcon, WhatsAppIcon } from '@/components/lambda-prep/brand-icons';
+import { ShareQr } from '@/components/lambda-prep/share-qr';
 
 interface ShareWidgetProps {
   /** Fully-qualified, directly-shareable URL for this specific resource. */
@@ -230,6 +231,8 @@ export function ShareWidget({ url, title, compact = false, onShare }: ShareWidge
                 </button>
               )}
             </div>
+
+            <ShareQr url={url} title={title} />
 
             <span className="share-hint" role="status" aria-live="polite">
               {hint && <>{hint.ok ? <Check size={13} /> : null} {hint.message}</>}

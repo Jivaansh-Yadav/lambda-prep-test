@@ -87,6 +87,7 @@ The Trending strip is the one thing on a resource page that is not in those JSON
 - **Theme with no flash** — `__root.tsx` runs a small inline script that sets the theme class on `<html>` before first paint, so a dark-mode visitor never sees a white flash.
 - **i18n** — `src/lib/i18n.tsx` holds every user-facing string under `en-US` and `zh-CN`. Components call `t('key')`; no literal copy in JSX. Adding a language means adding one dictionary, not touching components.
 - **Client error capture** — `src/lib/error-capture.ts` records the last error, and the client reporter posts unhandled errors to a server route with the route path and a hashed visitor id, so a broken page is reportable without a third-party SDK.
+- **Scan codes are not themeable the way everything else is** — the share popup's QR keeps a white plate in dark mode (`--qr-plate`), because a scanner needs dark modules on a light field; only the ink gradient moves (`--qr-ink-*`), and it stays dark enough on white to keep contrast. Encoding (`qr-code.ts`) and the rounded path geometry (`qr-art.ts`) are pure, so the code is in the SSR output instead of appearing after hydration.
 - **One clock** — `src/lib/time-labels.ts` owns every timestamp the UI prints: `SITE_TIMEZONE = 'Asia/Kolkata'`, formatters for hour ticks, day ticks, tooltips, exact moments (`Nov 18, 2026, 2:14 PM IST`) and the live stamp. A component that formats a date itself is a bug, because the same moment then reads differently for two admins. Hourly ticks keep their `:30` offset — Cloudflare's buckets are UTC hours and IST is UTC+5:30 — and an unparseable value renders `—`.
 - **404/500** — a dedicated not-found component in `__root.tsx` (with its own title, so a 404 never inherits the landing page's SEO tags) and the HTML error page used by the SSR wrapper.
 
@@ -108,6 +109,9 @@ src/
 │   ├── workflow-progress.ts  # GitHub step → category mapping
 │   ├── time-labels.ts        # the one clock: IST formatters for every timestamp
 │   ├── table-sort.ts         # null-aware column sorting for the stats tables
+│   ├── qr-code.ts            # QR encoder (byte mode, versions 1-40, L/M/Q/H)
+│   ├── qr-art.ts             # module grid -> rounded SVG path data
+│   ├── qr-tables.ts          # ISO 18004 block + alignment tables (data only)
 │   └── *-server.ts   # server functions: admin, drive, github, cloudflare,
 │                     # ratings, views, shares, feedback, contact, contribute
 ├── data/             # committed datasets (pipeline output)

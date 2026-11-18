@@ -69,6 +69,15 @@
   --statement-accent: oklch(0.83 0.13 80);
   --statement-glow: oklch(0.55 0.235 261 / 26%);
   --statement-glow-2: oklch(0.83 0.13 80 / 12%);
+  /* Scan codes (share popup). The plate stays white in both themes — a scanner
+     needs a light field behind dark modules, and inverting the code for dark
+     mode is how QR codes end up unscannable — so only the ink moves, staying
+     light enough to read as brand colour and dark enough to keep the contrast
+     a camera needs. */
+  --qr-plate: oklch(1 0 0);
+  --qr-ink-from: oklch(0.58 0.16 232);
+  --qr-ink-via: oklch(0.5 0.22 261);
+  --qr-ink-to: oklch(0.47 0.21 293);
   --safe-top: max(env(safe-area-inset-top, 0px), var(--eazo-safe-area-top, 0px));
   --safe-right: max(env(safe-area-inset-right, 0px), var(--eazo-safe-area-right, 0px));
   --safe-bottom: max(env(safe-area-inset-bottom, 0px), var(--eazo-safe-area-bottom, 0px));
@@ -112,6 +121,12 @@
   --statement-accent: oklch(0.86 0.12 82);
   --statement-glow: oklch(0.62 0.17 261 / 22%);
   --statement-glow-2: oklch(0.86 0.12 82 / 10%);
+  /* Dark mode keeps the same white plate and only lifts the ink a step, so the
+     code looks like it belongs on a dark dialog without losing scan contrast. */
+  --qr-plate: oklch(0.99 0 0);
+  --qr-ink-from: oklch(0.62 0.16 232);
+  --qr-ink-via: oklch(0.55 0.22 261);
+  --qr-ink-to: oklch(0.52 0.21 293);
 }
 
 /* =====================================================================
@@ -997,6 +1012,20 @@
 .dark .share-target-label { color: var(--foreground); opacity: 0.85; }
 .share-hint { display: flex; align-items: center; gap: 4px; justify-content: center; margin-top: 16px; font-size: 12.5px; color: var(--green-ink); min-height: 16px; }
 .share-hint:empty { margin-top: 0; }
+/* Scan block. Sits below the share targets rather than above them: the popup's
+   job is the one-tap actions, and the code is for the "look at this" case.
+   The plate is white in both themes on purpose — see the --qr-* tokens. */
+.share-qr { display: flex; align-items: center; gap: 14px; margin-top: 16px; padding: 12px; border: 1px solid var(--border); border-radius: 12px; background: var(--muted); }
+.share-qr-plate { flex: none; display: grid; place-items: center; padding: 6px; border-radius: 10px; background: var(--qr-plate); box-shadow: 0 1px 2px oklch(0.2 0.03 260 / 10%); }
+.share-qr-code { display: block; width: 116px; height: 116px; }
+.share-qr-copy { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.share-qr-copy strong { font-size: 13px; font-weight: 700; color: var(--foreground); }
+.share-qr-copy span { font-size: 12px; line-height: 1.45; color: var(--muted-foreground); }
+@media (max-width: 480px) {
+  .share-qr { flex-direction: column; gap: 10px; padding: 12px 10px; text-align: center; }
+  .share-qr-copy { align-items: center; }
+  .share-qr-code { width: 148px; height: 148px; }
+}
 @keyframes share-tile-in {
   from { opacity: 0; transform: translateY(8px) scale(0.96); }
   to { opacity: 1; transform: translateY(0) scale(1); }
