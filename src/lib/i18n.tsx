@@ -155,7 +155,6 @@ const en: Dict = {
   'share.messageTemplate': 'Check this out on Lambda Prep: {name} \u2014 {url}',
   'share.emailSubject': 'Lambda Prep: {name}',
   'share.qrTitle': 'Scan to open',
-  'share.qrHint': 'Point a phone camera at the code to open this resource \u2014 handy when you\u2019re showing someone next to you.',
   'share.qrAlt': 'QR code that opens {name}',
   'resources.cisce.title': 'Official CISCE Resources',
   'resources.cisce.descPrefix': 'Reference material sourced from CISCE\u2019s official syllabus, circulars and publications at',

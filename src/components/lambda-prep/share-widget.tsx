@@ -201,11 +201,15 @@ export function ShareWidget({ url, title, compact = false, onShare }: ShareWidge
             <h2 id="share-dialog-title">{t('share.title')}</h2>
             <p className="share-dialog-description">{t('share.description')}</p>
 
-            <div className="share-link-row">
-              <input className="share-link-input" type="text" readOnly value={url} onFocus={e => e.currentTarget.select()} />
-              <button type="button" className="share-copy-btn" onClick={handleCopy}>
-                <Copy size={15} /> {t('share.copyLink')}
-              </button>
+            <div className="share-link-card">
+              <ShareQr url={url} title={title} />
+
+              <div className="share-link-row">
+                <input className="share-link-input" type="text" readOnly value={url} onFocus={e => e.currentTarget.select()} />
+                <button type="button" className="share-copy-btn" onClick={handleCopy}>
+                  <Copy size={15} /> {t('share.copyLink')}
+                </button>
+              </div>
             </div>
 
             <div className="share-hero-row">
@@ -231,8 +235,6 @@ export function ShareWidget({ url, title, compact = false, onShare }: ShareWidge
                 </button>
               )}
             </div>
-
-            <ShareQr url={url} title={title} />
 
             <span className="share-hint" role="status" aria-live="polite">
               {hint && <>{hint.ok ? <Check size={13} /> : null} {hint.message}</>}

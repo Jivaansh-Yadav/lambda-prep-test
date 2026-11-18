@@ -1,8 +1,8 @@
 // share-qr.tsx
 //
-// The "scan me" block at the bottom of the share popup: the resource link
-// encoded as a QR Code, drawn with the site's own gradient and the Lambda mark
-// knocked out of the centre.
+// The "scan me" block that leads the share popup, sharing a card with the link
+// field: the resource link encoded as a QR Code, drawn with the site's own
+// gradient and the Lambda mark knocked out of the centre.
 //
 // Three details that matter more than they look:
 //
@@ -88,10 +88,7 @@ export function ShareQr({ url, title }: ShareQrProps) {
           />
         </svg>
       </div>
-      <div className="share-qr-copy">
-        <strong>{t('share.qrTitle')}</strong>
-        <span>{t('share.qrHint')}</span>
-      </div>
+      <strong className="share-qr-label">{t('share.qrTitle')}</strong>
     </div>
   );
 }
