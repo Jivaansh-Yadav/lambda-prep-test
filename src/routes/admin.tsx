@@ -15,7 +15,10 @@ import {
 } from 'recharts';
 import {
   Activity,
+  ArrowDown,
   ArrowLeft,
+  ArrowUp,
+  ArrowUpDown,
   CheckCircle2,
   ChevronDown,
   ChevronRight,
@@ -80,6 +83,7 @@ import {
   type AdminResourceStatsResult,
   type AdminLatestCommitResult,
 } from '@/lib/admin-server';
+import { sortRows, timeValue, type SortState } from '@/lib/table-sort';
 import {
   formatBucketTooltip,
   formatClockLabel,
@@ -1969,6 +1973,56 @@ function ResourceStatsCard() {
   );
 }
 
+/** Which column a table is sorted by, and in which direction. Every table
+ * starts on its time column, newest first — the point of these lists is "what
+ * moved recently", so that has to be the zero-click view. */
+function useSortState<K extends string>(initialKey: K): [SortState<K>, (key: K) => void] {
+  const [sort, setSort] = useState<SortState<K>>({ key: initialKey, dir: 'desc' });
+  const toggle = (key: K) =>
+    setSort((current) =>
+      current.key === key
+        ? { key, dir: current.dir === 'desc' ? 'asc' : 'desc' }
+        : { key, dir: 'desc' }
+    );
+  return [sort, toggle];
+}
+
+/** Table header that sorts its column on click and flips on a second click. */
+function SortableHead<K extends string>({
+  label,
+  column,
+  sort,
+  onSort,
+  className,
+}: {
+  label: string;
+  column: K;
+  sort: SortState<K>;
+  onSort: (column: K) => void;
+  className?: string;
+}) {
+  const active = sort.key === column;
+  const Icon = active ? (sort.dir === 'desc' ? ArrowDown : ArrowUp) : ArrowUpDown;
+  return (
+    <TableHead
+      className={className}
+      aria-sort={active ? (sort.dir === 'desc' ? 'descending' : 'ascending') : 'none'}
+    >
+      <button
+        type="button"
+        onClick={() => onSort(column)}
+        title={`Sort by ${label.toLowerCase()}${active ? ` — now ${sort.dir === 'desc' ? 'newest first' : 'oldest first'}` : ''}`}
+        className={`inline-flex items-center gap-1 rounded-sm text-left transition-colors hover:text-foreground ${
+          active ? 'text-foreground' : ''
+        }`}
+      >
+        {label}
+        <Icon size={12} className={active ? 'shrink-0' : 'shrink-0 opacity-40'} />
+      </button>
+    </TableHead>
+  );
+}
+
 function StatsModal({
   tab,
   state,
@@ -1988,6 +2042,34 @@ function StatsModal({
 
   const tabMeta = STATS_TABS.find((t) => t.key === tab)!;
   const Icon = tabMeta.icon;
+
+  const [ratingSort, sortRatings] = useSortState<'file' | 'average' | 'count' | 'last'>('last');
+  const [feedbackSort, sortFeedback] = useSortState<'file' | 'submitted'>('submitted');
+  const [viewSort, sortViews] = useSortState<'file' | 'views' | 'allTime' | 'last'>('last');
+  const [shareSort, sortShares] = useSortState<'file' | 'shares' | 'last'>('last');
+
+  const ratingRows = sortRows(state.ratings, ratingSort, {
+    file: (r) => r.fileName,
+    average: (r) => r.average,
+    count: (r) => r.count,
+    last: (r) => timeValue(r.lastRatedAt),
+  });
+  const feedbackRows = sortRows(state.feedback, feedbackSort, {
+    file: (f) => f.fileName,
+    submitted: (f) => timeValue(f.createdAt),
+  });
+  const viewRows = sortRows(state.views, viewSort, {
+    file: (v) => v.fileName,
+    views: (v) => v.viewCount,
+    allTime: (v) => v.allTimeViewCount,
+    // Falls back to the day bucket for rows recorded before timestamps existed.
+    last: (v) => timeValue(v.lastViewedAt, v.lastViewedOn),
+  });
+  const shareRows = sortRows(state.shares, shareSort, {
+    file: (s) => s.fileName,
+    shares: (s) => s.shareCount,
+    last: (s) => timeValue(s.lastSharedAt),
+  });
 
   return (
     <div
@@ -2020,15 +2102,15 @@ function StatsModal({
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>File</TableHead>
+                    <SortableHead label="File" column="file" sort={ratingSort} onSort={sortRatings} />
                     <TableHead>Drive link</TableHead>
-                    <TableHead>Average</TableHead>
-                    <TableHead>Ratings</TableHead>
-                    <TableHead>Last rated</TableHead>
+                    <SortableHead label="Average" column="average" sort={ratingSort} onSort={sortRatings} />
+                    <SortableHead label="Ratings" column="count" sort={ratingSort} onSort={sortRatings} />
+                    <SortableHead label="Last rated" column="last" sort={ratingSort} onSort={sortRatings} />
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {state.ratings.map((r) => (
+                  {ratingRows.map((r) => (
                     <Fragment key={r.fileId}>
                       <TableRow key={r.fileId} className="border-b-0">
                         <TableCell className="max-w-xs truncate" title={r.fileName}>{r.fileName}</TableCell>
@@ -2058,14 +2140,14 @@ function StatsModal({
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>File</TableHead>
+                    <SortableHead label="File" column="file" sort={feedbackSort} onSort={sortFeedback} />
                     <TableHead>Drive link</TableHead>
                     <TableHead>Feedback</TableHead>
-                    <TableHead>Submitted</TableHead>
+                    <SortableHead label="Submitted" column="submitted" sort={feedbackSort} onSort={sortFeedback} />
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {state.feedback.map((f) => (
+                  {feedbackRows.map((f) => (
                     <Fragment key={f.id}>
                       <TableRow key={f.id} className="border-b-0">
                         <TableCell className="max-w-xs truncate" title={f.fileName}>{f.fileName}</TableCell>
@@ -2094,15 +2176,15 @@ function StatsModal({
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>File</TableHead>
+                    <SortableHead label="File" column="file" sort={viewSort} onSort={sortViews} />
                     <TableHead>Drive link</TableHead>
-                    <TableHead>Views</TableHead>
-                    <TableHead>All time</TableHead>
-                    <TableHead>Last viewed</TableHead>
+                    <SortableHead label="Views" column="views" sort={viewSort} onSort={sortViews} />
+                    <SortableHead label="All time" column="allTime" sort={viewSort} onSort={sortViews} />
+                    <SortableHead label="Last viewed" column="last" sort={viewSort} onSort={sortViews} />
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {state.views.map((v) => (
+                  {viewRows.map((v) => (
                     <Fragment key={v.fileId}>
                       <TableRow key={v.fileId} className="border-b-0">
                         <TableCell className="max-w-xs truncate" title={v.fileName}>{v.fileName}</TableCell>
@@ -2137,14 +2219,14 @@ function StatsModal({
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>File</TableHead>
+                    <SortableHead label="File" column="file" sort={shareSort} onSort={sortShares} />
                     <TableHead>Drive link</TableHead>
-                    <TableHead>Shares (all time)</TableHead>
-                    <TableHead>Last shared</TableHead>
+                    <SortableHead label="Shares (all time)" column="shares" sort={shareSort} onSort={sortShares} />
+                    <SortableHead label="Last shared" column="last" sort={shareSort} onSort={sortShares} />
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {state.shares.map((s) => (
+                  {shareRows.map((s) => (
                     <Fragment key={s.fileId}>
                       <TableRow key={s.fileId} className="border-b-0">
                         <TableCell className="max-w-xs truncate" title={s.fileName}>{s.fileName}</TableCell>
